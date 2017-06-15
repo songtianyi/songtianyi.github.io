@@ -1,0 +1,53 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+	</div>
+		
+	<sup>sup>
+
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	</div>
+
+	-->
+
+
+	<div>
+
+		<!--博文标题和作者信息-->
+		<h2 style="text-align:center">Raising Modulo Numbers-快速幂取模</h2>
+		<h5 style="text-align:right">update@2011-08-04</h5>
+		  <div style="background:#fdfdfd;color:black;"><br></div>     <div style="font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New'; color: rgb(0, 0, 0); background-color: rgb(249, 247, 237);"> <span style="color: rgb(0, 136, 0); font-style: italic;">//a^n mod m</span><br> <span style="color: rgb(0, 0, 128); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">exp_mod</span>(<span style="color: rgb(0, 0, 128); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">a</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 128); font-weight: bold;">int</span> n<span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 128); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">m</span><span style="color: rgb(0, 0, 0);">){</span><br> <br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-style: italic;">//x*y mod m = ((x%m) * (y%m))%m</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">if</span>(n <span style="color: rgb(0, 0, 0);">==</span> <span style="color: rgb(0, 0, 255);">1</span>)<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">return</span> <span style="color: rgb(0, 0, 0);">a</span> <span style="color: rgb(0, 0, 0);">%</span> <span style="color: rgb(0, 0, 0);">m</span>;<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">else</span> <span style="color: rgb(0, 0, 128); font-weight: bold;">if</span>(n <span style="color: rgb(0, 0, 0);">==</span> <span style="color: rgb(0, 0, 255);">0</span>)<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">return</span> <span style="color: rgb(0, 0, 255);">1</span> <span style="color: rgb(0, 0, 0);">%</span> <span style="color: rgb(0, 0, 0);">m</span>;<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">if</span>(n<span style="color: rgb(0, 0, 0);">&amp;</span><span style="color: rgb(0, 0, 255);">1</span><span style="color: rgb(0, 0, 0);">){</span><span style="color: rgb(0, 136, 0); font-style: italic;">//奇数 a^n = (a^(n-1))*a</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">return</span> ((<span style="color: rgb(0, 0, 0);">a</span><span style="color: rgb(0, 0, 0);">%</span><span style="color: rgb(0, 0, 0);">m</span>)<span style="color: rgb(0, 0, 0);">*</span><span style="color: rgb(0, 0, 0);">exp_mod</span>(<span style="color: rgb(0, 0, 0);">a</span><span style="color: rgb(0, 0, 0);">,</span>n<span style="color: rgb(0, 0, 0);">-</span><span style="color: rgb(0, 0, 255);">1</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 0);">m</span>)) <span style="color: rgb(0, 0, 0);">%</span> <span style="color: rgb(0, 0, 0);">m</span>;<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">else</span><span style="color: rgb(0, 0, 0);">{</span><span style="color: rgb(0, 136, 0); font-style: italic;">//偶数 a^n = (a^(n&gt;&gt;1))^2</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">t</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">exp_mod</span>(<span style="color: rgb(0, 0, 0);">a</span><span style="color: rgb(0, 0, 0);">,</span>n<span style="color: rgb(0, 0, 0);">&gt;&gt;</span><span style="color: rgb(0, 0, 255);">1</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 0);">m</span>);<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">return</span> (<span style="color: rgb(0, 0, 0);">t</span><span style="color: rgb(0, 0, 0);">*</span><span style="color: rgb(0, 0, 0);">t</span>) <span style="color: rgb(0, 0, 0);">%</span> <span style="color: rgb(0, 0, 0);">m</span>;<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> <span style="color: rgb(0, 0, 0);">}</span><br></div><br><br>  <br><hr><br><p style="font-family:微软雅黑;"><a rel="nofollow" href="http://poj.grids.cn/practice/1995/">百练-Raising Modulo Numbers</a><br>很基础，先google下快速幂取模是怎么回事就能写出来了 注意快速幂的二分思想<br></p>
+

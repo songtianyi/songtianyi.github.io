@@ -1,0 +1,497 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center;padding-top:20px">
+	<img  src="">
+	<p>图 </p>
+</div>
+	
+<sup>sup>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+</div>
+
+-->
+
+
+<div>
+
+	<!--博文标题和作者信息-->
+	<h2 style="text-align:center">LZW Demo</h2>
+	<h5 style="text-align:right">update@2013-09-01</h5>
+
+
+
+	<!--第一段，介绍文章的内容-->
+	<p>
+	这几天把以前的资料整理了下，感觉之前在网上找的lzw代码太臃肿，就用C重写了一个。<a href="001-comp.html">在之前的博文</a>已经把基本的算法步骤列出来了，压缩过程比较简单，但解压过程有点繁琐，需要注意的是解压过程中，当读到的编码值和当前编码值相等的时候该如何处理，另外就是如何处理变长编码。代码中有两个hash函数，一个是直接将前后缀的二进制拼接在一起，一个是JSHash。程序在压缩的时候会输出一些信息，方便理解压缩的过程，解压结果也会输出在屏幕上。压缩结果保存在以lzw为后缀的文件里，解压结果保存在以copy为后缀的文件里。理论上任意文件都能正确地压缩和解压缩，欢迎试用和反馈。
+	</p>
+	<p>
+	PS:写压缩程序就像制作一块机械表，关注每一个bit每一个byte的意义，需要高度地专注才能完成这么精细的工作，写完很有成就感:)，不过写出bug也挺惨的:(
+	</p>
+
+
+
+	<p><br/></p>
+	<!--目录-->
+	<div style="width:300px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
+		<ol>
+			<li><a style="text-decoration:none" href="#example">example</a></li>
+			<li><a style="text-decoration:none" href="#code">source code</a></li>
+		</ol>
+	</div>
+	<p><br/></p>
+
+
+	<h2 id="example">1 example</h2>
+	<p>
+	图1展示了对一个文本文件的压缩过程,cat txt显示了待压缩文本的内容。现在来看下压缩过程，前两个A相组合，字典中找不到，将前缀A以9个bit位输出到缓冲区，后缀A作为前缀，继续读取字符，并将其作为后缀。读到的仍然是A，这时组合(A,A)已经存在于字典中，将组合(A,A)的编码值256作为前缀，继续读下一个字符，以此类推，直到当前组合不存在于字典中，即(256,A)不在字典中,将256以9个bit位输出到缓冲区。按照这种方式一直处理到文件尾。解压的步骤见之前的博客和源代码。
+	</p>
+<div style="text-align:center;padding-top:20px">
+	<img  src="../../images/003-comp-01.png">
+	<p>图1 压缩过程和解压结果</p>
+</div>
+	
+
+
+	<h2 id="code">2 source code</h2>
+	<p>
+	源代码，当中包括了调试用的断言和输出。
+	</p>
+
+<style style="txt/css">
+body.hl	{ background-color:#e0eaee; }
+pre.hl	{ 
+		color:#000000; background-color:#e0eaee; 
+		font-size:10pt; font-family:'Courier New',monospace;}
+.hl.num { color:#b07e00; }
+.hl.esc { color:#ff00ff; }
+.hl.str { color:#bf0303; }
+.hl.pps { color:#818100; }
+.hl.slc { color:#838183; font-style:italic; }
+.hl.com { color:#838183; font-style:italic; }
+.hl.ppc { color:#008200; }
+.hl.opt { color:#000000; }
+.hl.ipl { color:#0057ae; }
+.hl.lin { color:#555555; }
+.hl.kwa { color:#000000; font-weight:bold; }
+.hl.kwb { color:#0057ae; }
+.hl.kwc { color:#000000; font-weight:bold; }
+.hl.kwd { color:#010181; }
+</style>
+
+<body class="hl">
+
+<pre class="hl"><span class="hl lin">    1 </span><span class="hl ppc">#include &lt;time.h&gt;</span>
+<span class="hl lin">    2 </span><span class="hl ppc">#include &lt;stdlib.h&gt;</span>
+<span class="hl lin">    3 </span><span class="hl ppc">#include &lt;stdio.h&gt;</span>
+<span class="hl lin">    4 </span><span class="hl ppc">#include &lt;assert.h&gt;</span>
+<span class="hl lin">    5 </span><span class="hl ppc">#include &lt;string.h&gt;</span>
+<span class="hl lin">    6 </span>
+<span class="hl lin">    7 </span><span class="hl kwb">unsigned char</span> <span class="hl opt">*</span>m_file_buffer<span class="hl opt">;</span>
+<span class="hl lin">    8 </span><span class="hl kwb">unsigned char</span> <span class="hl opt">*</span>m_comp_buffer<span class="hl opt">;</span>
+<span class="hl lin">    9 </span><span class="hl kwb">unsigned int</span> <span class="hl opt">*</span>prefix_table<span class="hl opt">;</span>
+<span class="hl lin">   10 </span><span class="hl kwb">unsigned char</span> <span class="hl opt">*</span>suffix_table<span class="hl opt">;</span>
+<span class="hl lin">   11 </span><span class="hl kwb">unsigned int</span> <span class="hl opt">*</span>hash_table<span class="hl opt">;</span>
+<span class="hl lin">   12 </span><span class="hl kwb">unsigned int</span> m_file_buffer_cnt<span class="hl opt">;</span>
+<span class="hl lin">   13 </span><span class="hl kwb">unsigned int</span> m_comp_buffer_cnt<span class="hl opt">;</span>
+<span class="hl lin">   14 </span><span class="hl kwb">unsigned char</span> decode_stack<span class="hl opt">[</span><span class="hl num">4000</span><span class="hl opt">];</span>
+<span class="hl lin">   15 </span>
+<span class="hl lin">   16 </span><span class="hl slc">//bit buffer</span>
+<span class="hl lin">   17 </span><span class="hl kwb">unsigned int</span> m_encode_bit_buffer<span class="hl opt">;</span>
+<span class="hl lin">   18 </span><span class="hl kwb">unsigned int</span> m_decode_bit_buffer<span class="hl opt">;</span>
+<span class="hl lin">   19 </span><span class="hl kwb">int</span> m_encode_bit_buffer_cnt<span class="hl opt">;</span>
+<span class="hl lin">   20 </span><span class="hl kwb">int</span> m_decode_bit_buffer_cnt<span class="hl opt">;</span>
+<span class="hl lin">   21 </span>
+<span class="hl lin">   22 </span><span class="hl kwb">size_t</span> m_file_size<span class="hl opt">;</span>
+<span class="hl lin">   23 </span>
+<span class="hl lin">   24 </span><span class="hl ppc">#define COMP_BUFFER_SIZE 1024</span>
+<span class="hl lin">   25 </span><span class="hl ppc">#define MIN_CODE_BITS 9</span>
+<span class="hl lin">   26 </span><span class="hl ppc">#define MAX_CODE_BITS 20</span>
+<span class="hl lin">   27 </span><span class="hl ppc">#define MAX_CODE_VALUE ((1 &lt;&lt; MAX_CODE_BITS) -1)</span>
+<span class="hl lin">   28 </span><span class="hl ppc">#define CURR_MAX_CODE_VALUE(x) ( (1u &lt;&lt; x) -1)</span>
+<span class="hl lin">   29 </span><span class="hl ppc">#define FIRST_CODE ( 1&lt;&lt; (MIN_CODE_BITS - 1))</span>
+<span class="hl lin">   30 </span><span class="hl ppc">#define hash_shift  (MAX_CODE_BITS - 8)</span>
+<span class="hl lin">   31 </span><span class="hl ppc">#define HASH_TABLE_SIZE 1048583</span> <span class="hl slc">//HASH_TABLE_SIZE应该是大于MAX_CODE_VALUE的第一个素数</span>
+<span class="hl lin">   32 </span><span class="hl ppc"></span>
+<span class="hl lin">   33 </span><span class="hl kwb">size_t</span> <span class="hl kwd">get_file_size</span><span class="hl opt">(</span><span class="hl kwb">FILE</span> <span class="hl opt">*</span>file<span class="hl opt">) {</span>
+<span class="hl lin">   34 </span>    <span class="hl kwd">fseek</span><span class="hl opt">(</span>file<span class="hl opt">,</span><span class="hl num">0</span><span class="hl opt">,</span>SEEK_END<span class="hl opt">);</span>
+<span class="hl lin">   35 </span>    <span class="hl kwb">size_t</span> file_size <span class="hl opt">=</span> <span class="hl kwd">ftell</span><span class="hl opt">(</span>file<span class="hl opt">);</span>
+<span class="hl lin">   36 </span>    <span class="hl kwd">fseek</span><span class="hl opt">(</span>file<span class="hl opt">,</span><span class="hl num">0</span><span class="hl opt">,</span>SEEK_SET<span class="hl opt">);</span>
+<span class="hl lin">   37 </span>    <span class="hl kwa">return</span> file_size<span class="hl opt">;</span>
+<span class="hl lin">   38 </span><span class="hl opt">}</span>
+<span class="hl lin">   39 </span>
+<span class="hl lin">   40 </span><span class="hl kwb">void</span> <span class="hl kwd">__saveBits</span><span class="hl opt">(</span><span class="hl kwb">int</span> nCode<span class="hl opt">,</span><span class="hl kwb">int</span> nBitCnt<span class="hl opt">)</span>
+<span class="hl lin">   41 </span><span class="hl opt">{</span>
+<span class="hl lin">   42 </span>    <span class="hl kwa">assert</span><span class="hl opt">(</span>nBitCnt <span class="hl opt">&lt;=</span> <span class="hl num">25</span><span class="hl opt">);</span>
+<span class="hl lin">   43 </span>    <span class="hl kwa">if</span><span class="hl opt">(-</span><span class="hl num">1</span> <span class="hl opt">==</span> nCode<span class="hl opt">) {</span>
+<span class="hl lin">   44 </span>        <span class="hl kwa">if</span><span class="hl opt">(</span>m_encode_bit_buffer_cnt<span class="hl opt">) {</span>
+<span class="hl lin">   45 </span>            m_encode_bit_buffer <span class="hl opt">&gt;&gt;=</span> <span class="hl num">24</span><span class="hl opt">;</span>
+<span class="hl lin">   46 </span>            m_comp_buffer<span class="hl opt">[</span> m_comp_buffer_cnt<span class="hl opt">++ ] = (</span><span class="hl kwb">unsigned char</span><span class="hl opt">)</span>m_encode_bit_buffer<span class="hl opt">;</span>
+<span class="hl lin">   47 </span>            m_encode_bit_buffer_cnt <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">   48 </span>            m_encode_bit_buffer     <span class="hl opt">=</span> <span class="hl num">0u</span><span class="hl opt">;</span>
+<span class="hl lin">   49 </span>        <span class="hl opt">}</span>
+<span class="hl lin">   50 </span>        <span class="hl kwa">return</span><span class="hl opt">;</span>
+<span class="hl lin">   51 </span>    <span class="hl opt">}</span>
+<span class="hl lin">   52 </span>    m_encode_bit_buffer <span class="hl opt">|= ((</span><span class="hl kwb">unsigned int</span><span class="hl opt">)</span> nCode<span class="hl opt">) &lt;&lt; (</span><span class="hl num">32</span> <span class="hl opt">-</span> nBitCnt <span class="hl opt">-</span> m_encode_bit_buffer_cnt<span class="hl opt">);</span>
+<span class="hl lin">   53 </span>    m_encode_bit_buffer_cnt <span class="hl opt">+=</span> nBitCnt<span class="hl opt">;</span>
+<span class="hl lin">   54 </span>    <span class="hl kwa">while</span> <span class="hl opt">(</span>m_encode_bit_buffer_cnt <span class="hl opt">&gt;=</span> <span class="hl num">8</span><span class="hl opt">) {</span>
+<span class="hl lin">   55 </span>        m_comp_buffer<span class="hl opt">[</span> m_comp_buffer_cnt<span class="hl opt">++ ] = (</span><span class="hl kwb">unsigned char</span> <span class="hl opt">)(</span>m_encode_bit_buffer <span class="hl opt">&gt;&gt;</span> <span class="hl num">24</span> <span class="hl opt">);</span>
+<span class="hl lin">   56 </span>        m_encode_bit_buffer    <span class="hl opt">&lt;&lt;=</span> <span class="hl num">8</span><span class="hl opt">;</span>
+<span class="hl lin">   57 </span>        m_encode_bit_buffer_cnt <span class="hl opt">-=</span> <span class="hl num">8</span><span class="hl opt">;</span>
+<span class="hl lin">   58 </span>    <span class="hl opt">}</span>
+<span class="hl lin">   59 </span><span class="hl opt">}</span>
+<span class="hl lin">   60 </span><span class="hl kwb">unsigned int</span> <span class="hl kwd">__readBits</span><span class="hl opt">(</span><span class="hl kwb">int</span> nBitCnt<span class="hl opt">)</span>
+<span class="hl lin">   61 </span><span class="hl opt">{</span>
+<span class="hl lin">   62 </span>    <span class="hl kwa">assert</span><span class="hl opt">(</span>nBitCnt <span class="hl opt">&lt;=</span> <span class="hl num">25</span> <span class="hl opt">&amp;&amp;</span> nBitCnt <span class="hl opt">&gt;=</span> <span class="hl num">1</span><span class="hl opt">);</span>
+<span class="hl lin">   63 </span>    <span class="hl kwb">int</span> c<span class="hl opt">;</span>
+<span class="hl lin">   64 </span>    <span class="hl kwb">unsigned int</span> return_value<span class="hl opt">;</span>
+<span class="hl lin">   65 </span>    <span class="hl kwa">while</span> <span class="hl opt">(</span>m_decode_bit_buffer_cnt <span class="hl opt">&lt;=</span> <span class="hl num">24</span> <span class="hl opt">&amp;&amp;</span> m_file_buffer_cnt <span class="hl opt">&lt;</span> m_file_size<span class="hl opt">) {</span>
+<span class="hl lin">   66 </span>        c <span class="hl opt">=</span> m_file_buffer <span class="hl opt">[</span> m_file_buffer_cnt<span class="hl opt">++ ];</span>
+<span class="hl lin">   67 </span>        m_decode_bit_buffer <span class="hl opt">|= (</span><span class="hl kwb">unsigned int</span><span class="hl opt">)</span> c <span class="hl opt">&lt;&lt; (</span><span class="hl num">24</span><span class="hl opt">-</span>m_decode_bit_buffer_cnt<span class="hl opt">);</span>
+<span class="hl lin">   68 </span>        m_decode_bit_buffer_cnt <span class="hl opt">+=</span> <span class="hl num">8</span><span class="hl opt">;</span>
+<span class="hl lin">   69 </span>    <span class="hl opt">}</span>
+<span class="hl lin">   70 </span>    <span class="hl kwa">if</span><span class="hl opt">(</span>m_decode_bit_buffer_cnt <span class="hl opt">&lt; (</span><span class="hl kwb">unsigned</span><span class="hl opt">)</span>nBitCnt<span class="hl opt">) {</span>
+<span class="hl lin">   71 </span>        <span class="hl kwa">return</span> <span class="hl opt">-</span><span class="hl num">1</span><span class="hl opt">;</span> <span class="hl com">/* EOF */</span>
+<span class="hl lin">   72 </span>    <span class="hl opt">}</span>
+<span class="hl lin">   73 </span>    return_value<span class="hl opt">=</span>m_decode_bit_buffer <span class="hl opt">&gt;&gt; (</span><span class="hl num">32</span><span class="hl opt">-</span>nBitCnt<span class="hl opt">);</span>
+<span class="hl lin">   74 </span>    m_decode_bit_buffer <span class="hl opt">&lt;&lt;=</span> nBitCnt<span class="hl opt">;</span>
+<span class="hl lin">   75 </span>    m_decode_bit_buffer_cnt <span class="hl opt">-=</span> nBitCnt<span class="hl opt">;</span>
+<span class="hl lin">   76 </span>    <span class="hl kwa">return</span><span class="hl opt">(</span>return_value<span class="hl opt">);</span>
+<span class="hl lin">   77 </span><span class="hl opt">}</span>
+<span class="hl lin">   78 </span>
+<span class="hl lin">   79 </span><span class="hl kwc">inline</span> <span class="hl kwb">unsigned int</span> <span class="hl kwd">hash_func</span><span class="hl opt">(</span><span class="hl kwb">const unsigned int</span> prefix<span class="hl opt">,</span><span class="hl kwb">const unsigned char</span> suffix<span class="hl opt">) {</span>
+<span class="hl lin">   80 </span>    <span class="hl kwa">return</span> <span class="hl opt">(</span>suffix <span class="hl opt">&lt;&lt;</span> hash_shift<span class="hl opt">) ^</span> prefix<span class="hl opt">;</span>
+<span class="hl lin">   81 </span><span class="hl opt">}</span>
+<span class="hl lin">   82 </span><span class="hl kwc">inline</span> <span class="hl kwb">unsigned int</span> <span class="hl kwd">JSHash</span><span class="hl opt">(</span><span class="hl kwb">const unsigned int</span> prefix<span class="hl opt">,</span><span class="hl kwb">const unsigned char</span> suffix<span class="hl opt">){</span>
+<span class="hl lin">   83 </span>    <span class="hl kwb">unsigned int</span> hash <span class="hl opt">=</span> <span class="hl num">1315423911</span><span class="hl opt">;</span>
+<span class="hl lin">   84 </span>    hash <span class="hl opt">^= ((</span>hash<span class="hl opt">&lt;&lt;</span><span class="hl num">5</span><span class="hl opt">) +</span> prefix <span class="hl opt">+ (</span>hash<span class="hl opt">&gt;&gt;</span><span class="hl num">2</span><span class="hl opt">));</span>
+<span class="hl lin">   85 </span>    hash <span class="hl opt">^= ((</span>hash<span class="hl opt">&lt;&lt;</span><span class="hl num">5</span><span class="hl opt">) +</span> suffix <span class="hl opt">+ (</span>hash<span class="hl opt">&gt;&gt;</span><span class="hl num">2</span><span class="hl opt">));</span>
+<span class="hl lin">   86 </span>    <span class="hl kwa">return</span> <span class="hl opt">(</span>hash <span class="hl opt">&amp; ( (</span><span class="hl num">1</span><span class="hl opt">&lt;&lt; (</span>MAX_CODE_BITS<span class="hl opt">+</span><span class="hl num">1</span><span class="hl opt">)) -</span> <span class="hl num">1</span><span class="hl opt">));</span><span class="hl slc">//</span>
+<span class="hl lin">   87 </span><span class="hl opt">}</span>
+<span class="hl lin">   88 </span><span class="hl kwc">inline</span> <span class="hl kwb">void</span> <span class="hl kwd">putcc</span><span class="hl opt">(</span><span class="hl kwb">unsigned int</span> value<span class="hl opt">) {</span>
+<span class="hl lin">   89 </span>    <span class="hl kwa">assert</span> <span class="hl opt">(</span> value <span class="hl opt">&gt;=</span> <span class="hl num">0</span> <span class="hl opt">&amp;&amp;</span> value <span class="hl opt">&lt;</span> MAX_CODE_VALUE<span class="hl opt">);</span>
+<span class="hl lin">   90 </span>    <span class="hl kwa">if</span> <span class="hl opt">(</span> value <span class="hl opt">&lt;</span> <span class="hl num">256</span> <span class="hl opt">) {</span>
+<span class="hl lin">   91 </span>        <span class="hl kwa">if</span> <span class="hl opt">(</span> value <span class="hl opt">==</span> <span class="hl str">'</span><span class="hl esc">\n</span><span class="hl str">'</span> <span class="hl opt">) {</span>
+<span class="hl lin">   92 </span>            <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;</span><span class="hl esc">\\</span><span class="hl str">n&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">   93 </span>        <span class="hl opt">}</span>
+<span class="hl lin">   94 </span>        <span class="hl kwa">else</span>
+<span class="hl lin">   95 </span>            <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;%c&quot;</span><span class="hl opt">,</span>value<span class="hl opt">);</span>
+<span class="hl lin">   96 </span>    <span class="hl opt">}</span>
+<span class="hl lin">   97 </span>    <span class="hl kwa">else</span>
+<span class="hl lin">   98 </span>        <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;%u&quot;</span><span class="hl opt">,</span>value<span class="hl opt">);</span>
+<span class="hl lin">   99 </span><span class="hl opt">}</span>
+<span class="hl lin">  100 </span><span class="hl kwb">void</span> <span class="hl kwd">putin_table</span><span class="hl opt">(</span><span class="hl kwb">const unsigned int</span> prefix<span class="hl opt">,</span><span class="hl kwb">const unsigned char</span> suffix<span class="hl opt">,</span>
+<span class="hl lin">  101 </span>        <span class="hl kwb">const int</span> hash_index<span class="hl opt">,</span><span class="hl kwb">unsigned int</span> <span class="hl opt">*</span>code<span class="hl opt">,</span>
+<span class="hl lin">  102 </span>        <span class="hl kwb">int</span> <span class="hl opt">*</span>curr_bits <span class="hl opt">) {</span>
+<span class="hl lin">  103 </span>    <span class="hl kwa">if</span> <span class="hl opt">( *</span>code <span class="hl opt">&lt;</span> MAX_CODE_VALUE <span class="hl opt">) {</span>
+<span class="hl lin">  104 </span>        hash_table<span class="hl opt">[</span> hash_index <span class="hl opt">] = (*</span>code<span class="hl opt">)++;</span>
+<span class="hl lin">  105 </span>        prefix_table<span class="hl opt">[</span>hash_index<span class="hl opt">] =</span> prefix<span class="hl opt">;</span>
+<span class="hl lin">  106 </span>        suffix_table<span class="hl opt">[</span>hash_index<span class="hl opt">] =</span> suffix<span class="hl opt">;</span>
+<span class="hl lin">  107 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  108 </span>
+<span class="hl lin">  109 </span>    <span class="hl kwa">if</span> <span class="hl opt">(</span> prefix <span class="hl opt">&gt;=</span> <span class="hl kwd">CURR_MAX_CODE_VALUE</span><span class="hl opt">(*</span>curr_bits<span class="hl opt">) &amp;&amp; *</span>curr_bits <span class="hl opt">&lt;</span> MAX_CODE_BITS <span class="hl opt">) {</span>
+<span class="hl lin">  110 </span>        <span class="hl kwd">__saveBits</span><span class="hl opt">(</span><span class="hl kwd">CURR_MAX_CODE_VALUE</span><span class="hl opt">(*</span>curr_bits<span class="hl opt">),*</span>curr_bits<span class="hl opt">);</span>
+<span class="hl lin">  111 </span>        <span class="hl opt">(*</span>curr_bits<span class="hl opt">)++;</span>
+<span class="hl lin">  112 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  113 </span><span class="hl opt">}</span>
+<span class="hl lin">  114 </span>
+<span class="hl lin">  115 </span>
+<span class="hl lin">  116 </span><span class="hl kwb">void</span> <span class="hl kwd">compress</span><span class="hl opt">(</span><span class="hl kwb">const char</span> <span class="hl opt">*</span>out_file_name<span class="hl opt">) {</span>
+<span class="hl lin">  117 </span>
+<span class="hl lin">  118 </span>    <span class="hl slc">//init</span>
+<span class="hl lin">  119 </span>    <span class="hl kwb">FILE</span> <span class="hl opt">*</span>file <span class="hl opt">=</span> <span class="hl kwd">fopen</span><span class="hl opt">(</span>out_file_name<span class="hl opt">,</span><span class="hl str">&quot;wb&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  120 </span>    <span class="hl kwa">if</span> <span class="hl opt">(</span> file <span class="hl opt">==</span> NULL <span class="hl opt">) {</span>
+<span class="hl lin">  121 </span>        <span class="hl kwd">puts</span><span class="hl opt">(</span><span class="hl str">&quot;open file fail</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  122 </span>        <span class="hl kwa">return</span> <span class="hl opt">;</span>
+<span class="hl lin">  123 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  124 </span>    hash_table <span class="hl opt">= (</span><span class="hl kwb">unsigned int</span> <span class="hl opt">* )</span> <span class="hl kwd">malloc</span> <span class="hl opt">(</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned int</span><span class="hl opt">) *</span> HASH_TABLE_SIZE<span class="hl opt">);</span>
+<span class="hl lin">  125 </span>    prefix_table <span class="hl opt">= (</span><span class="hl kwb">unsigned int</span> <span class="hl opt">*)</span> <span class="hl kwd">malloc</span> <span class="hl opt">(</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned int</span><span class="hl opt">) *</span> HASH_TABLE_SIZE<span class="hl opt">);</span>
+<span class="hl lin">  126 </span>    suffix_table <span class="hl opt">= (</span><span class="hl kwb">unsigned char</span> <span class="hl opt">*)</span> <span class="hl kwd">malloc</span> <span class="hl opt">(</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned char</span><span class="hl opt">) *</span> HASH_TABLE_SIZE<span class="hl opt">);</span>
+<span class="hl lin">  127 </span>    <span class="hl kwd">memset</span><span class="hl opt">(</span>hash_table<span class="hl opt">,-</span><span class="hl num">1</span><span class="hl opt">,</span><span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned int</span><span class="hl opt">) *</span> HASH_TABLE_SIZE<span class="hl opt">);</span>
+<span class="hl lin">  128 </span>
+<span class="hl lin">  129 </span>    m_file_buffer_cnt <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  130 </span>    m_comp_buffer_cnt <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  131 </span>    m_encode_bit_buffer <span class="hl opt">=</span> <span class="hl num">0u</span><span class="hl opt">;</span>
+<span class="hl lin">  132 </span>    m_encode_bit_buffer_cnt <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  133 </span>
+<span class="hl lin">  134 </span>    <span class="hl kwd">__saveBits</span><span class="hl opt">(</span>MIN_CODE_BITS<span class="hl opt">,</span><span class="hl num">8</span><span class="hl opt">);</span>
+<span class="hl lin">  135 </span>    <span class="hl kwa">assert</span> <span class="hl opt">(</span> m_file_size <span class="hl opt">&lt; (</span> <span class="hl num">1</span> <span class="hl opt">&lt;&lt;</span> <span class="hl num">20</span><span class="hl opt">) );</span>
+<span class="hl lin">  136 </span>    <span class="hl kwd">__saveBits</span><span class="hl opt">(</span>m_file_size<span class="hl opt">,</span><span class="hl num">20</span><span class="hl opt">);</span>
+<span class="hl lin">  137 </span>
+<span class="hl lin">  138 </span>    <span class="hl kwb">unsigned int</span> STRING <span class="hl opt">=</span> m_file_buffer<span class="hl opt">[</span> m_file_buffer_cnt<span class="hl opt">++  ];</span>
+<span class="hl lin">  139 </span>    <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;(%c,&quot;</span><span class="hl opt">,</span>STRING<span class="hl opt">);</span>
+<span class="hl lin">  140 </span>    <span class="hl kwb">unsigned int</span> code <span class="hl opt">=</span> FIRST_CODE<span class="hl opt">;</span>
+<span class="hl lin">  141 </span>    <span class="hl kwb">int</span> curr_bits <span class="hl opt">=</span>  MIN_CODE_BITS<span class="hl opt">;</span>
+<span class="hl lin">  142 </span>
+<span class="hl lin">  143 </span>    <span class="hl kwa">while</span> <span class="hl opt">(</span> m_file_buffer_cnt <span class="hl opt">&lt;</span> m_file_size <span class="hl opt">) {</span>
+<span class="hl lin">  144 </span>        <span class="hl kwa">if</span> <span class="hl opt">(</span>m_comp_buffer_cnt <span class="hl opt">&gt;=</span> COMP_BUFFER_SIZE<span class="hl opt">) {</span>
+<span class="hl lin">  145 </span>            <span class="hl slc">//write to disk</span>
+<span class="hl lin">  146 </span>            <span class="hl kwd">fwrite</span><span class="hl opt">(</span>m_comp_buffer<span class="hl opt">,</span><span class="hl num">1</span><span class="hl opt">,</span>m_comp_buffer_cnt<span class="hl opt">,</span>file<span class="hl opt">);</span>
+<span class="hl lin">  147 </span>            <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;%d</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">,</span>m_comp_buffer_cnt<span class="hl opt">);</span>
+<span class="hl lin">  148 </span>            m_comp_buffer_cnt <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  149 </span>        <span class="hl opt">}</span>
+<span class="hl lin">  150 </span>        
+<span class="hl lin">  151 </span>        <span class="hl kwb">unsigned char</span> CHARACTER <span class="hl opt">=</span> m_file_buffer<span class="hl opt">[</span>m_file_buffer_cnt<span class="hl opt">++];</span>
+<span class="hl lin">  152 </span>        <span class="hl kwd">putcc</span><span class="hl opt">(</span>CHARACTER<span class="hl opt">);</span><span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;)&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  153 </span>
+<span class="hl lin">  154 </span>        <span class="hl kwb">int</span> hash_index <span class="hl opt">=</span> <span class="hl kwd">hash_func</span><span class="hl opt">(</span>STRING<span class="hl opt">,</span>CHARACTER<span class="hl opt">);</span>
+<span class="hl lin">  155 </span>        <span class="hl kwb">int</span> offset<span class="hl opt">;</span>
+<span class="hl lin">  156 </span>        <span class="hl kwa">if</span> <span class="hl opt">(</span> hash_index <span class="hl opt">==</span> <span class="hl num">0</span> <span class="hl opt">)</span>
+<span class="hl lin">  157 </span>            offset <span class="hl opt">=</span> <span class="hl num">1</span><span class="hl opt">;</span>
+<span class="hl lin">  158 </span>        <span class="hl kwa">else</span>
+<span class="hl lin">  159 </span>            offset <span class="hl opt">=</span> HASH_TABLE_SIZE <span class="hl opt">-</span> hash_index<span class="hl opt">;</span>
+<span class="hl lin">  160 </span>
+<span class="hl lin">  161 </span>        <span class="hl kwa">while</span> <span class="hl opt">(</span> <span class="hl num">1</span> <span class="hl opt">) {</span>
+<span class="hl lin">  162 </span>            <span class="hl kwa">if</span><span class="hl opt">(</span> hash_table<span class="hl opt">[</span> hash_index <span class="hl opt">] == -</span><span class="hl num">1</span> <span class="hl opt">) {</span>
+<span class="hl lin">  163 </span>                <span class="hl slc">//case:not in the table</span>
+<span class="hl lin">  164 </span>                <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;</span><span class="hl esc">\t</span><span class="hl str">NO&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  165 </span>                <span class="hl slc">//add STRING + CHARACTER to the table</span>
+<span class="hl lin">  166 </span>                <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;</span><span class="hl esc">\t</span><span class="hl str">%d</span><span class="hl esc">\t</span><span class="hl str">&quot;</span><span class="hl opt">,</span>code<span class="hl opt">);</span>
+<span class="hl lin">  167 </span>                <span class="hl kwd">putin_table</span><span class="hl opt">(</span>STRING<span class="hl opt">,</span>CHARACTER<span class="hl opt">,</span>hash_index<span class="hl opt">,&amp;</span>code<span class="hl opt">,&amp;</span>curr_bits<span class="hl opt">);</span>
+<span class="hl lin">  168 </span>                <span class="hl slc">//output the code for STRING</span>
+<span class="hl lin">  169 </span>                <span class="hl kwd">__saveBits</span><span class="hl opt">(</span>STRING<span class="hl opt">,</span>curr_bits<span class="hl opt">);</span><span class="hl slc">//如果冗余度不高，很可能会增加编码量</span>
+<span class="hl lin">  170 </span>                <span class="hl kwd">putcc</span><span class="hl opt">(</span>STRING<span class="hl opt">);</span><span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot; in %d bits</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">,</span>curr_bits<span class="hl opt">);</span>
+<span class="hl lin">  171 </span>
+<span class="hl lin">  172 </span>                STRING <span class="hl opt">=</span> CHARACTER<span class="hl opt">;</span>
+<span class="hl lin">  173 </span>                <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;(&quot;</span><span class="hl opt">);</span><span class="hl kwd">putcc</span><span class="hl opt">(</span>CHARACTER<span class="hl opt">);</span><span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;,&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  174 </span>                <span class="hl kwa">break</span><span class="hl opt">;</span>
+<span class="hl lin">  175 </span>            <span class="hl opt">}</span>
+<span class="hl lin">  176 </span>            <span class="hl kwa">else if</span><span class="hl opt">(</span> prefix_table<span class="hl opt">[</span>hash_index<span class="hl opt">] ==</span> STRING
+<span class="hl lin">  177 </span>                    <span class="hl opt">&amp;&amp;</span> suffix_table<span class="hl opt">[</span>hash_index<span class="hl opt">] ==</span> CHARACTER<span class="hl opt">) {</span>
+<span class="hl lin">  178 </span>                STRING <span class="hl opt">=</span> hash_table<span class="hl opt">[</span>hash_index<span class="hl opt">];</span>    
+<span class="hl lin">  179 </span>                <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;</span><span class="hl esc">\t</span><span class="hl str">YES</span><span class="hl esc">\n</span><span class="hl str">(%u,&quot;</span><span class="hl opt">,</span>STRING<span class="hl opt">);</span>
+<span class="hl lin">  180 </span>                <span class="hl kwa">break</span><span class="hl opt">;</span>
+<span class="hl lin">  181 </span>            <span class="hl opt">}</span>
+<span class="hl lin">  182 </span>            <span class="hl kwa">else</span><span class="hl opt">{</span>
+<span class="hl lin">  183 </span>            <span class="hl opt">}</span>
+<span class="hl lin">  184 </span>
+<span class="hl lin">  185 </span>            hash_index <span class="hl opt">-=</span> offset<span class="hl opt">;</span>
+<span class="hl lin">  186 </span>            <span class="hl kwa">if</span> <span class="hl opt">(</span>hash_index <span class="hl opt">&lt;</span> <span class="hl num">0</span> <span class="hl opt">)</span>
+<span class="hl lin">  187 </span>                hash_index <span class="hl opt">+=</span> HASH_TABLE_SIZE<span class="hl opt">;</span>
+<span class="hl lin">  188 </span>        <span class="hl opt">}</span>
+<span class="hl lin">  189 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  190 </span>    <span class="hl kwd">__saveBits</span><span class="hl opt">(</span>STRING<span class="hl opt">,</span>curr_bits<span class="hl opt">);</span>
+<span class="hl lin">  191 </span>    <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;)</span><span class="hl esc">\t</span><span class="hl str">NO</span><span class="hl esc">\t</span><span class="hl str">&quot;</span><span class="hl opt">);</span><span class="hl kwd">putcc</span><span class="hl opt">(</span>STRING<span class="hl opt">);</span><span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;in %d bits</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">,</span>curr_bits<span class="hl opt">);</span>
+<span class="hl lin">  192 </span>
+<span class="hl lin">  193 </span>    <span class="hl slc">//clear bit buffer</span>
+<span class="hl lin">  194 </span>    <span class="hl kwd">__saveBits</span><span class="hl opt">(-</span><span class="hl num">1</span><span class="hl opt">,</span><span class="hl num">8</span><span class="hl opt">);</span>
+<span class="hl lin">  195 </span>
+<span class="hl lin">  196 </span>    <span class="hl kwd">fwrite</span><span class="hl opt">(</span>m_comp_buffer<span class="hl opt">,</span><span class="hl num">1</span><span class="hl opt">,</span>m_comp_buffer_cnt<span class="hl opt">,</span>file<span class="hl opt">);</span>
+<span class="hl lin">  197 </span>
+<span class="hl lin">  198 </span>    <span class="hl kwd">fclose</span><span class="hl opt">(</span>file<span class="hl opt">);</span> file <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  199 </span>    <span class="hl kwd">free</span><span class="hl opt">(</span>hash_table<span class="hl opt">);</span> hash_table <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  200 </span>    <span class="hl kwd">free</span><span class="hl opt">(</span>prefix_table<span class="hl opt">);</span> prefix_table <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  201 </span>    <span class="hl kwd">free</span><span class="hl opt">(</span>suffix_table<span class="hl opt">);</span> suffix_table <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  202 </span><span class="hl opt">}</span>
+<span class="hl lin">  203 </span>
+<span class="hl lin">  204 </span><span class="hl kwb">unsigned char</span> <span class="hl opt">*</span><span class="hl kwd">decode_string</span><span class="hl opt">(</span><span class="hl kwb">unsigned char</span> <span class="hl opt">*</span>decode_stack<span class="hl opt">,</span><span class="hl kwb">unsigned int</span> code<span class="hl opt">) {</span>
+<span class="hl lin">  205 </span>    <span class="hl kwa">while</span> <span class="hl opt">(</span> prefix_table<span class="hl opt">[</span>code<span class="hl opt">] != -</span><span class="hl num">1</span><span class="hl opt">) {</span>
+<span class="hl lin">  206 </span>        <span class="hl opt">*</span>decode_stack<span class="hl opt">++ =</span> suffix_table<span class="hl opt">[</span>code<span class="hl opt">];</span>
+<span class="hl lin">  207 </span>        code <span class="hl opt">=</span> prefix_table<span class="hl opt">[</span>code<span class="hl opt">];</span>
+<span class="hl lin">  208 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  209 </span>    <span class="hl opt">*</span>decode_stack <span class="hl opt">=</span> code<span class="hl opt">;</span>
+<span class="hl lin">  210 </span>    <span class="hl kwa">return</span> decode_stack<span class="hl opt">;</span>
+<span class="hl lin">  211 </span><span class="hl opt">}</span>
+<span class="hl lin">  212 </span><span class="hl kwb">void</span> <span class="hl kwd">decompress</span><span class="hl opt">(</span><span class="hl kwb">const char</span> <span class="hl opt">*</span>out_file_name<span class="hl opt">) {</span>
+<span class="hl lin">  213 </span>
+<span class="hl lin">  214 </span>    <span class="hl kwd">puts</span><span class="hl opt">(</span><span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">[decompress]</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  215 </span>    <span class="hl kwb">FILE</span> <span class="hl opt">*</span>file <span class="hl opt">=</span> <span class="hl kwd">fopen</span><span class="hl opt">(</span>out_file_name<span class="hl opt">,</span><span class="hl str">&quot;wb&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  216 </span>    <span class="hl kwa">if</span> <span class="hl opt">(</span> file <span class="hl opt">==</span> NULL <span class="hl opt">) {</span>
+<span class="hl lin">  217 </span>        <span class="hl kwd">puts</span><span class="hl opt">(</span><span class="hl str">&quot;open file error!</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  218 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  219 </span>    
+<span class="hl lin">  220 </span>    <span class="hl slc">//init</span>
+<span class="hl lin">  221 </span>    prefix_table <span class="hl opt">= (</span><span class="hl kwb">unsigned int</span> <span class="hl opt">*)</span> <span class="hl kwd">malloc</span> <span class="hl opt">(</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned int</span><span class="hl opt">) *</span> HASH_TABLE_SIZE<span class="hl opt">);</span>
+<span class="hl lin">  222 </span>    suffix_table <span class="hl opt">= (</span><span class="hl kwb">unsigned char</span> <span class="hl opt">*)</span> <span class="hl kwd">malloc</span> <span class="hl opt">(</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned char</span><span class="hl opt">) *</span> HASH_TABLE_SIZE<span class="hl opt">);</span>
+<span class="hl lin">  223 </span>    <span class="hl kwd">memset</span><span class="hl opt">(</span>prefix_table<span class="hl opt">,-</span><span class="hl num">1</span><span class="hl opt">,</span><span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned int</span><span class="hl opt">) *</span> HASH_TABLE_SIZE<span class="hl opt">);</span>
+<span class="hl lin">  224 </span>
+<span class="hl lin">  225 </span>    m_file_buffer_cnt <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  226 </span>    m_comp_buffer_cnt <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  227 </span>    m_decode_bit_buffer <span class="hl opt">=</span> <span class="hl num">0u</span><span class="hl opt">;</span>
+<span class="hl lin">  228 </span>    m_decode_bit_buffer_cnt <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  229 </span>
+<span class="hl lin">  230 </span>
+<span class="hl lin">  231 </span>    <span class="hl kwb">int</span> curr_bits <span class="hl opt">=</span> <span class="hl kwd">__readBits</span><span class="hl opt">(</span><span class="hl num">8</span><span class="hl opt">);</span>
+<span class="hl lin">  232 </span>    <span class="hl kwa">if</span> <span class="hl opt">(</span> curr_bits <span class="hl opt">!=</span> MIN_CODE_BITS <span class="hl opt">) {</span>
+<span class="hl lin">  233 </span>        <span class="hl kwd">puts</span> <span class="hl opt">(</span><span class="hl str">&quot;decode error!</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  234 </span>        <span class="hl kwa">return</span><span class="hl opt">;</span>
+<span class="hl lin">  235 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  236 </span>    <span class="hl kwb">int</span> origin_file_size <span class="hl opt">=</span> <span class="hl kwd">__readBits</span><span class="hl opt">(</span><span class="hl num">20</span><span class="hl opt">);</span>
+<span class="hl lin">  237 </span>    m_comp_buffer <span class="hl opt">= (</span><span class="hl kwb">unsigned char</span> <span class="hl opt">*)</span> <span class="hl kwd">malloc</span> <span class="hl opt">(</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned char</span><span class="hl opt">) *</span> origin_file_size<span class="hl opt">);</span>
+<span class="hl lin">  238 </span>
+<span class="hl lin">  239 </span>    <span class="hl kwb">unsigned int</span> code <span class="hl opt">= (</span><span class="hl num">1</span> <span class="hl opt">&lt;&lt; (</span>curr_bits <span class="hl opt">-</span> <span class="hl num">1</span><span class="hl opt">));</span>
+<span class="hl lin">  240 </span>    <span class="hl kwa">assert</span> <span class="hl opt">(</span> code <span class="hl opt">==</span> FIRST_CODE <span class="hl opt">);</span>
+<span class="hl lin">  241 </span>
+<span class="hl lin">  242 </span>    <span class="hl kwb">unsigned int</span> CHARACTER<span class="hl opt">;</span>
+<span class="hl lin">  243 </span>    <span class="hl kwb">unsigned int</span> OLD_CODE <span class="hl opt">=</span> <span class="hl kwd">__readBits</span><span class="hl opt">(</span>curr_bits<span class="hl opt">);</span>
+<span class="hl lin">  244 </span>    m_comp_buffer<span class="hl opt">[</span>m_comp_buffer_cnt<span class="hl opt">++] =</span> OLD_CODE<span class="hl opt">;</span> <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;%c&quot;</span><span class="hl opt">,</span>OLD_CODE<span class="hl opt">);</span>
+<span class="hl lin">  245 </span>
+<span class="hl lin">  246 </span>    <span class="hl kwa">while</span> <span class="hl opt">(</span> <span class="hl num">1</span><span class="hl opt">) {</span>
+<span class="hl lin">  247 </span>        <span class="hl kwb">unsigned int</span> NEW_CODE <span class="hl opt">=</span> <span class="hl kwd">__readBits</span><span class="hl opt">(</span>curr_bits<span class="hl opt">);</span>
+<span class="hl lin">  248 </span>        <span class="hl kwa">if</span> <span class="hl opt">(</span> NEW_CODE <span class="hl opt">==</span> <span class="hl kwd">CURR_MAX_CODE_VALUE</span><span class="hl opt">(</span>curr_bits<span class="hl opt">)) {</span>
+<span class="hl lin">  249 </span>            curr_bits<span class="hl opt">++;</span>
+<span class="hl lin">  250 </span>            <span class="hl kwa">continue</span><span class="hl opt">;</span>
+<span class="hl lin">  251 </span>        <span class="hl opt">}</span>
+<span class="hl lin">  252 </span>        <span class="hl kwa">else if</span> <span class="hl opt">(</span> NEW_CODE <span class="hl opt">== (</span><span class="hl kwb">unsigned</span><span class="hl opt">) -</span><span class="hl num">1</span><span class="hl opt">) {</span>
+<span class="hl lin">  253 </span>            <span class="hl kwa">break</span><span class="hl opt">;</span>
+<span class="hl lin">  254 </span>        <span class="hl opt">}</span>
+<span class="hl lin">  255 </span>
+<span class="hl lin">  256 </span>        <span class="hl kwa">if</span> <span class="hl opt">(</span> NEW_CODE <span class="hl opt">&lt;</span> <span class="hl num">256</span> <span class="hl opt">) {</span>
+<span class="hl lin">  257 </span>            m_comp_buffer<span class="hl opt">[</span>m_comp_buffer_cnt<span class="hl opt">++]=</span> NEW_CODE<span class="hl opt">;</span> <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;%c&quot;</span><span class="hl opt">,</span>NEW_CODE<span class="hl opt">);</span>
+<span class="hl lin">  258 </span>            CHARACTER <span class="hl opt">=</span> NEW_CODE<span class="hl opt">;</span>
+<span class="hl lin">  259 </span>        <span class="hl opt">}</span>
+<span class="hl lin">  260 </span>        <span class="hl kwa">else if</span> <span class="hl opt">(</span> prefix_table<span class="hl opt">[</span>NEW_CODE<span class="hl opt">] != -</span><span class="hl num">1</span><span class="hl opt">) {</span>
+<span class="hl lin">  261 </span>            <span class="hl opt">*</span>decode_stack <span class="hl opt">=</span> suffix_table<span class="hl opt">[</span>NEW_CODE<span class="hl opt">];</span>
+<span class="hl lin">  262 </span>            <span class="hl kwb">unsigned char</span> <span class="hl opt">*</span>t <span class="hl opt">=</span>  <span class="hl kwd">decode_string</span><span class="hl opt">(</span>decode_stack<span class="hl opt">+</span><span class="hl num">1</span><span class="hl opt">,</span>prefix_table<span class="hl opt">[</span>NEW_CODE<span class="hl opt">]);</span>
+<span class="hl lin">  263 </span>            CHARACTER <span class="hl opt">= *</span>t<span class="hl opt">;</span>
+<span class="hl lin">  264 </span>            <span class="hl kwa">while</span><span class="hl opt">(</span> t <span class="hl opt">&gt;=</span> decode_stack <span class="hl opt">) {</span>
+<span class="hl lin">  265 </span>                m_comp_buffer<span class="hl opt">[</span>m_comp_buffer_cnt<span class="hl opt">++]= *</span>t<span class="hl opt">;</span> <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;%c&quot;</span><span class="hl opt">,*</span>t<span class="hl opt">--);</span>
+<span class="hl lin">  266 </span>            <span class="hl opt">}</span>
+<span class="hl lin">  267 </span>        <span class="hl opt">}</span>
+<span class="hl lin">  268 </span>        <span class="hl kwa">else if</span> <span class="hl opt">(</span> NEW_CODE <span class="hl opt">==</span> code <span class="hl opt">) {</span>
+<span class="hl lin">  269 </span>            <span class="hl kwa">if</span> <span class="hl opt">(</span> prefix_table<span class="hl opt">[</span>OLD_CODE<span class="hl opt">] == -</span><span class="hl num">1</span><span class="hl opt">){</span>
+<span class="hl lin">  270 </span>                CHARACTER <span class="hl opt">=</span> OLD_CODE<span class="hl opt">;</span>
+<span class="hl lin">  271 </span>                <span class="hl kwa">assert</span> <span class="hl opt">(</span> OLD_CODE <span class="hl opt">&lt;</span> <span class="hl num">256</span> <span class="hl opt">);</span>
+<span class="hl lin">  272 </span>            <span class="hl opt">}</span>
+<span class="hl lin">  273 </span>            <span class="hl kwa">else</span> <span class="hl opt">{</span>
+<span class="hl lin">  274 </span>                <span class="hl kwa">assert</span> <span class="hl opt">(</span> prefix_table<span class="hl opt">[</span>OLD_CODE<span class="hl opt">] != -</span> <span class="hl num">1</span><span class="hl opt">);</span>
+<span class="hl lin">  275 </span>                <span class="hl kwb">unsigned char</span> <span class="hl opt">*</span>t <span class="hl opt">=</span> <span class="hl kwd">decode_string</span><span class="hl opt">(</span>decode_stack<span class="hl opt">,</span>prefix_table<span class="hl opt">[</span>OLD_CODE<span class="hl opt">]);</span>
+<span class="hl lin">  276 </span>                CHARACTER <span class="hl opt">= *</span>t<span class="hl opt">;</span><span class="hl slc">//</span>
+<span class="hl lin">  277 </span>            <span class="hl opt">}</span>
+<span class="hl lin">  278 </span>        <span class="hl opt">}</span>
+<span class="hl lin">  279 </span>        <span class="hl kwa">else</span> <span class="hl opt">{</span>
+<span class="hl lin">  280 </span>            <span class="hl kwa">assert</span> <span class="hl opt">(</span> <span class="hl num">1</span> <span class="hl opt">==</span> <span class="hl num">0</span> <span class="hl opt">);</span>
+<span class="hl lin">  281 </span>        <span class="hl opt">}</span>
+<span class="hl lin">  282 </span>
+<span class="hl lin">  283 </span>        <span class="hl slc">//OLD_CODE + CHARACTER</span>
+<span class="hl lin">  284 </span>        prefix_table<span class="hl opt">[</span>code<span class="hl opt">] =</span> OLD_CODE<span class="hl opt">;</span>
+<span class="hl lin">  285 </span>        suffix_table<span class="hl opt">[</span>code<span class="hl opt">] =</span> CHARACTER<span class="hl opt">;</span>
+<span class="hl lin">  286 </span>
+<span class="hl lin">  287 </span>        <span class="hl kwa">if</span> <span class="hl opt">(</span> code <span class="hl opt">==</span> NEW_CODE <span class="hl opt">) {</span>
+<span class="hl lin">  288 </span>            <span class="hl kwa">if</span><span class="hl opt">(</span> prefix_table<span class="hl opt">[</span>OLD_CODE<span class="hl opt">] == -</span><span class="hl num">1</span><span class="hl opt">){</span>
+<span class="hl lin">  289 </span>                m_comp_buffer<span class="hl opt">[</span>m_comp_buffer_cnt<span class="hl opt">++]=</span> OLD_CODE<span class="hl opt">;</span> <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;%c&quot;</span><span class="hl opt">,</span>OLD_CODE<span class="hl opt">);</span>
+<span class="hl lin">  290 </span>            <span class="hl opt">}</span>
+<span class="hl lin">  291 </span>            <span class="hl kwa">else</span> <span class="hl opt">{</span>
+<span class="hl lin">  292 </span>                <span class="hl opt">*</span>decode_stack <span class="hl opt">=</span> suffix_table<span class="hl opt">[</span>OLD_CODE<span class="hl opt">];</span>
+<span class="hl lin">  293 </span>                <span class="hl kwb">unsigned char</span> <span class="hl opt">*</span>t <span class="hl opt">=</span>  <span class="hl kwd">decode_string</span><span class="hl opt">(</span>decode_stack<span class="hl opt">+</span><span class="hl num">1</span><span class="hl opt">,</span>prefix_table<span class="hl opt">[</span>OLD_CODE<span class="hl opt">]);</span>
+<span class="hl lin">  294 </span>                <span class="hl kwa">while</span><span class="hl opt">(</span> t <span class="hl opt">&gt;=</span> decode_stack <span class="hl opt">) {</span>
+<span class="hl lin">  295 </span>                    m_comp_buffer<span class="hl opt">[</span>m_comp_buffer_cnt<span class="hl opt">++]= *</span>t<span class="hl opt">;</span> <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;%c&quot;</span><span class="hl opt">,*</span>t<span class="hl opt">--);</span>
+<span class="hl lin">  296 </span>                <span class="hl opt">}</span>
+<span class="hl lin">  297 </span>            <span class="hl opt">}</span>
+<span class="hl lin">  298 </span>            m_comp_buffer<span class="hl opt">[</span>m_comp_buffer_cnt<span class="hl opt">++]=</span> CHARACTER<span class="hl opt">;</span> <span class="hl kwd">printf</span><span class="hl opt">(</span><span class="hl str">&quot;%c&quot;</span><span class="hl opt">,</span>CHARACTER<span class="hl opt">);</span>
+<span class="hl lin">  299 </span>        <span class="hl opt">}</span>
+<span class="hl lin">  300 </span>        code<span class="hl opt">++;</span>
+<span class="hl lin">  301 </span>
+<span class="hl lin">  302 </span>        OLD_CODE <span class="hl opt">=</span> NEW_CODE<span class="hl opt">;</span>
+<span class="hl lin">  303 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  304 </span>
+<span class="hl lin">  305 </span>    <span class="hl kwd">fwrite</span><span class="hl opt">(</span>m_comp_buffer<span class="hl opt">,</span><span class="hl num">1</span><span class="hl opt">,</span>m_comp_buffer_cnt<span class="hl opt">,</span>file<span class="hl opt">);</span>
+<span class="hl lin">  306 </span>    <span class="hl kwa">assert</span><span class="hl opt">(</span> m_comp_buffer_cnt <span class="hl opt">==</span> origin_file_size<span class="hl opt">);</span>
+<span class="hl lin">  307 </span>
+<span class="hl lin">  308 </span>    <span class="hl slc">//free</span>
+<span class="hl lin">  309 </span>    <span class="hl kwd">fclose</span><span class="hl opt">(</span>file<span class="hl opt">);</span> file <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  310 </span>    <span class="hl kwd">free</span><span class="hl opt">(</span>prefix_table<span class="hl opt">);</span> prefix_table <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  311 </span>    <span class="hl kwd">free</span><span class="hl opt">(</span>suffix_table<span class="hl opt">);</span> suffix_table <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  312 </span>    <span class="hl kwd">free</span><span class="hl opt">(</span>m_comp_buffer<span class="hl opt">);</span> m_comp_buffer <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  313 </span>        
+<span class="hl lin">  314 </span><span class="hl opt">}</span>
+<span class="hl lin">  315 </span>
+<span class="hl lin">  316 </span><span class="hl kwb">int</span> <span class="hl kwd">main</span><span class="hl opt">(</span><span class="hl kwb">int</span> argc<span class="hl opt">,</span><span class="hl kwb">char</span> <span class="hl opt">*</span>argv<span class="hl opt">[]) {</span>
+<span class="hl lin">  317 </span>
+<span class="hl lin">  318 </span>    <span class="hl kwa">if</span> <span class="hl opt">(</span> argc <span class="hl opt">!=</span> <span class="hl num">2</span> <span class="hl opt">) {</span>
+<span class="hl lin">  319 </span>        <span class="hl kwd">puts</span><span class="hl opt">(</span><span class="hl str">&quot;usage: lzw [file path]</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  320 </span>        <span class="hl kwa">return</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  321 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  322 </span>
+<span class="hl lin">  323 </span>    <span class="hl slc">//init</span>
+<span class="hl lin">  324 </span>    m_file_buffer <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  325 </span>    m_comp_buffer <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  326 </span>    prefix_table <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  327 </span>    suffix_table <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  328 </span>    hash_table   <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  329 </span>    
+<span class="hl lin">  330 </span>    <span class="hl kwb">FILE</span> <span class="hl opt">*</span>file <span class="hl opt">=</span> <span class="hl kwd">fopen</span><span class="hl opt">(</span>argv<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">],</span><span class="hl str">&quot;rb&quot;</span><span class="hl opt">);</span> <span class="hl slc">//open file</span>
+<span class="hl lin">  331 </span>    <span class="hl kwa">if</span> <span class="hl opt">(</span> file <span class="hl opt">==</span> NULL <span class="hl opt">) {</span>
+<span class="hl lin">  332 </span>        <span class="hl kwd">puts</span> <span class="hl opt">(</span><span class="hl str">&quot;open file fail!</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  333 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  334 </span>
+<span class="hl lin">  335 </span>    m_file_size <span class="hl opt">=</span> <span class="hl kwd">get_file_size</span><span class="hl opt">(</span>file<span class="hl opt">);</span>
+<span class="hl lin">  336 </span>    <span class="hl kwa">if</span> <span class="hl opt">(</span> m_file_size <span class="hl opt">==</span> <span class="hl num">0</span> <span class="hl opt">) {</span>
+<span class="hl lin">  337 </span>        <span class="hl kwd">puts</span><span class="hl opt">(</span><span class="hl str">&quot;empty file&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  338 </span>        <span class="hl kwa">return</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  339 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  340 </span>    m_file_buffer <span class="hl opt">= (</span><span class="hl kwb">unsigned char</span> <span class="hl opt">*)</span> <span class="hl kwd">malloc</span> <span class="hl opt">(</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned char</span><span class="hl opt">) *</span> m_file_size<span class="hl opt">);</span>
+<span class="hl lin">  341 </span>    m_comp_buffer <span class="hl opt">= (</span><span class="hl kwb">unsigned char</span> <span class="hl opt">*)</span> <span class="hl kwd">malloc</span> <span class="hl opt">(</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned char</span><span class="hl opt">) * (</span>COMP_BUFFER_SIZE<span class="hl opt">+</span><span class="hl num">3</span><span class="hl opt">));</span>
+<span class="hl lin">  342 </span>    <span class="hl kwd">fread</span> <span class="hl opt">(</span> m_file_buffer<span class="hl opt">,</span> <span class="hl num">1</span><span class="hl opt">,</span> m_file_size<span class="hl opt">,</span> file<span class="hl opt">);</span> <span class="hl slc">//read to buffer</span>
+<span class="hl lin">  343 </span>
+<span class="hl lin">  344 </span>    <span class="hl kwd">strcat</span><span class="hl opt">(</span>argv<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">],</span><span class="hl str">&quot;.lzw&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  345 </span>    <span class="hl kwd">compress</span><span class="hl opt">(</span>argv<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]);</span>
+<span class="hl lin">  346 </span>    
+<span class="hl lin">  347 </span>    <span class="hl slc">//free</span>
+<span class="hl lin">  348 </span>    <span class="hl kwd">free</span><span class="hl opt">(</span>m_file_buffer<span class="hl opt">);</span> m_file_buffer <span class="hl opt">=</span> NULL<span class="hl opt">;</span> <span class="hl kwd">fclose</span><span class="hl opt">(</span>file<span class="hl opt">);</span> file <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  349 </span>    <span class="hl kwd">free</span><span class="hl opt">(</span>m_comp_buffer<span class="hl opt">);</span> m_comp_buffer <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  350 </span>    
+<span class="hl lin">  351 </span>    <span class="hl slc">//decompress</span>
+<span class="hl lin">  352 </span>    file <span class="hl opt">=</span> <span class="hl kwd">fopen</span><span class="hl opt">(</span>argv<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">],</span><span class="hl str">&quot;rb&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  353 </span>    <span class="hl kwa">if</span> <span class="hl opt">(</span> file <span class="hl opt">==</span> NULL <span class="hl opt">) {</span>
+<span class="hl lin">  354 </span>        <span class="hl kwd">puts</span><span class="hl opt">(</span><span class="hl str">&quot;open file fail!</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  355 </span>        <span class="hl kwa">return</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  356 </span>    <span class="hl opt">}</span>
+<span class="hl lin">  357 </span>
+<span class="hl lin">  358 </span>    m_file_size <span class="hl opt">=</span> <span class="hl kwd">get_file_size</span><span class="hl opt">(</span>file<span class="hl opt">);</span>
+<span class="hl lin">  359 </span>    m_file_buffer <span class="hl opt">= (</span><span class="hl kwb">unsigned char</span> <span class="hl opt">*)</span> <span class="hl kwd">malloc</span> <span class="hl opt">(</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span><span class="hl kwb">unsigned char</span><span class="hl opt">) *</span> m_file_size <span class="hl opt">);</span>
+<span class="hl lin">  360 </span>    <span class="hl kwd">fread</span> <span class="hl opt">(</span> m_file_buffer<span class="hl opt">,</span> <span class="hl num">1</span><span class="hl opt">,</span> m_file_size<span class="hl opt">,</span> file<span class="hl opt">);</span> <span class="hl slc">//read to buffer</span>
+<span class="hl lin">  361 </span>
+<span class="hl lin">  362 </span>    <span class="hl kwd">strcpy</span><span class="hl opt">(</span>argv<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]+</span> <span class="hl kwd">strlen</span><span class="hl opt">(</span> argv<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">] ) -</span> <span class="hl num">3</span><span class="hl opt">,</span><span class="hl str">&quot;copy&quot;</span><span class="hl opt">);</span>
+<span class="hl lin">  363 </span>    <span class="hl kwd">decompress</span><span class="hl opt">(</span>argv<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]);</span>
+<span class="hl lin">  364 </span>    
+<span class="hl lin">  365 </span>    <span class="hl slc">//free</span>
+<span class="hl lin">  366 </span>    <span class="hl kwd">free</span><span class="hl opt">(</span>m_file_buffer<span class="hl opt">);</span> m_file_buffer <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  367 </span>    <span class="hl kwd">free</span><span class="hl opt">(</span>m_comp_buffer<span class="hl opt">);</span> m_comp_buffer <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+<span class="hl lin">  368 </span>
+<span class="hl lin">  369 </span>    <span class="hl kwa">assert</span> <span class="hl opt">(</span> m_file_buffer <span class="hl opt">==</span> NULL<span class="hl opt">);</span>
+<span class="hl lin">  370 </span>    <span class="hl kwa">assert</span> <span class="hl opt">(</span> m_comp_buffer <span class="hl opt">==</span> NULL<span class="hl opt">);</span>
+<span class="hl lin">  371 </span>    <span class="hl kwa">assert</span> <span class="hl opt">(</span> hash_table <span class="hl opt">==</span> NULL<span class="hl opt">);</span>
+<span class="hl lin">  372 </span>    <span class="hl kwa">assert</span> <span class="hl opt">(</span> prefix_table <span class="hl opt">==</span> NULL<span class="hl opt">);</span>
+<span class="hl lin">  373 </span>    <span class="hl kwa">assert</span> <span class="hl opt">(</span> suffix_table <span class="hl opt">==</span> NULL<span class="hl opt">);</span>
+<span class="hl lin">  374 </span>
+<span class="hl lin">  375 </span>    <span class="hl kwa">return</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl lin">  376 </span><span class="hl opt">}</span>
+<span class="hl lin">  377 </span>
+</pre>
+</body>
+
+
+</div>
+

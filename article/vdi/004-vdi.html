@@ -1,0 +1,282 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />          
+<header style="padding-bottom:50">
+<ul>
+<li style="padding-right:20px;float:left;"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+<style type="text/css">
+div{
+font-size:11pt;
+}
+p{
+text-indent:2em;/*段落缩进*/
+line-height:140%;/*行间距*/
+}
+blockquote {
+background:#f9f9f9;
+border-left:10px solid darkblue;
+}
+blockquote p {
+display:inline;
+}
+</style>
+
+<div style="text-align: center;"><span style="line-height: 25px;"><b><font size="4">虚拟桌面协议</font></b></span></div>
+<h5 style="text-align:right">update@2013-06-29</h5> 
+<p>
+在虚拟桌面架构（VDI）中，协议是非常关键的一环，其定义了将服务器虚拟出的客户机系统从服务器传输到各类终端的规则，涉及到安全，图像处理，数据压缩，网络传输协议等多个方面，直接决定着虚拟桌面的终端体验。本文介绍了目前主流的开源与商业的虚拟桌面协议，包括Redhat主导的开源SPICE协议，RDP协议，RFB协议，思杰的ICA/HDX协议，VMWare的PCoIP协议等，并分享了一些自己的实践经验。
+</p>
+
+   <div>
+      <font size="2"><span style="line-height: 20px;"><br></span></font>
+      <div style="width:300px;BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
+         <ol>
+            <li><a style="text-decoration:none" rel="nofollow" href="#spice">SPICE</a></li>
+            <ul>
+               <li><a style="text-decoration:none" rel="nofollow" href="#spice1">SPICE协议特点</a></li>
+               <li><a style="text-decoration:none" rel="nofollow" href="#spice2">SPICE协议目前已有的功能</a></li>
+               <li><a style="text-decoration:none" rel="nofollow" href="#spice3">SPICE协议计划中的功能</a></li>
+               <li><a style="text-decoration:none" rel="nofollow" href="#spice4">SPICE和QEMU</a></li>
+               <li><a style="text-decoration:none" rel="nofollow" href="#spice5">开启剪贴板共享</a></li>
+               <li><a style="text-decoration:none" rel="nofollow" href="#spice6">开启USB重定向</a></li>
+               <li><a style="text-decoration:none" rel="nofollow" href="#spice7">SPICE使用OpenSSL</a></li>
+            </ul>
+            <li><a style="text-decoration:none" rel="nofollow" href="#rfb">RFB</a></li>
+            <li><a style="text-decoration:none" rel="nofollow" href="#ica">ICA/HDX</a></li>
+            <li><a style="text-decoration:none" rel="nofollow" href="#rdp">RDP/RemoteFX</a></li>
+            <li><a style="text-decoration:none" rel="nofollow" href="#pcoip">PCoIP</a></li>
+            <ul>
+               <li><a style="text-decoration:none" rel="nofollow" href="#pcoip1">PCoIP的特点</a></li>
+            </ul>
+            <li><a style="text-decoration:none" rel="nofollow" href="#other">其它协议</a></li>
+            <ul>
+               <li><a style="text-decoration:none" rel="nofollow" href="#other1">THINC</a></li>
+               <li><a style="text-decoration:none" rel="nofollow" href="#other2">X11</a></li>
+               <li><a style="text-decoration:none" rel="nofollow" href="#other3">ALP</a></li>
+               <li><a style="text-decoration:none" rel="nofollow" href="#other4">EOP</a></li>
+               <li><a style="text-decoration:none" rel="nofollow" href="#other5">CHP</a></li>
+            </ul>
+            <li><a style="text-decoration:none" rel="nofollow" href="#compare">协议对比</a></li>
+<ul>
+               <li><a style="text-decoration:none" rel="nofollow" href="#compare1">对比视频</a></li>
+</ul>
+            <li><a style="text-decoration:none" rel="nofollow" href="#reference">参考资料</a></li>
+         </ol>
+      </div>
+      <div>
+         <font size="2"><span style="line-height: 20px;"><br></span></font>
+         <div>
+            <div>
+               <div><span style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; line-height: 19px; text-align: -webkit-auto;"><br></span></div>
+               <div><span style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; line-height: 19px; text-align: -webkit-auto;"><br></span></div>
+               <div id="spice"><span style="line-height: 20px;"><b><font size="4">1 SPICE</font></b></span></div>
+               <div><font size="2"><span style="line-height: 20px;">&nbsp;&nbsp;</span></font>SPICE（Simple Protocol&nbsp;for Independent Computing Environments）是目前最有潜力的开源虚拟桌面协议，最初是由Qumranet开发，后来被RedHat收购并开源，经过几年的社区开发，spice协议已经能在实际应用当中一展拳脚，和商业协议ICA PCoIP等相抗衡。</div>
+               <div><span style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; line-height: 19px; text-align: -webkit-auto;"><br></span></div>
+               <div id="spice1"><span style="line-height: 22px; text-align: -webkit-auto;"><b><font size="2">1.1 SPICE协议特点</font></b></span></div>
+               <div>
+                  <ul>
+                     <li><span style="line-height: 22px; text-align: -webkit-auto;">和低端(low end)的虚拟桌面协议（如RFB）不同，</span><span style="line-height: 22px;">SPICE协议虚拟出一个图形处理设备QXL，专门用于处理客户机的图形命令（graphic commands）。</span></li>
+                     <li><span style="line-height: 22px;">SPICE用不同的信道来传输键盘，鼠标，视频图像和音频等，便于针对性地优化。</span></li>
+                     <li><span style="line-height: 22px;">SPICE首先尝试将渲染的工作交给客户端（瘦终端），利用客户端硬件资源来加速，之后会将渲染工作交给主机来处理，这时可以用软件或者GPU来处理。</span></li>
+                     <li><span style="line-height: 22px;">SPICE客户端支持linux，windows和</span><a target="_blank" rel="nofollow" href="http://spice-space.org/page/OSX_Client">Mac</a></li>
+                  </ul>
+               </div>
+               <div>
+                  <div style="text-align: -webkit-auto;"><font size="3"><span style="line-height: 25px;"><br></span></font></div>
+                  <div id="spice2" style="text-align: -webkit-auto;"><span style="line-height: 25px;"><b><font size="2">1.2 SPICE协议目前已有的功能</font></b></span></div>
+                  <div style="text-align: -webkit-auto;">
+                     <ul>
+                        <li>视频/图像压缩，基于MPEG的视频压缩和基于SFALIC，Lempel–Ziv的图像压缩</li>
+                        <li>客户端缓存，对图像 调色板 光标进行缓存处理</li>
+                        <li>热迁移，虚拟机从当前主机（Host）迁移到另外一个主机时spice的连接不会中断e</li>
+                        <li>多屏显示，最多支持四个屏幕</li>
+                        <li>音频的播放和录制，音频也可以压缩传输</li>
+                        <li>加密传输，支持openssl</li>
+                        <li>剪贴板共享，瘦终端系统（client OS）和客户机系统（guest OS）可以相互拷贝粘贴</li>
+                        <li>USB重定向，将瘦终端的USB设备重定向到客户机</li><li>smartcard，支持智能卡登录</li>
+                     </ul>
+                     <font size="2">
+                        <div id="spice3" style="text-align: -webkit-auto;"><span style="font-weight: 800;"><br></span></div>
+                        <b>
+                        1.3 SPICE协议计划中的功能
+                        </b>
+                     </font>
+                  </div>
+               </div>
+               <div style="text-align: -webkit-auto;">
+                  <ul>
+                     <li>打印机共享，使用离用户最近的打印机来打印</li>
+                     <li>3D加速，改善3D体验</li>
+                     <li>windows areo，支持windows areo效果</li>
+                     <li>光驱共享</li>
+                  </ul>
+               </div>
+               <div>
+                  <div><br></div>
+                  <div id="spice4"><font size="2"><b>1.4 SPICE和QEMU</b></font></div>
+                  <div>&nbsp; 如果要在<a target="_blank" rel="nofollow" href="http://wiki.qemu.org/Main_Page">QEMU</a>中使用spice，在编译QEMU时需要加上 <i>--enable-spice，</i>如果需要USB重定向的支持则在编译QEMU时加上&nbsp;<i>--enable-usb-redir 。</i>spice的一些功能是通过QEMU中的-spice选项来开启，可以通过QEMU的help文档来了解该选项。下面是本人在实践中使用的-spice选项，QEMU版本为1.4.0或以上，SPICE版本为0.12.3或以上。</div>
+                  <div><br></div>
+                  <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">-spice port=$spicePort,image-compression=quic,jpeg-wan-compression=auto,zlib-glz-wan-compression=auto,streaming-video=all,playback-compression=on,agent-mouse=on,disable-ticketing</div>
+                  <div id="spice5"><span style="line-height: 28px;"><b><font size="2"><br></font></b></span></div>
+                  <div id="spice5"><span style="line-height: 28px;"><b><font size="2"><br></font></b></span></div>
+                  <div id="spice5"><span style="line-height: 28px;"><b><font size="2">1.5 开启剪贴板共享</font></b></span></div>
+                  <div><span style="line-height: 28px;"><font size="2">&nbsp; &nbsp;SPICE能够使client OS和 guest OS之间共享剪贴板，可以互相拷贝和粘贴。启动虚拟机时，在QEMU的启动选项里加入下面的选项即可开启剪贴板共享。</font></span></div>
+                  <div style="background:#eee; border:1px solid #ccc; padding:5px 10px;">-device virtio-serial-pci \<br>
+                     -chardev spicevmc,id=spicechannel0,name=vdagent \<br>
+                     -device virtserialport,chardev=spicechannel0,name=com.redhat.spice.0
+                  </div>
+                  <div><font size="2"><span style="line-height: 20px;"><br></span></font></div>
+                  <div><font size="2"><span style="line-height: 20px;"><br></span></font></div>
+                  <div id="spice6"><font size="2"><span style="line-height: 20px;"><b>1.6 开启USB重定向</b></span></font></div>
+                  <div><font size="2"><span style="line-height: 20px;">&nbsp;SPICE的USB重定向功能够将client上的USB设备重定向到guest，这样就可以在guest OS中访问该USB设备，非常方便，管理员也能控制USB设备的添加和删除，保护企业内部数据不外泄。&nbsp;</span></font></div>
+                  <div><font size="2"><span style="line-height: 20px;"><br></span></font></div>
+                  <div><font size="2"><span style="line-height: 20px;">&nbsp; 1. 新建文件&nbsp;</span></font><span style="font-family: Arial, sans-serif; font-size: 15px; line-height: 21px;"><i>/etc/qemu/ich9-ehci-uhci.cfg </i>，并在该文件中加入如下内容，保存。</span></div>
+                  <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+                     <pre>###########################################################################
+#
+# You can pass this file directly to qemu using the -readconfig
+# command line switch.
+#
+# This config file creates a EHCI adapter with companion UHCI
+# controllers as multifunction device in PCI slot "1d".
+#
+# Specify "bus=ehci.0" when creating usb devices to hook them up
+# there.
+#
+
+[device "ehci"]
+  driver = "ich9-usb-ehci1"
+  addr = "1d.7"
+  multifunction = "on"
+
+[device "uhci-1"]
+  driver = "ich9-usb-uhci1"
+  addr = "1d.0"
+  multifunction = "on"
+  masterbus = "ehci.0"
+  firstport = "0"
+
+[device "uhci-2"]
+  driver = "ich9-usb-uhci2"
+  addr = "1d.1"
+  multifunction = "on"
+  masterbus = "ehci.0"
+  firstport = "2"
+
+[device "uhci-3"]
+  driver = "ich9-usb-uhci3"
+  addr = "1d.2"
+  multifunction = "on"
+  masterbus = "ehci.0"
+  firstport = "4"</pre>
+                  </div>
+                  <div><span style="font-family: Arial, sans-serif; font-size: 15px; line-height: 21px;"><br></span></div>
+                  <div><span style="font-family: Arial, sans-serif; font-size: 15px; line-height: 21px;">2. 启动虚拟机的时候，在QEMU启动选项里加入下面的选项就开启了USB重定向功能</span></div>
+                  <div style="background:#eee; border:1px solid #ccc; padding:5px 10px;">
+                     <pre>-readconfig /etc/qemu/ich9-ehci-uhci.cfg \
+-chardev spicevmc,name=usbredir,id=usbredirchardev1 \
+-device usb-redir,chardev=usbredirchardev1,id=usbredirdev1,debug=3 \
+-chardev spicevmc,name=usbredir,id=usbredirchardev2 \
+-device usb-redir,chardev=usbredirchardev2,id=usbredirdev2,debug=3 \
+-chardev spicevmc,name=usbredir,id=usbredirchardev3 \
+-device usb-redir,chardev=usbredirchardev3,id=usbredirdev3,debug=3 \</pre>
+                  </div>
+                  <div><span style="font-family: Arial, sans-serif; font-size: 15px; line-height: 21px;"><br></span></div>
+                  <div><span style="font-family: Arial, sans-serif; font-size: 15px; line-height: 21px;">3. linux下的spicec客户端只是个命令工具，不能选择需要重定向的USB设备，spicy可以，用yum就能安装spicy。</span></div>
+                  <div id="spice7"><span style="line-height: 20px; font-size: small;"><b><br></b></span></div>
+                  <div id="spice7"><span style="line-height: 20px; font-size: small;"><b><br></b></span></div>
+                  <div id="spice7"><span style="line-height: 20px; font-size: small;"><b>1.7 SPICE使用OpenSSL</b></span></div>
+                  <div><font size="2"><span style="line-height: 20px;">&nbsp; OpenSSL是为网络通信提供安全及数据完整性的一种安全协议，保证了SPICE在client和server间通信时的数据安全，同时可以防止客户机的恶意伪造。按照下面的简要步骤，就可以使用它的防伪造功能了，但需要补充点非对称加密，数字证书方面的知识。</span></font></div>
+                  <div><font size="2"><span style="line-height: 20px;">1. 按照</span></font><a target="_blank" rel="nofollow" href="https://github.com/songtianyi/scripts/blob/master/gen-key.sh">该脚本</a>&nbsp;生成密钥和证书</div>
+                  <div>2. 将生成的<i>ca-cert.pem</i>拷贝到指定位置，如果使用windows下的client来连接客户机，就拷贝到&nbsp;<i>%APPDATA%\spicec\spice_truststore.pem </i>,如果使用linux下的client就拷贝到&nbsp;<i>~/.spice/spice_truststore.pem&nbsp;</i></div>
+                  <div>3. 在QEMU启动参数的-spice选项中加入TLS端口和证书路径即可。</div>
+                  <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">-spice tls-port=5931,x509-dir=/home/usr1/pki/</div>
+                  <div>4. 使用客户端连接，$SUBJECT 为步骤1中脚本输出的 --host=subject 内容</div>
+                  <div style="background:#eee; border:1px solid #ccc; padding:5px 10px;">
+                     <pre>spicec -h host -p 5930 -s 5931 --host-subject "$SUBJECT"</pre>
+                  </div>
+                  <div><font size="4"><span style="line-height: 28px;"><b><br></b></span></font></div>
+                  <div><font size="4"><span style="line-height: 28px;"><b><br></b></span></font></div>
+                  <div><font size="4"><span style="line-height: 28px;"><b><br></b></span></font></div>
+                  <div id="rfb"><font size="4"><b>2 RFB</b></font></div>
+                  <div>&nbsp; RFB（Remote Frame Buffer 远程帧缓冲）协议是一个用于远程访问图形用户界面的简单协议。由于RFB协议工作在帧缓冲层，因此它适用于所有的窗口系统和应用程序，如X11、Windows 3.1/95/NT和Macintosh等。RFB是将远端的客户机系统的显示作为一帧一帧的图像来处理，因此在网络环境差的情况下 体验较差。尤其是鼠标不能同步，而且较占带宽，<span style="line-height: 22px;">VNC是基于RFB协议开发的远程操作软件，由于其开源且实现较为简单，因此应用也很广泛，大多数远程桌面产品都支持VNC。VNC先天不足，其功能也较少，于是不同版本的VNC出现，试图解决一些功能问题，比如linux下的TigerVNC强调对带宽的节省，商业版的realvnc支持了加密 文件传输等功能，realvnc支持的平台也较多。</span></div>
+               </div>
+            </div>
+            <div><span style="line-height: 22px;"><br></span></div>
+            <div><span style="line-height: 22px;"><br></span></div>
+            <div><span style="line-height: 22px;"><br></span></div>
+            <div id="ica"><span style="line-height: 22px;"><font size="4"><b>3 ICA/HDX</b></font></span></div>
+            <div><span style="font-family: arial, 宋体, sans-serif; line-height: 24px; text-align: -webkit-auto; text-indent: 30px;">&nbsp; Citrix Independent Computing Architecture （ ICA ）应该是目前最成熟的虚拟桌面协议, 思杰十几年的耕耘使其难以在短时间内被完全超越。ICA除了功能齐全（支持windows areo）之外，还有广泛的移动端支持。ICA的网络协议无关性，使其可以支持T</span><span style="font-family: arial, 宋体, sans-serif; line-height: 24px; text-align: -webkit-auto; text-indent: 30px;">CP/IP 、 NetBIOS 和 IPX/SPX</span><span style="font-family: arial, 宋体, sans-serif; line-height: 24px; text-align: -webkit-auto; text-indent: 30px;">&nbsp;。ICA不仅支持自家的虚拟化平台XenServer，还支持vSphere和Hyper-V。性能上比较突出的特点是较低的带宽占用，在网络环境差（延迟高）的情况下也能正常使用, 图1是 VMware view 和XenDesktop之间的网络带宽占用对比表</span><span style="font-family: arial, 宋体, sans-serif; line-height: 24px; text-align: -webkit-auto; text-indent: 30px;">。</span></div>
+            <div><span style="font-family: arial, 宋体, sans-serif; line-height: 24px; text-align: -webkit-auto; text-indent: 30px;"><br></span></div>
+            <div>
+               <div style="text-align: center;"><img title="虚拟桌面协议 - songtianyi - songtianyi" alt="虚拟桌面协议 - songtianyi - songtianyi" style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 10px; float: none;" src="../../images/004-vdi-01.png"></div>
+               <div style="text-align: center;">图1 VMware View和 XenDesktop 网络带宽占用对比<sup>[7]</sup></div>
+               &nbsp; &nbsp;
+            </div>
+            <div>HDX（<span style="font-family: Calibri, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 19px; text-align: -webkit-auto;">High Definition Experience</span>）作为ICA的增强版，着力于改善用户体验，包括音视频，多媒体和3D，HDX支持H.264.</div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div id="rdp">
+               <div style="line-height: 22px;"><span style="line-height: 24px; font-family: arial, 宋体, sans-serif; text-align: -webkit-auto; text-indent: 30px;"><b><font size="4">4 RDP/RemoteFX</font></b></span></div>
+               <div style="line-height: 22px;"><span style="line-height: 24px; font-family: arial, 宋体, sans-serif; text-align: -webkit-auto; text-indent: 30px;">&nbsp; RDP（Remote Desktop Protocol）是微软的远程桌面协议，据说也是由思杰开发，支持的功能较少，且主要应用在windows环境中，现在也有</span><a style="line-height: 22px; " target="_blank" rel="nofollow" href="http://www.microsoft.com/mac/remote-desktop-client">Mac下的RDP客户端</a>和linux下的RDP客户端<a style="line-height: 22px; " target="_blank" rel="nofollow" href="http://www.rdesktop.org/">rdesktop</a>. 历经多个版本的开发，RDP最新版也支持了打印机重定向，音频重定向，剪贴板共享等功能。</div>
+               <div style="line-height: 22px;">&nbsp; 和HDX类似，RemoteFX也是RDP的增强版，提供了vGPU,视频支持，多点触摸，USB重定向等功能。&nbsp;</div>
+            </div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div id="pcoip"><font size="4"><b>5 PCoIP</b></font><br>&nbsp; PCoIP最初由加拿大公司Teradici开发，早期定位于高端图形设计，2008年VMware宣布与Teradici共同开发PCoIP，以改进自己的VDI解决方案VMware View。<br></div>
+            <div id="pcoip"><br></div>
+            <div id="pcoip1">
+               <b>5.1 PCoIP的特点</b><br>
+               <ul>
+                  <li>和硬件结合紧密，数据的编码和解码，图形的处理可以通过专门的硬件来完成，让CPU有精力来做其他的事情，也有专门集成了PCoIP显示芯片的显示器</li>
+                  <li>PCoIP是基于UDP协议的，UDP传输不可靠，但是UDP没有TCP的三次握手 复杂的校验和数据恢复，传输速度快，适合多媒体的传输</li>
+                  <li>和SPICE ICA不同，PCoIP在主机上做渲染，终端只负责解码，减少了一些传输量，是专门为瘦终端而设计。</li>
+               </ul>
+               <div><br></div>
+               <div><br></div>
+               <div><br></div>
+               <div><b><font size="4">6 其它协议</font></b></div>
+               <div><br></div>
+               <div id="other1"><b>6.1 THINC</b></div>
+               <div>&nbsp;&nbsp;<a target="_blank" rel="nofollow" href="http://systems.cs.columbia.edu/projects/thinc/">THINC</a>（Thin-Client Internet Computing）是哥伦比亚大学的一个研究项目，不太成熟，只找到一篇论文，可以拿来做学习研究用。</div>
+               <div><b><br></b></div>
+               <div id="other2"><b>6.2 X11</b></div>
+               <div>&nbsp;&nbsp;<a target="_blank" rel="nofollow" href="http://en.wikipedia.org/wiki/X_Window_System">X windows system</a>&nbsp;最初设计的时候就是client server的架构方式，因此也能远程访问主机的桌面。</div>
+               <div><br></div>
+               <div id="other3"><b>6.3 ALP</b></div>
+               <div>&nbsp; Sun公司在1999年就推出了一款瘦终端产品Sun Ray，其采用的协议为Sun公司开发的ALP（Appliance Link Protocol），VMware view也支持该协议，不过最近Oracle宣布终止Sun Ray的开发。</div><div><br></div><div id="other4"><b>6.4 EOP</b></div><div>&nbsp; EOP(<span style="font-family: Calibri, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 19px; text-align: -webkit-auto;">Experience Optimization Protocol</span>)协议是Quest Software的VDI协议，用在其自家的VDI产品vWorkspace（<a target="_blank" rel="nofollow" href="http://www.brianmadden.com/blogs/brianmadden/archive/2007/11/12/quest-software-buys-provision-networks-finally-a-real-challenger-to-citrix-in-the-app-delivery-space.aspx">收购了Provision-Networks</a>）中，Quest没有自己的hypervisor，所以vWorkspace支持Citrix VMware 微软等的hypervisor。Quest Software已经被DELL收购。</div><div><br></div><div id="other5"><b>6.5 CHP</b></div><div style="text-align: left;">&nbsp; 最后隆重地向大家介绍，宇宙无敌最强协议，直接把ICA RDP PCoIP虐出xiang的国产CHP，不说了 上图。</div><div style="text-align: left;"><br></div><div style="text-align: center;"><img title="虚拟桌面协议 - songtianyi - songtianyi" alt="虚拟桌面协议 - songtianyi - songtianyi" style="margin:0 10px 0 0;" src="../../images/004-vdi-03.png"></div><div style="text-align: center;"><span style="font-family: Arial, Helvetica, simsun, u5b8bu4f53; line-height: 25px;">图2 CHP vs ICA</span><sup style="line-height: 21px; font-family: Arial, Helvetica, simsun, u5b8bu4f53;">[8]</sup></div>&nbsp;<div><br></div>
+               <div><br></div>
+               <div><br></div>
+               <div><br></div>
+               <div id="compare"><font size="4"><b>7 协议对比</b></font></div>
+               <div id="compare"><span style="line-height: 28px;"><b><font size="2"><br></font></b></span></div>
+               <div id="compare1"><span style="line-height: 28px;"><b><font size="2">7.1 对比视频</font></b></span></div>
+               <div>Youtube上的一些对比视频，不可全信，仅作参考。</div>
+               <div>
+                  <ul>
+                     <li><a target="_blank" rel="nofollow" href="http://www.youtube.com/watch?v=ijtdFQGhyqA">PCoIP vs. ICA on iPad</a></li>
+                     <li><a target="_blank" rel="nofollow" href="http://www.youtube.com/watch?v=bIHrO6tUFcM">Proof of Concept XenDesktop vs VMware View</a></li>
+                     <li><a target="_blank" rel="nofollow" href="http://www.youtube.com/watch?v=SuKgWCYLYmU">Citrix XenDesktop 5.5 vs. VMware View 5.0</a></li>
+                  </ul>
+               </div>
+            </div>
+            <div><span style="line-height: 22px;"><br></span></div>
+            <div><span style="line-height: 22px;"><br></span></div>
+            <div id="reference"><font size="4"><b>8 参考资料</b></font></div>
+            <div>[1] VNC [OL].&nbsp;<a rel="nofollow" href="http://zh.wikipedia.org/zh-cn/VNC">http://zh.wikipedia.org/zh-cn/VNC</a></div>
+            <div>[2] Copy and Paste&nbsp;<span style="line-height: 22px;">[OL].&nbsp;</span><a rel="nofollow" href="http://www.linux-kvm.org/page/SPICE">http://www.linux-kvm.org/page/SPICE</a></div>
+            <div>[3]&nbsp;Enabling support for usb redirection&nbsp;<span style="line-height: 22px;">[OL].&nbsp;</span><a rel="nofollow" href="http://hansdegoede.livejournal.com/11686.html">http://hansdegoede.livejournal.com/11686.html</a></div>
+            <div>[4] OpenSSL Doc&nbsp;<span style="line-height: 22px;">[OL].&nbsp;</span><a target="_blank" rel="nofollow" href="http://www.openssl.org/docs/apps/openssl.html">http://www.openssl.org/docs/apps/openssl.html</a></div>
+            <div>[5] CA的定义和作用&nbsp;<span style="line-height: 22px;">[OL].&nbsp;</span><a target="_blank" rel="nofollow" href="http://www.qqread.com/sys-soft/p197781.html">http://www.qqread.com/sys-soft/p197781.html</a></div>
+            <div>[6] SSL Connection [OL].&nbsp;<a target="_blank" rel="nofollow" href="http://spice-space.org/page/SSLConnection">http://spice-space.org/page/SSLConnection</a></div>
+            <div>[7] 陈军. 云计算之初探 — — 桌面云[J]. 《冶金自动化》，2012.</div><div>[8] CHP [OL].&nbsp;<a rel="nofollow" href="http://www.3tcloud.com/article.php?id=123">http://www.3tcloud.com/article.php?id=123</a></div>
+            <div><br></div>
+            <div><br></div>
+         </div>
+      </div>
+      <font face="monospace"><br></font><br>
+   </div>
+   <br>
+</div>

@@ -1,0 +1,130 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<header style="padding-bottom:50">
+<ul>
+	<li style="padding-right:20px;float:left;"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style> 
+body{ background-color:#e0eaee; }
+	div{
+		font-size:11pt;
+	}
+	p{ text-indent:2em; } blockquote { background:#f9f9f9; border-lef26 t:10px solid darkblue; } blockquote p { display:inline; } </style>
+
+
+
+<div>
+
+	
+	<h2 style="text-align:center;">如何写出好看的博文</h2>
+	<h5 style="text-align:right;">update@2013-07-30</h5>
+
+
+
+	
+	<p>
+	程序员大部分都有写博文的习惯，所用的博客系统也各不相同，有用门户网站的（比如网易博客），有用csdn的，也有很多自己搭wordpress的。门户网站的博客渐渐往轻博客方向发展，编辑器的功能也弱化了，一张图加上几段文字就搞定，但是科技博客有图表文字，代码，公式等，排版相对复杂一些。我也是偶尔写写博客，最近这两天整理了下这方面的东西，分享给大家。
+	</p>
+
+
+
+	<p><br></p>
+	
+	<div style="width:300px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
+		<ol>
+			<li><a style="text-decoration:none" rel="nofollow" href="#word">使用word工具</a></li>
+			<li><a style="text-decoration:none" rel="nofollow" href="#editor">使用博客编辑器</a></li>
+			<li><a style="text-decoration:none" rel="nofollow" href="#diy">纯手动</a></li>
+			<li><a style="text-decoration:none" rel="nofollow" href="#example">HTML模板示例</a></li>
+				<ul>
+					<li><a style="text-decoration:none" rel="nofollow" href="#example1">图片示例</a></li>
+					<li><a style="text-decoration:none" rel="nofollow" href="#example2">代码示例</a></li>
+					<li><a style="text-decoration:none" rel="nofollow" href="#example3">引用示例</a></li>
+					<li><a style="text-decoration:none" rel="nofollow" href="#example4">图表示例</a></li>
+				</ul>
+			<li><a style="text-decoration:none" rel="nofollow" href="#reference">参考资料</a></li>
+		</ol>
+	</div>
+	<p><br></p>
+
+
+	<h2 id="word">1 使用word工具</h2>
+	<p>
+	对于不会编程的人来说，word应该是最简单的能够应对复杂排版的工具了，如果你平时很少写需要博文，可以使用它，但是经常用的话，头会很大。我们都有过改毕业论文格式的痛苦经历，修改一个地方，其它地方的格式也乱了，而且几十页的论文容易遗漏，除非把稿定好，最后统一排格式，排完格式不再修改。经常写论文的人一般用Latex，很多学校都会提供Latex版本的论文模板，不过你需要花些时间学习Latex的语法。
+	</p>
+	<p>
+	编辑器都提供了粘贴word文档的功能，但是word的排版相对复杂一些，直接粘贴过去格式必定会有些变化，可能表格串了，标题的格式丢了，只剩下个基本的文字框架。所以我觉得经常排版的人是不会使用word的。
+	</p>
+	
+
+
+	<h2 id="editor">2 使用博客编辑器</h2>
+	<p>
+	现在博客繁多，但是它们的编辑器往往缺胳膊少腿，让你哭笑不得，比如网易博客和新浪博客的编辑器没有上标和下标（虽然可以自己用html添加），wordpress默认的编辑器功能也很少，目前我见过的最好的编辑器是<a rel="nofollow" href="http://ckeditor.com/demo">CKEditor</a>，但是CKEditor竟然没有居中，总之没遇到过特别好用的编辑器，虽然有markdown来代替，但是对markdown的支持并不广泛，只有比较开放且流行的产品才支持markdown，比如github，wordpress等。有个比较笨的方法是各个编辑器组合着用，把生成的html代码组合起来就差不多了，编辑器没有的样式可以用一些辅助工具来生成，比如<a rel="nofollow" href="http://fayaa.com/">发芽网</a>的代码高亮，linux下的高亮工具<a rel="nofollow" href="http://www.gnu.org/software/src-highlite/">source-highlight</a>，highlight或者自己手动去添加样式。
+	</p>
+	<p>
+	如果编辑器或者工具生成的html代码比较乱，可以用<a rel="nofollow" href="http://www.freeformatter.com/html-formatter.html">html格式化工具</a>格式化一下，这样看起来比较清晰，也许你还需要一个<a rel="nofollow" href="http://htmledit.squarefree.com/">html编辑器</a>以实时显示你的修改。
+	</p>
+	<p>
+	最后就是找一个对html支持比较好的地方发表自己的博文了。有时候你想把自己的博文以pdf的形式分享出去，那就把html代码转换一下吧，<a rel="nofollow" href="http://pdfcrowd.com/">pdfcrowd</a>效果还行，不过它不是免费的，因此添加了版权信息，图片也会被切割。<a rel="nofollow" href="https://code.google.com/p/wkhtmltopdf/">wkhtmltopdf</a>是个非常好的开源转换工具，可以将html转换成pdf或者图片。
+	</p>
+
+
+
+
+	<h2 id="diy">3 纯手动</h2>
+	<p>
+	如果你经常写博客，又追求美观的排版，那就纯手动DIY吧，总结一个固定的模板，写起文章来比word或者博客编辑器快多了,而且在不同的博客系统里能保持一致。如果是写网页博客的话，就用html，同时也可以转成pdf和图片，如果只需要pdf的话，建议使用Latex，比较美观，支持数学公式。这篇文章就是用vim纯手动完成的，作为以后的博文模板，对我来说已经够用，不想再花精力调样式和排版了，文件放在了<a rel="nofollow" href="https://github.com/songtianyi/scripts/blob/master/blog-template.html">github上</a>
+	</p>
+	<p>
+	公式怎么办？可以参照<a rel="nofollow" href="http://www.qiujingyu.com/insert-math-formula-into-web-page.html#more-847">这里</a>的方式，但是门户网站的博客系统不支持javas<wbr>cript，如果你用的是wordpress或者只需要pdf格式（wkhtmltopdf支持javas<wbr>cript，注意用--javas<wbr>cript-delay选项来调整js的加载时间）可以用他的方法。除了使用js，目前没有更好的方法用html显示公式，图片是个替代方案，<a rel="nofollow" href="http://frog.isima.fr/bruno/share/tex2png/">Tex2PNG</a>可以将Latex数学公式转换成图片，可以用<a href="http://zh.numberempire.com/texequationeditor/equationeditor.php">latex公式编辑器</a>来生成latex代码，很方便。
+	</p>
+
+	
+
+
+	<h2 id="example">4 HTML模板示例</h2>
+
+	<h4 id="example1">4.1 图片示例</h4>
+	<div style="text-align:center;">
+	<img title="如何写出好看的博文 - songtianyi - songtianyi" alt="如何写出好看的博文 - songtianyi - songtianyi" src="../../images/004-other-02.png">
+	<p>图1 VMware View和 XenDesktop 网络带宽占用对比<sup>[1]</sup></p>
+	</div>
+
+	<h4 id="example2">4.2 代码示例</h4>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre><i><font color="#9A1900">/*************************************************************************</font></i>
+<i><font color="#9A1900">	&gt; File Name: test.c</font></i>
+<i><font color="#9A1900">	&gt; Created Time: Mon 29 Jul 2013 06:56:07 PM CST</font></i>
+<i><font color="#9A1900"> ************************************************************************/</font></i>
+
+<b><font color="#000080">#include</font></b><font color="#FF0000">&lt;stdio.h&gt;</font>
+<font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()</font>
+<font color="#FF0000">{</font>
+	<b><font color="#000000">printf</font></b><font color="#990000">(</font><font color="#FF0000">"Hello World!"</font><font color="#990000">);</font>
+	<b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#FF0000">}</font>
+	</pre>
+	</div>
+
+	<h4 id="example3">4.3 引用示例</h4>
+	<blockquote>
+		<p><em>On<wbr>e small step for a man, on<wbr>e giant leap for mankind.</em></p>
+<p><em>On<wbr>e small step for a man, on<wbr>e giant leap for mankind.</em></p>
+<p><em>On<wbr>e small step for a man, on<wbr>e giant leap for mankind.</em></p>
+	</blockquote>
+
+
+	<h4 id="example4">4.4 图表示例</h4>
+	<p>
+	有时候免不了在自己的博文里插入一些图表，好的图表工具免不了用JS，只好用图片来代替了。<a rel="nofollow" href="http://www.onlinecharttool.com/graph">charttool</a>，能够在线生成你想要的图表，不过不支持中文。
+	</p>
+	<div style="text-align:center;">
+	<img title="如何写出好看的博文 - songtianyi - songtianyi" alt="如何写出好看的博文 - songtianyi - songtianyi" src="../../images/004-other-01.png">
+	<p>图2 图表示例</p>
+	</div>
+	<h2 id="reference">5 参考资料</h2>
+	<div>[1]陈军.云计算之初探--桌面云[J].《冶金自动化》，2012</div>
+
+</div>

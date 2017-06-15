@@ -1,0 +1,171 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+
+
+
+<div>
+
+	
+	<h2 style="text-align:center;">GTK初探</h2>
+	<h5 style="text-align:right;">update@2013-07-31</h5>
+
+
+
+	
+	<p>
+	最近需要用gtk做点东西，所以就开始学习GTK了，以前学过一点QT，也用QT在windows下做过一个<a rel="nofollow" href="https://github.com/songtianyi/MotionPlayer">骨骼动画播放程序</a>，所以入门还算轻松。和QT比起来GTK更底层，相当与QT的back-end，详细的对比见<a rel="nofollow" href="http://www.wikivs.com/wiki/GTK_vs_Qt">这里</a>。
+	</p>
+
+
+
+	<p><br></p>
+	
+	<div style="width:300px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
+		<ol>
+			<li><a style="text-decoration:none" rel="nofollow" href="#install">安装GTK开发包</a></li>
+			<li><a style="text-decoration:none" rel="nofollow" href="#first">第一个GTk程序</a></li>
+			<li><a style="text-decoration:none" rel="nofollow" href="#reference">参考资料</a></li>
+		</ol>
+	</div>
+	<p><br></p>
+
+
+	<h2>1 安装GTK开发包</h2>
+	<p>
+	本人是在fedora下做开发，直接用yum安装。你也可以参照<a rel="nofollow" href="https://developer.gnome.org/gtk3/stable/gtk-building.html">这个页面</a>来自己编译安装
+	</p><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre> $yum install gtk3-devel </pre>
+	</div>
+	<p></p>
+
+
+	<h2>2 第一个GTK程序</h2>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>/*************************************************************************
+	&gt; File Name: gtk-test.cpp
+	&gt; Author: songtianyi 
+	&gt; Mail: songtianyi@163.com 
+	&gt; Created Time: Tue 30 Jul 2013 03:17:19 PM CST
+ ************************************************************************/
+
+
+static void print_hello ()
+{
+	  g_print ("Hello World\n");
+}
+
+static gboolean on_delete_event () 
+{
+	g_print("delete event occurred\n");
+	return FALSE;
+}
+
+int main(int argc,char *argv[])
+{
+	/*widget 变量*/
+	GtkWidget *window;
+
+
+	/*所有的GTK程序都需要调用的函数，它会解析main函数得到的参数 以便对GTK程序
+	进行一些控制， 识别不了的参数会返回给main函数*/
+
+	gtk_init(&argc,&argv);
+
+
+	/*新建一个顶级窗口并设置Title*/
+
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window), "第一个GTK程序");
+
+
+	/*当点击windows右上角的关闭时，窗口会发出"delete-event"的信号，将这个信号
+	捕捉并交给之前定义的on_delete_event函数处理，这样我们就可以在窗口关闭之前
+	做些想做的工作。在这里称on_delete_event为delete_event的回调函数。
+	相当于QT的信号和槽（signal-slot）机制*/
+
+    	g_signal_connect (window, "delete-event", G_CALLBACK (on_delete_event), NULL);               
+
+
+	/*和上一个函数类似，将gtk_main_quit函数作为destroy信号的回调函数。当调用
+	gtk_widget_destroy函数或者delete_event的回调函数返回FALSE的时候，destroy信号
+	会发出*/
+
+	g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+
+
+	/*设置windows边框大小*/	
+	gtk_container_set_border_width(GTK_CONTAINER(window),10);
+
+	
+	/*新建一个按钮，按钮上显示的内容为"print hello world"*/
+	GtkWidget *button = gtk_button_new_with_label("print hello world");
+
+	g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+
+
+	/*将按钮放进窗口*/
+	gtk_container_add(GTK_CONTAINER(window),button);
+
+
+	/*显示按钮*/
+	gtk_widget_show(button);
+
+
+	/*显示窗口*/	
+	gtk_widget_show (window);
+
+
+	/*进入事件循环*/
+	gtk_main ();
+
+	/*事件结束*/
+	printf("The end of GTK application !");
+
+	return 0;
+}
+</pre>
+	</div>
+
+	
+	<p>
+	控件和消息机制，GUI程序最基本的两个要素都有了。编辑好源程序之后，用下面的命令来编译和运行，或者参照<a rel="nofollow" href="https://developer.gnome.org/gtk3/stable/gtk-compiling.html">Compiling GTK+ Applications</a>。
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre> $gcc `pkg-config --cflags --libs gtk+-3.0` gtk-test.cpp 
+ $./a.out </pre>
+	</div>
+	
+	<p><br></p>
+	<div style="text-align:center;">
+	<img title="2013年07月31日 - songtianyi - songtianyi" alt="2013年07月31日 - songtianyi - songtianyi" src="../../images/005-vdi-01.png">
+	<p>图1 第一个GTK程序</p>
+	</div>
+
+
+	<h2>3 参考资料</h2>
+	<div>[1]GTK+3 Reference Manual [OL]. <a rel="nofollow" href="https://developer.gnome.org/gtk3/stable/">https://developer.gnome.org/gtk3/stable/</a></div>
+
+</div>

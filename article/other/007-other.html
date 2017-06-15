@@ -1,0 +1,379 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		margin-left:0px;
+		background:#f9f9f9;
+		border-left:5px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center;padding-top:20px">
+	<img  src="">
+	<p>图 </p>
+</div>
+	
+<sup>sup>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+</div>
+
+-->
+
+
+<div>
+
+	<!--博文标题和作者信息-->
+	<h2 style="text-align:center">shell用法总结</h2>
+	<h5 style="text-align:right">updating</h5>
+
+
+
+	<!--第一段，介绍文章的内容-->
+	<p>
+	总结一下，方便用的时候copy。不一定全，但都是自己用过的。
+	</p>
+
+
+
+	<p><br/></p>
+	<!--目录-->
+	<div style="width:300px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
+		<ol>
+			<li><a style="text-decoration:none" href="#other">杂七杂八</a></li>
+			<li><a style="text-decoration:none" href="#awk">awk命令</a></li>
+			<li><a style="text-decoration:none" href="#sed">sed命令</a></li>
+			<li><a style="text-decoration:none" href="#reference">参考资料</a></li>
+		</ol>
+	</div>
+	<p><br/></p>
+
+
+	<h2 id="other">1 杂七杂八</h2>
+<blockquote><p> 我一般用这个来检测nohup.out文件是否有错误.</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	grep -i -E -w '(exception|fail.*|error|bug|404)'  --color=auto
+</div>
+	<blockquote><p>shell中的数学运算方式</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>1. c =`echo "$a+$b"| bc`
+2. echo "$[1*10]"
+3. echo "$[34/10]"
+4. result=$(($value_a - $value_b))
+</pre>
+</div>
+	<blockquote><p>判断文件后缀</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+    file=test.cpp
+    if [ "${file##*.}" = "h" ];then
+            echo for .h file
+
+        elif [ "${file##*.}" = "cpp" ];then
+            echo for .cpp file
+    fi  
+</pre>
+</div>
+	<blockquote><p>for循环和索引</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+    count=0
+    for value in ${array[@]}
+    do
+        count=`expr $count + 1`
+    done
+</pre>
+</div>
+
+	<blockquote><p>获取CPU型号</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq | awk -F @ '{print $1}' | sed 's/^ *//
+</pre>
+</div>
+
+	<blockquote><p>获取CPU频率</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq | awk -F @ '{print $2}' | sed 's/^ *//'
+</pre>
+</div>
+
+	<blockquote><p>物理CPU和core数</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+echo $(($(cat /proc/cpuinfo | grep physical\ id | awk '{print $4}' | tail -1) + 1)) #物理CPU个数
+echo $(($(cat /proc/cpuinfo | grep processor | awk '{print $3}' | tail -1) + 1)) #core数
+</pre>
+</div>
+
+
+	<blockquote><p>while循环,注意while循环里的有些语句会吞掉文件的内容</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+    exec 3 < value.txt
+    while read line <&3
+    do
+        echo $line
+    done
+</pre>
+</div>
+
+	<blockquote><p>case语句示例</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+case $value in
+test1)
+    echo test1;;
+test2)
+    echo test2;;
+*)
+    echo default;;
+</pre>
+</div>
+
+	<blockquote><p>数组长度</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+echo ${#array[*]}
+</pre>
+</div>
+
+	<blockquote><p>大小写转换</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+echo TEST | tr "[:upper:]" "[:lower:]" #将大写转成小写
+echo test | tr "[:lower:]" "[:upper:]"  #将小写转成大写
+</pre>
+</div>
+
+	<blockquote><p>date获取多天(分钟，年)前的时间</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+date -d "5 days ago" "+%Y-%m-%d %H:%M:%S" #五天以前
+date -d "5 minutes ago" "+%Y-%m-%d %H:%M:%S" #五分钟以前
+date -d "5 years ago" "+%Y-%m-%d %H:%M:%S" #五年以前
+</pre>
+</div>
+
+	<blockquote><p>date获取当前时间的unix时间戳</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+date '+%s'
+</pre>
+</div>
+
+	<blockquote><p>将变量值作为变量名</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+array=(UVMBJ UVMJH)
+for i in ${array[*]}
+do  
+    eval echo \${$i}
+done
+</pre>
+</div>
+
+
+	<h2 id="awk">2 awk命令</h2>
+	<blockquote><p>awk中的遍历和match函数</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+    awk '{
+        for (i = 1; i <= NF; i++) 
+            if (match($i,/obj=[0-9]/)) 
+                printf("%s\n",$i);
+            else 
+                printf("%s ",$i)
+    }' value.txt
+</pre>
+</div>
+
+	<blockquote><p>处理指定的行(例子中是第三行)</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+awk 'NR==3 {print $1}' value.txt
+</pre>
+</div>
+
+	<blockquote><p>一个包括开始和结束的常用awk程序,可以将awk中的变量导出到shell</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+    value= eval $(
+      awk 'BEGIN {
+             print "begin"
+             awk_value1=0
+             awk_value2=0
+          }
+          {
+          for(i=1;i<=NF;i++){
+              awk_value1++;
+              awk_value2++;
+          }
+          }
+          END{
+              printf("va0=%d;va1=%d", awk_value1, awk_value2);
+          }
+          ' $file 
+     )
+     sum=`echo "$va0+$va1"|bc`
+</pre>
+</div>
+
+	<blockquote><p>删除字符串中的下划线，并将首字母换成大写</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+RemoveUnderscore(){
+    local name=$1; shift 1                                                                                                                            
+    echo $name | awk -F _ '{
+        for(i=1;i<=NF;i++){
+            printf("%s%s",toupper(substr($i,0,1)),substr($i,2,length($i)-1));
+        }}'
+}
+
+</pre>
+</div>
+
+	<blockquote><p>查看连接数等</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>netstat -an | awk '/^tcp/ {++s[$NF]} END {for(a in s) print a, s[a]}'
+</pre>
+</div>
+
+
+	<h2 id="sed">3 sed命令</h2>
+
+	<blockquote><p>交换匹配的两行的内容</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+    $ cat value.txt 
+    LINE1
+    LINE2
+    $ sed -i '/LINE1/{h;d};/LINE2/{G}' value.txt
+    $ cat value.txt 
+    LINE2
+    LINE1
+</pre>
+</div>
+
+	<blockquote><p>去掉行首的空格和shift</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+sed -i 's/^[[:space:]]*//' value.txt
+</pre>
+</div>
+
+	<blockquote><p>去掉行尾的空格和shift</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+sed 's/[ \t]*$//g' value.txt
+</pre>
+</div>
+
+	<blockquote><p>在行首插入</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+sed 's/^/hello /g' value.txt
+</pre>
+</div>
+
+	<blockquote><p>在行尾插入</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+sed 's/$/ hello/g' value.txt
+</pre>
+</div>
+
+
+	<blockquote><p>按顺序合并所有行</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+    $ cat value.txt 
+    LINE1
+    LINE2
+    LINE3
+    $ sed -i ':a;N;s/\n//;ba;' value.txt
+    $ cat value.txt 
+    LINE1LINE2LINE3
+</pre>
+</div>
+
+	<blockquote><p>xml中的一个正则替换</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+sed 's/<id>[0-9]*<\/id>/<id>0000<\/id>/'
+</pre>
+</div>
+
+	<blockquote><p>删除匹配行的下一行</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+$ cat value.txt 
+LINE1
+LINE2
+$ sed '/LINE1/{n;d}' value.txt 
+LINE1
+
+</pre>
+</div>
+
+	<blockquote><p>在匹配行前插入一行</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+sed -i '/\/sbin\/service network restart/i  \/sbin\/service NetworkManager stop' value.txt
+</pre>
+</div>
+
+	<blockquote><p>在匹配行后插入一行</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+sed -i '/\/sbin\/service network restart/a  \/sbin\/service NetworkManager stop' value.txt
+</pre>
+</div>
+
+	<blockquote><p>在第一行前插入一行</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+sed -i '1 i\test test' value.txt
+</pre>
+</div>
+
+	<blockquote><p>注释匹配行</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+sed -i '/value/s/.*/#&/' value.txt #注释包含value单词的行
+</pre>
+</div>
+
+
+
+
+	<h2 id="reference"> 参考资料</h2>
+	<div></div>
+
+</div>
+

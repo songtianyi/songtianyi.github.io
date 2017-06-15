@@ -1,0 +1,54 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+	</div>
+		
+	<sup>sup>
+
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	</div>
+
+	-->
+
+
+	<div>
+
+		<!--博文标题和作者信息-->
+		<h2 style="text-align:center">Lenny's Lucky Lotto Lists-DP</h2>
+		<h5 style="text-align:right">update@2011-08-03</h5>
+
+	 <div style="background:#fdfdfd;color:black;"><br></div>     <div style="font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New'; color: rgb(0, 0, 0); background-color: rgb(249, 247, 237);"> <span style="color: rgb(0, 0, 128); font-weight: bold;">for</span>(<span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 255);">1</span>;<span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(0, 0, 0);">&lt;=</span> <span style="color: rgb(0, 0, 255);">2000</span>;<span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">++</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">j</span>;<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 255);">1</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">i</span>;<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">for</span>(<span style="color: rgb(0, 0, 0);">j</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 255);">2</span>;<span style="color: rgb(0, 0, 0);">j</span> <span style="color: rgb(0, 0, 0);">&lt;=</span> <span style="color: rgb(0, 0, 255);">10</span> <span style="color: rgb(0, 0, 0);">&amp;&amp;</span> ((<span style="color: rgb(0, 0, 255);">1</span><span style="color: rgb(0, 0, 0);">&lt;&lt;</span>(<span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">-</span><span style="color: rgb(0, 0, 255);">1</span>))) <span style="color: rgb(0, 0, 0);">&lt;=</span> <span style="color: rgb(0, 0, 0);">i</span>;<span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">++</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">k</span>;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-style: italic;">//dp[i][j] = dp[i&gt;&gt;1][j-1]</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 255);">0</span>;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">for</span>(<span style="color: rgb(0, 0, 0);">k</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">i</span>;(<span style="color: rgb(0, 0, 0);">k</span><span style="color: rgb(0, 0, 0);">&gt;&gt;</span><span style="color: rgb(0, 0, 255);">1</span>) <span style="color: rgb(0, 0, 0);">&gt;=</span> (<span style="color: rgb(0, 0, 255);">1</span><span style="color: rgb(0, 0, 0);">&lt;&lt;</span>(<span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">-</span><span style="color: rgb(0, 0, 255);">2</span>));<span style="color: rgb(0, 0, 0);">k</span><span style="color: rgb(0, 0, 0);">--</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-style: italic;">//dp[k&gt;&gt;1][j-1] + dp[(k-1)&gt;&gt;1][j-1]...... 这样相当于枚举了</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(0, 0, 0);">+=</span> <span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">k</span><span style="color: rgb(0, 0, 0);">&gt;&gt;</span><span style="color: rgb(0, 0, 255);">1</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">-</span><span style="color: rgb(0, 0, 255);">1</span><span style="color: rgb(0, 0, 0);">];</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">for</span>(;<span style="color: rgb(0, 0, 0);">j</span> <span style="color: rgb(0, 0, 0);">&lt;=</span> <span style="color: rgb(0, 0, 255);">10</span>;<span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">++</span>)<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 255);">0</span>;<br> <span style="color: rgb(0, 0, 0);">}</span><br></div><br><br>  <hr><br><p style="font-family:微软雅黑;">题目链接:<a rel="nofollow" href="http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemId=1402">Lenny's Lucky Lotto Lists</a><br>一道简单的DP题，先DP出所有的结果 然后直接输出。试了下10000的数据 要用3s，题目的数据只有2000 ，应该还有优化的空间</p>
+ </div>

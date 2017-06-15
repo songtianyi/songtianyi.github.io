@@ -1,0 +1,54 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:4px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+</div>
+	
+<sup>sup>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+</div>
+
+-->
+
+
+<div>
+
+	<!--博文标题和作者信息-->
+	<h2 style="text-align:center">lzw压缩算法</h2>
+	<h5 style="text-align:right">update@2011-11-10</h5>
+	只是自己对LZW的理解的小结，不是讲解<br><hr><br><br>LZW压缩过程<br>1.&nbsp;初始化字典(根据具体情况)<br>2.&nbsp;顺序读字符，把读的字符作为当前串的后缀(读第一个字符的时候直接作为前缀，因为它是单个字符)<br>3. 处理当前串<ul>	<li>如果当前串已经在字典中(已经被编码)，则把当前串的编码赋给当前串的前缀(转2)</li>	<li>如果当前串不在字典中则把当前串编码，并放入字典中，然后输出当前串的前缀并把后缀作为前缀(转2)</li></ul><br><br>CODE:<blockquote><div id="code-1"><div><ol><li><div>STRING = get input character</div></li>	<li><span style="line-height: 22px;">WHILE there are still input characters DO</span></li>	<li><span style="line-height: 22px;">&nbsp; &nbsp; CHARACTER = get input character</span></li><li><div>&nbsp; &nbsp; IF STRING+CHARACTER is in the string table then</div></li><li><div>&nbsp; &nbsp; &nbsp; &nbsp; STRING = STRING+character</div></li><li><div>&nbsp; &nbsp; ELSE</div></li><li><div>&nbsp; &nbsp; &nbsp; &nbsp; output the code for STRING</div></li><li><div>&nbsp; &nbsp; &nbsp; &nbsp; add STRING+CHARACTER to the string table</div></li><li><div>&nbsp; &nbsp; &nbsp; &nbsp; STRING = CHARACTER</div></li><li><div>&nbsp; &nbsp; END of IF</div></li><li><div>END of WHILE</div></li><li><div>output the code for STRING</div></li></ol></div></div></blockquote><div><br></div><br>LZW解压过程<br>1.&nbsp;初始化字典(和压缩过程保持一致)<br>2.&nbsp;顺序从压缩后的文件中读取编码后的值(如果是定长，每次读取固定位数的bit位；如果是变长，根据当前的编码长度读取一定位数的bit位)<br>3. 处理读到的编码值<ul>	<li>如果读到的编码值在字典中就直接输出对应的字符串，并把编码值所对应的 字符串的第一个字符作为当前串的后缀</li>	<li>如果读到的编码值不在字典中，我们总有方法找到它的第一个字符，比如&nbsp;256&nbsp;=&nbsp;（A,256）,那么码值256的第一个字符肯定是A了，所以同样把第一个字符作为当前串的后缀</li></ul>4.将当前串编码并放入字典<br>5.对于当前串的编码值<ul>	<li>&nbsp;如果读到的编码值和当前串的编码值相等就输出当前串，并将读到的编码值作为前缀(转2)</li>	</ul><br>CODE:<blockquote><div id="code-2"><div><ol><li><div>Read OLD_CODE</div></li><li><div>output OLD_CODE</div></li>	<li><span style="line-height: 22px;">WHILE there are still input characters DO</span></li><li><div>&nbsp; &nbsp; Read NEW_CODE</div></li><li><div>&nbsp; &nbsp; STRING = get translation of NEW_CODE</div></li><li><div>&nbsp; &nbsp; output STRING</div></li><li><div>&nbsp; &nbsp; CHARACTER = first character in STRING</div></li><li><div>&nbsp; &nbsp; add OLD_CODE + CHARACTER to the translation table</div></li><li><div>&nbsp; &nbsp; OLD_CODE = NEW_CODE</div></li><li><div>END of WHILE</div></li></ol></div></div></blockquote><br>特点<br>1.&nbsp;动态生成字典(可以用静态或者混用)&nbsp;，字典信息已经包含在压缩后的数据流中&nbsp;解压的时候可以重新构造出这个字典<br>2.&nbsp;编码长度根据具体情况确定, 可以采用定长或者变长 (关于变长：刚开始压缩的时候编码值较小，用较少的位数就可以表示，随着编码值越来越大，需要增加编码长度来表示更大的编码值)<br><br><br>影响LZW性能的几个因素<br>1)&nbsp;需要压缩的内容的冗余程度，重复的串的长度比较长，重复的次数比较多&nbsp;压缩比更高<br>2)&nbsp;字典的数据结构、查找算法(hash表,trie树等)
+
+

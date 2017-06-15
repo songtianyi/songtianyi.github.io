@@ -1,0 +1,53 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+	</div>
+		
+	<sup>sup>
+
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	</div>
+
+	-->
+
+
+	<div>
+
+		<!--博文标题和作者信息-->
+		<h2 style="text-align:center">S_nim-Sprague Grundy</h2>
+		<h5 style="text-align:right">update@2011-10-08</h5>
+		  <div style="background:#fdfdfd;color:black;"><u>C++语言</u>: <a rel="nofollow" href="http://fayaa.com/code/">高亮代码由发芽网提供</a></div><br>     <div style="font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New'; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);"> <span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> S<span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 208); font-weight: bold;">110</span><span style="color: rgb(0, 0, 0);">];</span><br> <span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">heap</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 208); font-weight: bold;">101</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 208); font-weight: bold;">100</span><span style="color: rgb(0, 0, 0);">];</span><br> <span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">sg</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 208); font-weight: bold;">10010</span><span style="color: rgb(0, 0, 0);">];</span><span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">k</span>;<br> <span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">minimum_excludant</span>(<span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(48, 48, 48);">*</span><span style="color: rgb(0, 0, 0);">temp</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">count</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">sort</span>(<span style="color: rgb(0, 0, 0);">temp</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 0);">temp</span><span style="color: rgb(48, 48, 48);">+</span><span style="color: rgb(0, 0, 0);">count</span>);<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">v</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 208); font-weight: bold;">0</span>;<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 128, 0); font-weight: bold;">for</span>(<span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 208); font-weight: bold;">0</span>;<span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(48, 48, 48);">&lt;</span> <span style="color: rgb(0, 0, 0);">count</span>;<span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(48, 48, 48);">++</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 128, 0); font-weight: bold;">if</span>(<span style="color: rgb(0, 0, 0);">temp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(48, 48, 48);">==</span> <span style="color: rgb(0, 0, 0);">v</span>) <span style="color: rgb(0, 0, 0);">v</span><span style="color: rgb(48, 48, 48);">++</span>;<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 128, 0); font-weight: bold;">return</span> <span style="color: rgb(0, 0, 0);">v</span>;<br> <span style="color: rgb(0, 0, 0);">}</span><br> <span style="color: rgb(48, 48, 144); font-weight: bold;">void</span> <span style="color: rgb(0, 0, 0);">getSG</span>(<span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">maxx</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 128, 0); font-weight: bold;">for</span>(<span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(48, 48, 48);">=</span> S<span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 208); font-weight: bold;">0</span><span style="color: rgb(0, 0, 0);">]</span><span style="color: rgb(48, 48, 48);">+</span><span style="color: rgb(0, 0, 208); font-weight: bold;">1</span>;<span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(48, 48, 48);">&lt;=</span> <span style="color: rgb(0, 0, 0);">maxx</span>;<span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(48, 48, 48);">++</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">temp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 208); font-weight: bold;">10010</span><span style="color: rgb(0, 0, 0);">],</span><span style="color: rgb(0, 0, 0);">count</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 208); font-weight: bold;">0</span>;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 128, 0); font-weight: bold;">for</span>(<span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">j</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 208); font-weight: bold;">0</span>;<span style="color: rgb(0, 0, 0);">j</span> <span style="color: rgb(48, 48, 48);">&lt;</span> <span style="color: rgb(0, 0, 0);">k</span> <span style="color: rgb(48, 48, 48);">&amp;&amp;</span> S<span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(48, 48, 48);">&lt;=</span> <span style="color: rgb(0, 0, 0);">i</span>;<span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(48, 48, 48);">++</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">temp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">count</span><span style="color: rgb(48, 48, 48);">++</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 0);">sg</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(48, 48, 48);">-</span> S<span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">]];</span><span style="color: rgb(128, 128, 128);">//比i小的S[j]都可以作为操</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">sg</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 0);">minimum_excludant</span>(<span style="color: rgb(0, 0, 0);">temp</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 0);">count</span>);<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> <span style="color: rgb(0, 0, 0);">}</span><br></div><br>  <br>链接：<a rel="nofollow" href="http://acm.hdu.edu.cn/showproblem.php?pid=1536">S-nim</a><br>水题，理解了Sprague-Grundy的定义就能YY出来了。
+	  </div>

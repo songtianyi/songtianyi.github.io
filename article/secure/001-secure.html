@@ -1,0 +1,258 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+</div>
+	
+<sup>sup>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+</div>
+
+-->
+
+
+<div>
+
+	<!--博文标题和作者信息-->
+	<h2 style="text-align:center">RSA加密算法的探究与实现</h2>
+	<h5 style="text-align:right">update@2012-05-24</h5>
+
+
+
+	<!--第一段，介绍文章的内容-->
+	<p>
+	从RSA加密算法诞生至今，公钥密码体制已经得到了很大的发展，如今常见的公钥加密算法有: RSA、ElGamal、背包算法、Rabin、Diffie-Hellman (D-H) 密钥交换协议中的公钥加密算法、椭圆曲线加密算法等，而且安全、效率方面也不逊于RSA。但是RSA原理简单、实现起来简便、安全性高，现在依然被广泛应用，所以学习和实现RSA加密算法是必要的，有益于我们深入学习和研究公钥密码体制和其它加密算法。本文简述了对称加密和非对称加密的优缺点，数字签名的原理，并实现了一个简单的RSA加密程序。
+	</p>
+
+
+
+	<p><br/></p>
+	<!--目录-->
+	<div style="width:300px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
+		<ol>
+			<li><a style="text-decoration:none" href="#asymmetric">非对称加密</a></li>
+			<li><a style="text-decoration:none" href="#symmetric">对称加密</a></li>
+			<li><a style="text-decoration:none" href="#rsa">RSA加密算法</a></li>
+				<ul>
+					<li><a style="text-decoration:none" href="#rsa1">公钥和密钥的产生</a></li>
+					<li><a style="text-decoration:none" href="#rsa2">加密消息</a></li>
+					<li><a style="text-decoration:none" href="#rsa3">解密消息</a></li>
+					<li><a style="text-decoration:none" href="#rsa4">算法正确性的证明</a></li>
+					<li><a style="text-decoration:none" href="#rsa5">RSA的安全性</a></li>
+					<li><a style="text-decoration:none" href="#rsa6"> 数字签名</a></li>
+					<li><a style="text-decoration:none" href="#rsa7">RSA Demo</a></li>
+				</ul>
+			<li><a style="text-decoration:none" href="#reference">参考资料</a></li>
+		</ol>
+	</div>
+	<p><br/></p>
+
+
+	<h2 id="asymmetric">1 非对称加密</h2>
+	<p>
+	非对称加密思想最早由雷夫·莫寇（Ralph C. Merkle）在1974年提出，之后在1976年，狄菲（Whitfield Diffie）与赫尔曼（Martin Hellman）两位学者以单向函数与单向暗门函数为基础，为发讯与收讯的两方建立金钥。 非对称加密,它的密钥成对出现，一个是公开密钥，一个是私有密钥，公钥和私钥是不同的，如果用公钥加密 只有对应的私钥能够解开，如果用私钥加密只有对应的公钥能够解开。
+	</p>
+	<p>
+	非对称加密的优点
+	</p>
+	<ul>
+		<li>允许在不安全的媒体上交换信息</li>
+		<li>解密的私钥不发往任何用户，即使密文泄露也不用担心被破解，因为没有私钥</li>
+		<li>可以验证消息的发送者</li>
+	</ul>	
+	<p>
+	非对称加密的缺点
+	</p>
+	<ul>
+		<li>加密速度较慢</li>
+	</ul>	
+
+
+	<h2 id="symmetric">2 对称加密</h2>
+	<p>
+	对称加密是密码学中的一类加密算法。该类密码的加密算法是它自己本身的逆反函数，所以其解密算法等同于加密算法，也就是说，要还原对称加密的密文，套用加密时同样的算法即可得到明文。在实际应用中，体现为加密和解密使用同一个密钥，或者知道一方密钥能够轻易计算出另一方密钥。
+	</p>
+
+	<strong>DES</strong>
+	<p>
+	数据加密标准（data encryption standard , DES）是迄今为止世界上最为广泛使用和流行的对称加密算法，它的分组长度为64比特，密钥长度为56比特，由IBM研制。DES在1975年3月17日首次被公布在联邦记录中，经过大量的公开讨论后，DES于1977年1月15日被正式批准并作为美国联邦信息处理标准，同年7月15日生效。规定每5年由美国国家保密局作出评估，并重新批准它是否继续作为联邦加密标准。最近的一次评估是在1994年1月，美国已决定1998年12月将不再使用DES。1997年DES被公开破解，2008年 平均破解时间能够达到一天。DES的一些衍生算法比DES本身安全性要高，比如2DES、3DES。
+	</p>
+
+	<strong>AES</strong>
+	<p>
+	1997年4月15日，美国ANSI发起征集AES（高级加密标准）的活动，并为此成立了AES小组。此次活动的目的是确定一个非保密的、可以公开技术细节的、全球免费使用的分组密码算法，以作为新的数据加密标准。1998年8月12日，在首届AES候选会议上公布了AES的15个候选算法，任由全世界格结构和个人攻击和评论，这15个候选算法分别是CAST256、MARS、Rijndael、DFC、Twofish、HPC、CRYPTON、E2、DEAL、FROG、SAFER+、RC6、MAGENTA、LOK197、SERPENT 。1999年3月，在第二届AES候选会议上经过对全球个密码机构和个人对候选算法分析结果的讨论，从15个候选算法中选出了5个。2000年4月13日至14日，召开了第三届AES候选会议，继续对5个候选算法进行讨论，最终于10月2日Rijndael胜出，作为新的加密标准。AES替代了DES，有128 192 和256位元密钥的版本 ，目前只有弱版的AES被暴力破解过（128位元密钥版有10个加密循环，弱版只有7个）。
+	</p>
+	<strong id="defect">对称加密的缺点</strong>
+	<ul>
+		<li>密钥的交换需要建立在安全的通信基础上，而通信本身是不可能绝对安全的</li>
+		<li>加密和解密使用相同的密钥，如果信息泄露，提取到了密钥，密文就会被轻易破解</li>
+		<li>无法验证发送者，可以用相同的加密方式伪造密文，这时信息的来源就变得不可靠</li>
+		<li>密钥每使用一次都被抛弃，需要重新生成密钥</li>
+	</ul>	
+
+
+
+	<h2 id="rsa">3 RSA加密算法</h2>
+	<p>
+	RSA加密算法是非对称加密算法的一种，是1977年由罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman）一起提出的。RSA就是他们三人姓氏开头字母拼在一起组成的。相比于RSA，椭圆曲线加密算法（ECC）无论是安全性还是加密速度、内存占用、宽带占用都要由于RSA，但是其实现比较复杂。
+	</p>
+
+	<h3 id="rsa1">3.1 公钥和密钥的产生</h3>
+	<ol>
+			<li>随意选择两个大<a href="http://zh.wikipedia.org/wiki/質數">质数</a>p<font color="#000000"><span lang="zh-CN">和</span><font face="Liberation Serif, serif"><font size="3"><span lang="en-US"><span lang="en-US">q</span></span></font></font></font><font color="#000000"><span lang="zh-CN">，</span><font face="Liberation Serif, serif"><font size="3"><span lang="en-US"><span lang="en-US">p</span></span></font></font></font><font color="#000000"><span lang="zh-CN">不等于</span><font face="Liberation Serif, serif"><font size="3"><span lang="en-US"><span lang="en-US">q</span></span></font></font></font><font color="#000000"><span lang="zh-CN">，计算</span><font face="Liberation Serif, serif"><font size="3"><span lang="en-US"><span lang="en-US">n=p*q</span></span></font></font></font><font color="#000000"><span lang="zh-CN">（就目前的情况看</span></font><font color="#000000"><font face="Times New Roman, serif"><span lang="zh-CN">
+							</span></font></font><font face="Liberation Serif, serif"><font size="3"><span lang="en-US">n</span></font></font><font color="#000000"><span lang="zh-CN">需要</span><font face="Liberation Serif, serif"><font size="3"><span lang="en-US"><span lang="en-US">1024</span></span></font></font></font><font color="#000000"><span lang="zh-CN">位才不会被轻易破解）</span></font>
+								</li><li><font color="#000000"><span lang="zh-CN">根据<a href="http://zh.wikipedia.org/wiki/欧拉函数">欧拉函数</a>，</span><font face="Liberation Serif, serif"><font size="3"><span lang="en-US"><span lang="en-US">φ(n)
+									= (p-1)*(q-1)</span></span></font></font></font>
+					</li><li><font face="Liberation Serif, serif"><font size="3"><span lang="en-US">e</span></font></font>与<font face="Liberation Serif, serif"><font size="3"><span lang="en-US">φ(n)
+						</span></font></font>互质<font face="Liberation Serif, serif"><font size="3"><span lang="en-US">,
+							</span></font></font>且<font face="Times New Roman, serif"> </font><font face="Liberation Serif, serif"><font size="3"><span lang="en-US">1
+								&lt; e &lt; φ(n) </span></font></font>
+						
+							</li><li>用以下这个公式计算<font face="Liberation Serif, serif"><font size="3"><span lang="en-US">d</span></font></font>：<font face="Liberation Serif, serif"><font size="3"><span lang="en-US">d×
+								e ≡ 1 ( mod φ(n) )</span></font></font>
+						</li><li>将<font face="Liberation Serif, serif"><font size="3"><span lang="en-US">p</span></font></font>和<font face="Liberation Serif, serif"><font size="3"><span lang="en-US">q</span></font></font>的记录销毁
+						</li></ol>
+						<p style="margin-bottom: 0cm; line-height: 0.5cm"><font face="Liberation Serif, serif"><font size="3"><span lang="en-US">(n,e)</span></font></font>是公钥，<font face="Liberation Serif, serif"><font size="3"><span lang="en-US">(n,d)</span></font></font>是私钥</p>
+
+	
+
+	<h3 id="rsa2">3.2 加密消息</h3>
+	<p>
+	假设Bob想给Alice发送一个消息M，他知道Alice产生的公钥（n,e）他使用起先与Alice约好的格式将M转换为一个小于n的整数m，比如他可以将每一个字转换为这个字的Unicode码，然后将这些数字连在一起组成一个新的数字。如果他的信息非常长的话，他可以将这个信息分为几段，然后将每一段转换为m。用下面这个公式他可以将m加密为c：
+	</p>
+	<div style="text-align:center">
+		<img  src="../../images/001-secure-01.png">
+	</div>
+	<p>Bob算出c后就可以将它传递给Alice</p>
+
+
+
+	<h3 id="rsa3">3.3 解密消息</h3>
+	<p>
+	Alice得到Bob的消息c后就可以利用他的私钥d来解码。他可以用以下这个公式来将c转换为m：
+	</p>
+	<div style="text-align:center;padding-bottom:10px">
+		<img  src="../../images/001-secure-02.png">
+	</div>
+	<p>得到m后，他可以按照之前的规则重新复原出M。</p>
+	
+
+	<h3 id="rsa4">3.4 算法正确性的证明</h3>
+	<p>根据加密和解密公式我们知道，要证明该算法正确性，只需证明</p>
+	<div style="text-align:center;padding-bottom:10px">
+		<!--
+		<img  src="../../images/001-secure-03.png">-
+		-->
+		\(m = {m}^{d*e}(mod~n)\)
+	</div>
+	<p>由前提条件 d× e ≡ 1 ( mod φ(n) ) 可以知道 φ(n)  | d× e - 1，即 φ(n)除 d× e - 1</p>
+	<p>	由于p,q互素，φ(n) = φ(p)×φ(q) ，那么φ(p)  | d× e - 1，即d× e - 1 = k×φ(p)。p是素数，根据欧拉函数有 φ(p) = p - 1，那么d× e - 1 = k×(p - 1)</p>
+	<p>	根据同余式的性质，有如下等式</p>
+	<div style="text-align:center;padding-bottom:10px">
+		<!--
+		<img  src="../../images/001-secure-.png">-
+		-->
+		\({m}^{d*e}\equiv {m}^{d*e}(mod~p)\)
+	</div>
+	<div style="text-align:center;padding-bottom:10px">
+		<!--
+		<img  src="../../images/001-secure-.png">-
+		-->
+		\({m}^{d*e}\equiv m\times {m}^{k*(p-1)}(mod~p)\)
+		<em style="float:right">(1)</em>
+	</div>
+	<p>现在我们考虑 m 和 p 的关系:m 和 p 互素;p|m</p>
+	<p>如果 m 和 p 互素,根据费马小定理和同余性质可以得到：</p>
+	<div style="text-align:center;padding-bottom:10px">
+		<!--
+		<img  src="../../images/001-secure-.png">-
+		-->
+		\({m}^{(p-1)*k}\equiv {1}^{k} (mod~p)\)
+		<em style="float:right">(2)</em>
+	</div>
+	<p>结合(1)和(2)我们可以得到</p>
+	<div style="text-align:center;padding-bottom:10px">
+		<!--
+		<img  src="../../images/001-secure-.png">-
+		-->
+		\({m}^{d*e}\equiv m (mod~p) \)
+	</div>
+	<p>此时 我们就证得了 m,p 互素条件下 \({m}^{d*e}\equiv m (mod~p) \)成立。</p>
+	<p>如果 p|m ,那么m<sup>d*e</sup>&equiv;0 (mod p),m&equiv;0 (mod p) ,根据同余式的性质有m<sup>d*e</sup>&equiv;m (mod p)。此时我们就证明了p|m条件下m<sup>d*e</sup>&equiv;m (mod p)成立，所以对于所有的m该式都成立。</p>
+	<p>以同样的方式可以证得m<sup>d*e</sup>&equiv;m (mod q) </p>
+	<p>我们知道同余式有这样的性质,当 a ≡ b (mod p),a ≡ b (mod q) 时,如果 p,q 互素那么a ≡ b (mod (p*q)), 所以 m<sup>d*e</sup> ≡ m(mod (p*q))，即m<sup>d*e</sup> ≡ m(mod n)，因为m&lt;n，可以写成m=m<sup>d*e</sup>(mod n)。
+
+
+	<h3 id="rsa5">3.5 RSA的安全性</h3>
+	<p>广泛的应用证明 RSA 体制的安全性是相当可靠的。RSA 密码体制的安全性取决于其加密函数求逆的困难性,即大数因子分解的困难性。虽然至今在理论和实践中还未能证明有分解大整数的有效方法,但大数因子分解未被证明为是 NP 问题,随着计算机计算能力的提高,原来被认为不可能分解的某些大整数可能会被成功分解,这对 RSA 密码体制的安全性构成潜在的威胁。</p>
+	<p>常见的 RSA 攻击方法有:</p>
+	<ul>
+		<li>直接分解模数n</li>
+		<li>对RSA 的选择密文攻击</li>
+		<li>对RSA 的同模攻击</li>
+		<li>对RSA 小指数的攻击</li>
+		<li>RSA 的比特性攻击</li>
+	</ul>
+	<p>为了保证 RSA 系统的安全性,必须使 RSA 加密算法中使用的参数符合一定的要求</p>
+	<ul>
+		<li>素数 p、q 之差要大,(p-1)和(q-1)的最大公因子很小,p、q 必须为强素数</li>
+		<li>e 不可太小 </li>
+		<li>对RSA 小指数的攻击</li>
+		<li>d 的值不能小于 n<sup>1/4</sup></li>
+	</ul>
+
+	
+	
+	<h3 id="rsa6">3.6 数字签名</h3>
+	<p>RSA 的另一个最大的优点是其在数字签名中的应用。数字签名的作用是确认消息来源的可靠性,保证信息的完整性和不可否认性。假如A要公开发布自己的文件,A先用HASH算法生成这个文件的消息摘要(或者叫信息指纹),再用 RSA 加密算法(A 的私钥)对摘要进行加密。用户想要下载 A 发布的文件,需要同时下载文件和摘要,下载完毕后,用户使用 A 的公钥对摘要进行解密得到 A 之前生成的摘要,并且用户用同样的 HASH 算法对下载到的文件生成一份摘要,比对这两份摘要是否相等,如果相等,那么可以确定两件事情:文件是完整的,文件是 A 发布的。
+	</p>
+	<div style="text-align:center;padding-bottom:10px">
+		<img  src="../../images/001-secure-04.png">-
+		<p>图1 提供文件下载的同时提供了MD5和SHA1的校验码</p>
+	</div>
+
+	<h3 id="rsa7">3.7 RSA Demo</h3>
+	<p>知道了RSA加密算法生成密钥的步骤以及加密和解密步骤之后，就可以动手写一个加密小程序了。本来以前写了个demo程序作为作业的，后来找不到了。</a>
+	
+
+	<h2 id="reference">4 参考资料</h2>
+	<div>[1]段钢. 加密与解密[M] . 电子工业出版社, 2008-7</div>
+	<div>[2]陈宇. ACM-ICPC 程序设计系列-数论及应用[M]. 哈尔滨工业大学出版社,2012-3</div>
+
+</div>
+

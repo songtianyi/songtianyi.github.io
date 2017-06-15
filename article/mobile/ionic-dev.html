@@ -1,0 +1,163 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center;padding-top:20px">
+	<img  src="">
+	<p>图 </p>
+</div>
+	
+<sup>sup>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+</div>
+
+-->
+
+
+<div>
+
+	<!--博文标题和作者信息-->
+	<h2 style="text-align:center">IonicFramework入门总结</h2>
+	<h5 style="text-align:right">update@2014-12-29</h5>
+
+
+
+	<!--第一段，介绍文章的内容-->
+	<p>
+	在用ionic开发一个app，中间遇到了各种小问题，总结下来利人利己。
+	</p>
+
+
+
+	<p><br/></p>
+	<!--目录-->
+	<div style="width:300px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
+		<ol>
+			<li><a style="text-decoration:none" href="#env">环境搭建</a></li>
+			<li><a style="text-decoration:none" href="#start">开始一个项目</a></li>
+			<li><a style="text-decoration:none" href="#qa">遇到的问题和解决方法</a></li>
+			<li><a style="text-decoration:none" href="#reference">参考资料</a></li>
+		</ol>
+	</div>
+	<p><br/></p>
+
+
+	<h2 id="env">1 环境搭建</h2>
+	<p>我是在mac下开发的，使用命令行操作,首先去nodejs.org下载mac下的nodejs并安装。然后执行下面的命令</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<p>cd ${HOME} && mkdir appdev && cd appdev</p>
+<p>sudo npm install -g ionic</p>
+<p>sudo npm install -g cordova</p>
+</div>
+<p>下载android-sdk，将android可执行文件的路径加到PATH变量里，编辑/etc/profile文件，将如下内容写入,注意修改成自己的路径</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<p>PATH=$PATH:${HOME}/Downloads/android-sdk-macosx/tools</p>
+</div>
+<p>执行android,打开android sdk manager，选中Android4.4.2(API 19),然后安装.建议使用vpn，这样安装会快很多,推荐vpnonly</p>
+<p>执行下面的命令安装ant</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<p>ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</p>
+<p>brew install ant</p>
+</div>
+
+
+
+
+	<h2 id="start">2 开始一个项目</h2>
+	<p>通过执行下面的命令你可以快速开始一个新项目</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<p>cd ${HOME}/appdev/</p>
+<p>ionic start demo tabs</p>
+</div>
+	<p>在浏览器里打开和调试项目</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<p>ionic serve</p>
+</div>
+	<p>在ios或者andorid模拟器中打开项目</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<p>ionic platform add ios</p>
+<p>ionic platform add android</p>
+<p>ionic emulate ios</p>
+<p>ionic emulate android</p>
+</div>
+
+
+
+
+	<h2 id="qa">3 遇到的问题和解决方法</h2>
+	<p>
+	3.1 执行ionic emulate ios, ios模拟器一直黑屏，在网上找到的解决方法如下。
+	</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<p>cordova platform rm ios</p>
+<p>cordova platform add ios</p>
+<p>ionic emulate ios</p>
+</div>
+	
+<p>3.2 执行ionic emulate android,编译时总报错，根据报错信息,报错的小箭头一直指着我的项目名，这时意识到可能是我的项目名前带有数字的原因，于是新建了一个项目，用全英文的项目名，问题解决</p>
+<p>3.3 我添加了个登陆页面，怎么让app启动的时候直接到登陆页面呢？修改/path/to/your/project/www/js/app.js 中的 $urlRouterProvider.otherwise('login'); 这行,修改成登陆的state即可</p>
+<p>3.4 执行ionic emulate ios 是看不到代码里console.info等打出的log的，要想看log可以执行 ionic run ios -l -c -s </p>
+<p>3.5 后端是用RESTFUL写的api，直接用$http.get来调，一直不成功，换$resource，注意$resource是一个单独的js文件，需要单独加载</p>
+<p>3.6 tab在android下显示在了上方，很不和谐,解决方法如下</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
+    var androidConfig = {
+        tabs: {
+            style: 'standard',
+            position: 'bottom'
+        }
+    };
+    $ionicConfigProvider.setPlatformConfig('android',androidConfig);
+});
+</pre>
+</div>
+<p>3.7 因为需要将用户的登录信息保存起来,找到了window.localStorage这个东西，但是取值的时候总取不出来,最终发现了一个trick,用toJson和fromJson互转一下就可以了</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+window.localStorage.clear();                                                          
+window.localStorage.global = angular.toJson({hehe: 'testme'});
+var t = angular.fromJson(window.localStorage.global);
+console.info(t,t.hehe);
+</pre>
+</div>
+<p>3.8 js数组怎么在开头插入数据？新建一个数组,然后用concat拼接就行了</p>
+
+	
+
+
+	<h2 id="reference"> 参考资料</h2>
+	<div>[1]<a href="http://codepen.io/">codeopen.io</a> [OL]</div>
+
+</div>
+

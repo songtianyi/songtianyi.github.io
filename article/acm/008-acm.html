@@ -1,0 +1,53 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+	</div>
+		
+	<sup>sup>
+
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	</div>
+
+	-->
+
+
+	<div>
+
+		<!--博文标题和作者信息-->
+		<h2 style="text-align:center">Bone Collector-0-1背包</h2>
+		<h5 style="text-align:right">update@2011-08-05</h5>
+		          <div style="background:#fdfdfd;color:black;"><br></div>     <div style="font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New'; color: rgb(0, 0, 0); background-color: rgb(249, 247, 237);"> <span style="color: rgb(0, 0, 0);">memset</span>(<span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 221); font-weight: bold;">0</span><span style="color: rgb(0, 0, 0);">],</span><span style="color: rgb(0, 0, 221); font-weight: bold;">0</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 136, 0); font-weight: bold;">sizeof</span>(<span style="color: rgb(136, 136, 136); font-weight: bold;">int</span>)<span style="color: rgb(0, 0, 0);">*</span>(<span style="color: rgb(0, 0, 0);">v</span><span style="color: rgb(0, 0, 0);">+</span><span style="color: rgb(0, 0, 221); font-weight: bold;">1</span>));<span style="color: rgb(136, 136, 136);">//不放任何物体不管背包容量多少 价值都是0</span><br> <span style="color: rgb(0, 136, 0); font-weight: bold;">for</span>(<span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 221); font-weight: bold;">1</span>;<span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(0, 0, 0);">&lt;=</span> n;<span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">++</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(136, 136, 136);">//处理第i 个物体，在当前背包容量为j的时候选还是不选这个物体</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-weight: bold;">for</span>(<span style="color: rgb(0, 0, 0);">j</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 221); font-weight: bold;">0</span>;<span style="color: rgb(0, 0, 0);">j</span> <span style="color: rgb(0, 0, 0);">&lt;=</span> <span style="color: rgb(0, 0, 0);">v</span>;<span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">++</span><span style="color: rgb(0, 0, 0);">){</span><span style="color: rgb(136, 136, 136);">//枚举每个容量</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-weight: bold;">if</span>(<span style="color: rgb(0, 0, 0);">bone_volume</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(0, 0, 0);">&gt;</span> <span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">){</span><span style="color: rgb(136, 136, 136);">//这个物体肯定是不能放在容量为j的背包里的</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(136, 136, 136);">//不知道为什么有些解题报告没有这个判断（大部分是有的）</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(136, 136, 136);">//如果j &lt; bone_volume[i]，相减之后就小于0了</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">-</span><span style="color: rgb(0, 0, 221); font-weight: bold;">1</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">];</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-weight: bold;">else</span><span style="color: rgb(0, 0, 0);">{</span><span style="color: rgb(136, 136, 136);">//如果体积刚好等于剩余的容量也不一定会被放进去</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(136, 136, 136);">//因为可能有其它几个物体组合之后的价值比这个单个物体的高</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">mymax</span>(<span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">-</span><span style="color: rgb(0, 0, 221); font-weight: bold;">1</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">],</span><span style="color: rgb(0, 0, 0);">dp</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">-</span><span style="color: rgb(0, 0, 221); font-weight: bold;">1</span><span style="color: rgb(0, 0, 0);">][</span><span style="color: rgb(0, 0, 0);">j</span><span style="color: rgb(0, 0, 0);">-</span><span style="color: rgb(0, 0, 0);">bone_volume</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">]]</span><span style="color: rgb(0, 0, 0);">+</span><span style="color: rgb(0, 0, 0);">bone_weight</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">]);</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> <span style="color: rgb(0, 0, 0);">}</span><span style="color: rgb(136, 136, 136);">//结果保存在 dp[n][v]中，即对前n个物体做出取舍后的最优解</span><br></div><br><br><hr><br><p style="font-family: 微软雅黑;"><a rel="nofollow" href="http://acm.hdu.edu.cn/showproblem.php?pid=2602">HDU -Bone Collector</a><br>都说它很水，我却搞了半天 = =.不是状态方程什么的，说到底是没明白dp的思想<br>01背包是背包中最基础的。之前一直不能理解的是 i=1的时候怎么做取舍，选第一个还是不选第一个？</p><ul>	<li>i=1的时候，我们枚举了每个剩余容量(即dp[1][j])的最优解，到底全局最优解最终取哪个剩余容量还不知道，注意每个剩余容量对应着一个i的状态 即取i和不取i ，比如剩余容量为0的时候肯定是不取i物体的</li>	<li>i =2时也要枚举出每个剩余容量的最优解，对于这个子结构来说，此时我们才知道第一个物体选了还是没选，而对于全局最优解来说仍然是不知道的 因为不知道最终会选择哪个最优子结构（所以才叫局部最优嘛）</li>	<li>如果i = n（最后一个物体了）此时就是全局最优(也可以叫局部最优)</li>	<li>我觉得关键是在剩余容量，每个物体都对应着v种剩余容量(不一定是v种 有些不会出现 这里姑且就这么说)在构造最优解的时候对剩余容量作取舍即对该物体选还是不选作了取舍。</li>	<li>复杂度比枚举低是因为枚举时第i个物体和第i-1个物体的取舍没有关系 所以乘以2；dp的方法， 第i个物体的取舍依赖于第i-1，只需比较一次， O(1)</li>	<li>这里不讨论优化到一维的，主要是理解算法</li><br></ul>
+			  </div> 

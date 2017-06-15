@@ -1,0 +1,106 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center;padding-top:20px">
+	<img  src="">
+	<p>图 </p>
+</div>
+	
+<sup>sup>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+</div>
+
+-->
+
+
+<div>
+
+	<!--博文标题和作者信息-->
+	<h2 style="text-align:center">nodejs爬腾讯微博</h2>
+	<h5 style="text-align:right">create@2014-10-25</h5>
+
+
+
+	<!--第一段，介绍文章的内容-->
+	<p>
+平时看书的时候喜欢把笔记记在腾讯微博，想爬下来存个档。用nodejs写的，很简单，顺便感受下nodejs的生产力。
+	</p>
+
+
+
+	<p><br/></p>
+
+
+	<p>直接上代码</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;margin-top:20px">
+<pre>
+var request = require('request')
+  , cheerio = require('cheerio');
+var Future = require('fibers/future');
+
+var user_id = 'songtianyi';
+var url_prefix = 'http://t.qq.com/' + user_id;
+
+function Parse(url,last){
+    var f = new Future;
+    request(url, function(err, resp, body){
+        if(err){
+            console.error(err);
+            process.exit(1);
+        }
+        $ = cheerio.load(body);
+        tweets = $('.msgCnt');
+        $(tweets).each(function(i, tweet){
+            console.info($(tweet).text());
+        });
+        pageBnt = $('.pageBtn');
+        var next = '';
+        if(pageBnt.length > 1){
+            next = $(pageBnt['1']).attr('href');
+        }else{
+            next = $(pageBnt).attr('href');
+        }
+        if(url_prefix + next == last){
+            process.exit(0);
+        }
+        Parse(url_prefix + next, url);
+    });
+    f.return();
+}
+Parse(url_prefix,'');
+</pre>
+</div>
+
+</div>
+

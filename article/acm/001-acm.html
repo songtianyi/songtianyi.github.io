@@ -1,0 +1,177 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div>
+<header style="padding-bottom:50px">
+	<ul>
+		<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+	</ul>
+</header>
+
+</div>
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {/*引用块*/
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+	header ul li{
+	}
+</style>
+<!--以上内容最好固定，便于用脚本处理-->
+
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+</div>
+	
+<sup>sup>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>
+	</pre>
+</div>
+
+-->
+
+
+
+<div>
+
+	<!--博文标题和作者信息-->
+	<h2 style="text-align:center">数论笔记</h2>
+	<h5 style="text-align:right">update@2011-07-06</h5>
+
+
+
+	<!--第一段，介绍文章的内容-->
+	<p>
+	做ACM的时候会经常遇到数论的题目，而且都很有挑战性，也很有趣。数论在数学中的地位非常重要，有数学女王的美称。
+	</p>
+
+
+
+	<p><br/></p>
+	<!--目录-->
+	<div style="width:300px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
+		<ol>
+			<li><a style="text-decoration:none" href="#prime">分解质因数</a></li>
+			<li><a style="text-decoration:none" href="#numsum">数码和</a></li>
+			<li><a style="text-decoration:none" href="#triangle">毕达哥拉斯三角形</a></li>
+			<li><a style="text-decoration:none" href="#law">数的规律</a></li>
+			<li><a style="text-decoration:none" href="#guess">猜想和定理</a></li>
+			<li><a style="text-decoration:none" href="#meisen">梅森数</a></li>
+			<li><a style="text-decoration:none" href="#reference">参考资料</a></li>
+		</ol>
+	</div>
+	<p><br/></p>
+
+
+	<h2 id="prime">1 分解质因数</h2>
+	<p>
+	分解质因数可以用来解决很多问题，比如求一个整数有多少个约数。我们能够轻易枚举出24的所有约数1,2,3,4,6,8,12,24，一个更巧妙的方法是将此整数分解质因数，得到2<sup>3</sup>*3<sup>1</sup>, 再求各指数加1的乘积，(3+1)*(1+1) = 8 。为什么要分解质因数呢，首先能确定的是我们必须要将其分解，这样才能递归地去求解，假设将其分解成 24 = 3*8 ，3的约数为1和3，8的约数为1,2,4,8 ，约数个数的乘积正好是8，但这是一般情况吗？再看，如果分解为 24 = 2*12，2*6 = 12 &ne; 8, 分解为3*8刚好等于8是因为3的约数和8的约数相乘没有产生重复，1乘以1,2,4,8 还是其本身，3乘以1,2,4,8分别产生了 3,6,12,24 这四个新约数。如果分解成质数，不同质数对儿的乘积得到的合数是不同的，如2m*3n&ne;5x*7y，这是因为如果一个数w互素于数列a1,a2,...,an 中的每一个数，则w也一定互素于它们的乘积a1×a2×a3… ×an )，最终写成一般形式：2x<sub>1</sub>*3x<sub>2</sub>*5x<sub>3</sub>*7x<sub>4</sub>*.....= n ( xi &gt;=0 ) , 假设p为素数p<sup>x</sup>的约数个数是x+1。举个例子，24 = 2*2*2*2，素数的约数为1和其本身，1每次相乘都不会产生新的约数，只有素数和已经产生的约数相乘才会产生约数，所以只有1个2时约数个数为2个，以后每乘一次增加一个约数，即2+(x-1) = x+1, 2x<sub>1</sub>的约数乘以3x<sub>2</sub>的约数产生的都是新的约数，所以最终写成一般形式为:约数个数 m = (x<sub>1</sub>+1)*(x<sub>2</sub>+1)*(x<sub>3</sub>+1).....
+	</p>
+	<p>
+	另一个问题刚好是反着的,求满足约数个数为m的最小整数n，看了上面的分解质因数我们知道 m = (x<sub>1</sub>+1)*(x<sub>2</sub>+1)*(x<sub>3</sub>+1).....，n = 2<sup>x1</sup>*3<sup>x2</sup>*5<sup>x3</sup>*7<sup>x4</sup>..... ( x<sub>i</sub> &gt;=0 ) , 如果不需要求最小值不分解也可。假设m = 12 ，12 = 1*12 , n = 2<sup>11</sup>*3<sup>0</sup> 或者 n = 2<sup>0</sup>*3<sup>11</sup>等等都满足，但为了得到最小值还有更好的选择，12=3*4 , n = 2<sup>3</sup>*3<sup>2</sup> = 72 ;如果写成质因乘积形式会更小 12 = 2*2*3，n = 2<sup>2</sup>*3<sup>1</sup>*5<sup>1</sup>= 60，知道规律了吧？！
+	</p>
+	<p>
+	一个小笔记，如果整数N有m个约数，这m个约数的乘积等于sqrt(N<sup>m</sup>)。
+	</p>
+	
+
+
+	<h2 id="numsum">2 数码和</h2>
+	<p>
+	一个整数的各位数码和与此数本身模9的余数是相同的。原因如下：N是十进制整数，假设N = dcba，则可以表示成N = a + b*10 + c*100 + d*1000，N % 9 = (a + b*10 + c*100 + d*1000) % 9 = (a%9 + b*10%9 + c*100%9 + d*1000%9) % 9 =  ((a%9) * (1%9) + (b%9) * (10%9) + (c%9)*(100%9) + (d%9)*(1000%9) ) % 9，因为10的x次方模9等于1（x&gt;=0）,所以最终化为 N % 9 = (a%9 + b%9 + c%9 + d%9 ) % 9 = (a+b+c+d) % 9
+	</p>
+	<ul>
+		<li>a*b%m = ( (a%m)*(b%m) ) % m</li>
+		<li>(a+b)%m = (a%m + b%m) % m </li>
+	</ul>
+
+
+
+
+	<h2 id="triangle">3 毕达哥拉斯三角形</h2>
+	<p>
+	三条边都为整数的直角三角形是毕达哥拉斯三角形，设两条直角边分别为x,y ，斜边为z ，直角三角形整数边长的公式为，x = m<sup>2</sup> - n<sup>2</sup> , y = 2*m*n , z = m<sup>2</sup> + n<sup>2</sup> （m,n 为任意正整数），但这个公式求出来的 x,y,z 大部分是两两互质的（这种三角形叫做本原三角形），比如 x = 9 ,y = 12 , z = 15就不能用这个公式得出。将公式改为 x = K*(m<sup>2</sup> - n<sup>2</sup>) , y = K*(<sup>2</sup>2*m*n) , z = K*(m<sup>2</sup> + n<sup>2</sup>) 即可得出所有的毕达哥拉斯三角形。对于本原三角形而言，x y z 其中之一恒能被3整除，另一个能被5整除，两直角边之积恒能被12整除
+	</p>
+
+	<h2 id="law">4 数的规律</h2>
+	<p>
+	尾数为5的整数，它的平方可以很快算出来 比如115的平方为 11*(11+1)= 132，然后在132的末尾添加25，即13225。
+	</p>
+	<p>
+	整数的平方数必须以0、1、4、5、6、9结尾，而且平方数的各位数码之和只能为 1、 4、 7、 9（0是特殊的）。
+	</p>
+	<p>
+	一个简便的否定性测试判明一个数x是否是三角形数:d = x mod 9 ，如果d为2，4，5，7，8则x不是三角形数。
+	</p>
+	<p>
+	从1开始连续r个立方数之和必定等于第r个三角形数的平方。
+	</p>
+	<p>
+	13931它是素数且回文 这种数叫做回文素数. 回文素数是无限多的, 更神奇的是一些回文素数还能构成等差数列，比如（13931,14741,15551,16361,19391），再比如（10301，13331,16361,19391）。
+	</p>
+	<p>
+	对于Fibonacci数列f(n)， f(0) = 0, f(1) = 1, f(n) = f(n-1) + f(n-2) (n &gt;= 2) 有gcd( f(n),f(m) ) = f( gcd(n,m) )，证明过程如下。
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<p>
+<strong>1.f(n) 与 f(n-1) 互素(n>=2)</strong> 假设 f(n) 与 f(n-1) 不互素，设最大公约数为x ，f(n) = a*x , f(n-1)= b*x (x!=1) , 则有f(n-2) = f(n) - f(n-1)) = (a-b)*x , 可以推出 f(n-1) 与 f(n-2) 不互素，这样一步步推下去 可以推出 f(3)与f(2)不互素 ,这与1和2互素的事实相悖，所以假设不成立，因此f(n)与 f(n-1)互素。
+</p>
+<p>
+<strong>2.f(m+n) = f(m-1)*f(n) + f(m)*f(n+1) , (m>=1,n>=1)</strong> 用归纳法证明， m为1时 f(1+1) = f(0)*f(1) + f(1)*(2) 显然成立 , 假设f(1+n) = f(0)*f(n) + f(1)*f(n+1) 成立，f(1+n+1) = f(2+n) = f(1)*f(n) + f(2)*f(n+1) = f(n) + f(n+1)也成立； m为2时，f(2+n)满足，f(2+n+1) = f(1+(n+2))，显然也满足，因为m=1的时候已经证过，以此类推. 将m和n交换一下就有 f(m+n) = f(m+1)*f(n) + f(m)*f(n-1), 比如 f(5) 你可以写成 f(3+2) 也可以写成f(2+3)。
+</p>
+<p>
+<strong>3.如果 n%m=0, 那么 f(n) % f(m) = 0</strong> 同样用归纳法证明， 设 n = m*k, 假设 f(n)%f(m) = f(m*k)%m = 0, 当n = m*(k+1)时, f(n) = f(m*k + m) = f(m*k-1)*f(m) + f(m*k)*f(m+1), f(n) % f(m) =( f(m*k-1)*f(m) % f(m) + f(m*k)*f(m+1) % f(m) ) % f(m) = (0+0)%f(m) = 0
+</p>
+<p>
+<strong>4.</strong>有了上面三个性质之后就可以证了。 假设 n = q*m + r,  gcd(f(m), f(n)) = gcd(f(m), f(q*m+r))， 根据2，有 gcd(f(m), f(n)) = gcd(f(m), f(q*m+1)*f(r) + f(q*m)*f(r-1)) , 根据第三个公式 f(q*m) % f(m) = 0, 因为 gcd(a,b) = gcd(q*b+r, b) = gcd(b,r) = gcd(r,b), 同理 gcd(f(m), f(n)) = gcd(f(m) , f(q*m+1)*f(r)) ； 根据第一个性质，f(q*m+1) 与 f(q*m) 互素,gcd(f(m), f(n)) = gcd(f(m),f(r)) , 这就相当于欧几里得里的 gcd(a,b) = gcd(b%a, a), 最终gcd(f(m), f(n)) = gcd(f(gcd(n,m)) , f(0)) = f(gcd(n,m))。
+</p>
+	</div>
+
+
+	<h2 id="guess">5 猜想和定理</h2>
+	<p>	
+	<strong>伯特兰猜想</strong> 对于任意给定的正整数n 其中n &gt; 1, 存在一个素数p，使得 n &lt; p &lt; 2n. 1853年切比雪夫证明了这个猜想。因此有<strong>伯特兰-切比雪夫定理</strong>：若整数n大于3，则至少存在一个素数p 使得 n &lt; p &lt; 2*n-2。
+	<p>
+	<strong>孪生素数猜想</strong> 存在无穷多个素数p，p+2也是素数。
+	</p>	
+	<p>
+	<strong>哥德巴赫猜想</strong> 每个大于2的偶数可以写成两个素数的和。
+	</p>
+	<p>
+	<strong>威尔逊定理</strong> 当且仅当p为素数时，(p-1)! + 1 ≡ -1 mod p。
+	</p>
+
+	<h2 id="meisen">6 梅森数</h2>
+	<p>
+	形如M<sub>p</sub>=2<sup>p</sup>-1的数是梅森数，如果M<sub>p</sub>为素数，则称其为梅森素数。
+	</p>
+	<ul>
+		<li>如果p是奇素数，那么任何能整除2<sub>p</sub>-1的素数q都一定与&plusmn;(mod 8)同余。</li>
+		<li>欧几里得证明如果M是梅森素数，那么M(M+1)/2是完全数，而后欧拉又证明所有的完全数都有这种形式。</li>
+	</ul>
+
+	<h2 id="reference">7 参考资料</h2>
+	<div></div>
+
+</div>
+

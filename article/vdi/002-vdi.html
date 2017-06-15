@@ -1,0 +1,256 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<header style="padding-bottom:50">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid #ccc;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+</div>
+	
+<sup>sup>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+</div>
+
+<p>
+</p>
+
+-->
+
+<div>
+
+	<!--博文标题和作者信息-->
+	<h2 style="text-align:center">QEMU-KVM安装笔记</h2>
+	<h5 style="text-align:right">update@2013-08-09</h5>
+
+
+
+	<!--第一段，介绍文章的内容-->
+	<p>
+	<a href="http://zh.wikipedia.org/wiki/QEMU">QEMU</a>是一个开源的虚拟化软件，能够用<a href="www.linux-kvm.org">KVM</a>来加速，是比较不错的虚拟化方案，在这里简单地记录下安装过程。
+	</p>
+
+
+
+	<p><br/></p>
+	<!--目录-->
+	<div style="width:300px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
+		<ol>
+			<li><a style="text-decoration:none" href="#install">安装</a></li>
+			<li><a style="text-decoration:none" href="#create">创建操作系统镜像</a></li>
+				<ul>
+					<li><a style="text-decoration:none" href="#create1">创建空白镜像</a></li>
+					<li><a style="text-decoration:none" href="#create2">安装操作系统</a></li>
+				</ul>
+			<li><a style="text-decoration:none" href="#config">配置网络</a></li>
+			<li><a style="text-decoration:none" href="#reference">参考资料</a></li>
+		</ol>
+	</div>
+	<p><br/></p>
+
+
+	<h2 id="">1 安装</h2>
+	<p>
+	KVM需要CPU的支持才能使用(Intel VT或者AMD-V)，用下面的命令检查CPU是否支持。如果不支持，检查下是否是主板没有开启。
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>$grep lvm /proc/cpuinfo
+$grep vmx /proc/cpuinfo</pre>
+	</div>
+	<p>在fedora里可以直接从yum源安装qemu和kvm，建议使用最新版本的fedora，这样qemu和kvm的版本会比较新，本文的操作环境是在fedora 19。QEMU默认是不支持spice的，如果需要spice的支持，需要自己编译安装，在configure的时候加上--enable-spice选项，自己编译软件会遇到很多依赖问题，总结了一个<a href="https://github.com/songtianyi/scripts/blob/master/spice-qemu-install.sh">qemu-spice的安装脚本</a>，自动帮你安装需要的依赖，而且有USB重定向的支持。</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>$yum install qemu-kvm
+$modprobe kvm
+$lsmod | grep kvm</pre>
+	</div>
+	<p>
+	后边配置网络的时候需要一些工具。
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>$yum install bridge-utils
+$yum install tunctl
+$modprobe tun</pre>
+	</div>
+
+	
+
+
+	<h2 id="create">2 创建操作系统镜像</h2>
+	<h3 id="create1">2.1 创建空白镜像</h2>
+	<p>
+	创建一个虚拟磁盘镜像，作为虚拟机的磁盘，可以创建raw,cloop,qcow等格式，详细的介绍见<a href="http://en.wikibooks.org/wiki/QEMU/Images">这里</a>。
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>$qemu-img create -f raw guestdisk.img 30G</pre>
+	</div>
+
+
+	<h3 id="create2">2.2 安装操作系统</h2>
+
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre>$qemu-system-x86_64 -m 2048 -smp 2 -enable-kvm -drive file=guestdisk.img -cdrom yourISOname.iso -boot d</pre>
+	</div>
+	<p>
+	安装的时候可以直接从光驱读取安装文件，也可以先把光驱的文件拷贝到磁盘。
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre>$dd if=/dev/cdrom of=yourISOname.iso</pre>
+	</div>
+
+	<h2 id="config">3 配置网络</h2>
+	<p>
+	qemu的网络有多种模式，具体可以查看qemu man手册中的Network options, 这里使用的方式是创建一个网桥，然后通过tap设备来使虚拟机能够访问网络。总结的脚本如下。
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre>
+#!/bin/sh
+
+#delete network device IP configuration
+sudo ifconfig p3p1 0.0.0.0 up promisc
+
+#add a bridge
+sudo brctl addbr br0
+
+#bind interface with the bridge
+sudo brctl addif br0 p3p1
+
+#set STP on
+sudo brctl stp br0 on
+
+#config bridge and start it
+sudo ifconfig br0 192.168.1.210 netmask 255.255.255.0 up
+
+#config route
+sudo route add default gw 192.168.1.1
+
+echo "test local network 10sec later........."
+sleep 10s
+
+#test local network
+ping -c 3 www.baidu.com
+
+#close firewall
+service iptables stop
+
+</pre>
+	</div>
+
+	<p>
+	如果想要恢复到之前的网络配置，可以使用如下脚本。
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre>
+#!/bin/sh
+
+sudo ifconfig br0 down
+
+#unbind network interface
+sudo brctl delif br0 p3p1
+
+#delete bridge
+sudo brctl delbr br0
+
+ifconfig p3p1 up
+
+echo "test local network.........."
+#test network
+ping -c 3 www.baidu.com
+</pre>
+	</div>	
+
+
+
+	<h2 id="start">3 启动虚拟机</h2>
+	<p>
+	网络配置好之后（如果不需要网络，不用配置也可以）就可以启动虚拟机了。经过一段时间的使用，总结了下面的脚本。
+	</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>
+#!/bin/sh
+
+switch=br0
+tapdevice=$1
+vncPort=$2
+
+if [ -n $tapdevice ];then
+    if [ ${tapdevice:0:3} = tap ];then
+    	#create a tap device
+    	/usr/bin/sudo /usr/sbin/tunctl -t $tapdevice
+    	/usr/bin/sudo /sbin/ip link set $tapdevice up
+   	sleep 0.5s
+	#plug tap device into bridge
+    	/usr/bin/sudo /usr/sbin/brctl addif $switch $tapdevice
+    else
+	echo "Error: '$tapdevice' is not a tap device"
+	exit 1
+    fi
+else
+    echo "Error: no interface specified"
+    exit 1
+fi
+
+set -x
+
+qemu-system-x86_64 -enable-kvm -localtime -usb\
+    -m 2048\
+    -cpu host\
+    -smp 2\
+    -soundhw all\
+    -boot c\
+    -drive file=yourIMG.img -net nic,model=virtio \
+    -net tap,ifname=$tapdevice,vhost=on,vhostforce=on,vnet_hdr=on,script=no,downscript=no\
+    -usbdevice tablet \
+	-sdl \
+    -vnc :$vncPort 
+
+
+#pull out tap device form bridge
+sudo brctl delif $switch $tapdevice
+
+#delete tap
+sudo tunctl -d $tapdevice
+
+</pre>
+</div>
+	<p>
+	将脚本保存后，在terminal启动脚本即可。客户机的网络配置可以选择dhcp或者配置静态IP。
+	</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>$./script.sh tap0 0</pre>
+</div>
+
+	<h2 id="reference">4 参考资料</h2>
+	<div>[1]qemu [OL].<a href="http://www.gnu.org/software/hurd/hurd/running/qemu.html">http://www.gnu.org/software/hurd/hurd/running/qemu.html</a></div>
+	<div>[2]Installing qemu [OL].<a href="https://wiki.archlinux.org/index.php/QEMU#Installing_QEMU">https://wiki.archlinux.org/index.php/QEMU#Installing_QEMU</a></div>
+
+</div>
+

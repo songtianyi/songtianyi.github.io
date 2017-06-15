@@ -1,0 +1,56 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+</div>
+	
+<sup>sup>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+</div>
+
+-->
+
+
+<div>
+
+	<!--博文标题和作者信息-->
+	<h2 style="text-align:center">状态压缩求阶乘</h2>
+	<h5 style="text-align:right">update@2011-07-29</h5>
+
+
+ <div style="background:#fdfdfd;color:black;"><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New'; color: rgb(0, 0, 128); font-weight: bold;">long</span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New';"> </span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New'; color: rgb(0, 0, 128); font-weight: bold;">long</span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New';"> </span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New';">f</span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New';">[</span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New'; color: rgb(0, 0, 255);">1</span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New';">&lt;&lt;</span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New'; color: rgb(0, 0, 255);">20</span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New';">]</span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New';"> </span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New';">=</span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New';"> </span><span style="line-height: 22px; font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New';">{};</span></div><div style="font-family: '[object HTMLOptionElement]', Consolas, 'Lucida Console', 'Courier New'; color: rgb(0, 0, 0);"> <span style="color: rgb(0, 0, 0);">f</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 255);">0</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 255);">1</span>;<span style="color: rgb(0, 136, 0); font-style: italic;">//f[2^0 - 1] = f[0] = 1 (0的阶乘为1)</span><br> <span style="color: rgb(0, 0, 128); font-weight: bold;">for</span>(<span style="color: rgb(0, 0, 128); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 255);">1</span>;<span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(0, 0, 0);">&lt;</span> (<span style="color: rgb(0, 0, 255);">1</span><span style="color: rgb(0, 0, 0);">&lt;&lt;</span>n);<span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">++</span><span style="color: rgb(0, 0, 0);">){</span><span style="color: rgb(0, 136, 0); font-style: italic;">// 1 到 2^n - 1</span><br> <br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 128); font-weight: bold;">for</span>(<span style="color: rgb(0, 0, 128); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">t</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">i</span>; <span style="color: rgb(0, 0, 0);">t</span> <span style="color: rgb(0, 0, 0);">&gt;</span> <span style="color: rgb(0, 0, 255);">0</span>; <span style="color: rgb(0, 0, 0);">t</span> <span style="color: rgb(0, 0, 0);">-=</span> (<span style="color: rgb(0, 0, 0);">t</span> <span style="color: rgb(0, 0, 0);">&amp;</span> <span style="color: rgb(0, 0, 0);">-</span><span style="color: rgb(0, 0, 0);">t</span><span style="color: rgb(0, 0, 0);">)){</span><span style="color: rgb(0, 136, 0); font-style: italic;">//f(01101) = f(00101) + f(01001) + f(01100)</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-style: italic;">//1 t = 13</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-style: italic;">//2 13 -= 1</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-style: italic;">//3 12 -= 4</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-style: italic;">//4 8&nbsp; -= 8</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">f</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span><span style="color: rgb(0, 0, 0);">]</span> <span style="color: rgb(0, 0, 0);">+=</span> <span style="color: rgb(0, 0, 0);">f</span><span style="color: rgb(0, 0, 0);">[</span><span style="color: rgb(0, 0, 0);">i</span> <span style="color: rgb(0, 0, 0);">^</span> (<span style="color: rgb(0, 0, 0);">t</span> <span style="color: rgb(0, 0, 0);">&amp;</span> <span style="color: rgb(0, 0, 0);">-</span><span style="color: rgb(0, 0, 0);">t</span><span style="color: rgb(0, 0, 0);">)];</span><span style="color: rgb(0, 136, 0); font-style: italic;">//将某些位变为0 计算和</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-style: italic;">//1 f[(01101) ^ (01101 &amp; 10011)] = f[01100]</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-style: italic;">//2 f[(01101) ^ (01100 &amp; 10100)] = f[01001]</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 136, 0); font-style: italic;">//3 f[(01101) ^ (01000 &amp; 11000)] = f[00101]</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> <span style="color: rgb(0, 0, 0);">}</span><br> <span style="color: rgb(0, 136, 0); font-style: italic;">//n! = f[(1&lt;&lt;n)-1]</span><br></div><br><hr><br><p style="font-family:微软雅黑;">用状态压缩的方法求阶乘，上面的注释是f[13] = f[12] + f[5] + f[9] 的工作过程， t -= t &amp; -t 就是将最开始的t的每位1取出来，取出来的那位1和原来的t异或就把那位变成0了，有些别扭 :(</p>
+
+</div>

@@ -1,0 +1,191 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<header style="padding-bottom:50">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css"> 
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		margin-left:0px;
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+</div>
+	
+<sup>sup>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+</div>
+
+-->
+
+
+<div>
+
+	<!--博文标题和作者信息-->
+	<h2 style="text-align:center">Q&A</h2>
+	<h5 style="text-align:right">update@2013-08-06</h5>
+
+
+
+	<p><br/></p>
+	<!--目录-->
+	<div style="width:400px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
+		<ol>
+			<li><a style="text-decoration:none" href="#windows">MS WINDOWS</a></li>
+				<ul>
+					<li><a style="text-decoration:none" href="#windows1">windows copy命令拷贝的二进制文件无法使用</a></li>
+					<li><a style="text-decoration:none" href="#windows2">如何在windows命令行中配置网络?</a></li>
+					<li><a style="text-decoration:none" href="#windows3">开始-运行中的记录怎么删除？</a></li>
+				</ul>
+			<li><a style="text-decoration:none" href="#linux">LINUX</a></li>
+				<ul>
+					<li><a style="text-decoration:none" href="#linux1">在linux下如何刻录光盘?</a></li>
+					<li><a style="text-decoration:none" href="#linux2">fedora 19如何关闭防火墙?</a></li>
+					<li><a style="text-decoration:none" href="#linux3">vim打开文件行尾出现^M</a></li>
+					<li><a style="text-decoration:none" href="#linux4">文件读写权限</a></li>
+					<li><a style="text-decoration:none" href="#linux5">往vim粘贴代码, 代码缩进混乱</a></li>
+					<li><a style="text-decoration:none" href="#linux6">fedora19如何切换中英文输入法</a></li>
+					<li><a style="text-decoration:none" href="#linux7">echo如何不换行?</a></li>
+					<li><a style="text-decoration:none" href="#linux8">guestmount之后拷贝数据失败</a></li>
+					<li><a style="text-decoration:none" href="#linux9">ubuntu如何修改hostname</a></li>
+					<li><a style="text-decoration:none" href="#linux10">mysql丢弃主键</a></li>
+				</ul>
+		</ol>
+	</div>
+	<p><br/></p>
+
+
+	<h2 id="windows">1 MS WINDOWS</h2>
+	<p>
+	windows环境下的问题与解决办法集锦。
+	</p>
+
+
+	<blockquote id="windows1"><p>1.1 windows copy命令拷贝的二进制文件无法使用</p></blockquote>
+	<p>
+	做FIRA的时候，机器人一直不能动，各种方法用尽了，抓狂...为了方便，拷贝dll文件的时候用的是bat脚本， copy 命令默认用ASCII的形式拷贝文件，dll文件是二进制的，所以拷贝后的文件无法使用....解决办法是给copy命令指定拷贝形式。
+	</p>
+	<ul>
+	<li>copy /b  以二进制形式</li>
+	<li>copy /a  以ACSII形式</li>
+	</ul>
+
+	<blockquote id="windows2"><p>1.2 如何在windows命令行中配置网络?</p></blockquote>
+	<p>
+	有时候图形界面会卡的让你抓狂，那就试试命令行吧。以管理员身份运行cmd，在cmd使用下面的命令来设置ip
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre>
+>netsh
+>int ip
+>set address "本地连接" static 192.168.1.211 255.255.255.0 192.168.1.1 1
+>set dns "本地连接" 202.96.69.38
+>exit </pre>
+	</div>
+
+	<blockquote id="windows3"><p>1.3 开始-运行中的记录怎么删除？</p></blockquote>
+	<p>
+	在做windows镜像的时候为了给用户留下一个比较干净的环境，这些东西能删就删。开始-运行-输入regedit-找到 HKEY_CURRENT_USER \Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU 这一项，删除对应的记录就可以了。
+	</p>
+
+	
+
+
+	<h2 id="linux">2 LINUX</h2>
+	<p>
+	linux环境下的问题与解决办法集锦。
+	</p>
+
+
+	<blockquote id="linux1"><p>2.1 在linux下如何刻录光盘?</p></blockquote>
+	<p>
+	在linux下刻录光盘很简单，网络上的博客文章大多介绍地很详细，其实很多时候我们并不需要那么多复杂的操作，能刻就行，对不？
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre>
+#yum install cdrecord 
+#cdrecord dev=/dev/cdrom /your/iso/path/filename.iso </pre>
+	</div>
+
+
+
+	<blockquote id="linux2"><p>2.2 fedora 19如何关闭防火墙?</p></blockquote>
+	<p>
+	以前都是用service iptables stop搞定，换了fedora 19不知道怎么搞了。
+	</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre> #sudo systemctl stop firewalld.service</pre>
+	</div>
+
+
+	<blockquote id="linux3"><p>2.3 vim打开文件行尾出现^M</p></blockquote>
+	<p>当用vim编辑器,打开一个文件时,可能会出现每行的末尾都有"^M"符号.这很可能是由于源文件不是用vim编辑的.直接在vim下输入:%s/^M//g 即可完成^M的删除工作，需要注意的是^是用Ctrl+v输入的，M是用Ctrl+M输入的。</p>
+	
+	<blockquote id="linux4"><p>2.4 文件读写权限</p></blockquote>
+	<ul>
+		<li>-rw------- (600) 只有所有者才有读和写的权限</li>
+		<li>-rwx------ (700) 只有所有者才有读，写，执行的权限</li>
+		<li>-rwxr-xr-x (755) 只有所有者才有读，写，执行的权限，组群和其他人只有读和执行的权限</li>
+		<li>-rwx--x--x (711) 只有所有者才有读，写，执行的权限，组群和其他人只有执行的权限</li>
+		<li>-rw-rw-rw- (666) 每个人都有读写的权限</li>
+		<li>-rwxrwxrwx (777) 每个人都有读写和执行的权限</li>
+		<li>-rw-r--r-- (644) 只有所有者才有读和写的权限，组群和其他人只有读的权限</li>
+	</ul>
+
+	<blockquote id="linux5"><p>2.5 往vim粘贴代码, 代码缩进混乱</p></blockquote>
+	<p>有时候需要测试下别人的代码,往vim里贴的时候代码的缩进都乱了,如果就几行代码很快就调整好了,如果代码多的话就很麻烦.在粘贴之前,使用vim的 set paste命名,vim就会帮你保持原来的格式而不自动缩进了,然后再用set nopaste取消.</p>
+
+	<blockquote id="linux6"><p>2.6 fedora19如何切换中英文输入法<p></blockquote>
+	<p>在中文输入法下按shift可以切换中英文，在任意输入法下都可以用win徽标+空格来切换中英文</p>
+
+	<blockquote id="linux7"><p>2.7 echo如何不换行<p></blockquote>
+	<p>
+	试试
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre>echo -e "a new line?\c"
+echo -e "no"</pre>
+	</div>
+	</p>
+
+	<blockquote id="linux8"><p>2.8 guestmount之后拷贝数据失败<p></blockquote>
+	<p>生产环境中我们是通过guestmount将虚拟机的镜像挂载到物理机上，往里边拷贝一些数据，但是有时候数据拷贝失败。cp命令是成功的，umount之后看不到文件。后来才发现是内存中的数据没有回写导致的，cp完文件之后调用一下sync命令就行了。
+	</p>
+
+	<blockquote id="linux9"><p>2.9 ubuntu如何修改hostname<p></blockquote>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>$hostname $hostname
+$echo "$hostname" > '/etc/hostname' </pre>
+	</div>
+
+	<blockquote id="linux10"><p>2.10 mysql如何丢掉主键<p></blockquote>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>alter table t_example_table drop primary key</pre>
+	</div>
+
+
+</div>

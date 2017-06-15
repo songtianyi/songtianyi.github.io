@@ -1,0 +1,53 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<header style="padding-bottom:50px">
+<ul>
+	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+</ul>
+</header>
+
+<style type="text/css">
+	div{
+		font-size:11pt;
+	}
+	p{
+		text-indent:2em;/*段落缩进*/
+		line-height:140%;/*行间距*/
+	}
+	blockquote {
+		background:#f9f9f9;
+		border-left:10px solid darkblue;
+	}
+	blockquote p {
+		display:inline;
+	}
+</style>
+
+<!--code examples
+
+<a href=""></a>
+
+<li><a style="text-decoration:none" href="#"></a></li>
+
+<h2 id=""></h2>
+
+<div style="text-align:center">
+	<img  src="">
+	<p>图 </p>
+	</div>
+		
+	<sup>sup>
+
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	</div>
+
+	-->
+
+
+	<div>
+
+		<!--博文标题和作者信息-->
+		<h2 style="text-align:center">Euclidean algorithm</h2>
+		<h5 style="text-align:right">update@2011-6-22</h5>
+		<span style="line-height: 22px;">&nbsp; 今天在codeforces上遇到一个解二元一次方程的题 没思路，叽民哥说用欧几里德解，应该是个简单题但自己数学基础薄，只记住了GCD公式，今天得深究一下了。</span><br><br>欧几里德算法就是辗转相除法而且有很多相关的知识，下边一个一个说,它们之间有联系，但并不一定是因果关系。<div><span style="line-height: 22px;"><br></span></div><div><span style="line-height: 22px;">1. gcd(a,b) 为a，b 的最大公约数，</span><span style="line-height: 22px;">gcd(a,b) = gcd(b,a % b)</span><blockquote>Q1.为什么是 gcd(b,a % b) 而不是gcd(a % b , b)</blockquote><div style="font-family: Consolas, 'Lucida Console', 'Courier New'; color: #000000; background-color: #ffffff; padding-left: 60px;"><span style="color: #000000;">gcd</span>(b<span style="color: #000000;">,</span><span style="color: #000000;">a</span><span style="color: #303030;">%</span>b)&nbsp; <span style="color: #000000;">gcd</span>(<span style="color: #000000;">a</span><span style="color: #303030;">%</span>b<span style="color: #000000;">,</span>b)<br><span style="color: #000000;">gcd</span>(<span style="color: #0000d0; font-weight: bold;">8</span><span style="color: #000000;">,</span><span style="color: #0000d0; font-weight: bold;">12</span>)&nbsp;&nbsp; <span style="color: #000000;">gcd</span>(<span style="color: #0000d0; font-weight: bold;">8</span><span style="color: #000000;">,</span><span style="color: #0000d0; font-weight: bold;">12</span>)<br><span style="color: #000000;">gcd</span>(<span style="color: #0000d0; font-weight: bold;">12</span><span style="color: #000000;">,</span><span style="color: #0000d0; font-weight: bold;">8</span>)&nbsp;&nbsp; <span style="color: #000000;">gcd</span>(<span style="color: #0000d0; font-weight: bold;">8</span><span style="color: #000000;">,</span><span style="color: #0000d0; font-weight: bold;">12</span>)<br><span style="color: #000000;">gcd</span>(<span style="color: #0000d0; font-weight: bold;">8</span><span style="color: #000000;">,</span><span style="color: #0000d0; font-weight: bold;">4</span>)&nbsp;&nbsp;&nbsp; <span style="color: #000000;">gcd</span>(<span style="color: #0000d0; font-weight: bold;">8</span><span style="color: #000000;">,</span><span style="color: #0000d0; font-weight: bold;">12</span>)</div><p style="padding-left: 30px;"><strong>可以看得很清楚了gcd(b,a % b)可以保证：在大小顺序不符的时候 可以调换顺序；保留下较小值,用<span style="text-decoration: underline;">较大值</span>去模<span style="text-decoration: underline;">较小值</span>从而得到一个比<span style="text-decoration: underline;">较小值</span>更小的值，而gcd(a%b,b) 最多只能工作一次</strong></p><br>2. 关于最大公约数的性质：<ul>	<li>如果gcd(a , b) = g , a = m*g , b = n*g 则有：<strong>m 和 n一定互素</strong>(互素是指m和n的最大公约数为1, 并不是说m , n都为素数)。原因是如果 m，n不互素的话 就可以提取m , n的公约数 乘到g上，这与g为最大公约数相矛盾</li></ul><ul>	<li><strong>a和b的最大公约数是两数共有的素因数的乘积</strong>。</li></ul><p style="padding-left: 30px;">例如，462可以分解成2&nbsp;×&nbsp;<strong>3</strong>&nbsp;×&nbsp;<strong>7</strong>&nbsp;×&nbsp;11；1071可以分解成3&nbsp;×&nbsp;<strong>3</strong>&nbsp;×&nbsp;<strong>7</strong>&nbsp;×&nbsp;17；最大公约数就等于 3 x 7 = 21 ; 那为什么不用分解质因数的方法呢，因为分解质因数要麻烦得多，尤其是当数很大的时候，很多加密算法之所以很难破解的原因就是分解质因数难；而辗转相除法的优点就是可以不必计算出所有质因数（有的地方叫素因数）的前提下求出最大公约数。这个性质其实很好得出，就拿上边的例子来说，g = 3x7 已经满足了倍数关系呢，但是不是最大的呢，当然是最大的，想要增大g&nbsp; 对于462来说可以乘以2 ，g = 2 x 3 x 7，现在用1071除以g得到 3 x 7 x 17 / 2 , 因为它们都是素数除了自己和1 其它的都不能整除的，你可能又有疑问了 3，7，17都不能被2整除，这没错，那它们的乘积呢，再看如下性质 ：<strong>如果一个数w互素于数列a1、a2、…、an 中的每一个数，则w也一定互素于它们的乘积a1&nbsp;×&nbsp;a2&nbsp;×&nbsp;…&nbsp;×&nbsp;an，</strong>2 和 3，7，17 都是互素的，乘积也是互素，当然不能整除啦，这个性质我不会证明，所以打住吧。</p><ul>	<li><strong>用辗转相除法计算两个数的最大公约数所需的步数不会超过其中<span style="text-decoration: underline;">较小数</span>的位数h的5倍</strong></li></ul><br>3. 辗转相除法是基于如下原理：<ul>	<li>两个整数的最大公约数等于其中较小的数和两数的差的最大公约数</li></ul>&nbsp; &nbsp; &nbsp; 下边是伪代码的形式<br><p style="padding-left: 30px;"><strong>gcd(a ,b) = gcd(abs(a - b) , min(a,b))</strong></p>&nbsp; &nbsp; &nbsp; &nbsp; 这个公式参数颠倒顺序无所谓 因为取的是绝对值</div><div><br><blockquote>Q2.为什么不用这种方式求最大公约数？<br><br></blockquote><blockquote>当a b的差值很小时你会发现它也非常快，但是gcd(b , a%b) 更快</blockquote><br><blockquote>Q3.从 gcd(a ,b) = gcd(abs(a - b) , min(a,b)) 到 gcd(b , a%b)<br><br></blockquote><blockquote>假设 a &gt;= b （在Q1 已经说明了我们总可以调换大小顺序的 保证左大右小）则<br><strong>a = k*b + r (k = 1,2,3,...)</strong>这个应该很好想到(k 为商，r为余数)<br>gcd(abs(a - b) , min(a,b))的目的就是不断地用较大值减去较小值，一直减到不够减，即a=r的时候，与其不断地减减减 何不直接取余？！</blockquote><br><blockquote>Q4.a b c的最大公约数怎么算呢？<br><br></blockquote><blockquote>gcd(a, b, c) = gcd(a, gcd(b, c)) = gcd(gcd(a, b), c) = gcd(gcd(a, c), b).</blockquote><ul><br>	<li><strong>两数的最大公约数可以用两数的整数倍相加来表示，这个重要的等式叫做贝祖等式</strong></li></ul><p style="padding-left: 30px;">写成一般的形式： <strong>gcd（a , b） = a*x + b*y</strong>&nbsp; 为了方便令gcd(a,b) = D</p><p style="padding-left: 30px;"><strong>a*x + b*y = D</strong>；（1）</p><p style="padding-left: 30px;">因为 gcd(a,b) = gcd(b, a % b) 辗转相除一次之后则有</p><p style="padding-left: 30px;"><strong>b*(x ’ ) + (a % b)*(y ' ) = D</strong>---&gt; <strong>b*(x ' ) + (a - a/b * b)*(y ' ) = D</strong></p><p style="padding-left: 30px;">再进一步整理为：<strong>a*（y ‘） + b*( </strong>(x ’ ) - a/b<strong>*</strong>(y ' )<strong>)</strong><strong>= D</strong>&nbsp; （2）</p><p style="padding-left: 30px;">根据（1）（2） 可以得到 x = (y ' ) ; y = (x ’ ) - a/b<strong>*</strong>(y ' )</p><p style="padding-left: 30px;">当b = 0时，a*x = gcd(a,0) = a, 得 x = 1. 这样我们就可以通过辗转相除求得x ，y的值，<span style="line-height: 22px;">这就是扩展欧几里德 ，模板如下：</span></p>     <div style="background:#fdfdfd;color:black;"><br></div><br>     <div style="font-family: Consolas, 'Lucida Console', 'Courier New'; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);"> <span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">Extened_Euclid</span>(<span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">a</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> b<span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(48, 48, 48);">&amp;</span><span style="color: rgb(0, 0, 0);">x</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(48, 48, 48);">&amp;</span><span style="color: rgb(0, 0, 0);">y</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 128, 0); font-weight: bold;">if</span>(b <span style="color: rgb(48, 48, 48);">==</span> <span style="color: rgb(0, 0, 208); font-weight: bold;">0</span><span style="color: rgb(0, 0, 0);">){</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">x</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 208); font-weight: bold;">1</span>; <span style="color: rgb(0, 0, 0);">y</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 208); font-weight: bold;">0</span>; <span style="color: rgb(0, 128, 0); font-weight: bold;">return</span> <span style="color: rgb(0, 0, 0);">a</span>;<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 128, 0); font-weight: bold;">else</span><span style="color: rgb(0, 0, 0);">{</span><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(48, 48, 144); font-weight: bold;">int</span> <span style="color: rgb(0, 0, 0);">gcd</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 0);">x1</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 0);">y1</span>;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">gcd</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 0);">Extened_Euclid</span>(b<span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 0);">a</span><span style="color: rgb(48, 48, 48);">%</span>b<span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 0);">x1</span><span style="color: rgb(0, 0, 0);">,</span><span style="color: rgb(0, 0, 0);">y1</span>);<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">x</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 0);">y1</span>; <span style="color: rgb(0, 0, 0);">y</span> <span style="color: rgb(48, 48, 48);">=</span> <span style="color: rgb(0, 0, 0);">x1</span> <span style="color: rgb(48, 48, 48);">-</span> (<span style="color: rgb(0, 0, 0);">a</span><span style="color: rgb(48, 48, 48);">/</span>b)<span style="color: rgb(48, 48, 48);">*</span><span style="color: rgb(0, 0, 0);">y1</span>;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 128, 0); font-weight: bold;">return</span> <span style="color: rgb(0, 0, 0);">gcd</span>;<br> &nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 0);">}</span><br> <span style="color: rgb(0, 0, 0);">}</span><br></div><br><br> <br></div>
+	</div>
