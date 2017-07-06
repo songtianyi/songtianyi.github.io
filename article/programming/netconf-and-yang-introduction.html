@@ -495,7 +495,7 @@ func main() {
 }</code></pre><h5 id="sec-distributied-transactions" class="h4" data-heading-depth="4" style="display:block">Distributied transactions</h5>
 <p class="p noindent">当有多个设备需要修改配置时，为了保证操作的原子性，我们可以先锁定所有设备的配置，修改完成后，利用confirmed-commit特性，check完之后再确认提交。
 </p>
-<p class="p indent"><img src="../../images/netconf4.png">
+<p class="p indent"><img width="100%" src="../../images/netconf4.png">
 </p><h3 id="sec-yang" class="h2" data-heading-depth="2" style="display:block"><span class="heading-before"><span class="heading-label">2.1</span>.&#8194;</span>YANG</h3>
 <p class="p noindent">YANG是为NETCONF而生的数据建模语言, 应用在NETCONF的content层和operation层。YANG用层级的方式描述NETCONF的配置和状态数据,RPC及通知，覆盖了NETCONF C/S的整个生命周期。YANG模型可以转换成JSON和XML。
 </p><h5 id="sec-statements" class="h4" data-heading-depth="4" style="display:block">statements</h5>
