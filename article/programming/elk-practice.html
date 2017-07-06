@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Madoko, version 1.1.2" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="author" content="songtianyi update@2017.01.03" />
+  <title>ELK日志系统实战</title>
+  <style type="text/css"  class="link">
+  /*# sourceURL=madoko.css */
+  
+  .madoko .toc>.tocblock .tocblock .tocblock {
+    margin-left: 2.25em;
+  }
+  .madoko .toc>.tocblock .tocblock {
+    margin-left: 1.5em;
+  }
+  .madoko .toc-contents>.tocblock>.tocitem {
+    font-weight: bold;
+  }
+  .madoko .toc {
+    margin-top: 1em;
+  }
+  .madoko p.para-continue {
+    margin-bottom: 0pt;
+  }
+  .madoko .para-block+p {
+    margin-top: 0pt;
+  }
+  .madoko ul.para-block, .madoko ol.para-block {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  .madoko ul.para-end, .madoko ol.para-end {
+    margin-bottom: 1em;
+  }
+  .madoko dl {
+    margin-left: 0em;
+  }
+  .madoko blockquote {
+    font-style: italic;
+  }
+  .madoko a.localref {
+    text-decoration: none;
+  }
+  .madoko a.localref:hover {
+    text-decoration: underline;
+  }
+  .madoko .footnotes {
+    font-size: smaller;
+    margin-top: 2em;
+  }
+  .madoko .footnotes hr {
+    width: 50%;
+    text-align: left;
+  }
+  .madoko .footnote { 
+    margin-left: 1em;
+  }
+  .madoko .footnote-before {
+    margin-left: -1em;
+    width: 1em;
+    display: inline-block;
+  }
+  .madoko .align-center, .madoko .align-center>p {
+    text-align: center !important;
+  }
+  .madoko .align-center pre {
+    text-align: left;
+  }
+  .madoko .align-center>* {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-left, .madoko .align-left>p {
+    text-align: left !important;
+  }
+  .madoko .align-left>* {
+    margin-left: 0pt !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-right, .madoko .align-right>p {
+    text-align: right !important;
+  }
+  .madoko .align-right>* {
+    margin-left: auto !important;
+    margin-right: 0pt !important;
+  }
+  .madoko .align-center>table,
+  .madoko .align-left>table,
+  .madoko .align-right>table {
+    text-align: left !important;
+  }
+  .madoko .equation-before {
+    float: right;
+  }
+  .madoko .bibitem {
+    font-size: smaller;
+  }
+  .madoko .bibsearch {
+    font-size: x-small;
+    text-decoration:none;
+    color: black;
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  .madoko .block, .madoko .figure, .madoko .bibitem, .madoko .equation, .madoko div.math {
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .figure {
+    padding: 0.5em;
+    margin-left: 0pt;
+    margin-right: 0pt;
+  }
+  .madoko .hidden {
+    display: none;
+  }
+  .madoko .invisible {
+    visibility: hidden;
+  }
+  .madoko.preview .invisible {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .madoko code.code, .madoko span.code {
+    white-space: pre-wrap;
+  }
+  .madoko hr, hr.madoko {
+    border: none;
+    border-bottom: black solid 1px;
+    margin-bottom: 0.5ex;
+  }
+  .madoko .framed>*:first-child {
+    margin-top: 0pt;
+  }
+  .madoko .framed>*:last-child {
+    margin-bottom: 0pt;
+  }
+  .madoko ul.list-style-type-dash {
+      list-style-type: none !important;
+  }
+  .madoko ul.list-style-type-dash > li:before {
+      content: "\2013"; 
+      position: absolute;
+      margin-left: -1em; 
+  }
+  .madoko table.madoko {
+    border-collapse: collapse;
+  }
+  .madoko td, .madoko th {
+    padding: 0ex 0.5ex;
+    margin: 0pt;
+    vertical-align: top;
+  }
+  .madoko .cell-border-left {
+    border-left: 1px solid black;
+  }
+  .madoko .cell-border-right {
+    border-right: 1px solid black;
+  }
+  .madoko thead>tr:first-child>.cell-line,
+  .madoko tbody:first-child>tr:first-child>.cell-line {
+    border-top: 1px solid black;
+    border-bottom: none;
+  }
+  .madoko .cell-line, .madoko .cell-double-line {
+    border-bottom: 1px solid black;
+    border-top: none;
+  }
+  .madoko .cell-double-line {
+    border-top: 1px solid black;
+    padding-top: 1.5px !important;
+  }
+  .madoko .input-mathpre .MathJax_Display {
+    text-align: left !important;
+  }
+  .madoko div.input-mathpre {
+    text-align: left;
+    margin-top: 1.5ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .math-rendering {
+    text-align: left;
+    white-space: pre;
+    color: gray;
+  }
+  .madoko .mathdisplay {
+    text-align: center;
+  }
+  .madoko .pretty table {
+    border-collapse: collapse;
+  }
+  .madoko .pretty td {
+    padding: 0em;
+  }
+  .madoko .pretty td.empty {
+    min-width: 1.5ex;
+  }
+  .madoko .pretty td.expander {
+    width: 100em;
+  }
+  body.madoko, .madoko .serif {
+    font-family: Cambria,"Times New Roman","Liberation Serif","Times",serif;
+  }
+  .madoko .sans-serif {
+    font-family: "Calibri", "Optima", sans-serif;
+  }
+  .madoko .symbol {
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  body.madoko {  
+    -webkit-text-size-adjust: 100%;       
+    text-rendering: optimizeLegibility;
+  }
+  body.madoko {
+    max-width: 88ex; 
+    margin: 1em auto;
+    padding: 0em 2em;  
+  }
+  body.preview.madoko {
+    padding: 0em 1em;
+  }
+  .madoko p {
+    text-align: justify;
+  }
+  .madoko h1, .madoko h2, .madoko h3, .madoko h4 { 
+    margin-top: 1.22em; 
+    margin-bottom: 1ex;
+  }
+  .madoko h1+p, .madoko h2+p, .madoko h3+p, .madoko h4+p, .madoko h5+p  { 
+    margin-top: 1ex;    
+  }
+  .madoko h5, .madoko h6 { 
+    margin-top: 1ex;
+    font-size: 1em;
+  }
+  .madoko h5 { 
+    margin-bottom: 0.5ex;
+  }
+  .madoko h5 + p {
+    margin-top: 0.5ex;
+  }
+  .madoko h6 { 
+    margin-bottom: 0pt;
+  }
+  .madoko h6 + p {
+    margin-top: 0pt;
+  }
+  .madoko pre, .madoko code, .madoko kbd, .madoko samp, .madoko tt, 
+  .madoko .monospace, .madoko .token-indent, .madoko .reveal pre, .madoko .reveal code, .madoko .email {
+    font-family: Consolas,"Andale Mono WT","Andale Mono",Lucida Console,Monaco,monospace,monospace;
+    font-size: 0.85em;
+  }
+  .madoko pre code, .madoko .token-indent {
+    font-size: 0.95em;
+  }
+  .madoko pre code {
+    font-family: inherit !important;
+  }
+  .madoko ol.linenums li {
+    background-color: white;
+    list-style-type: decimal;
+  }
+  .madoko .remote {
+    background-color: #F0FFF0;
+  }
+  .madoko .remote + * {
+    margin-top: 0pt;
+  }
+  @media print {
+    body.madoko {
+      font-size: 10pt;
+    }
+    @page {
+      margin: 1in 1.5in;
+    }
+  }
+  @media only screen and (max-device-width:1024px) {
+    body.madoko {
+      padding: 0em 0.5em;    
+    }
+    .madoko li {
+      text-align: left;
+    }
+  }
+  
+    </style>
+  
+  </head>
+<body class="madoko">
+
+<div class="body madoko" style="line-adjust:0">
+
+<div class="titleblock align-center para-block" data-line="5" style="text-align:center;line-adjust:0">
+<div class="titleheader align-center" data-line="5" style="text-align:center;line-adjust:0">
+<div class="title para-block" data-line="5" style="font-size:xx-large;font-weight:bold;margin-bottom:0.5ex;line-adjust:0"><span data-line="5"></span>ELK日志系统实战</div></div>
+<div class="authors align-center" data-line="10" style="text-align:center;width:80%;line-adjust:0"><table class="authorrow columns block" data-line="10" style="margin-top:2ex;width:100%;line-adjust:0">
+<tbody><tr><td class="author column" data-line="10" style="text-align:center;line-adjust:0">
+<div class="authorname" data-line="10" style="font-size:large;line-adjust:0"><span data-line="10"></span>songtianyi update@2017.01.03</div></td></tr></tbody></table></div></div><h2 id="sec-elk" class="h1" data-line="7" data-heading-depth="1" style="display:block"><span data-line="7"></span><span class="heading-before"><span class="heading-label">1</span>.&#8194;</span><span data-line="7"></span>什么是ELK日志系统</h2>
+<p class="p noindent" data-line="8"><span data-line="8"></span>围绕着elasticsearch，由filebeat logstash elasticsearch kibana构成的日志系统，它们分别实现了日志的收集，分析，搜索和展示功能
+</p><h2 id="section" class="h1" data-line="10" data-heading-depth="1" style="display:block"><span data-line="10"></span><span class="heading-before"><span class="heading-label">2</span>.&#8194;</span><span data-line="10"></span>为什么要使用日志系统</h2>
+<p class="p noindent" data-line="11"><span data-line="11"></span>考虑以下几种实际情况
+</p>
+<ol class="ol loose" data-line="13">
+<li class="li ol-li loose-li" data-line="13">
+<p data-line="13"><span data-line="13"></span>某次请求出现了错误,要去整个流程中的多台机器上搜索日志，耗费时间和精力，关键的是这种琐事会消磨一个人的意志，长时间甚至会导致厌恶工作。使用ELK，借助kibana直接搜索出相关日志，非常便捷。
+</p>
+<ul class="ul list-star loose" data-line="15">
+<li class="li ul-li list-star-li loose-li" data-line="15">
+<p data-line="15"><span data-line="15"></span>系统A
+<span data-line="16"></span><code class="code code1">API</code><span data-line="16"></span>&#8212;<span data-line="16"></span>&#8212;<span data-line="16"></span>&gt;<span data-line="16"></span><code class="code code1">ACCESS</code><span data-line="16"></span>&#8212;<span data-line="16"></span>&#8212;<span data-line="16"></span>&gt;<span data-line="16"></span><code class="code code1">NODE_SERVER</code><span data-line="16"></span>
+</p></li>
+<li class="li ul-li list-star-li loose-li" data-line="18">
+<p data-line="18"><span data-line="18"></span>系统B
+<span data-line="19"></span><code class="code code1">NGINX</code><span data-line="19"></span>&#8212;<span data-line="19"></span>&#8212;<span data-line="19"></span>&gt;<span data-line="19"></span><code class="code code1">API</code><span data-line="19"></span>&#8212;<span data-line="19"></span>&#8212;<span data-line="19"></span>-<span data-line="19"></span>&gt;<span data-line="19"></span><code class="code code1">NODE_SERVER</code><span data-line="19"></span>
+</p></li></ul>
+</li>
+<li class="li ol-li loose-li" data-line="21">
+<p data-line="21"><span data-line="21"></span>今天系统接收了多少请求？成功率是多少? 可以在服务代码里做统计，但是成本高，对于ELK来说就是一条搜索语句的事
+</p></li>
+<li class="li ol-li loose-li" data-line="22">
+<p data-line="22"><span data-line="22"></span>需要找出耗时长的请求，定位原因 做优化。
+</p></li>
+<li class="li ol-li loose-li" data-line="23">
+<p data-line="23"><span data-line="23"></span>如何选择合适的变更时间？ELK不仅可以看历史数据，它的实时性可以让我们立即做出决策。
+</p></li></ol>
+<h2 id="section" class="h1" data-line="25" data-heading-depth="1" style="display:block"><span data-line="25"></span><span class="heading-before"><span class="heading-label">3</span>.&#8194;</span><span data-line="25"></span>安装</h2>
+<ul class="ul list-star loose" data-line="26">
+<li class="li ul-li list-star-li loose-li" data-line="26">
+<p data-line="26"><span data-line="26"></span>实验环境: 
+</p>
+<ul class="ul list-dash compact" data-line="27">
+<li class="li ul-li list-dash-li compact-li" data-line="27"><span data-line="27"></span>CentOS 7 x86<span data-line="27"></span>_<span data-line="27"></span>64
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="28"><span data-line="28"></span>elasticsearch-2.3.5-1.noarch
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="29"><span data-line="29"></span>kibana-4.5.4-1.x86<span data-line="29"></span>_<span data-line="29"></span>64
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="30"><span data-line="30"></span>filebeat-1.2.3-x86<span data-line="30"></span>_<span data-line="30"></span>64.rpm
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="31"><span data-line="31"></span>logstash-2.3.4-1.noarch
+</li></ul>
+</li>
+<li class="li ul-li list-star-li loose-li" data-line="33">
+<p data-line="33"><span data-line="33"></span>elasticsearch
+</p>
+<pre class="para-block pre-fenced pre-fenced3" data-line="34" data-line-first="35" style="display:block"><code data-line="35">#功能
+日志搜索引擎
+#安装
+yum install -y elasticsearch
+#修改监听的ip和数据存放路径
+vim /etc/elasticsearch/elasticsearch.yml
+#启动
+service elasticsearch start</code></pre></li>
+<li class="li ul-li list-star-li loose-li" data-line="45">
+<p data-line="45"><span data-line="45"></span>logstash
+</p>
+<pre class="para-block pre-fenced pre-fenced3" data-line="46" data-line-first="47" style="display:block"><code data-line="47">#功能
+过滤和分析日志
+#下载
+wget https://download.elastic.co/logstash/logstash/packages/centos/logstash-2.3.4-1.noarch.rpm
+#重点是logstatsh的配置
+vim /etc/logstash/conf.d/logstash.conf
+#输入下面的内容,根据自己的业务做修改</code></pre>
+<pre class="para-block pre-fenced pre-fenced3" data-line="55" data-line-first="56" style="display:block"><code data-line="56">input {
+beats {
+  type =&gt; beats
+  host =&gt; &quot;x.x.x.x&quot;
+  port =&gt; 5044
+}
+}
+filter {
+ if [type] == &quot;nginx-log&quot; {
+     grok {
+
+         match =&gt; {&quot;message&quot; =&gt; &quot;%{TIMESTAMP_ISO8601:gLogtime} %{IP:gClient} %{IPORHOST:gHost} %{NUMBER:gRequestTime} %{NUMBER:gUpstreamResponseTime} %{WORD:gMethod} %{URIPATHPARAM:gRequest} HTTP/%{NUMBER:gHttpVersion} %{NUMBER:gStatus} %{HOSTPORT:gUpstream}&quot;}
+         remove_field =&gt; [&quot;message&quot;]
+     }
+ } else if [type] == &quot;api-log&quot; {
+     grok {
+         match =&gt; {&quot;message&quot; =&gt; &quot;(action\s:\s%{WORD:gMethod}\scost\s:\s%{NUMBER:gCost:int})&quot;}
+     }
+ } else if [type] == &quot;manager-log&quot; {
+     grok {
+         match =&gt; [&quot;message&quot;, &quot;(\[%{WORD:gLoglevel}\])(try\snode\s-)([0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12})(\s%{IP:gTargetNode}\s%{INT:gTaskCount:int}\:)&quot;]
+     }
+ } else {
+     drop { }
+ }
+ if ([gCost]) {
+     mutate {
+         replace =&gt; {&quot;count&quot; =&gt; &quot;%{gCost}&quot;}
+     }
+ }
+}
+output {
+ elasticsearch {
+     hosts =&gt; [&quot;x.x.x.x:9200&quot;]
+ }
+}</code></pre>
+<pre class="para-block pre-fenced pre-fenced3" data-line="93" data-line-first="94" style="display:block"><code data-line="94">#启动
+service logstash start</code></pre></li>
+<li class="li ul-li list-star-li loose-li" data-line="98">
+<p data-line="98"><span data-line="98"></span>filebeat
+</p>
+<pre class="para-block pre-fenced pre-fenced3" data-line="99" data-line-first="100" style="display:block"><code data-line="100">#功能
+收集日志
+#下载
+wget https://download.elastic.co/beats/filebeat/filebeat-1.2.3-x86_64.rpm
+#安装
+rpm -ivh filebeat-1.2.3-x86_64.rpm
+# 修改监视的文件目录和logstash的ip:port
+vim /etc/filebeat/filebeat.yml</code></pre></li>
+<li class="li ul-li list-star-li loose-li" data-line="110">
+<p data-line="110"><span data-line="110"></span>kibana
+</p>
+<pre class="para-block pre-fenced pre-fenced3" data-line="111" data-line-first="112" style="display:block"><code data-line="112">#功能
+可视化
+#安装
+yum install -y kibana
+#修改elasticsearch.url的配置
+vim /opt/kibana/config/kibana.yml
+#启动，也可以添加service文件 以service方式启动
+nohup /opt/kibana/bin/kibana -c /opt/kibana/config/kibana.yml &amp;</code></pre></li></ul>
+<h2 id="sec-kibana" class="h1" data-line="122" data-heading-depth="1" style="display:block"><span data-line="122"></span><span class="heading-before"><span class="heading-label">4</span>.&#8194;</span><span data-line="122"></span>kibana效果展示</h2>
+<ul class="ul list-dash compact" data-line="123">
+<li class="li ul-li list-dash-li compact-li" data-line="123"><span data-line="123"></span>每秒钟请求数
+<span data-line="124"></span><img src="../..//images/elk1.jpg" alt="image" data-path="/Users/work/Downloads/elk1.jpg"><span data-line="124"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="125"><span data-line="125"></span>后端正常响应和错误响应
+<span data-line="126"></span><img src="../../images/elk2.jpg" alt="image" data-path="/Users/work/Downloads/elk2.jpg"><span data-line="126"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="127"><span data-line="127"></span>单个请求的最长耗时统计
+<span data-line="128"></span><img src="../../images/elk3.jpg" alt="image" data-path="/Users/work/Downloads/elk3.jpg"><span data-line="128"></span>
+</li></ul>
+<span data-line=""></span></div>
+</body>
+
+</html>

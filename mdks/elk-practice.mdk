@@ -1,0 +1,128 @@
+Title         : ELK日志系统实战
+Author        : songtianyi update@2017.01.03
+Logo          : False
+
+[TITLE]
+
+# 什么是ELK日志系统
+围绕着elasticsearch，由filebeat logstash elasticsearch kibana构成的日志系统，它们分别实现了日志的收集，分析，搜索和展示功能
+
+# 为什么要使用日志系统
+考虑以下几种实际情况
+
+1. 某次请求出现了错误,要去整个流程中的多台机器上搜索日志，耗费时间和精力，关键的是这种琐事会消磨一个人的意志，长时间甚至会导致厌恶工作。使用ELK，借助kibana直接搜索出相关日志，非常便捷。
+
+  * 系统A
+  `API`------>`ACCESS`------>`NODE_SERVER`
+
+  * 系统B
+  `NGINX`------>`API`------->`NODE_SERVER`
+
+2. 今天系统接收了多少请求？成功率是多少? 可以在服务代码里做统计，但是成本高，对于ELK来说就是一条搜索语句的事
+3. 需要找出耗时长的请求，定位原因 做优化。
+4. 如何选择合适的变更时间？ELK不仅可以看历史数据，它的实时性可以让我们立即做出决策。
+
+# 安装
+* 实验环境: 
+ - CentOS 7 x86_64
+ - elasticsearch-2.3.5-1.noarch
+ - kibana-4.5.4-1.x86_64
+ - filebeat-1.2.3-x86_64.rpm
+ - logstash-2.3.4-1.noarch
+
+* elasticsearch
+```
+#功能
+日志搜索引擎
+#安装
+yum install -y elasticsearch
+#修改监听的ip和数据存放路径
+vim /etc/elasticsearch/elasticsearch.yml
+#启动
+service elasticsearch start
+```
+
+2. logstash
+```
+#功能
+过滤和分析日志
+#下载
+wget https://download.elastic.co/logstash/logstash/packages/centos/logstash-2.3.4-1.noarch.rpm
+#重点是logstatsh的配置
+vim /etc/logstash/conf.d/logstash.conf
+#输入下面的内容,根据自己的业务做修改
+```
+```
+input {
+   beats {
+     type => beats
+     host => "x.x.x.x"
+     port => 5044
+   }
+}
+filter {
+	if [type] == "nginx-log" {
+		grok {
+
+			match => {"message" => "%{TIMESTAMP_ISO8601:gLogtime} %{IP:gClient} %{IPORHOST:gHost} %{NUMBER:gRequestTime} %{NUMBER:gUpstreamResponseTime} %{WORD:gMethod} %{URIPATHPARAM:gRequest} HTTP/%{NUMBER:gHttpVersion} %{NUMBER:gStatus} %{HOSTPORT:gUpstream}"}
+			remove_field => ["message"]
+		}
+	} else if [type] == "api-log" {
+		grok {
+			match => {"message" => "(action\s:\s%{WORD:gMethod}\scost\s:\s%{NUMBER:gCost:int})"}
+		}
+	} else if [type] == "manager-log" {
+		grok {
+			match => ["message", "(\[%{WORD:gLoglevel}\])(try\snode\s-)([0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12})(\s%{IP:gTargetNode}\s%{INT:gTaskCount:int}\:)"]
+		}
+	} else {
+		drop { }
+	}
+	if ([gCost]) {
+		mutate {
+			replace => {"count" => "%{gCost}"}
+		}
+	}
+}
+output {
+	elasticsearch {
+		hosts => ["x.x.x.x:9200"]
+	}
+}
+```
+```
+#启动
+service logstash start
+```
+
+3. filebeat
+```
+#功能
+收集日志
+#下载
+wget https://download.elastic.co/beats/filebeat/filebeat-1.2.3-x86_64.rpm
+#安装
+rpm -ivh filebeat-1.2.3-x86_64.rpm
+# 修改监视的文件目录和logstash的ip:port
+vim /etc/filebeat/filebeat.yml
+```
+
+4. kibana
+```
+#功能
+可视化
+#安装
+yum install -y kibana
+#修改elasticsearch.url的配置
+vim /opt/kibana/config/kibana.yml
+#启动，也可以添加service文件 以service方式启动
+nohup /opt/kibana/bin/kibana -c /opt/kibana/config/kibana.yml &
+```
+
+# kibana效果展示
+- 每秒钟请求数
+![image](../images/elk1.jpg)
+- 后端正常响应和错误响应
+![image](../images/elk2.jpg)
+- 单个请求的最长耗时统计
+![image](../images/elk3.jpg)
