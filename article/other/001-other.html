@@ -74,6 +74,7 @@
 					<li><a style="text-decoration:none" href="#linux8">guestmount之后拷贝数据失败</a></li>
 					<li><a style="text-decoration:none" href="#linux9">ubuntu如何修改hostname</a></li>
 					<li><a style="text-decoration:none" href="#linux10">mysql丢弃主键</a></li>
+					<li><a style="text-decoration:none" href="#linux11">windows系统下 从usb安装ubuntu server</a></li>
 				</ul>
 		</ol>
 	</div>
@@ -187,5 +188,12 @@ $echo "$hostname" > '/etc/hostname' </pre>
 	<pre>alter table t_example_table drop primary key</pre>
 	</div>
 
+	<blockquote id="linux11"><p>2.11 windows系统下 从usb安装ubuntu server<p></blockquote>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>下载ubuntu server iso
+下载universal usb installer，用这个工具将ubuntu的iso文件写入到u盘(当然容量要够)
+重启windows，按F8(不同主板有差异)，选择usb启动，然后按照引导界面操作即可
+	</pre>
+	</div>
 
 </div>
