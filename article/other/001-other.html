@@ -196,10 +196,10 @@ $echo "$hostname" > '/etc/hostname' </pre>
 SLF4J: Found binding in [jar:file:/Users/work/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-jdk14/1.7.25/bccda40ebc8067491b32a88f49615a747d20082d/slf4j-jdk14-1.7.25.jar!/org/slf4j/impl/StaticLoggerBinder.class]
 SLF4J: Found binding in [jar:file:/Users/work/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.1.11/ccedfbacef4a6515d2983e3f89ed753d5d4fb665/logback-classic-1.1.11.jar!/org/slf4j/impl/StaticLoggerBinder.class]
 	</pre>
-	<p>可以在build.gradle文件里添加下面的内容来解决</p>
+	<p>一般这种情况是新引入的包(或者其依赖包)和之前引入的包(或其依赖包)相冲突, 在新引入的包里加入排除语句即可</>
 	<pre>
-configurations.all {
-        exclude group: 'ch.qos.logback', module: 'logback-classic'
+testCompile('org.batfish:batfish:0.28.1') {
+	exclude group: 'org.slf4j'
 }
 	</pre>
 	</div>
