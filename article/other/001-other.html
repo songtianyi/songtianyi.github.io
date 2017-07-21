@@ -79,6 +79,7 @@
 			<li><a style="text-decoration:none" href="#windows">MAC</a></li>
 				<ul>
 					<li><a style="text-decoration:none" href="#mac1">sed替换</a></li>
+					<li><a style="text-decoration:none" href="#mac2">intellij创建gradle项目</a></li>
 				</ul>
 		</ol>
 	</div>
@@ -212,9 +213,16 @@ testCompile('org.batfish:batfish:0.28.1') {
 	<p>
 	mac环境下的问题与解决办法集锦。
 	</p>
+
 	<blockquote id="mac1"><p>3.1 sed替换<p></blockquote>
 	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 	<pre>sed -i "" "s/bilibili/panda/g" client.go</pre>
+	</div>
+
+	<blockquote id="mac2"><p>3.2 intellij创建gradle项目<p></blockquote>
+	<p>当使用本地安装的gradle时，会提示路径不对, 记得在mac下，gradle的路径包含libexec, 比如</p>
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>/usr/local/Cellar/gradle/3.5/libexec</pre>
 	</div>
 
 </div>
