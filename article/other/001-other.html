@@ -80,6 +80,7 @@
 				<ul>
 					<li><a style="text-decoration:none" href="#mac1">sed替换</a></li>
 					<li><a style="text-decoration:none" href="#mac2">intellij创建gradle项目</a></li>
+					<li><a style="text-decoration:none" href="#mac3">intellij 启动时端口被占用</a></li>
 				</ul>
 		</ol>
 	</div>
@@ -224,5 +225,12 @@ testCompile('org.batfish:batfish:0.28.1') {
 	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 	<pre>/usr/local/Cellar/gradle/3.5/libexec</pre>
 	</div>
+
+	<blockquote id="mac3"><p>3.3 intellij 启动项目时端口被占用<p></blockquote>
+	<p>用下面的命令找到占用端口的进程，然后杀掉即可
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>lsof -i:8081</pre>
+	</div>
+
 
 </div>
