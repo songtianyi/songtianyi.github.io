@@ -235,7 +235,9 @@ testCompile('org.batfish:batfish:0.28.1') {
 
 	<blockquote id="mac4"><p>3.4 删除git仓库远程分支<p></blockquote>
 	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
-	<pre>git branch -r  |grep -E -v "181|203|199|196|develop|master|release|115|118|138|142|202|112|144|201|204|28|75|87" | sed 's/origin\///'  | xargs git push origin --delete</pre>
+	<pre>git remote prune origin
+git branch -r  |grep -E -v "181|203|199|196|develop|master|release|115|118|138|142|202|112|144|201|204|28|75|87" | sed 's/origin\///'  | xargs git push origin --delete
+	</pre>
 	</div>
 
 </div>
