@@ -82,6 +82,7 @@
 					<li><a style="text-decoration:none" href="#mac2">intellij创建gradle项目</a></li>
 					<li><a style="text-decoration:none" href="#mac3">intellij 启动时端口被占用</a></li>
 					<li><a style="text-decoration:none" href="#mac4">删除git仓库远程分支</a></li>
+					<li><a style="text-decoration:none" href="#mac5">git merge时报编辑器错误</a></li>
 				</ul>
 		</ol>
 	</div>
@@ -239,5 +240,18 @@ testCompile('org.batfish:batfish:0.28.1') {
 git branch -r  |grep -E -v "181|203|199|196|develop|master|release|115|118|138|142|202|112|144|201|204|28|75|87" | sed 's/origin\///'  | xargs git push origin --delete
 	</pre>
 	</div>
+
+	<blockquote id="mac5"><p>3.5 git merge时报编辑器错误<p></blockquote>
+	错误信息
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>git merge error: There was a problem with the editor 'vi'
+	</pre>
+	</div>
+	解决方法
+	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+	<pre>git config --global core.editor /usr/bin/vim
+	</pre>
+	</div>
+
 
 </div>
