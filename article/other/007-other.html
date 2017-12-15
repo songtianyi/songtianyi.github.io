@@ -198,6 +198,15 @@ done
 </pre>
 </div>
 
+	<blockquote><p>将多行输出按规则合并成一行</p></blockquote>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+<pre>
+cat t.txt | paste -s -d\| -
+</pre>
+</div>
+
+
+
 
 	<h2 id="awk">2 awk命令</h2>
 	<blockquote><p>awk中的遍历和match函数</p></blockquote>
@@ -368,8 +377,6 @@ sed -i '1 i\test test' value.txt
 sed -i '/value/s/.*/#&/' value.txt #注释包含value单词的行
 </pre>
 </div>
-
-
 
 
 	<h2 id="reference"> 参考资料</h2>
