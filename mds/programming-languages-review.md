@@ -4,7 +4,7 @@
 
 ### 为什么会有这篇文章？
 
-从接触编程到现在，也学过不少语言，c/c++, qt，shell，node, golang, java, 前端的语言js/css3/html5也略懂一二，但是在语言选型的时候仍然会有困难，虽然能够根据自己的经验去做选择，大概率也不会错，毕竟主流语言也就那么几个，不管选哪个最终都能解决问题，但是针对自己的业务场景，不同语言带来的工作量差异还是很显著的，如果只是根据的经验和主观想法去选择，如何说服别人采纳你的意见呢？
+从接触编程到现在，也学过不少语言，c/c++, qt，shell，node, golang, java, 前端的语言js/css3/html5也略懂一二，但是在语言选型的时候仍然会有困难，虽然能够根据自己的经验去做选择，大概率也不会错，毕竟主流语言也就那么几个，不管选哪个最终都能解决问题，但是针对自己的业务场景，不同语言带来的工作量差异还是很显著的，如果只是根据自己的经验和主观想法去选择，如何说服别人采纳你的意见呢？
 
 ### 讲什么？
 
@@ -70,7 +70,7 @@ z = x + y
 
 类型理论涉及到的内容和类型系统会有部分重叠，你可以理解为类型理论是服务于类型系统的，即，我们使用了哪些理论来构建我们的类型系统，或者说该语言的类型系统实现了哪些特性。一门语言的类型系统一般只会实现其中的某几种特性，来满足特定场景的需求。
 
-##### polymorphism type
+##### Polymorphism type
 
 1. *Ad hoc polymorphism*: 一个函数会根据有限的类型组合拥有不同的实现，函数重载(function overloading)和操作符重载(operator overloading)依赖于此. 从polymorphism性质实现的角度讲，此类属于编译时多态(static polymorphism).
 
@@ -113,7 +113,7 @@ z = x + y
    i.save(100)
    ```
 
-3. *Subtype polymorphism*: 一个变量可以指代多个拥有共同父类的子类实例，即我们常说的多态。从polymorphism性质实现的角度讲，此类属于运行时多态(dynamic polymorphism). 
+3. *Subtype polymorphism*: 一个类型的变量可以指代多个拥有共同父类的子类实例，即我们常说的多态。从polymorphism性质实现的角度讲，此类属于运行时多态(dynamic polymorphism). 
 
    ```c++
    // c++
@@ -155,7 +155,7 @@ z = x + y
    }
    ```
 
-4. *Row polymorphism*: 也叫duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定之间的关系，比如subtyping中的继承，而duck typing是通过函数，如果它们实现了相同的函数，就认为它们是同一类，"If it walks like a duck and it quacks like a duck, then it must be a duck."  如果它走路像鸭子(实现了walk()函数)，也会像鸭子一样发出嘎嘎声(实现了gaga())函数，那它就是一只鸭子。
+4. *Row polymorphism*: 也叫duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定彼此之间的关系，比如subtyping中的继承的父类/子类，而duck typing是通过函数，如果它们实现了相同的函数，就认为它们是同一类，"If it walks like a duck and it quacks like a duck, then it must be a duck."  如果它走路像鸭子(实现了walk()函数)，也会像鸭子一样发出嘎嘎声(实现了gaga())函数，那它就是一只鸭子(属于同一类型)。
 
    ```python
    # python
@@ -183,21 +183,21 @@ z = x + y
    lift_off(whale) # Throws the error `'Whale' object has no attribute 'fly'`
    ```
 
-   duck typing也是go语言的主要特性，但是，严格来说并不算，因为duck typing发生在运行时，且没有显式的**interface**声明，上面的python示例就是典型的duck typing。
+   duck typing也是go语言的主要特性，但是严格来说并不算，因为duck typing发生在运行时，且没有显式的**interface**声明，上面的python示例就是典型的duck typing。
 
 5. *Polytypism*: 函数式编程语言里的范型特性。以Haskell为例，函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在Haskell语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度，优化函数功能的定义。<sup>[2]</sup>
 
 *PS. polymorphism翻译为多态性，但不单单指面向对象里的多态，而是指类型系统里的多态性质。编译时多态，是在编译时就能推导出类型或调用关系，宏也是一种编译时多态。运行时多态的实现依赖于虚函数机制(virtual function), 是在运行时确定调用关系。多态性质的引入可以提高代码的复用率*
 
-##### dependent types
+##### Dependent types
 
-依赖类型（或依存类型，dependent type）是指依赖于值的类型<sup>[4]</sup>, 此特性通过极其丰富的类型表达能力使得程序规范得以借助类型的形式被检查，从而有效减少程序错误。依赖类型的两个常见实例是依赖函数类型(又称**依赖乘积类型**, **Π-类型**)和依赖值对类型(又称**依赖总和类型**、**Σ-类型**)。
+依赖类型（或依存类型，dependent type）是指依赖于值的类型, 此特性通过极其丰富的类型表达能力使得程序规范得以借助类型的形式被检查，从而有效减少程序错误。依赖类型的两个常见实例是依赖函数类型(又称**依赖乘积类型**, **Π-类型**)和依赖值对类型(又称**依赖总和类型**、**Σ-类型**)。<sup>[4]</sup>
 
 一个依赖函数的返回值的类型可以依赖于某个参数的具体值，而非仅仅参数的类型，例如，一个输入参数为整型值n的函数可能返回一个长度为n的数组
 
 ```idris
--- Idris 连接两个列表
--- Vect n a 是依赖函数类型，a是列表元素的类型，n是输入参数，Vect n a 返回一个长度为n的列表
+// Idris 连接两个列表
+// Vect n a 是依赖函数类型，a是列表元素的类型，n是输入参数，Vect n a 返回一个长度为n的列表
 app : Vect n a -> Vect m a -> Vect (n + m) a
 ```
 
@@ -217,6 +217,82 @@ do(1, 10) // ok
 ```
 
 以依赖类型系统为基础的编程语言大多同时也作为构造证明与可验证程序的辅助工具而存在，如 Coq 和 Agda（但并非所有证明辅助工具都以类型论为基础）；近年来，一些以通用和系统编程为目的的编程语言被设计出来，如 Idris。
+
+##### Linear types
+
+Linear types的思想来源于Linear Logic, 它确保对象在程序运行期间有且仅有一个它的引用，这种类型用来描述不能被修改的值，比如文件描述符。linear 类型系统允许引用，但不允许别名(被多个变量引用), 类似于C++的*unique_ptr*指针, 只能被移动，不能被复制。
+
+##### Intersection types
+
+一个intersection type(交叉类型)是多个type的结合, 以此，你能够得到一个包含**多个类型**的所有成员(members)的新类型！比如，现有类Person, Serializable 和 Loggable, 新的类型 T = Person & Serializable & Loggable, 那么类型T拥有Person，Serializable及Loggable的所有成员。
+
+```typescript
+// TypeScript mixin example
+function extend<T, U>(first: T, second: U): T & U {
+    let result = <T & U>{};
+    for (let id in first) {
+        (<any>result)[id] = (<any>first)[id];
+    }
+    for (let id in second) {
+        if (!result.hasOwnProperty(id)) {
+            (<any>result)[id] = (<any>second)[id];
+        }
+    }
+    return result;
+}
+
+class Person {
+    constructor(public name: string) { }
+}
+interface Loggable {
+    log(): void;
+}
+class ConsoleLogger implements Loggable {
+    log() {
+        console.log("papapa!");
+    }
+}
+var jim = extend(new Person("Jim"), new ConsoleLogger());
+var n = jim.name;
+jim.log();
+```
+
+##### Union types
+
+学过C语言的对此类型并不陌生，和intersection type类似，一个union type可以为多个类型，但是在任意时刻，它的值的类型只能是其中所有类型中的一种。
+
+```c
+/*c language*/
+union a_bc {  
+    int i;  
+    char mm;  
+};
+```
+
+在`TypeScript`里用竖线（ `|`）分隔每个类型，所以 `value : number | string | boolean`表示一个值可以是 `number`， `string`，或 `boolean`。
+
+```typescript
+/**
+ * Takes a string and adds "padding" to the left.
+ * If 'padding' is a string, then 'padding' is appended to the left side.
+ * If 'padding' is a number, then that number of spaces is added to the left side.
+ */
+function padLeft(value: string, padding: string | number) {
+     if (typeof padding === "number") {
+        return Array(padding + 1).join(" ") + value;
+    }
+    if (typeof padding === "string") {
+        return padding + value;
+    }
+}
+
+let indentedString = padLeft("Hello world", true); // errors during compilation
+let ok = padLeft("Hello world", 0) // compile ok
+```
+
+##### Existential types
+
+
 
 ### 语法
 
@@ -259,7 +335,7 @@ xxx
 
 ##### 编译器/解释器
 
-##### 框架
+##### 标准库
 
 ### 选型
 
@@ -308,4 +384,5 @@ xxx
 1. [《Type Systems》, Luca Cardelli](http://www.cs.colorado.edu/~bec/courses/csci5535/reading/cardelli-typesystems.pdf)
 2. [《函数式语言泛型特性的研究与实现》, LI Yang, YU Shangchao, WANG Peng](http://cea.ceaj.org/CN/article/downloadArticleFile.do?attachType=PDF&id=29391)
 3. [《Types and Programming Languages》, Benjamin C. Pierce](https://www.asc.ohio-state.edu/pollard.4/type/books/pierce-tpl.pdf)
-4. [依赖类型, wiki](https://zh.wikipedia.org/wiki/%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B)
+4. [《依赖类型》, wikipedia](https://zh.wikipedia.org/wiki/%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B)
+5. [《what is dependent type?》, StackOverflow](https://stackoverflow.com/questions/9338709/what-is-dependent-typing)
