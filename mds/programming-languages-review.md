@@ -428,7 +428,7 @@ class WildcardDemo
     }
 ```
 
-那java的类型通配符和存在类型有什么关系呢？先看看scala的缔造者*Martin Odersky* 对scale引入存在类型的回答
+那java的类型通配符和存在类型有什么关系呢？先看看scala的缔造者*Martin Odersky* 对scala引入存在类型的回答
 
 > Bill Venners: Existential types were added to Scala relatively recently. The justification I heard for existentential types was that they allow you to map all Java types, in particular Java's wildcard types, to Scala types. Are existential types larger than that? Are they a superset of Java's wildcard types? And is there any other reason for them that people should know about?
 >
