@@ -6,7 +6,7 @@
 
 ### 为什么会有这篇文章？
 
-从接触编程到现在，也学过不少语言，c/c++, qt，shell，node, golang, java, 前端的语言js/css3/html5也略懂一二，但是在语言选型的时候仍然会有困难，虽然能够根据自己的经验去做选择，大概率也不会错，毕竟主流语言也就那么几个，不管选哪个最终都能解决问题，但是针对自己的业务场景，不同语言带来的工作量差异还是很显著的，如果只是根据自己的经验去选择，是难以说服别人采纳你的意见的。所以有必要系统地学习编程语言，这篇文章也是边学边写而成。编程语言往大了讲是很复杂的，语法，类型系统，编译原理，编译器，解释器，内存模型，并发模型，工具链等等，单拿一点出来都能写一本书了。所以本文专注在类型系统(type systems)，语法(syntax)和编程范式(programming paradigms)上，最终让我们能够能够根据业务场景选择合适的语言.
+从接触编程到现在，也学过不少语言，c/c++, qt，shell，node, golang, java, 前端的语言js/css3/html5也略懂一二，但是在语言选型的时候仍然会有困难，虽然能够根据自己的经验去做选择，大概率也不会错，毕竟主流语言也就那么几个，不管选哪个最终都能解决问题，但是针对自己的业务场景，不同语言带来的工作量差异还是很显著的，如果只是根据自己的经验去选择，是难以说服别人采纳你的意见的, 所以有必要系统地学习编程语言。编程语言往大了讲是很复杂的，语法，类型系统，编译原理，编译器，解释器，内存模型，并发模型，工具链等等，单拿一点出来都能写一本书了。所以本文专注在类型系统(type systems)，语法(syntax)和编程范式(programming paradigms)上，最终让我们能够根据业务场景选择合适的语言.
 
 ### 类型系统
 
@@ -37,9 +37,9 @@ fac n = n * fac (n - 1)
 
 ##### 类型检查
 
-类型系统是类型语言的首要组成部分。类型系统职责之一是跟踪变量的类型，判断代码是否满足类型约束，这种行为称为类型检查**typechecking**, 类型检查是保证程序稳定运行的手段，同时又分为运行时检查(runtime checks)和静态检查(**static checks), 运行时检查也叫动态检查(**dynamic checking**). 
+类型系统是类型语言的首要组成部分。类型系统的职责之一是跟踪变量的类型，判断代码是否满足类型约束，这种行为称为类型检查(**typechecking**), 类型检查是保证程序稳定运行的手段，同时又分为运行时检查(runtime checks)和静态检查(static checks), 运行时检查也叫动态检查(**dynamic checking**). 
 
-类型系统做了静态检查，还有必要做动态检查嘛？有，比如数组的边界检查，就必须在运行时做。运行时的类型检查会导致程序运行终止(fail-stop)，为什么还要检查呢？让它运行到无法继续执行为止不就好了？类型检查虽然会出错，但是阻止了更恶劣的错误(untrapped errors)的发生，比如保证gc等机制能够正常运转，让程序能够更平滑地退出.  动态检查的缺点是会导致fail-stop，也会消耗资源，影响性能，所以通常我们认为拥有静态检查的类型系统的语言会更稳定高效。但是静态检查就足够安全了吗？不一定，因为某些语言在静态检查时没有检查一些危险操作，比如C指针的运算和转换，这类语言称为**weekly checked**, 反之, 程序在编译期间能够尽可能发现所有的错误, 称为**strongly checked**.
+类型系统做了静态检查，还有必要做动态检查嘛？有，比如数组的边界检查，就必须在运行时做。运行时的类型检查会导致程序运行终止(fail-stop)，那为什么还要检查呢？让它运行到无法继续执行为止不就好了？类型检查虽然会出错，但是阻止了更恶劣的错误(untrapped errors)的发生，比如保证gc等机制能够正常运转，让程序能够更平滑地退出.  动态检查的缺点是会导致fail-stop，也会消耗资源，影响性能，所以通常我们认为拥有静态检查的类型系统的语言会更稳定高效。但是静态检查就足够安全了吗？不一定，因为某些语言在静态检查时没有检查一些危险操作，比如C语言中指针的运算和转换，这类语言称为**weekly checked**, 反之, 程序在编译期间能够尽可能发现所有的类型错误, 称为**strongly checked**.
 
 那么延伸一下，怎么区分一门语言是*weekly checked*, 还是*strongly checked*? 以下几点可以作为判断的依据。
 
@@ -67,7 +67,7 @@ a + b; // a将会被自动转换为double类型，转换的结果和b进行加�
 
 ###### Untagged unions
 
-*union type*即联合类型，之后的内容会介绍。联合类型中的不同类型的值会被存储在同一地址，这也是不稳定因素之一，所以拥有*untagged unions*的语言属于*weekly checked*. 和*untagged*相对的是*tagged union type*, *tagged union*会用tag字段显式地标记当前正在使用的类型，因此要想对安全一些。
+*union type*即联合类型，之后的内容会介绍。联合类型中的不同类型的值会被存储在同一地址，这也是不稳定因素之一，所以拥有*untagged unions*的语言属于*weekly checked*. 和*untagged*相对的是*tagged union type*, *tagged union*会用tag字段显式地标记当前正在使用的类型，因此要相对安全一些。
 
 
 
@@ -100,13 +100,13 @@ z = x + y
 
 ### 类型理论
 
-类型理论涉及到的内容和类型系统会有部分重叠，你可以理解为类型理论是服务于类型系统的，即，我们使用了哪些理论来构建我们的类型系统，或者说该语言的类型系统实现了哪些特性。一门语言的类型系统一般只会实现其中的某几种特性，来满足某些场景的需求，这也是语言之争的根源。
+类型理论涉及到的内容和类型系统会有部分重叠，你可以理解为，类型理论是服务于类型系统的，即，我们使用了哪些理论来构建我们的类型系统，或者说该语言的类型系统实现了哪些特性。一门语言的类型系统一般只会实现其中的某几种特性，来满足某些场景的需求，这也是语言之争的根源。
 
 ##### Polymorphism type
 
-*polymorphism翻译为多态性，但不单单指面向对象里的多态，而是指类型系统里的多态性质。编译时多态，是在编译时就能推导出类型或调用关系，宏也是一种编译时多态。运行时多态的实现依赖于虚函数机制(virtual function), 是在运行时确定调用关系。多态性质的引入可以提高代码的复用率*
+polymorphism翻译为多态性，但不单单指面向对象里的多态，而是指类型系统里的多态性质。编译时多态，是在编译时就能推导出类型或调用关系，宏也是一种编译时多态。运行时多态的实现依赖于虚函数机制(virtual function), 是在运行时确定调用关系。多态性质的引入可以提高代码的复用率。
 
-1. *Ad hoc polymorphism*: 一个函数会根据有限的类型组合而拥有不同的实现，函数重载(function overloading)和操作符重载(operator overloading)依赖于此. 从polymorphism性质实现的角度讲，此类属于编译时多态(static polymorphism).
+1. *Ad hoc polymorphism*: 一个函数会根据有限的类型组合而拥有不同的实现，函数重载(function overloading)和操作符重载(operator overloading)依赖于此. 从polymorphism性质实现的角度讲，属于编译时多态(static polymorphism).
 
    ```java
    // java
@@ -118,7 +118,7 @@ z = x + y
    }
    ```
 
-2. *Parametric polymorphism*: 声明的类型未被指定为某一类型，而在实现时可以指定任意类型，即通常我们所说的泛型，在C++里称为模板(template). 从polymorphism性质实现的角度讲，此类属于编译时多态(static polymorphism).
+2. *Parametric polymorphism*: 声明的类型未被指定为某一类型，而在实现时可以指定为任意类型，即通常我们所说的泛型，在C++里称为模板(template). 从polymorphism性质实现的角度讲，属于编译时多态(static polymorphism).
 
    ```java
    // java    
@@ -147,7 +147,7 @@ z = x + y
    i.save(100)
    ```
 
-3. *Subtype polymorphism*: 一个类型的变量可以指代**多个该类的子类实例**，即我们常说的多态。从多态性质实现的角度讲，此类属于运行时多态(dynamic polymorphism). 
+3. *Subtype polymorphism*: 也叫subtyping, 一个类型的变量可以指代**多个该类的子类实例**，即我们常说的多态。从多态性质实现的角度讲，此类属于运行时多态(dynamic polymorphism). 
 
    ```c++
    // c++
@@ -189,7 +189,11 @@ z = x + y
    }
    ```
 
-4. *Row polymorphism*: 也叫duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定彼此之间的关系，比如subtyping中的父类/子类关系，而duck typing是通过函数，如果它们实现了相同的函数，就认为它们是同一类。"If it walks like a duck and it quacks like a duck, then it must be a duck."  如果它走路像鸭子(实现了walk()函数)，也会像鸭子一样发出嘎嘎声(实现了gaga())函数，那它就是一只鸭子(属于同一类型)。
+4. *Row polymorphism*: 也叫duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定彼此之间的关系，比如subtyping中的父类/子类关系，而duck typing是通过函数，如果它们实现了相同的函数，就认为它们是同一类。
+
+   > If it walks like a duck and it quacks like a duck, then it must be a duck.
+
+   如果它走路像鸭子(实现了walk()函数)，也会像鸭子一样发出嘎嘎声(实现了gaga())函数，那它就是一只鸭子(属于同一类型)。
 
    ```python
    # python
@@ -219,11 +223,11 @@ z = x + y
 
    duck typing也是go语言的主要特性，但是严格来说并不算，因为duck typing发生在运行时，且没有显式的**interface**声明，上面的python示例就是典型的duck typing。
 
-5. *Polytypism*: 函数式编程语言里的泛型特性。以Haskell为例，函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在Haskell语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度，优化函数功能的定义。<sup>[2]</sup>
+5. *Polytypism*: 函数式编程语言里的泛型特性。以Haskell为例，函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在Haskell语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度。<sup>[2]</sup>
 
 ##### Dependent types
 
-依赖类型（或依存类型，dependent type）是指依赖于值的类型, 此特性通过极其丰富的类型表达能力使得程序规范得以借助类型的形式被检查，从而有效减少程序错误。依赖类型的两个常见实例是依赖函数类型(又称**依赖乘积类型**, **Π-类型**)和依赖值对类型(又称**依赖总和类型**、**Σ-类型**)。<sup>[4]</sup>
+依赖类型（或依存类型，dependent type）是指依赖于值的类型, 此特性通过极其丰富的类型表达能力使得程序得以借助类型的形式被检查，从而有效减少程序错误。依赖类型的两个常见实例是依赖函数类型(又称**依赖乘积类型**, **Π-类型**)和依赖值对类型(又称**依赖总和类型**、**Σ-类型**)。<sup>[4]</sup>
 
 一个依赖函数的返回值的类型可以依赖于某个参数的具体值，而非仅仅参数的类型，例如，一个输入参数为整型值n的函数可能返回一个长度为n的数组
 
@@ -249,7 +253,7 @@ do(10, 1) // compile error
 do(1, 10) // ok
 ```
 
-以依赖类型系统为基础的编程语言大多同时也作为构造证明与可验证程序的辅助工具而存在，如 Coq 和 Agda（但并非所有证明辅助工具都以类型论为基础）；近年来，一些以通用和系统编程为目的的编程语言被设计出来，如 Idris。
+以依赖类型系统为基础的编程语言大多同时也作为构造证明与可验证程序的辅助工具而存在，如 Coq 和 Agda（但并非所有证明辅助工具都以类型论为基础)。近年来，一些以通用和系统编程为目的的编程语言被设计出来，如 Idris。
 
 ##### Linear types
 
@@ -257,7 +261,7 @@ Linear types的思想来源于Linear Logic, 它确保对象在程序运行期间
 
 ##### Intersection types
 
-一个intersection type(交叉类型)是多个type的结合, 以此，你能够得到一个包含**多个类型**的所有成员(members)的新类型！比如，现有类Person, Serializable 和 Loggable, 新的类型 T = Person & Serializable & Loggable, 那么类型T拥有Person，Serializable及Loggable的所有成员。
+一个intersection type(交叉类型)是多个type的结合, 以此，你能够得到一个包含**多个类型**的所有成员(members)的新类型！比如，现有三个类Person, Serializable 和 Loggable, 新的类型 T = Person & Serializable & Loggable, 那么类型T拥有Person，Serializable及Loggable的所有成员。
 
 ```typescript
 // TypeScript mixin example
@@ -295,17 +299,18 @@ jim.log();
 学过C语言的对此类型并不陌生，和intersection type类似，一个union type可以为多个类型，但是在任意时刻，它的值的类型只能是其中所有类型中的一种。
 
 ```c
-/*c language*/
+//c
 union a_bc {  
     int i;  
     char mm;  
 };
 ```
 
-在`TypeScript`里用竖线（ `|`）分隔每个类型，所以 `value : number | string | boolean`表示一个值可以是 `number`，或s `string`，或 `boolean`。
+在*TypeScript*里用竖线`|`分隔每个类型，所以 `value : number | string | boolean`表示一个值可以是 `number`，或`string`，或 `boolean`。
 
 ```typescript
 /**
+ * TypeScript
  * Takes a string and adds "padding" to the left.
  * If 'padding' is a string, then 'padding' is appended to the left side.
  * If 'padding' is a number, then that number of spaces is added to the left side.
@@ -335,9 +340,7 @@ let ok = padLeft("Hello world", 0) // compile ok
 public static void add(List<? extends Number> list)
 ```
 
-Number的所有子类都可以作为入参
-
-Ex.
+Number的所有子类都可以作为入参, 例如:
 
 ```java
 //Java program to demonstrate Upper Bounded Wildcards
@@ -379,7 +382,7 @@ class WildcardDemo
 
 ```java
 Collection<?> c = new ArrayList<String>();
-c.add(new Object()); // Compile time error
+c.add(new Object()); // compile error
 ```
 
 当类型不可推断时，上限是*Object* 即
@@ -396,9 +399,7 @@ List<? extends Object>
 List<? super Integer>
 ```
 
-那么，Integer类型的所有父类都可以作为入参.
-
-Ex.
+那么，Integer类型的所有父类都可以作为入参。例如:
 
 ```java
 //Java program to demonstrate Lower Bounded Wildcards
@@ -447,7 +448,7 @@ class WildcardDemo
 
 可见，java类型通配符的设计思想来源于存在类型，但有些不同。scala引入存在类型是为了兼容java和jvm，所以会比`?`更强大。那么既然区别不大，理解了类型通配即理解了存在类型。这是一个曲线救国的方式。
 
-接下来，我们从数学化定义开始。
+接下来，我们从数学定义的角度来理解。
 
 *existential type*里的existential来源于存在量词`∃`,  `∃`在谓词逻辑中的解释:
 
@@ -463,7 +464,7 @@ T = ∃X { X a; int f(X); }
 
 类型X是存在类型, 即存在一个类型X，满足此表达式，在编程语言里我们称之为**可实现**。存在类型适合用来定义接口，不论是模块之间还是语言之间。
 
-这里要提下泛(即前面讲到的*Parametric polymorphism*, 也叫*Universal type*), 避免混淆。*Universal type*中的universal来源于全称量词`∀`, `∀`在谓词逻辑中的解释:
+这里要提下泛型(即前面讲到的*Parametric polymorphism*, 也叫*Universal type*), 以避免混淆。*Universal type*中的universal来源于全称量词`∀`, `∀`在谓词逻辑中的解释:
 
 ```haskell
 ∀ x: P(x) 表示 P(x) 对于所有 x 为真。
@@ -483,9 +484,9 @@ T = ∀X { X a; int f(X); }
 
 ##### Types
 
-一门语言的规范，首先是类型(type), 声明(statements), 表达式(expressions)等， 然后是作用域(scoping)。前面的内容介绍了类型系统, 那么该类型系统定义了哪些类型，实现了哪些特性是我们首先要了解的。通常一门语言的语法规范会以grammar<sup>6</sup>的形式来定义，例如golang中对于浮点数字的描述:
+一门语言的规范，首先是类型(type), 声明(statements), 表达式(expressions)等， 然后是作用域(scoping)。前面的内容介绍了类型系统, 那么该类型系统定义了哪些类型，实现了哪些特性是我们首先要了解的。通常一门语言的语法规范会以grammar<sup>[6]</sup>的形式来定义，例如golang中对于浮点数字的描述:
 
-```scheme
+```
 float_lit = decimals "." [ decimals ] [ exponent ] |
             decimals exponent |
             "." decimals [ exponent ] .
@@ -498,8 +499,6 @@ exponent  = ( "e" | "E" ) [ "+" | "-" ] decimals .
 ###### Primitive types
 
 即基础类型, 或者叫内置(builtin)类型, 是程序以及[复合类型](https://zh.wikipedia.org/wiki/%E8%A4%87%E5%90%88%E9%A1%9E%E5%9E%8B)的创建基础。
-
-*Please pr for fulfilling the primitive types of all languages*
 
 | 基础类型                                     | 解释                                       |
 | ---------------------------------------- | ---------------------------------------- |
@@ -517,15 +516,13 @@ exponent  = ( "e" | "E" ) [ "+" | "-" ] decimals .
 
 即复合类型， 也叫*Composite type*s. 复合类型可以由基础类型和复合类型所构成。
 
-*Please pr for fulfilling the compound types of all languages*
-
 | 复合类型                       | 解释                                       |
 | -------------------------- | ---------------------------------------- |
 | array, slice, list, vector | 数组, `ex`. int *a = new array[3]          |
 | struct, class              | 结构体/类. `ex`. struct{a:b, c:d}            |
 | map                        | key-value, 包含不同的实现方式                     |
 | interface                  | 接口                                       |
-| channel                    | 信道，好像只有golang有？                          |
+| channel                    | 信道                                       |
 | function                   | 函数                                       |
 | enum                       | 枚举, 在某些语言里是基础类型, 比如TypeScript, 某些不是, 比如Java |
 | union                      | 联合                                       |
@@ -550,7 +547,7 @@ EmptyStatement:
 
 ###### Labeled statement
 
-标签语句, 通常作为**goto**, **break**, **continue** 的目标，例如c/c++里的**goto**语句，*LOOP*加上冒号即是*labeled statement*，标签*LOOP*即是**goto**的目标。
+标签语句, 通常作为**goto**, **break**, **continue** 的目标，例如c/c++里的**goto**语句，一个单词加上冒号即是*labeled statement*。下面代码中的标签语句*LOOP:*即是**goto**的目标。
 
 ````c
 /*c*/
@@ -585,7 +582,7 @@ LabeledStmt = Label ":" Statement .
 Label       = identifier .
 ```
 
-*labeled statement*作为**goto**的目标大家应该见的很多，这里再举一个作为**continue**的目标的例子，便于理解。这种用法大家应该见的不多。
+*labeled statement*作为**goto**的目标大家应该见的很多，这里再举一个作为**continue**的目标的例子，便于理解。
 
 ```go
  // golang
@@ -633,7 +630,7 @@ assert( size <= LIMIT );
 
 ###### Switch statement
 
-**switch**条件语句，判断表达式的值，满足不同的条件执行时执行不同的逻辑, 当所有条件都不满足时，执行默认逻辑(如果存在的话).
+**switch**条件语句，判断表达式的值，满足不同的条件执行时执行不同的逻辑, 当所有条件都不满足时，执行默认逻辑(如果存在).
 
 ```javascript
 switch(expression) {
@@ -714,7 +711,7 @@ int main(void){
 
 ###### For statement
 
-**for**语句, 一般由三部分组成，初始化表达式，条件表达式和一个末尾表达式(post statement)，初始化表达式只在开始执行一次，条件表达式用来判断本次执行是否退出，末尾表达式在每次**for**语句的代码逻辑执行完后都会执行。
+**for**语句, 一般由三部分组成，初始化表达式，条件表达式和一个末尾表达式(post statement)，初始化表达式只在开始时执行一次，条件表达式用来判断本次执行是否退出，末尾表达式在每次**for**语句的代码逻辑执行完后都会执行。
 
 ```go
 // golang
@@ -814,7 +811,7 @@ int main ()
 }
 ```
 
-*labeled break*已在*labeled statement*中描述，这里不赘述.
+*labeled break*已在*labeled statement*中说明，这里不再赘述.
 
 ###### Continue statement
 
@@ -888,7 +885,7 @@ RowLoop:
 
 ###### Return statement
 
-**return**语句跳出当前函数，回到函数的调用方, 同时将一个或者多个返回值传给调用方。本应出现在最后一行**return**语句，如果没有返回值，可以省略。*Groovy*语言的**return**语句是可选的。
+**return**语句跳出当前函数，回到函数的调用方, 同时将一个或者多个返回值传给调用方。本应出现在最后一行的**return**语句，在没有返回值的情况下，可以省略。*Groovy*语言的**return**语句是可选的。
 
 ```groovy
     // sum method
@@ -953,7 +950,7 @@ int main ()
 }
 ```
 
-以上都是常见的语句，除此之外，语言也会有实现一些非常规的语句，比如*golang*的*defer statemnet*
+以上都是常见的语句，除此之外，语言也会有实现一些非常规的语句，比如*golang*的**defer**语句。
 
 ##### Operators
 
@@ -994,8 +991,8 @@ int main ()
 | >    |      |      |
 | >=   |      |      |
 |      |      |      |
-| \|\| |      | 1    |
-| &&   |      | 2    |
+| \|\| |      |      |
+| &&   |      |      |
 |      |      |      |
 | +    |      |      |
 | -    |      |      |
@@ -1013,7 +1010,7 @@ int main ()
 
 ##### Expressions
 
-在编程语言里一个表达式(expression<sup>7</sup>)是由一个或多个常量，变量，操作符或函数组成。通过对表达式求值(evaluate)来得到一个新的值，这个新的值可以是基础类型，也可以是复合类型。表达式在运算时，会进行类型推断和类型检查。从之前讲的内容可以看出，*statements*的作用主要是控制代码逻辑的执行顺序，*expressions*则是具体的代码逻辑.
+在编程语言里一个表达式(expression<sup>[7]</sup>)是由一个或多个常量，变量，操作符或函数组成。通过对表达式求值(evaluate)来得到一个新的值，这个新的值可以是基础类型，也可以是复合类型。表达式在运算时，会进行类型推断和类型检查。从之前讲的内容可以看出，*statements*的作用主要是控制代码逻辑的执行顺序，*expressions*则是具体的代码逻辑.
 
 ###### Variable expression
 
@@ -1047,11 +1044,11 @@ v := f(1)
 a[x]
 ```
 
-表达式并没有严格的分类，各个语言也不尽相同，这里仅列举几个例子来说明即可。
+表达式并没有严格的分类，各个语言也不尽相同，这里仅列举了部分例子来说明。
 
 ##### Scoping
 
-即作用域, 作用域是名称(比如变量的声明)和其实体(entity, 比如变量的定义)的绑定规则, 约束了实体的作用范围，保证程序是无歧义的。
+即作用域, 作用域是名称(比如变量的声明)和其实体(entity, 比如变量的定义)的绑定规则。 作用域约束了实体的作用范围，保证程序是无歧义的。
 
 ###### Expression scope
 
@@ -1066,7 +1063,7 @@ a[x]
 
 ###### Block scope
 
-通常编程语言都会使用花括号`{}`来将代码包裹成块(block), 在block内声明的实体，仅在实体内有效。
+通常编程语言都会使用花括号`{}`来将代码包裹成块(block), 在block内声明的实体，仅在block内有效。
 
 ```go
 // golang
@@ -1115,7 +1112,7 @@ def sum_of_squares(n):
 
 ###### Global scope
 
-在所有模块，所有文件内都有效的实体称为全局实体，此类作用域属于*global scope*. 在编程实践当中，应尽量避免使用全局变量
+在所有模块，所有文件内都有效的实体称为全局实体，此类作用域属于*global scope*. 在编程实践当中，应尽量避免使用。
 
 ##### Packages
 
@@ -1139,7 +1136,7 @@ Subnetutils sbt = new Subnetutils("xx")
 from sys import argv
 ```
 
-顺便说下python里*from*和常规*import*之间，在包的名称上有差异。
+顺便说下python里*from*和常规*import*之间，在包的的使用上会有差异。
 
 ```
 >>> from os import path
@@ -1197,9 +1194,8 @@ int foo(char* name) {
 
 编程范式(programming paradigms)，是在编程的理论与实践当中提炼出的概念模型。
 
-> Programming Paradigm: A conceptual model underlying
+> Programming Paradigm: A conceptual model underlying the theories and practice of programming
 >
-> the theories and practice of programming
 
 ##### IP(Imperative Programming)
 
@@ -1244,17 +1240,17 @@ return sort(result);
 
 **OOP(Object-oriented Programming)**
 
-即我们常说的面向对象编程。大家应该听过这句名言，程序 = 数据结构 + 算法，数据结构或者说数据模型需要类型来承载，在**SP**和**PP**的范畴里，数据类型之间是松散的，数据结构和算法之间也是松散的，而**OOP**则提供了一种类似于人类对现实世界建模的方法，对二进制世界的类型和逻辑进行建模和封装，并在此基础上提供了更多的类型和语法特性。**OOP**的优点简列如下(封装，继承，多态):
+即我们常说的面向对象编程。在**SP**和**PP**的范畴里，数据类型是松散的，数据结构和算法之间也是松散的，而**OOP**则提供了一种类似于人类对现实世界建模的方法，对二进制世界的类型和逻辑进行建模和封装，并在此基础上提供了更多的类型和语法特性。**OOP**的优点简列如下(封装，继承，多态):
 
 * 当我们对一组数据类型进行抽象，封装成类(class, 类是**OOP**的基本概念)时，我们可以定义该类的子类，来共享它的数据类型和逻辑，此方式称为继承(inheritance), 能够有效减少我们的开发时间。
-* 当类被定义后，通常它只需要关注它自身的数据和逻辑，通过语法特性，将这类数据隐藏起来，避免被非法(或者说不合理的, 不应当的)访问，提升程序和系统的安全性。
+* 当类被定义后，通常它只需要关注它自身的数据和逻辑，通过语法特性，一般是*public*/*private*关键字，将这类数据和逻辑隐藏起来，避免被非法(或者说不合理的, 不应当的)访问，提升程序和系统的安全性。
 * 一个封装好的类，不仅能被它的创建者使用，也可以分发(在网络上)给其他人使用, 比如*Java*的jar包。
 * 一门语言不可能把开发者所需要的所有的类型都定义好，class的概念则很好地解决了这个问题，开发者可以定义任意自己想要的数据类型。
 * **OOP**的多态性质可以让代码更加灵活。
 
 ##### DP(Declarative Programming)
 
-即，描述性范式。和**IP**相反，此类语言只描述最终的编码意图，不描述达到意图的过程。举个例子，用程序来回答你是怎么回家的？
+即，描述性范式。和**IP**相反，此类语言只描述最终的编码意图，不描述达到意图的过程。举个例子，如何用程序来回答你是怎么回家的？
 
 * *IP*: 
 
@@ -1272,13 +1268,14 @@ SELECT * FROM Users WHERE Country=’Mexico’;
 
 ##### LP(Logic Programming)
 
-即逻辑编程，它属于**DP**的范畴。逻辑编程的要点是将数学中的逻辑风格带入计算机程序设计之中。它设置答案须匹配的规则来解决问题(rule-based)，而非设置步骤来解决问题, 事实+规则=结果。*Prolog*是典型的**LP**范式语言，此类语言主要应用在人工智能，专家系统等领域。
+即逻辑编程，它属于**DP**的范畴。逻辑编程的要点是将数学中的逻辑风格带入计算机程序设计之中。它设置匹配规则来解决问题(rule-based)，而非设置步骤来解决问题, 即事实+规则=结果。*Prolog*是典型的**LP**范式语言，此类语言主要应用在人工智能，专家系统等领域。
 
 ##### FP(Functional Programming)
 
 即函数式编程，也是**DP**的子集, 在函数式编程里，所有的计算都是通过函数调用完成的，函数里的**SP**逻辑尤其是控制流逻辑，被隐藏了起来. 假设我们要编写一个函数，将一个数组的每个元素都乘以2，**PP**风格的代码如下:
 
 ```typescript
+// TypeScript
 function double (arr) {
   let results = []
   for (let i = 0; i < arr.length; i++){
@@ -1288,7 +1285,7 @@ function double (arr) {
 }
 ```
 
-上述代码，详细地表明了整个计算过程，包括迭代过程和计算方法。所以**IP**范畴的范式会详细描述你是怎么完成这件事的，有篇文章是这么描述**IP**的
+上述代码，详细地写明了整个计算过程，包括迭代过程和计算方法。所以**IP**范畴的范式会详细描述计算机是如何完成这件事的，有篇文章是这么描述**IP**的
 
 > First do this, then do that.
 
@@ -1304,7 +1301,7 @@ function double (arr) {
 
 ##### MP(Meta Programming)
 
-即元编程, 也写做*Metaprogramming*。元编程是一种可以将程序当作数据来操作的技术，元编程能够读取，生成，分析或转换其他的程序代码，甚至可以在运行时修改自身. *C++*的template即属于*meta programming*的范畴，编译器在编译时生成具体的源代码。在web框架*Ruby on Rails*里，元编程被普遍使用。比如，在SQL数据库的表里，有一个*table*表users，在ruby中用类*User*表示，你需要根据user的email字段来获取相应的结果，通常的做法是写个sql查询语句去完成，但是*Ruby on Rails*在元编程的加持下，会让这件事变得异常简单。
+即元编程, 也写做*Metaprogramming*。元编程是一种可以将程序当作数据来操作的技术，元编程能够读取，生成，分析或转换其他的程序代码，甚至可以在运行时修改自身. *C++*的template即属于*meta programming*的范畴，编译器在编译时生成具体的源代码。在web框架*Ruby on Rails*里，元编程被普遍使用。比如，在SQL数据库的表里，有一个表users，在ruby中用类*User*表示，你需要根据user的email字段来获取相应的结果，通常的做法是写个sql查询语句去完成，但是*Ruby on Rails*在元编程的加持下，会让这件事变得异常简单。
 
 ```ruby
 User.find_by_email('songtianyi630@163.com')
@@ -1312,7 +1309,7 @@ User.find_by_email('songtianyi630@163.com')
 
 *find_by_email*并不是我们自己的定义的函数，它是如何完成这件事的呢？框架会根据函数名*find_by_email*动态生成一个查询函数去查询数据库。除了这种黑魔法，元编程还能够动态修改一个类的成员函数，在运行时创建函数等等，这里不展开讲，在*Ruby*或者*Groovy*的相关书籍里会有详细介绍。语言的反射特性和对模板的支持是实现元编程的主要基础，虽然*c++*并不支持反射，但*c++*的模板提供了元编程的能力。
 
-编程范式还有很多细分项，比如*Event-driven programming*, *Distributed programming*<sup>10</sup>, 这里不再一一列举。
+编程范式还有很多细分项，比如*Event-driven programming*, *Distributed programming*<sup>[10]</sup>等, 这里不再一一列举。
 
 ### 依赖管理
 
@@ -1370,7 +1367,7 @@ TODO
 整理完这个对比表才发现一些有意思的事情:
 
 * 原来大部分语言都有**OOP**, *js*也是.
-* *Go*的优势并不在自己的类型系统和语法特性上, 它的设计充分体现了*less is more*, 上手十分简单, 工程实践效果很好。在编程范式的细分项上，还有一个叫*concurrent programming*的范式, *go*就是此类的典范。
+* *Go*的优势并不在自己的类型系统和语法特性上, 它的设计充分体现了*less is more*的设计哲学, 上手十分简单, 工程实践效果很好。
 
 ![Tree format](http://on-img.com/chart_image/5b20fa53e4b06350d462d78b.png)
 
