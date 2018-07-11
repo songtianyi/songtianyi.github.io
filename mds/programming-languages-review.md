@@ -6,7 +6,7 @@
 
 ### 为什么会有这篇文章？
 
-从接触编程到现在，也学过不少语言，c/c++, qt，shell，node, golang, java, 前端的语言js/css3/html5也略懂一二，但是在语言选型的时候仍然会有困难，虽然能够根据自己的经验去做选择，大概率也不会错，毕竟主流语言也就那么几个，不管选哪个最终都能解决问题，但是针对自己的业务场景，不同语言带来的工作量差异还是很显著的，如果只是根据自己的经验去选择，是难以说服别人采纳你的意见的。所以有必要系统地学习编程语言，这篇文章也是边学边写而成。编程语言往大了讲是很复杂的，语法，类型系统，编译原理，编译器，解释器，内存模型，并发模型，工具链等等，单拿一点出来都能写一本书了。所以本文专注在类型系统(type systems)，语法(syntax)和编程范式(programming paradigms)上，最终能够根据业务场景选择合适的语言.
+从接触编程到现在，也学过不少语言，c/c++, qt，shell，node, golang, java, 前端的语言js/css3/html5也略懂一二，但是在语言选型的时候仍然会有困难，虽然能够根据自己的经验去做选择，大概率也不会错，毕竟主流语言也就那么几个，不管选哪个最终都能解决问题，但是针对自己的业务场景，不同语言带来的工作量差异还是很显著的，如果只是根据自己的经验去选择，是难以说服别人采纳你的意见的。所以有必要系统地学习编程语言，这篇文章也是边学边写而成。编程语言往大了讲是很复杂的，语法，类型系统，编译原理，编译器，解释器，内存模型，并发模型，工具链等等，单拿一点出来都能写一本书了。所以本文专注在类型系统(type systems)，语法(syntax)和编程范式(programming paradigms)上，最终让我们能够能够根据业务场景选择合适的语言.
 
 ### 类型系统
 
@@ -37,9 +37,9 @@ fac n = n * fac (n - 1)
 
 ##### 类型检查
 
-类型系统是类型语言的首要组成部分。类型系统的一个职责是跟踪变量的类型，判断代码是否满足类型约束，这种行为称为类型检查**typechecking**, 类型检查是保证程序稳定运行的手段，同时又分为运行时检查(runtime checks)和静态检查(**static checks**), 运行时检查也叫动态检查(**dynamic checking**). 
+类型系统是类型语言的首要组成部分。类型系统职责之一是跟踪变量的类型，判断代码是否满足类型约束，这种行为称为类型检查**typechecking**, 类型检查是保证程序稳定运行的手段，同时又分为运行时检查(runtime checks)和静态检查(**static checks), 运行时检查也叫动态检查(**dynamic checking**). 
 
-类型系统做了静态检查，还有必要做动态检查嘛？有，比如数组的边界检查，就必须在runtime做。运行时的类型检查会导致程序运行终止(fail-stop)，为什么还要检查呢？让它运行到无法继续执行为止不就好了？类型检查虽然会出错，但是阻止了更恶劣的错误(untrapped errors)的发生，比如保证gc等机制能够正常运转，让程序能够更平滑地退出.  动态检查的缺点是会导致fail-stop，也会消耗资源，影响性能，所以通常我们认为拥有静态检查的类型系统的语言会更稳定高效。但是静态检查就足够安全了吗？不一定，因为某些语言在静态检查时没有检查一些危险操作，比如C指针的运算和转换，这类语言称为**weekly checked**, 反之, 程序在编译期间能够尽可能发现所有的错误, 称为**strongly checked**.
+类型系统做了静态检查，还有必要做动态检查嘛？有，比如数组的边界检查，就必须在运行时做。运行时的类型检查会导致程序运行终止(fail-stop)，为什么还要检查呢？让它运行到无法继续执行为止不就好了？类型检查虽然会出错，但是阻止了更恶劣的错误(untrapped errors)的发生，比如保证gc等机制能够正常运转，让程序能够更平滑地退出.  动态检查的缺点是会导致fail-stop，也会消耗资源，影响性能，所以通常我们认为拥有静态检查的类型系统的语言会更稳定高效。但是静态检查就足够安全了吗？不一定，因为某些语言在静态检查时没有检查一些危险操作，比如C指针的运算和转换，这类语言称为**weekly checked**, 反之, 程序在编译期间能够尽可能发现所有的错误, 称为**strongly checked**.
 
 那么延伸一下，怎么区分一门语言是*weekly checked*, 还是*strongly checked*? 以下几点可以作为判断的依据。
 
@@ -67,15 +67,15 @@ a + b; // a将会被自动转换为double类型，转换的结果和b进行加�
 
 ###### Untagged unions
 
-*union type*即联合类型，之后的内容会介绍。联合类型中的不同类型的值会被存储在同一地址，这也是不稳定因素之一，和*untagged*相对的是*tagged union type*, *tagged union*会用tag字段显式地标记当前正在使用的类型，因此要想对安全一些。所以拥有*untagged unions*的语言属于*weekly checked*.
+*union type*即联合类型，之后的内容会介绍。联合类型中的不同类型的值会被存储在同一地址，这也是不稳定因素之一，所以拥有*untagged unions*的语言属于*weekly checked*. 和*untagged*相对的是*tagged union type*, *tagged union*会用tag字段显式地标记当前正在使用的类型，因此要想对安全一些。
 
-类型系统除了提供类型检查，保证程序的安全行之外，还可以提供信息给编译器，以优化执行效率。同时，类型系统是对现实世界的抽象，可读性高，也是更高级别抽象(如编程范式)的基础。所以，无类型的语言在选型时基本会被排除掉。
+
 
 ###### Weekly typed
 
 一般弱类型语言属于*weekly checked*
 
-除此之外，往往是通过语言之间的比较来进行判断，并没有明显的界限。
+除此之外，往往是通过语言之间的比较来进行判断，并没有明显的界限。类型系统除了提供类型检查，保证程序的安全性之外，还可以提供信息给编译器，以优化执行效率。同时，类型系统是对现实世界的抽象，可读性高，也是更高级别抽象(如编程范式)的基础。所以，无类型的语言在选型时基本会被排除掉。
 
 ##### 强类型和弱类型
 
@@ -92,7 +92,7 @@ z = x + y
 
 总结，在语言的抉择上，我们可以从类型系统的静态检查，动态检查，检查范围及类型是否可变这几个维度来考虑，**在开发效率，执行效率及安全性之间做权衡**。无类型的语言可以很安全，但是可维护性差，基本被排除在系统开发之外。
 
-看到这里，你会发现我并没有讲什么是动态类型语言，静态类型语言。因为这个维度并不是影响我们抉择的本质。动态类型语言其实指的就是只有动态检查的语言，静态类型指拥有静态检查的语言，此类型非彼类型，个人觉得是翻译的锅。
+看到这里，你会发现文中并没有讲什么是动态类型语言，静态类型语言。因为这个维度并不是影响我们抉择的本质因素。动态类型语言其实指的就是只有动态检查的语言，静态类型语言指拥有静态检查的语言，此类型非彼类型，个人觉得是翻译的锅。
 
 ##### 类型推断
 
@@ -100,7 +100,7 @@ z = x + y
 
 ### 类型理论
 
-类型理论涉及到的内容和类型系统会有部分重叠，你可以理解为类型理论是服务于类型系统的，即，我们使用了哪些理论来构建我们的类型系统，或者说该语言的类型系统实现了哪些特性。一门语言的类型系统一般只会实现其中的某几种特性，来满足某些场景的需求，这也是语言之争的根源。每门语言都有其自己的设计哲学在里面。
+类型理论涉及到的内容和类型系统会有部分重叠，你可以理解为类型理论是服务于类型系统的，即，我们使用了哪些理论来构建我们的类型系统，或者说该语言的类型系统实现了哪些特性。一门语言的类型系统一般只会实现其中的某几种特性，来满足某些场景的需求，这也是语言之争的根源。
 
 ##### Polymorphism type
 
@@ -118,7 +118,7 @@ z = x + y
    }
    ```
 
-2. *Parametric polymorphism*: 声明的类型未被指定为某一类型，而在实现时可以指定任意类型，即通常我们所说的范型，在C++里称为模板(template). 从polymorphism性质实现的角度讲，此类属于编译时多态(static polymorphism).
+2. *Parametric polymorphism*: 声明的类型未被指定为某一类型，而在实现时可以指定任意类型，即通常我们所说的泛型，在C++里称为模板(template). 从polymorphism性质实现的角度讲，此类属于编译时多态(static polymorphism).
 
    ```java
    // java    
@@ -219,7 +219,7 @@ z = x + y
 
    duck typing也是go语言的主要特性，但是严格来说并不算，因为duck typing发生在运行时，且没有显式的**interface**声明，上面的python示例就是典型的duck typing。
 
-5. *Polytypism*: 函数式编程语言里的范型特性。以Haskell为例，函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在Haskell语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度，优化函数功能的定义。<sup>[2]</sup>
+5. *Polytypism*: 函数式编程语言里的泛型特性。以Haskell为例，函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在Haskell语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度，优化函数功能的定义。<sup>[2]</sup>
 
 ##### Dependent types
 
@@ -463,13 +463,13 @@ T = ∃X { X a; int f(X); }
 
 类型X是存在类型, 即存在一个类型X，满足此表达式，在编程语言里我们称之为**可实现**。存在类型适合用来定义接口，不论是模块之间还是语言之间。
 
-这里要提下范型(即前面讲到的*Parametric polymorphism*, 也叫*Universal type*), 避免混淆。*Universal type*中的universal来源于全称量词`∀`, `∀`在谓词逻辑中的解释:
+这里要提下泛(即前面讲到的*Parametric polymorphism*, 也叫*Universal type*), 避免混淆。*Universal type*中的universal来源于全称量词`∀`, `∀`在谓词逻辑中的解释:
 
 ```haskell
 ∀ x: P(x) 表示 P(x) 对于所有 x 为真。
 ```
 
-范型的公式化表示:
+泛型的公式化表示:
 
 ```haskell
 T = ∀X { X a; int f(X); }
@@ -1244,13 +1244,13 @@ return sort(result);
 
 **OOP(Object-oriented Programming)**
 
-即我们常说的面向对象编程。大家应该听过这句名言，程序 = 数据结构 + 算法，数据结构或者说数据模型需要类型来承载，在**SP**和**PP**的范畴里，数据类型之间是松散的，数据结构和算法之间也是松散的，而**OOP**则提供了一种类似于人类对现实世界建模的方法，对二进制世界的类型和逻辑进行建模和封装，并在此基础上提供了更多的类型和语法特性。**OOP**的优点简列如下:
+即我们常说的面向对象编程。大家应该听过这句名言，程序 = 数据结构 + 算法，数据结构或者说数据模型需要类型来承载，在**SP**和**PP**的范畴里，数据类型之间是松散的，数据结构和算法之间也是松散的，而**OOP**则提供了一种类似于人类对现实世界建模的方法，对二进制世界的类型和逻辑进行建模和封装，并在此基础上提供了更多的类型和语法特性。**OOP**的优点简列如下(封装，继承，多态):
 
 * 当我们对一组数据类型进行抽象，封装成类(class, 类是**OOP**的基本概念)时，我们可以定义该类的子类，来共享它的数据类型和逻辑，此方式称为继承(inheritance), 能够有效减少我们的开发时间。
 * 当类被定义后，通常它只需要关注它自身的数据和逻辑，通过语法特性，将这类数据隐藏起来，避免被非法(或者说不合理的, 不应当的)访问，提升程序和系统的安全性。
 * 一个封装好的类，不仅能被它的创建者使用，也可以分发(在网络上)给其他人使用, 比如*Java*的jar包。
 * 一门语言不可能把开发者所需要的所有的类型都定义好，class的概念则很好地解决了这个问题，开发者可以定义任意自己想要的数据类型。
-* 区别于**PP**, **OOP**能让我们进行更高级别的抽象，且更易维护。
+* **OOP**的多态性质可以让代码更加灵活。
 
 ##### DP(Declarative Programming)
 
@@ -1300,7 +1300,7 @@ function double (arr) {
 }
 ```
 
-**FP**将开发者从机器的执行模型切换到了人的思维模型上，可读性会更高。
+**FP**将开发者从机器的执行模型切换到了人的思维模型上，可读性会更高。需要注意的是，某些支持**FP**的语言本身是属于**IP**的，同时也可以认为其属于**DP**, 不必过于纠结。
 
 ##### MP(Meta Programming)
 
@@ -1310,17 +1310,21 @@ function double (arr) {
 User.find_by_email('songtianyi630@163.com')
 ```
 
-*find_by_email*并不是我们自己的定义的函数，它是如何完成这件事的呢？框架会根据函数名*find_by_email*动态生成一个查询函数去查询数据库。除了这种黑魔法，元编程还能够动态修改一个类的成员函数，在运行时创建函数等等，这里不展开讲，在*Ruby*或者*Groovy*的相关书籍里会有详细介绍。
+*find_by_email*并不是我们自己的定义的函数，它是如何完成这件事的呢？框架会根据函数名*find_by_email*动态生成一个查询函数去查询数据库。除了这种黑魔法，元编程还能够动态修改一个类的成员函数，在运行时创建函数等等，这里不展开讲，在*Ruby*或者*Groovy*的相关书籍里会有详细介绍。语言的反射特性和对模板的支持是实现元编程的主要基础，虽然*c++*并不支持反射，但*c++*的模板提供了元编程的能力。
 
-### 其他
+编程范式还有很多细分项，比如*Event-driven programming*, *Distributed programming*<sup>10</sup>, 这里不再一一列举。
+
+### 依赖管理
 
 有了合适的类型系统，且该语言支持了我们所需要的编程范式，那么它就是不二之选了嘛？不一定。
 
-##### 依赖管理
-
 长期从事开发，或者从事过大型项目开发的程序员会发现代码的依赖管理也是开发和维护过程当中的重点。好的依赖管理会降低我们的心智负担，也会降低业务风险。
 
-##### 标准库
+TODO
+
+### 标准库
+
+TODO
 
 ### 选型参考
 
@@ -1332,32 +1336,41 @@ User.find_by_email('songtianyi630@163.com')
 * *strongly typed*: 类型不可变
 * *dynamically typed*: 值的类型仅在运行时确定
 * *statically typed*: 值的类型仅在编译时确定
+* *duck*: duck typing, 也叫row polymorphism
+* *generic*: parametric polymorphism
+* *subtype*: subtype polymorphism
+* *overloading*: Ad hoc polymorphism, 函数重载或操作符重载或两者都有
 
-|    Lang     | Typed |  PP  | OOP  |  FP  | FRP  | static and dynamic  checks | weekly or strongly  typed | strongly checked | dynamically or statically typed |
-| :---------: | :---: | :--: | :--: | :--: | :--: | :------------------------: | :-----------------------: | :--------------: | :-----------------------------: |
-|  Assembly   |   ❌   |      |      |      |      |             ❌              |                           |        ❌         |                                 |
-|    Java     |  ☑️   |      |      |      |      |             ☑️             |                           |                  |                                 |
-|      C      |  ☑️   |      |      |      |      |             ☑️             |                           |        ❌         |                                 |
-|     C++     |  ☑️   |      |      |      |      |             ☑️             |                           |                  |                                 |
-|   Python    |  ☑️   |      |      |      |      |                            |                           |                  |                                 |
-|     C#      |       |      |      |      |      |                            |                           |                  |                                 |
-|     PHP     |       |      |      |      |      |                            |                           |                  |                                 |
-| JavaScript  |       |      |      |      |      |                            |                           |                  |                                 |
-|    Ruby     |       |      |      |      |      |                            |                           |                  |                                 |
-|      R      |       |      |      |      |      |                            |                           |                  |                                 |
-|     Go      |       |      |      |      |      |                            |                           |                  |                                 |
-| Objective-C |       |      |      |      |      |                            |                           |                  |                                 |
-|    Perl     |       |      |      |      |      |                            |                           |                  |                                 |
-|    Swift    |       |      |      |      |      |                            |                           |                  |                                 |
-|    Scala    |       |      |  ☑️  |  ☑️  |      |                            |                           |                  |                                 |
-|    Lisp     |   ❌   |      |      |      |      |                            |            ☑️             |        ☑️        |                                 |
-|   Prolog    |       |      |      |      |      |                            |                           |                  |                                 |
-|   Erlang    |       |      |      |      |      |                            |                           |                  |                                 |
-|     Lua     |       |      |      |      |      |                            |                           |                  |                                 |
-|   Haskell   |       |      |      |      |      |                            |                           |                  |                                 |
-|   Kotlin    |       |      |      |      |      |                            |                           |                  |                                 |
-| TypeScript  |       |      |      |      |      |                            |                           |                  |                                 |
-|    Rust     |  ☑️   |      |  ☑️  |  ☑️  |      |                            |                           |                  |                                 |
+|    Lang     | Typed | Static and dynamic  checks | Strongly checked | Weekly or strongly  typed | Dynamically or statically typed |            Type theories            | Paradigms                    |
+| :---------: | :---: | :------------------------: | :--------------: | :-----------------------: | :-----------------------------: | :---------------------------------: | ---------------------------- |
+|  Assembly   |   ❌   |             ❌              |        ❌         |             -             |                -                |                  -                  | IP                           |
+|    Java     |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP           |
+|      C      |  ☑️   |             ☑️             |        ❌         |         strongly          |           statically            |                  -                  | IP,SP,PP                     |
+|     C++     |  ☑️   |             ☑️             |        ❌         |         strongly          |           statically            |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP(template) |
+|   Python    |  ☑️   |             ❌              |        ☑️        |          weekly           |           dynamically           |     duck, subtype, overloading      | IP,PP,OOP,FP,MP              |
+|     C#      |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP           |
+|     PHP     |  ☑️   |             ❌              |        ❌         |          weekly           |           dynamically           |            duck, subtype            | IP,PP,OOP,FP,MP              |
+| JavaScript  |  ☑️   |             ❌              |        ❌         |          weekly           |           dynamically           |                duck                 | IP,PP,OOP,FP,MP              |
+|    Ruby     |  ☑️   |             ❌              |        ☑️        |          weekly           |           dynamically           |                duck                 | IP,OOP,FP,MP                 |
+|      R      |  ☑️   |             ❌              |        ❌         |          weekly           |           dynamically           |    generic, overloading, subtype    | IP,PP,OOP,FP,MP              |
+|     Go      |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |                duck                 | IP,PP,MP                     |
+| Objective-C |  ☑️   |             ☑️             |        ❌         |         strongly          |           statically            |       duck, generic, subtype        | IP,OOP,MP                    |
+|    Perl     |  ☑️   |             ❌              |        ❌         |          weekly           |           dynamically           | generic, duck, subtype, overloading | IP,PP,OOP,FP,MP              |
+|    Swift    |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            | duck, generic, subtype, overloading | IP,PP,OOP,FP,MP              |
+|    Scala    |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            | duck, generic, subtype, overloading | IP,OOP,FP,MP                 |
+|    Lisp     |   ❌   |             ❌              |        ☑️        |             -             |                -                |                  -                  | FP                           |
+|   Prolog    |  ☑️   |             ☑️             |        ❌         |          weekly           |           statically            |                  -                  | DP,LP                        |
+|   Erlang    |  ☑️   |             ❌              |        ☑️        |         strongly          |           dynamically           |             overloading             | FP                           |
+|     Lua     |  ☑️   |             ❌              |        ☑️        |          weekly           |           dynamically           |            duck, generic            | IP,PP,OOP,FP,MP              |
+|   Haskell   |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |     generic, duck, overloading      | FP                           |
+|   Kotlin    |  ☑️   |             ☑️             |        ❌         |         strongly          |           statically            |    generic, subtype, overloading    | IP,OOP,FP,MP                 |
+| TypeScript  |  ☑️   |             ☑️             |        ❌         |          weekly           |           statically            |     generic, duck, overloading      | IP,SP,PP,OOP,FP,MP           |
+|    Rust     |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |     generic, overloading, duck      | IP,SP,PP,OOP,FP              |
+
+整理完这个对比表才发现一些有意思的事情:
+
+* 原来大部分语言都有**OOP**, *js*也是.
+* *Go*的优势并不在自己的类型系统和语法特性上, 它的设计充分体现了*less is more*, 上手十分简单, 工程实践效果很好。在编程范式的细分项上，还有一个叫*concurrent programming*的范式, *go*就是此类的典范。
 
 ![Tree format](http://on-img.com/chart_image/5b20fa53e4b06350d462d78b.png)
 
@@ -1374,3 +1387,4 @@ User.find_by_email('songtianyi630@163.com')
 7. [《Expression (computer science)》, wikipedia](https://en.wikipedia.org/wiki/Expression_(computer_science))
 8. [《List of programming languages by type》, wikipedia](https://en.wikipedia.org/wiki/List_of_programming_languages_by_type#Metaprogramming_languages)
 9. [《Comparison of programming languages》, wikipedia](https://en.wikipedia.org/wiki/Comparison_of_programming_languages)
+10. [《Comparison of multi-paradigm programming language》, wikipedia](https://en.wikipedia.org/wiki/Comparison_of_multi-paradigm_programming_languages)
