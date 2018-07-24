@@ -2,7 +2,7 @@
 
 ### 前言
 
-虽然[SKY-CLOUD.NET](http://www.sky-cloud.net)是家规模很小的公司，但在devops方面的建设可能不输大部分软件企业。因为我们是金融行业的to-B企业，对于上线后的质量要求很高，所以在开发的同时，我们的devops建设也是同步的。在产品开发之初，我们使用jira的套件来管理开发流程; 单元测试我们采用testNG, 覆盖率在97%以上, 测试代码量占比25%;我们基于jenkins和docker搭建了完善的CI/CD流程。在接口测试上我们分为两部分, 一部分是, spring-boot框架会将CRUD接口分为三个层次, controller-service-repository, 在写单元测试的时候, 会覆盖service层, 这样也间接覆盖到了接口层面的测试; 另一部分是, 在开发完接口之后, 我们用文档来记录接口测试用例并测试。在前端测试上, 我们初步用上了e2e。测试工具我们用swagger和postman。即使如此, 还是存在不少痛点。
+虽然[SKY-CLOUD.NET](http://www.sky-cloud.net)是家规模很小的公司，但在devops方面的建设可能不输大部分软件企业。因为我们面向是金融行业的to-B企业，对于上线后的质量要求很高，所以在开发的同时，我们的devops建设也是同步的。在产品开发之初，我们使用jira的套件来管理开发流程和托管代码; 单元测试我们采用testNG, 覆盖率在97%以上, 测试代码量占比25%;我们基于jenkins和docker搭建了完善的CI/CD流程。在接口测试上我们分为两部分, 一部分是, spring-boot框架会将CRUD接口分为三个层次, controller-service-repository, 在写单元测试的时候, 会覆盖service层, 这样也间接覆盖到了接口层面的测试; 另一部分是, 在开发完接口之后, 我们用文档来记录接口测试用例并测试。在前端测试上, 我们初步用上了e2e。测试工具我们用swagger和postman。即使如此, 还是存在不少痛点。
 
 - 接口多
 
@@ -10,7 +10,7 @@
 
 - 单个接口需要的测试用例集较大
 
-  >  因为我们管理的是很多不同品牌的防火墙(cisco, juniper, hillstone, checkpoint等)上的对象和策略, 边界条件很多
+  >  因为我们管理的是多个不同品牌的防火墙(cisco, juniper, hillstone, checkpoint等)上的对象和策略, 边界条件很多
 
 - 数据之间有依赖，测试时需要联动
 
@@ -22,7 +22,7 @@
 
 - 部分接口的前置条件复杂，否则无法保证预期结果
 
-  > 比如配置搜索接口, 它的预期输出依赖于设备上的配置或者叫设备状态。在A设备上测试没问题，在B设备上可能就出错了。
+  > 比如防火墙配置搜索接口, 它的预期输出依赖于设备上的配置或者叫设备状态。在A设备上测试没问题，在B设备上可能就出错了。
 
 - 测试用例用文档沉淀，每次只能复制粘贴
 
@@ -30,17 +30,139 @@
 
 ###测试框架
 
-我个人并不热衷于造轮子, 所以调研是必要的，调研并不是实例讲解，所以本文只列出调研结果，即该框架解决了哪些问题，还有哪些问题没解决。
+我个人并不热衷于造轮子, 所以调研是必要的，调研并不是实例讲解，所以本文只列出调研结果，即该框架解决了哪些问题，还有哪些问题未解决。
 
 ##### E2E
 
+E2E(End-to-End)是一个端到端的前端测试框架，可以用来测试前端页面和API接口。
+
+* 可以以代码仓库的形式管理测试用例
 
 
-###### 解决的问题
+* 解决了接口的顺序问题
 
 
+* 未解决接口的数据依赖
+* 不支持前置条件
 
-###### 未解决的问题
+##### Robot Framework
+
+Robot Framework 是一款基于 Python 的功能自动化测试框架。它具备良好的可扩展性，支持关键字驱动，可以同时测试多种类型的客户端或者接口，可以进行分布式测试执行。主要用于轮次很多的验收测试和验收测试驱动开发(ATDD), 同时还可以支持行为驱动开发(BDD)。
+
+* 测试用例有标签，便于筛选
+* 解决了测试用例的管理
+* 支持设置变量，便于在不同环境重复利用测试用例
 
 
+* 未解决接口顺序和数据依赖
+* 不支持前置条件
 
+其他的测试框架多是针对前端页面，这里不再详述。
+
+### 简易自动化接口测试
+
+在经过简单的调研之后，并没有一个特别切合自身痛点的解决方案，于是花了一些时间开发了一套简单的测试框架，包括测试用例的管理，运行及编排。
+
+##### 测试用例的管理
+
+用db来管理测试用例，可通过接口进行测试用例的增删改查; db选用mongodb，json友好，**支持泛型**，这样未来单元测试的用例也能够用mgo来管理(testNG支持从db读取测试用例)。对泛型的支持是比较重要的一点，因为我们的厂商模型用了大量的泛型。
+
+###### nest.js
+
+测试用例的API使用nest.js框架开发, 提供增删改查和运行测试等接口，完整代码见[nap-tcm](https://github.com/songtianyi/nap-tcm) 。选用TypeScript，一方面是为了实际上手学习一下这门新兴语言, 另一方面是因为js对json十分友好, template string也方便我们解决数据依赖问题。
+
+##### 测试用例的格式
+
+测试用例的格式很关键，除了可以录入输入和预期输出之外，还需要解决数据依赖的问题，我在测试用例当中加了*prerequisites*字段，作为当前用例的前置用例，在运行当前用例之前需运行它的前置用例或者取前置用例运行结果的缓存。如果前置用例测试不通过，此用例无法进行。前置用例的实际结果会作为当前用例的输入，我们来看具体的格式是什么样子的。
+
+```json
+[
+  {
+    "prerequisites": [],
+    "_id": "5b4c4ff30207459803bfb3df",
+    "api": "/api/auth",
+    "method": "POST",
+    "when": {
+      "body": {
+        "username": "admin",
+        "password": "xxxxx"
+      }
+    },
+    "then": {
+      "statusCode": 200,
+      "headers": {
+        "authorization": "$regex{Bearer [\\w-.]+}"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "prerequisites": [
+      "5b4c4ff30207459803bfb3df"
+    ],
+    "_id": "5b4c50210207459803bfb3e0",
+    "api": "/api/users",
+    "method": "GET",
+    "when": {
+      "headers": {
+        "authorization": "$context{5b4c4ff30207459803bfb3df.headers.authorization}"
+      },
+      "params": "?page=0&size=1"
+    },
+    "then": {
+      "statusCode": 200
+    },
+    "__v": 0
+  }
+]
+```
+
+在上面的json数据中，第一个测试用例的预期输出`then`中的*authorization*使用正则表达式来验证是否符合要求。第二个测试即`_id:"5b4c50210207459803bfb3e0" `, 它的*authorization*字段的值依赖于第一个测试用例的输出。这类特殊规则都使用如下的格式来书写:
+
+```javascript
+$identifier{content}
+```
+
+可以根据具体需求来扩展。因为目前的测试用例还不完备，仅支持`$regex{…}`和`$context{...}`, regex用来标记花括号内的内容是一个正则表达式, context用来标记花括号内的内容是一个变量取值
+
+##### 测试用例的运行
+
+测试用例的运行也放在了测试用例管理程序中，前面也提到过，js的元编程很容易解析`$context{a.b.c}`这类数据。运行的逻辑也很简单，即dfs，运行的结果返回给上一层，目前还未支持将结果缓存起来。
+
+##### 测试用例的编排
+
+使用特殊规则的字符串解决了数据依赖问题，测试用例之间的顺序依赖则需使用编排引擎来解决，完整代码见[gflow](https://github.com/songtianyi/gflow)。首先是设计编排的格式。编排格式采用yaml, 未来也可以支持json等格式。写法也很简单明了。
+
+```yaml
+# choose test case run mode
+# serial: executed one by one
+# parallel: run test case concurrently
+# mode is case insensitive
+mode: serial
+# retry onece when fail
+retry: 1
+# test case steps
+workflow:
+  # test case step
+  - step:
+      # step type
+      type: nap
+      # step label
+      label: "auth api"
+      # additional customized data that used to run test case step
+      # the first character of the field name must be uppercase
+      data:
+        # test case selector
+        Selector: "TODO"
+        # test case uuid(mongo object id)
+        Uuid: "5b4c4ff30207459803bfb3df"
+  - step:
+       type: nap
+       label: "get user list"
+       data:
+         Uuid: "5b4c50210207459803bfb3e0"
+```
+
+type用来hook对应的代码，label用来标记step，data用来指明测试用例及相关数据。如果你要编排自己的测试用例，可能需要开发一个自己的step，会golang应该就很轻松。
+
+看完之后是不是觉得很简单，目前这个构思和实现能够满足我们目前的需求，如果你有更好的建议也可以跟我联系，或者提pr/issue
