@@ -14,6 +14,7 @@
 * [越南骑行——总结](https://songtianyi.github.io/article/life/vietnam-summary.html)
 * [NETCONF&YANG 介绍](https://songtianyi.github.io/article/programming/netconf-and-yang-introduction.html)
 * [编程语言选型-你需要了解的二三事](https://github.com/songtianyi/songtianyi.github.io/blob/master/mds/how-to-choose-your-programming-language.md)
+* [简易自动化测试]
 
 #### Sharing⛱
 

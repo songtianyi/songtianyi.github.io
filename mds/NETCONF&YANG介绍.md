@@ -36,8 +36,8 @@ NETCONF包含了四个层次，数据层／操作层／RPC/传输层, 对于普�
 1. 下载[vsrx](http://www.juniper.net/support/downloads/?p=vsrx)
 2. 使用vmware等虚拟化软件安装并启动vsrx
 3. 配置vsrx
- 3.1 通过缺省用户名和密码登录(root/空)
- 3.2 进入操作模式
+   3.1 通过缺省用户名和密码登录(root/空)
+    3.2 进入操作模式
 ```
 cli
 ```
@@ -370,4 +370,4 @@ module dhcp { // dhcp module
 
 ![NSO Logical Architecture](http://upload-images.jianshu.io/upload_images/7361-47073a0ce292334e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 #### Web User Interface
-参见视频[]
+参见视频
