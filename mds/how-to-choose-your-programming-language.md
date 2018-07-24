@@ -1378,7 +1378,8 @@ TODO
 * 原来大部分语言都有**OOP**, *js*也是.
 * *Go*的优势并不在自己的类型系统和语法特性上, 它的设计充分体现了*less is more*的设计哲学, 上手十分简单, 工程实践效果很好。
 
-![Tree format](http://on-img.com/chart_image/5b20fa53e4b06350d462d78b.png)
+附:树形对比图
+http://on-img.com/chart_image/5b20fa53e4b06350d462d78b.png
 
 
 
