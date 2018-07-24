@@ -34,7 +34,7 @@
 
 ##### E2E
 
-E2E(End-to-End)是一个端到端的前端测试框架，可以用来测试前端页面和API接口。
+E2E(End-to-End)是指端到端的测试，可以用来测试前端页面和API接口。属于这个类别的测试框架有很多, CasperJS, Nightwatch.js等
 
 * 可以以代码仓库的形式管理测试用例
 
@@ -47,7 +47,7 @@ E2E(End-to-End)是一个端到端的前端测试框架，可以用来测试前�
 
 ##### Robot Framework
 
-Robot Framework 是一款基于 Python 的功能自动化测试框架。它具备良好的可扩展性，支持关键字驱动，可以同时测试多种类型的客户端或者接口，可以进行分布式测试执行。主要用于轮次很多的验收测试和验收测试驱动开发(ATDD), 同时还可以支持行为驱动开发(BDD)。
+Robot Framework 是一款基于 Python 的功能自动化测试框架。它具备良好的可扩展性，支持关键字驱动，可以同时测试多种类型的客户端或者接口，可以分布式测试。主要用于轮次很多的验收测试和验收测试驱动开发(ATDD), 同时还可以支持行为驱动开发(BDD)。
 
 * 测试用例有标签，便于筛选
 * 解决了测试用例的管理
@@ -65,7 +65,7 @@ Robot Framework 是一款基于 Python 的功能自动化测试框架。它具�
 
 ##### 测试用例的管理
 
-用db来管理测试用例，可通过接口进行测试用例的增删改查; db选用mongodb，json友好，**支持泛型**，这样未来单元测试的用例也能够用mgo来管理(testNG支持从db读取测试用例)。对泛型的支持是比较重要的一点，因为我们的厂商模型用了大量的泛型。
+用db来管理测试用例，可通过接口进行测试用例的增删改查; db选用mongodb，json友好，这样未来单元测试的用例也能够用mgo来管理(testNG支持从db读取测试用例)。
 
 ###### nest.js
 
@@ -134,22 +134,22 @@ $identifier{content}
 使用特殊规则的字符串解决了数据依赖问题，测试用例之间的顺序依赖则需使用编排引擎来解决，完整代码见[gflow](https://github.com/songtianyi/gflow)。首先是设计编排的格式。编排格式采用yaml, 未来也可以支持json等格式。写法也很简单明了。
 
 ```yaml
-# choose test case run mode
+# choose run mode
 # serial: executed one by one
 # parallel: run test case concurrently
 # mode is case insensitive
 mode: serial
-# retry onece when fail
+# retry once when fail
 retry: 1
-# test case steps
+# workflow
 workflow:
-  # test case step
+  # steps
   - step:
       # step type
       type: nap
       # step label
       label: "auth api"
-      # additional customized data that used to run test case step
+      # additional customized data that would be used to run this step
       # the first character of the field name must be uppercase
       data:
         # test case selector
@@ -167,4 +167,4 @@ type用来hook对应的代码，label用来标记step，data用来指明测试�
 
 ### 后续
 
-看完之后是不是觉得很简单，目前这个构思和实现能够满足我们的需求，随着测试用例从代码仓库移植到nap-tcm, 肯定会遇到一些问题，也会带来一些改进。如果你有更好的建议也可以跟我联系，或者提pr/issue。
+看完之后是不是觉得很简单?目前这个构思和实现能够满足我们的需求，随着测试用例从代码仓库移植到nap-tcm, 肯定会遇到一些问题，也会带来一些改进。如果你有更好的建议也可以跟我联系，或者提pr/issue。
