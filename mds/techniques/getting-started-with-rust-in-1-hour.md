@@ -20,7 +20,7 @@
 
 
 * 支持范型, duck typing
-* 多范式，FP,PP,OOP
+* 多范式，FP,PP,OOP,MP
 * 高效C绑定
 
 ###### 零开销抽象
@@ -895,6 +895,58 @@ impl Com for Impl {
 }
 ```
 
+##### 元编程
+
+元编程一种程序修改自身的行为。学过C语言的应该知道它的宏概念，宏也属于元编程的范畴，预处理器会将宏代码替换成新的代码。C/C++的宏实现是基于文本替换的，属于不安全的宏。举一个例子:
+
+```c
+#define INCI(i) do { int a=0; ++i; } while(0)
+int main(void)
+{
+    int a = 4, b = 8;
+    INCI(a);
+    INCI(b);
+    printf("a is now %d, b is now %d\n", a, b);
+    return 0;
+}
+```
+
+C的预处理器进行宏替换后的代码为:
+
+```c
+int main(void)
+{
+    int a = 4, b = 8;
+    do { int a=0; ++a; } while(0);
+    do { int a=0; ++b; } while(0);
+    printf("a is now %d, b is now %d\n", a, b);
+    return 0;
+}
+```
+
+我们预期的结果应该是a被加1等于5，b被加1等9，但是输出为:
+
+```
+a is now 4, b is now 9
+```
+
+> 这个例子不太恰当，一般我们不会犯这类错误，这里仅为了说明C语言宏实现的缺陷。
+
+而Rust的宏实现要强大复杂的多，Rust的宏系统借助了语法树及它的模式匹配。
+
+```rust
+macro_rules! foo {
+    (x => $e:expr) => (println!("mode X: {}", $e));
+    (y => $e:expr) => (println!("mode Y: {}", $e));
+}
+
+fn main() {
+    foo!(y => 3);
+}
+```
+
+Rust的宏用`!`标记，比C/C++的用大写来标记可读性要高。上述代码中foo这个宏会对`y => 3`进行模式匹配，将代码替换成 `=>`后的内容，同时将表达式的值绑定到变量e上，可以看出它并不是简单的文本替换。Rust的宏还有更高级的用法，这里不展开讲。
+
 ### 总结
 
 `1分钟`
@@ -903,5 +955,6 @@ impl Com for Impl {
 
 ### 参考资料
 
-* [rust-lang reference(推荐)](https://doc.rust-lang.org/stable/reference/items/use-declarations.html)
+* [rust-lang reference](https://doc.rust-lang.org/stable/reference/items/use-declarations.html)
+
 
