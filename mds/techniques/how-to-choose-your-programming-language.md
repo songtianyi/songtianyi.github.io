@@ -1359,7 +1359,7 @@ User.find_by_email('songtianyi630@163.com')
 |   Haskell   |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |     generic, duck, overloading      | FP                           |
 |   Kotlin    |  ☑️   |             ☑️             |        ❌         |         strongly          |           statically            |    generic, subtype, overloading    | IP,OOP,FP,MP                 |
 | TypeScript  |  ☑️   |             ☑️             |        ❌         |          weekly           |           statically            |     generic, duck, overloading      | IP,SP,PP,OOP,FP,MP           |
-|    Rust     |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |     generic, overloading, duck      | IP,SP,PP,OOP,FP              |
+|    Rust     |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |     generic, overloading, duck      | IP,SP,PP,OOP,FP,MP           |
 
 整理完这个对比表才发现一些有意思的事情:
 
