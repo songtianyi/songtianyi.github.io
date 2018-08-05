@@ -13,8 +13,9 @@
 * [RSA加密算法的探究与实现](https://songtianyi.github.io/article/secure/001-secure.html)
 * [越南骑行——总结](https://songtianyi.github.io/article/life/vietnam-summary.html)
 * [NETCONF&YANG 介绍](https://songtianyi.github.io/article/programming/netconf-and-yang-introduction.html)
-* [编程语言选型-你需要了解的二三事](mds/techniques/how-to-choose-your-programming-language.md)
+* [编程语言选型-你需要了解的二三事](mds/techniques/how-to-choose-your-programming-language.md) 🌗
 
 #### Sharing⛱
-* [简易自动化测试](mds/techniques/simple-automated-testing.md)
+* [简易自动化测试](mds/techniques/simple-automated-testing.md) 🌗
+
 
