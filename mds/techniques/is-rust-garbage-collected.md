@@ -4,15 +4,15 @@
 
 ### 前言
 
-在[1小时入门Rust](getting-started-with-rust-in-1-hour)的文中，有一处说到，Rust没有GC，但有人对此有异议，所以单独写一篇文章来说明。在写文章的时候，做了些搜索，国外也有人持同样的观点<sub>5</sub>。
+在[1小时入门Rust](getting-started-with-rust-in-1-hour.md)的文中，有一处说到，Rust没有GC，但有人对此有异议，所以单独写一篇文章来说明。在写文章的时候，做了些搜索，国外也有人持同样的观点<sup>[5]</sup>。
 
 ### 什么是GC
 
-GC，全称Garbage Collection，指的是内存自动化管理这种行为<sub>1</sub>。GC, 也是Garbage Collector的缩写，是完成Garbage Collection这种行为的代码逻辑。
+GC，全称Garbage Collection，指的是内存自动化管理这种行为<sup>[1]</sup>。GC, 也是Garbage Collector的缩写，是完成Garbage Collection这种行为的代码逻辑。
 
 ### 结论
 
-先抛出结论，Rust是没有GC的，不管是中文还是国外的stackoverflow<sub>3</sub>基本都是这么认为的，而且在Rust的官方文档的FAQ里已经作了说明<sub>2</sub>。引用如下:
+先抛出结论，Rust是没有GC的，不管是中文博客还是国外的stackoverflow<sup>[3]</sup>基本都是这么认为的，而且在Rust的官方文档的FAQ里已经作了说明<sup>[2]</sup>。引用如下:
 
 > ### [Is Rust garbage collected?](https://www.rust-lang.org/en-US/faq.html#is-rust-garbage-collected)
 >
@@ -40,7 +40,7 @@ GC，全称Garbage Collection，指的是内存自动化管理这种行为<sub>1
 
 > Rust有reference counting，因此有GC
 
-在wikipedia的GC定义中，引用计数确实属于GC技术的一种<sub>4</sub>，但官方并不认为拥有reference counting就等于拥有GC，而且Rust的引用计数只是应用在了智能指针上，编码的时候我们仍然需要认真考虑变量的生命周期，这种强制的方式并不atomatic，**只是换了一种更安全的方式让我们手动管理内存而已**。相比之一，Go和Java这类真正拥有GC的语言，是完全不会以任何形式让我们去关心内存的释放的。
+在wikipedia的GC定义中，引用计数确实属于GC技术的一种<sup>[4]</sup>，而且是三大主流GC技术之一。但官方并不认为拥有reference counting就等于拥有GC，而且Rust的引用计数只是应用在了智能指针上，编码的时候我们仍然需要认真考虑变量的生命周期，这种强制的方式并不atomatic，**只是换了一种更安全的方式让我们手动管理内存而已**。相比之下，Go和Java这类真正拥有GC的语言，是完全不会以任何形式让我们去关心内存的释放的。
 
 ### 参考资料
 
@@ -49,4 +49,3 @@ GC，全称Garbage Collection，指的是内存自动化管理这种行为<sub>1
 3. [what-does-rust-have-instead-of-a-garbage-collector](https://stackoverflow.com/questions/32677420/what-does-rust-have-instead-of-a-garbage-collector)
 4. [Reference counting](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)#Reference_counting)
 5. [Rust or Swift for system programming?](https://news.ycombinator.com/item?id=12032638)
-
