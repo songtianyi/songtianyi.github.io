@@ -2,6 +2,8 @@
 
 # 关于Rust GC的争议
 
+作者: [songtianyi](https://github.com/songtianyi)
+
 ### 前言
 
 在[1小时入门Rust](getting-started-with-rust-in-1-hour.md)的文中，有一处说到，Rust没有GC，但有人对此有异议，所以单独写一篇文章来说明。在写文章的时候，做了些搜索，国外也有人持同样的观点<sup>[5]</sup>。
