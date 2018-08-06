@@ -17,5 +17,6 @@
 
 #### Sharing⛱
 * [简易自动化测试](mds/techniques/simple-automated-testing.md) 🌗
+* [关于Rust GC的争议](mds/techniques/is-rust-garbage-collected.md) 🌗
 
 
