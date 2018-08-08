@@ -1,5 +1,9 @@
 # songtianyi's blog
-[site](https://songtianyi.info) 不包含最新的文章, 但文章索引会更全一些，对文章有意见或者疑问的可以提issue :heart:
+[site](https://songtianyi.info) 
+
+>  html版, 不包含最新的文章(使用:new:标记的为新文章), 但文章索引会更全一些。一般只会将质量稳定的文章转成html。
+
+对文章有意见或者疑问的可以提issue :)
 
 #### Highlights :fire:
 * [虚拟桌面协议](https://songtianyi.github.io/article/vdi/004-vdi.html)
