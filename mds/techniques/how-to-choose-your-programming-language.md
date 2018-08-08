@@ -1,5 +1,3 @@
-
-
 # 编程语言选型-你需要了解的二三事
 
 作者: [songtianyi](https://github.com/songtianyi/songtianyi.github.io), 2018-07-09
@@ -46,13 +44,13 @@ fac n = n * fac (n - 1)
 
 类型系统是类型语言的首要组成部分。类型系统的职责之一是跟踪变量的类型，判断代码是否满足类型约束，这种行为称为类型检查(**typechecking**), 类型检查是保证程序稳定运行的手段，同时又分为运行时检查(runtime checks)和静态检查(static checks), 运行时检查也叫动态检查(**dynamic checking**). 
 
-类型系统做了静态检查，还有必要做动态检查嘛？有，比如数组的边界检查，就必须在运行时做。运行时的类型检查会导致程序运行终止(fail-stop)，那为什么还要检查呢？让它运行到无法继续执行为止不就好了？类型检查虽然会出错，但是阻止了更恶劣的错误(untrapped errors)的发生，比如保证gc等机制能够正常运转，让程序能够更平滑地退出。动态检查的缺点是会导致fail-stop，也会消耗资源，影响性能，所以通常我们认为拥有静态检查的类型系统的语言会更稳定高效。但是静态检查就足够安全了吗？不一定，因为某些语言在静态检查时没有检查一些危险操作，比如*C*语言中指针的运算和转换，这类语言称为**weekly checked**, 反之, 程序在编译期间能够尽可能发现所有的类型错误, 称为**strongly checked**.
+类型系统做了静态检查，还有必要做动态检查嘛？有，比如数组的边界检查，就必须在运行时做。运行时的类型检查会导致程序运行终止(fail-stop)，那为什么还要检查呢？让它运行到无法继续执行为止不就好了？类型检查虽然会出错，但是阻止了更恶劣的错误(untrapped errors)的发生，比如保证gc等机制能够正常运转，让程序能够更平滑地退出。动态检查的缺点是会导致fail-stop，也会消耗资源，影响性能，所以通常我们认为拥有静态检查的类型系统的语言会更稳定高效。但是静态检查就足够安全了吗？不一定，因为某些语言在静态检查时没有检查一些危险操作，比如*C*语言中指针的运算和转换，这类语言称为**weakly checked**, 反之, 程序在编译期间能够尽可能发现所有的类型错误, 称为**strongly checked**.
 
-那么延伸一下，怎么区分一门语言是*weekly checked*, 还是*strongly checked*? 以下几点可以作为判断的依据。
+那么延伸一下，怎么区分一门语言是*weakly checked*, 还是*strongly checked*? 以下几点可以作为判断的依据。
 
 ###### Implicit type conversions
 
-可以进行隐式类型转换的语言属于*weekly checked*, 如c++
+可以进行隐式类型转换的语言属于*weakly checked*, 如c++
 
 ```c++
 int a = 3;
@@ -62,7 +60,7 @@ a + b; // a将会被自动转换为double类型，转换的结果和b进行加�
 
 ###### Pointers
 
-允许指针运算的语言属于*weekly checked*, 比如c
+允许指针运算的语言属于*weakly checked*, 比如c
 
 ```c
  int num [] = {1,3,6,8,10,15,22};
@@ -74,11 +72,11 @@ a + b; // a将会被自动转换为double类型，转换的结果和b进行加�
 
 ###### Untagged unions
 
-*union type*即联合类型，之后的内容会介绍。联合类型中的不同类型的值会被存储在同一地址，这也是不稳定因素之一，所以拥有*untagged unions*的语言属于*weekly checked*. 和*untagged*相对的是*tagged union type*, *tagged union*会用tag字段显式地标记当前正在使用的类型，因此要相对安全一些。
+*union type*即联合类型，之后的内容会介绍。联合类型中的不同类型的值会被存储在同一地址，这也是不稳定因素之一，所以拥有*untagged unions*的语言属于*weakly checked*. 和*untagged*相对的是*tagged union type*, *tagged union*会用tag字段显式地标记当前正在使用的类型，因此要相对安全一些。
 
-###### Weekly typed
+###### Weakly typed
 
-一般弱类型语言属于*weekly checked*
+一般弱类型语言属于*weakly checked*
 
 除此之外，往往是通过语言之间的比较来进行判断，并没有明显的界限。类型系统除了提供类型检查，保证程序的安全性之外，还可以提供信息给编译器，以优化执行效率。同时，类型系统是对现实世界的抽象，可读性高，也是更高级别抽象(如泛型，**OOP**s)的基础。所以，无类型的语言在选型时基本会被排除掉。
 
@@ -152,7 +150,7 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
    i.save(100)
    ```
 
-3. *Subtype polymorphism*: 也叫subtyping, 一个类型的变量可以指代**多个该类的子类实例**，即我们常说的多态。从多态性质实现的角度讲，此类属于运行时多态(dynamic polymorphism). 
+3. *Subtype polymorphism*: 也叫subtyping(子类型多态)或者inclusion polymorphism(包含多态)。如果S是T的子类型，记作`S <: T`, 意味着在任何需要使用T类型的环境中，都可以安全地使用S类型的对象。但要区分的是，这里说的子类型并不是面向对象继承的子类，子类型和父类型(super type)描述的是类型之间的关系，而继承反应的是一类对象可以从另一类对象创造出来，是语言特性的实现，因此子类型也称为接口(interface)继承，对象继承则称作实现继承，在Java中，这两者在语法上是有明显的区分的(extend class和implement interface)。从多态性质实现的角度讲，此类属于运行时多态(dynamic polymorphism). 
 
    ```c++
    // c++
@@ -193,6 +191,24 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
        return 0;
    }
    ```
+   关于subtyping还有更细致的划分，从类型系统的实现的角度分为*nominal subtyping*, *structure subtyping*, 在此之前，这里我们先理解类型系统是如何区分两个变量的类型的。
+
+   一种方式是通过变量声明时的类型名称来区分，即，当且仅当两个变量的类型名称相同时，它们属于同一类型。例如:
+
+   ```c
+   // c
+   struct A { int a;}
+   struct B { int a;}
+   ```
+
+   在上面的C代码中，类型A和类型B属于不同类型，因为名称A和名称B不同，因此用它们分别声明的变量是不同类型的变量，尽管它们的成员是完全相同的。使用这种规则的类型系统属于*nominal type system*。至于当我们为类型定义一个别名的时候，类型系统是否认为这是一个新的类型要看类型系统的具体实现，如果别名仅仅是语法糖的话，此时不同的名称仍然代表同一个类型。
+
+   与*nominal type system*相对的是*structure type system(property-based type system)*, 从字面的意思我们大概能猜出，类型的区分是通过类型的定义即类型的结构来区分的:
+
+   ​
+
+   * *Nominal subtyping*:
+   * ​
 
 4. *Row polymorphism*: 也叫duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定彼此之间的关系，比如subtyping中的父类/子类关系，而duck typing是通过函数，如果它们实现了相同的函数，就认为它们是同一类。
 
@@ -226,7 +242,11 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
    lift_off(whale) # Throws the error `'Whale' object has no attribute 'fly'`
    ```
 
-   duck typing也是go语言的主要特性，但是严格来说并不算，因为duck typing发生在运行时，且没有显式的**interface**声明，上面的python示例就是典型的duck typing。
+   duck typing也是go语言的主要特性，但是严格来说并不算，这里引用Rob Pike的在Twitter上的原话来佐证:
+
+   > Go has structural typing, not duck typing. Full interface satisfaction is checked and required.
+
+   只能算作编译时的duck typing，因为传统定义的duck typing发生在运行时，且没有显式的**interface**声明，上面的python示例就是典型的duck typing。区分的原则是，duck typing不以类型来确定关系，而是通过函数来确定。
 
 5. *Polytypism*: 函数式编程语言里的泛型特性。以Haskell为例，其函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在Haskell语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度。<sup>[2]</sup>
 
@@ -1326,7 +1346,7 @@ User.find_by_email('songtianyi630@163.com')
 
 * *static and dynamic checks*: 指该语言的类型系统会进行静态检查和动态检查，注意，所有语言都有动态检查。
 * *strongly checked*: 以检查范围的大小作为标准，意味着类型系统的类型检查(type checking)已经尽可能消除了类型错误, 有些地方会称为*strongly typing*, 有的地方甚至会称为*strongly typed*, 要注意区分.
-* *weekly typed*: 类型可变
+* *weakly typed*: 类型可变
 * *strongly typed*: 类型不可变
 * *dynamically typed*: 值的类型仅在运行时确定
 * *statically typed*: 值的类型仅在编译时确定
@@ -1335,31 +1355,33 @@ User.find_by_email('songtianyi630@163.com')
 * *subtype*: subtype polymorphism
 * *overloading*: Ad hoc polymorphism, 函数重载或操作符重载或两者都有
 
-|    Lang     | Typed | Static and dynamic  checks | Strongly checked | Weekly or strongly  typed | Dynamically or statically typed |            Type theories            | Paradigms                    |
-| :---------: | :---: | :------------------------: | :--------------: | :-----------------------: | :-----------------------------: | :---------------------------------: | ---------------------------- |
-|  Assembly   |   ❌   |             ❌              |        ❌         |             -             |                -                |                  -                  | IP                           |
-|    Java     |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP           |
-|      C      |  ☑️   |             ☑️             |        ❌         |         strongly          |           statically            |                  -                  | IP,SP,PP                     |
-|     C++     |  ☑️   |             ☑️             |        ❌         |         strongly          |           statically            |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP(template) |
-|   Python    |  ☑️   |             ❌              |        ☑️        |          weekly           |           dynamically           |     duck, subtype, overloading      | IP,PP,OOP,FP,MP              |
-|     C#      |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP           |
-|     PHP     |  ☑️   |             ❌              |        ❌         |          weekly           |           dynamically           |            duck, subtype            | IP,PP,OOP,FP,MP              |
-| JavaScript  |  ☑️   |             ❌              |        ❌         |          weekly           |           dynamically           |                duck                 | IP,PP,OOP,FP,MP              |
-|    Ruby     |  ☑️   |             ❌              |        ☑️        |          weekly           |           dynamically           |                duck                 | IP,OOP,FP,MP                 |
-|      R      |  ☑️   |             ❌              |        ❌         |          weekly           |           dynamically           |    generic, overloading, subtype    | IP,PP,OOP,FP,MP              |
-|     Go      |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |                duck                 | IP,PP,MP                     |
-| Objective-C |  ☑️   |             ☑️             |        ❌         |         strongly          |           statically            |       duck, generic, subtype        | IP,OOP,MP                    |
-|    Perl     |  ☑️   |             ❌              |        ❌         |          weekly           |           dynamically           | generic, duck, subtype, overloading | IP,PP,OOP,FP,MP              |
-|    Swift    |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            | duck, generic, subtype, overloading | IP,PP,OOP,FP,MP              |
-|    Scala    |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            | duck, generic, subtype, overloading | IP,OOP,FP,MP                 |
-|    Lisp     |   ❌   |             ❌              |        ☑️        |             -             |                -                |                  -                  | FP                           |
-|   Prolog    |  ☑️   |             ☑️             |        ❌         |          weekly           |           statically            |                  -                  | DP,LP                        |
-|   Erlang    |  ☑️   |             ❌              |        ☑️        |         strongly          |           dynamically           |             overloading             | FP                           |
-|     Lua     |  ☑️   |             ❌              |        ☑️        |          weekly           |           dynamically           |            duck, generic            | IP,PP,OOP,FP,MP              |
-|   Haskell   |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |     generic, duck, overloading      | FP                           |
-|   Kotlin    |  ☑️   |             ☑️             |        ❌         |         strongly          |           statically            |    generic, subtype, overloading    | IP,OOP,FP,MP                 |
-| TypeScript  |  ☑️   |             ☑️             |        ❌         |          weekly           |           statically            |     generic, duck, overloading      | IP,SP,PP,OOP,FP,MP           |
-|    Rust     |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            |     generic, overloading, duck      | IP,SP,PP,OOP,FP,MP           |
+|    Lang     |   Typed   |   Static and dynamic  checks   |   Strongly checked   |   Weakly or strongly  typed   |   Dynamically or statically typed   |            Type theories            | Paradigms                    |
+| :---------: | :-------: | :----------------------------: | :------------------: | :---------------------------: | :---------------------------------: | :---------------------------------: | ---------------------------- |
+|  Assembly   |     ❌     |               ❌                |          ❌           |               -               |                  -                  |                  -                  | IP                           |
+|    Java     |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP           |
+|      C      |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |                  -                  | IP,SP,PP                     |
+|     C++     |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP(template) |
+|   Python    |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |     duck, subtype, overloading      | IP,PP,OOP,FP,MP              |
+|     C#      |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP           |
+|     PHP     |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             |            duck, subtype            | IP,PP,OOP,FP,MP              |
+| JavaScript  |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             |                duck                 | IP,PP,OOP,FP,MP              |
+|    Ruby     |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |                duck                 | IP,OOP,FP,MP                 |
+|      R      |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             |    generic, overloading, subtype    | IP,PP,OOP,FP,MP              |
+|     Go      |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |                duck                 | IP,PP,MP                     |
+| Objective-C |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |       duck, generic, subtype        | IP,OOP,MP                    |
+|    Perl     |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             | generic, duck, subtype, overloading | IP,PP,OOP,FP,MP              |
+|    Swift    |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              | duck, generic, subtype, overloading | IP,PP,OOP,FP,MP              |
+|    Scala    |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              | duck, generic, subtype, overloading | IP,OOP,FP,MP                 |
+|    Lisp     |     ❌     |               ❌                |          ☑️          |               -               |                  -                  |                  -                  | FP                           |
+|   Prolog    |    ☑️     |               ☑️               |          ❌           |            weakly             |             statically              |                  -                  | DP,LP                        |
+|   Erlang    |    ☑️     |               ❌                |          ☑️          |           strongly            |             dynamically             |             overloading             | FP                           |
+|     Lua     |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |            duck, generic            | IP,PP,OOP,FP,MP              |
+|   Haskell   |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |     generic, duck, overloading      | FP                           |
+|   Kotlin    |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |    generic, subtype, overloading    | IP,OOP,FP,MP                 |
+| TypeScript  |    ☑️     |               ☑️               |          ❌           |            weakly             |             statically              |     generic, duck, overloading      | IP,SP,PP,OOP,FP,MP           |
+|    Rust     |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |     generic, overloading, duck      | IP,SP,PP,OOP,FP,MP           |
+|    Julia    |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |     generic, overloading, duck      | IP,SP,PP,OOP,FP,MP           |
+|  **Lang**   | **Typed** | **Static and dynamic  checks** | **Strongly checked** | **Weakly or strongly  typed** | **Dynamically or statically typed** |          **Type theories**          | **Paradigms**                |
 
 整理完这个对比表才发现一些有意思的事情:
 
@@ -1383,3 +1405,4 @@ http://on-img.com/chart_image/5b20fa53e4b06350d462d78b.png
 8. [《List of programming languages by type》, wikipedia](https://en.wikipedia.org/wiki/List_of_programming_languages_by_type#Metaprogramming_languages)
 9. [《Comparison of programming languages》, wikipedia](https://en.wikipedia.org/wiki/Comparison_of_programming_languages)
 10. [《Comparison of multi-paradigm programming language》, wikipedia](https://en.wikipedia.org/wiki/Comparison_of_multi-paradigm_programming_languages)
+11. [Rob Pike tweet](https://twitter.com/rob_pike/status/546973312543227904)

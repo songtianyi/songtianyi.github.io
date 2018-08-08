@@ -51,7 +51,7 @@ rustc -V
 
 `10分钟`
 
-| Lang | Typed | Static and dynamic  checks | Strongly checked | Weekly or strongly  typed | Dynamically or statically typed |            Type theories            | Paradigms       |
+| Lang | Typed | Static and dynamic  checks | Strongly checked | Weakly or strongly  typed | Dynamically or statically typed |            Type theories            | Paradigms       |
 | :--: | :---: | :------------------------: | :--------------: | :-----------------------: | :-----------------------------: | :---------------------------------: | --------------- |
 | Rust |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            | generic, overloading, duck, subtype | IP,SP,PP,OOP,FP |
 
