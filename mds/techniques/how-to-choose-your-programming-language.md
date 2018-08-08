@@ -150,7 +150,7 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
    i.save(100)
    ```
 
-3. *Subtype polymorphism*: 也叫subtyping(子类型多态)或者inclusion polymorphism(包含多态)。如果S是T的子类型，记作`S <: T`, 意味着在任何需要使用T类型的环境中，都可以安全地使用S类型的对象。但要区分的是，这里说的子类型并不是面向对象继承的子类，子类型和父类型(super type)描述的是类型之间的关系，而继承反应的是一类对象可以从另一类对象创造出来，是语言特性的实现，因此子类型也称为接口(interface)继承，对象继承则称作实现继承，在Java中，这两者在语法上是有明显的区分的(extend class和implement interface)。从多态性质实现的角度讲，此类属于运行时多态(dynamic polymorphism). 
+3. *Subtype polymorphism*: 也叫subtyping(子类型多态)或者inclusion polymorphism(包含多态)。如果S是T的子类型，记作`S <: T`, 意味着在任何需要使用T类型的环境中，都可以安全地使用S类型的对象。但要区分的是，这里说的子类型并不是面向对象继承概念里的子类，子类型和父类型(super type)描述的是类型之间的关系，而继承反应的是一类对象可以从另一类对象创造出来，是语言特性的实现，主要目的是重用代码。之所以混淆是因为在C++等语言中，通常将两者结合起来以实现OOP。子类型也称为接口(interface)继承，对象继承则称作实现继承，在Java中，这两者在语法上是有明显的区分的(interface和class)。从多态性质实现的角度讲，subtyping属于运行时多态(dynamic polymorphism). 
 
    ```c++
    // c++
@@ -191,9 +191,9 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
        return 0;
    }
    ```
-   关于subtyping还有更细致的划分，从类型系统的实现的角度分为*nominal subtyping*, *structure subtyping*, 在此之前，这里我们先理解类型系统是如何区分两个变量的类型的。
+   关于subtyping还有更细致的划分，从类型系统的技术实现角度分为*nominal subtyping*和*structural subtyping*, 在阐述这两个概念之前，我们先理解类型系统是如何区分两个不同类型的。
 
-   一种方式是通过变量声明时的类型名称来区分，即，当且仅当两个变量的类型名称相同时，它们属于同一类型。例如:
+   一种方式是通过类型名称来区分，即，当且仅当两个类型的命名相同时，它们属于同一类型。例如:
 
    ```c
    // c
@@ -201,14 +201,78 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
    struct B { int a;}
    ```
 
-   在上面的C代码中，类型A和类型B属于不同类型，因为名称A和名称B不同，因此用它们分别声明的变量是不同类型的变量，尽管它们的成员是完全相同的。使用这种规则的类型系统属于*nominal type system*。至于当我们为类型定义一个别名的时候，类型系统是否认为这是一个新的类型要看类型系统的具体实现，如果别名仅仅是语法糖的话，此时不同的名称仍然代表同一个类型。
+   在上面的C代码中，类型名称显然不同，类型A和类型B属于不同类型，尽管它们的成员(property/field/member)是完全相同的, 使用这种区分规则的类型系统属于*nominal type system*。至于，当我们为类型定义一个别名的时候，类型系统是否认为这是一个新的类型要看类型系统的具体实现，如果别名仅仅是语法糖的话，此时不同的名称仍然代表同一个类型。
 
-   与*nominal type system*相对的是*structure type system(property-based type system)*, 从字面的意思我们大概能猜出，类型的区分是通过类型的定义即类型的结构来区分的:
+   与*nominal type system*相对的是*structural type system(property-based type system)*, 从字面的意思我们大概能猜出，类型的区分是通过类型的定义即类型的结构来区分的:
 
-   ​
+   ```typescript
+   // pseudo
+   class Foo {
+     method(input: string): number { ... }
+   }
+   class Bar {
+     method(input: string): number { ... }
+   }
+   let foo: Foo = new Bar(); // OK
+   ```
 
-   * *Nominal subtyping*:
-   * ​
+   上面的代码中，Foo和Bar的类型是相同的，因为他们的结构相同。
+
+   接着，我们来看这两种类型区分方式和subtyping的关系。
+
+   * *Nominal subtyping*: 参照*nominal typing*的规则，只有当类型S被显式地声明为T的子类型，才认为`S <: T`，使用这种规则的subtyping属于*nominal subtyping*。比如Rust里的trait(类interface)
+
+     ```rust
+     trait Graph {
+         fn area(&self) -> f64;
+     }
+     struct Circle {
+         x: f64,
+         y: f64,
+         radius: f64,
+     }
+     // 实现Graph
+     impl Graph for Circle {
+         fn area(&self) -> f64 {
+             std::f64::consts::PI * (self.radius * self.radius)
+         }
+     }
+     ```
+
+     上述代码通过`impl`关键字显式地声明了这种关系，`Circle <: Graph` 。C++, Java也是*nominal subtyping*
+
+   * *Structural subtyping*: 参照*structural typing*的规则，类型之间的子/父关系是通过类型的结构来区分的，使用这种规则的subtyping属于*structural subtyping*。Golang的interface属于此类，interface里声明的函数(feature)在它的子类型中都能找到对应的实现，至于匹配的规则，依赖于类型系统的具体实现。*structural subtyping*相对*nominal subtyping*要更加灵活。
+
+     ```go
+     // golang
+     package main
+
+     import "fmt"
+
+     type A interface {
+     	Shout() 
+     }
+
+     type Girl struct {}
+     func (s *Girl) Shout() {
+     	fmt.Println("greetings!")
+     }
+
+     type Boy struct {}
+     func (s *Boy) Shout() {
+     	fmt.Println("66666")
+     }
+
+     func do(who A) {
+     	who.Shout()
+     }
+     func main() {
+     	do(&Girl{})
+     	do(&Boy{})
+     }
+     ```
+
+     上面的Go代码中，Girl和Boy都没有被显式地声明为A的子类型，但它们都实现了`Shout()`, 从结构上对比，他们都属于A的子类型。
 
 4. *Row polymorphism*: 也叫duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定彼此之间的关系，比如subtyping中的父类/子类关系，而duck typing是通过函数，如果它们实现了相同的函数，就认为它们是同一类。
 
@@ -242,11 +306,11 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
    lift_off(whale) # Throws the error `'Whale' object has no attribute 'fly'`
    ```
 
-   duck typing也是go语言的主要特性，但是严格来说并不算，这里引用Rob Pike的在Twitter上的原话来佐证:
+   Golang的interface和duck typing有点像，但是严格来说并不算，这里引用Rob Pike的在Twitter上的原话来佐证:
 
    > Go has structural typing, not duck typing. Full interface satisfaction is checked and required.
 
-   只能算作编译时的duck typing，因为传统定义的duck typing发生在运行时，且没有显式的**interface**声明，上面的python示例就是典型的duck typing。区分的原则是，duck typing不以类型来确定关系，而是通过函数来确定。
+   Golang interface勉强算作编译时的duck typing，因为传统定义的duck typing发生在运行时，且没有显式的**interface**声明，上面的python示例就是典型的duck typing。区分的原则是，duck typing不以类型来确定关系，而是通过函数来确定，和subtyping是截然不同的。
 
 5. *Polytypism*: 函数式编程语言里的泛型特性。以Haskell为例，其函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在Haskell语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度。<sup>[2]</sup>
 
@@ -1297,7 +1361,7 @@ SELECT * FROM Users WHERE Country=’Mexico’;
 
 ##### FP(Functional Programming)
 
-即函数式编程，也是**DP**的子集, 在函数式编程里，所有的计算都是通过函数调用完成的，函数里的**SP**逻辑尤其是控制流逻辑，被隐藏了起来. 假设我们要编写一个函数，将一个数组的每个元素都乘以2，**PP**风格的代码如下:
+即函数式编程，**FP**属于**DP**的子集, 在函数式编程里，函数和其他数据类型一样，可以作为类型定义变量，可以作为入参和返回值，代码里的**SP**逻辑尤其是控制流逻辑，被隐藏了起来。 假设我们要编写一个函数，将一个数组的每个元素都乘以2，**PP**风格的代码如下:
 
 ```typescript
 // TypeScript
@@ -1310,11 +1374,11 @@ function double (arr) {
 }
 ```
 
-上述代码，详细地写明了整个计算过程，包括迭代过程和计算方法。所以**IP**范畴的范式会详细描述计算机是如何完成这件事的，有篇文章是这么描述**IP**的
+上述代码，详细地写明了整个计算过程，包括迭代过程和计算方法，所以**IP**范畴的范式会详细描述计算机是如何完成这件事的
 
 > First do this, then do that.
 
-**FP**则不会描述数组是如何迭代的，也不会显式地修改变量, 仅仅描述了我们想要什么，我们想要将元素乘以2.
+**FP**则不会描述数组是如何迭代的，也不会显式地修改变量, 仅仅描述了我们想要什么，我们想要将元素乘以2，`item * 2`就是核心逻辑，不需要开发者关心它是怎么迭代和修改变量的。
 
 ```typescript
 function double (arr) {
@@ -1324,13 +1388,9 @@ function double (arr) {
 
 **FP**将开发者从机器的执行模型切换到了人的思维模型上，可读性会更高。需要注意的是，某些支持**FP**的语言本身是属于**IP**的，同时也可以认为其属于**DP**, 不必过于纠结。
 
-##### FRP(Functional Reactive Programming)
-
-即，函数式响应型编程。
-
 ##### MP(Meta Programming)
 
-即元编程, 也写做*Metaprogramming*。元编程是一种可以将程序当作数据来操作的技术，元编程能够读取，生成，分析或转换其他的程序代码，甚至可以在运行时修改自身. *C++*的template即属于*meta programming*的范畴，编译器在编译时生成具体的源代码。在web框架*Ruby on Rails*里，元编程被普遍使用。比如，在SQL数据库的表里，有一个表users，在ruby中用类*User*表示，你需要根据user的email字段来获取相应的结果，通常的做法是写个sql查询语句去完成，但是*Ruby on Rails*在元编程的加持下，会让这件事变得异常简单。
+即元编程, 也写做*Metaprogramming*。元编程是一种可以将程序当作数据来操作的技术，元编程能够读取，生成，分析或转换其他的程序代码，甚至可以在运行时修改自身. *C++*的template即属于*metaprogramming*的范畴，编译器在编译时生成具体的源代码。在web框架*Ruby on Rails*里，元编程被普遍使用。比如，在SQL数据库的表里，有一个表users，在ruby中用类*User*表示，你需要根据user的email字段来获取相应的结果，通常的做法是写个sql查询语句去完成，但是*Ruby on Rails*在元编程的加持下，会让这件事变得异常简单。
 
 ```ruby
 User.find_by_email('songtianyi630@163.com')
@@ -1379,7 +1439,7 @@ User.find_by_email('songtianyi630@163.com')
 |   Haskell   |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |     generic, duck, overloading      | FP                           |
 |   Kotlin    |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |    generic, subtype, overloading    | IP,OOP,FP,MP                 |
 | TypeScript  |    ☑️     |               ☑️               |          ❌           |            weakly             |             statically              |     generic, duck, overloading      | IP,SP,PP,OOP,FP,MP           |
-|    Rust     |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |     generic, overloading, duck      | IP,SP,PP,OOP,FP,MP           |
+|    Rust     |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, overloading, subtype    | IP,SP,PP,OOP,FP,MP           |
 |    Julia    |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |     generic, overloading, duck      | IP,SP,PP,OOP,FP,MP           |
 |  **Lang**   | **Typed** | **Static and dynamic  checks** | **Strongly checked** | **Weakly or strongly  typed** | **Dynamically or statically typed** |          **Type theories**          | **Paradigms**                |
 
