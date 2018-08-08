@@ -19,7 +19,7 @@
 * 安全，线程无数据竞争
 
 
-* 支持范型, duck typing
+* 支持泛型，多态和操作符重载
 * 多范式，FP,PP,OOP,MP
 * 高效C绑定
 
@@ -45,15 +45,15 @@ curl https://sh.rustup.rs -sSf | sh
 rustc -V
 ```
 
-编辑工具用vscode，然后在命令行使用rustc编译。
+编辑工具用vscode，然后在命令行使用rustc(v1.27.2)编译。
 
 ### 类型系统
 
 `10分钟`
 
-| Lang | Typed | Static and dynamic  checks | Strongly checked | Weakly or strongly  typed | Dynamically or statically typed |            Type theories            | Paradigms       |
-| :--: | :---: | :------------------------: | :--------------: | :-----------------------: | :-----------------------------: | :---------------------------------: | --------------- |
-| Rust |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            | generic, overloading, duck, subtype | IP,SP,PP,OOP,FP |
+| Lang | Typed | Static and dynamic  checks | Strongly checked | Weakly or strongly  typed | Dynamically or statically typed |         Type theories         | Paradigms       |
+| :--: | :---: | :------------------------: | :--------------: | :-----------------------: | :-----------------------------: | :---------------------------: | --------------- |
+| Rust |  ☑️   |             ☑️             |        ☑️        |         strongly          |           statically            | generic, overloading, subtype | IP,SP,PP,OOP,FP |
 
 * *static and dynamic checks*: Rust是静态编译语言，自然有静态检查，且非常强大
 
@@ -70,7 +70,7 @@ rustc -V
     }
     ```
 
-    编译不通过
+    上述代码编译不会通过
 
     ```shell
     error[E0384]: cannot assign twice to immutable variable `x`
@@ -82,7 +82,7 @@ rustc -V
       |         ^^^^^ cannot assign twice to immutable variable
     ```
 
-    和许多现代编程语言一样，Rust提供了类型推断。另外Rust是不允许使用未经初始化的变量的，虽然有类型推断但没有默认值，强迫我们使用更规范的方式去书写程序，因为默认值依赖于程序猿的经验以及运行平台，会有相应的编码风险。
+    你们可能注意到了，x的定义没有指明类型，是的，和许多现代编程语言一样，Rust提供了类型推断。另外Rust是不允许使用未经初始化的变量的，虽然有类型推断但没有默认值，强迫我们使用更规范的方式去书写程序，因为默认值依赖于程序猿的经验以及运行平台，会有相应的编码风险。
 
     ```rust
     let mut x = 5; // 类型推断, 用mut来标记 使变量可修改
@@ -263,35 +263,38 @@ fn main() {
 
 ```
 
-##### 鸭子类型
+##### 多态
 
-Rust借助trait来实现鸭子类型(duck typing)
+即subtyping。Rust和golang一样并没有继承这一说，也没有class，但struct是可以定义函数的，也能指定可见性。struct和trait结合使用能够达到通常OOP中继承和多态的效果。Rust的subtyping属于nominal subtyping，而Golang中的interface属于structural subtyping。
 
 ```rust
 // 定义一个trait，trait约束了实现它的类型所必需要实现的函数
 trait Graph {
     fn area(&self) -> f64;
 }
+// 定义一个结构体
 struct Circle {
     x: f64,
     y: f64,
     radius: f64,
 }
-// 将Cicle实现为Graph
+// 为Circle实现Graph trait，或者说实现Graph接口
+// 此时Cicle为Graph的子类型
 impl Graph for Circle {
     // 必须实现area
     fn area(&self) -> f64 {
         std::f64::consts::PI * (self.radius * self.radius)
     }
 }
-
+// 定义一个新的结构体类型
 struct Rec {
     x: f64,
     y: f64,
     length: f64,
     height: f64,
 }
-// 将Rec实现为Graph
+// 为Rec实现Graph trait
+// 此时Rec是Graph的子类型
 impl Graph for Rec {
     // 必须实现area
     fn area(&self) -> f64 {
@@ -320,7 +323,7 @@ fn main() {
 }
 ```
 
-但也有人对这种提法有质疑，官方文档里也没有提到duck typing，这里引入duck typing是为了更好地理解trait。
+上述代码中`print_g`的入参类型为Graph, 既能将Circle作为输入，也能将Rec作为输入，即是多态用法。
 
 ##### 重载
 
@@ -363,16 +366,6 @@ fn main() {
 ```
 
 Rust没有函数重载。
-
-##### 多态
-
-即subtyping。Rust和golang一样并没有继承这一说，也没有class，但struct是可以定义函数的，也能指定可见性。struct和trait结合使用能够达到通常OOP中继承和多态的效果。在鸭子类型的样例代码中，入参类型为trait即是一个多态用法。
-
-```rust
-fn print_g<T: Graph>(g : T) {
-    println!("graph area {}", g.area());
-}
-```
 
 ### 语法规范
 
@@ -589,7 +582,7 @@ trait HasArea {
 
 ```
 
-关于trait的使用，会在鸭子类型中介绍。Rust中有个特殊的trait `Drop`，作用类似于析构函数，大家可以自行了解。
+关于trait的使用，会在subtyping中介绍。Rust中有个特殊的trait `Drop`，作用类似于析构函数，大家可以自行了解。
 
 ##### Statements
 
@@ -649,7 +642,7 @@ let语句，用来绑定变量。
 
 ##### Expressions
 
-表达式和语句有时候并没有明显的界限，这里按照rust reference文档，写在expression范畴内。且只列举较陌生的表达式写法。
+表达式是语句(statements)的子集，这里按照rust reference文档，部分关于语句的语法也写在expression的范畴内，且只列举较陌生的表达式写法。
 
 ###### Path expression
 
@@ -875,11 +868,11 @@ Rust并不是纯函数式语言，语言的设计者们并不教条，执着在�
 
 * 闭包
 * 迭代器，在函数式编程里，迭代器是流式处理(函数式风格)的基础
-* 函数可以作为参数和返回值
+* 函数也是类型，可以作为参数和返回值
 
 ##### 面向对象编程
 
-面向对象是一个很好的概念，但并不是所有情况下都是最优的选择，语言的设计者们权衡之后，都放弃了纯面向对象的方式，包括Go。Rust并不是一门纯面向对象语言，也没有类或者继承的概念，但确实可以像面向对象语言那样编程，因此也认为它具备面向对象编程这个范式。面向对象的三大特征是封装／继承／多态。封装不用说，struct是可以定义成员函数的，多态特性我们在鸭子类型中也实际用到过，那么继承呢？Rust的继承写法也是通过trait来完成的，通过组合trait来建模对象之间的共性。
+面向对象是一个很好的概念，但并不是所有情况下都是最优的选择，语言的设计者们权衡之后，都放弃了纯面向对象的方式，比如Go。Rust并不是一门面向对象语言，也没有类或者继承的概念，但确实可以像面向对象语言那样编程，因此也认为它具备面向对象编程这个范式。面向对象的三大特征是封装／继承／多态。封装不用说，struct是可以定义成员函数的，多态特性我们在subtyping中也讲到过，那么继承呢？Rust的继承写法也是通过trait来完成的，通过组合trait来建模对象之间的共性。
 
 ```rust
 trait One { fn one(&self); }
@@ -889,11 +882,13 @@ trait Com: One + Two;
 
 struct Foo;
 
-impl Com for Impl {
+impl Com for Foo {
   fn one(&self) {}
   fn two(&self) {}
 }
 ```
+
+`One + Two`的语法是有说法的，TODO: Algebraic data type
 
 ##### 元编程
 
