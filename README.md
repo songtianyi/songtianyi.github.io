@@ -24,4 +24,12 @@
 
 * [简易自动化测试](mds/techniques/simple-automated-testing.md) :new:
 * [关于Rust GC的争议](mds/techniques/is-rust-garbage-collected.md) :new:
+* ​[example-contribute](README.md) :new:  :email:
 
+
+#### PR
+
+虽然这是个人博客，但还是欢迎PR的:
+
+* 内容改进，欢迎对内容/格式等提出改进意见, 可直接修改原内容。
+* 投稿，如果你有不错的文章想在这里分享，可以提PR，只接收mardown格式。格式请参照*Sharing*列表里的*example-contribute*格式。
