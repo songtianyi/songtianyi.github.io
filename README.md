@@ -30,4 +30,4 @@
 * 投稿，如果你有不错的文章想在这里分享，可以提PR，只接收mardown格式, 格式参考:
   * [example-contribute](README.md) :new:  :email:
 
-  归类在Sharing列表下，质量稳定之后转成html。
+  归类在**Sharing**列表下，质量稳定之后转成html。
