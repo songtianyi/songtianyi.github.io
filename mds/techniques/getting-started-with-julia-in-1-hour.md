@@ -24,7 +24,7 @@
 
 * 多重派发(multiple dispatch)
 
-  其实就是函数重载啦，是通过多重派发来实现的。多重派发是julia类型系统的核心特性。
+  类似于静态语言的函数重载，julia在处理同名函数时使用的方法叫多重派发。多重派发是julia的核心特性。
 
 * 多范式，IP,PP,OOP,FP,MP
 
@@ -114,6 +114,8 @@ export PATH=$PATH:$JULIA
 
 * *dynamically typed*: 类型在运行时确定
 
+  > There is no meaningful concept of a "compile-time type": the only type a value has is its actual type when the program is running. 
+
 * *type inference*: 支持类型推断。类型推断需要注意的地方是，在不同bit的硬件架构下，推断出的类型会不同
 
   ```
@@ -126,12 +128,157 @@ export PATH=$PATH:$JULIA
   Int64
   ```
 
+* *nominative*: 意味着类型之间的关系是通过名称和显式的类型关系声明来确定的，和通过类型结构来确定类型关系的structural type system相对。
+
 
 ### 类型理论
 
-* *generic*: 
+##### subtype
+
+julia的类型系统定义了一个类型树(type graph)，根类型是`Any`, 是所有类型的super type，叶子类型是`Union{}`，是所有类型的subtype，这里只列出数值类型部分:
+
+![type hierarchy for julia numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Type-hierarchy-for-julia-numbers.png/800px-Type-hierarchy-for-julia-numbers.png)在这个类型树里 Float64, Int64等都是Number类型的子类，以此为例，我们来看下julia的多态的书写形式，很简单:
+
+```julia
+function print(x ::Number) 
+    println("this is ", x)
+end
+print(1.0::Float64)
+print(4::Int64)
+```
+
+output:
+
+```
+1.0
+4
+```
+
+Julia提供了扩充类型的方式，即抽象类型，定义一个抽象类型:
+
+```julia
+abstract type Graph end
+```
+
+它的默认父类是`any`, 我们在定义的时候可以指定父类
+
+```
+abstract type Graph <: Any end
+```
+
+和Rust，golang等语言不同的是，我们并不能为一个struct类型定义函数，所以我们看到的仍然是多重派发，而不是其他语言的惯用写法:
+
+```julia
+struct Circle <: Graph
+    radius ::Float64
+    x ::Int64
+    y ::Int64
+end
+
+struct Rec <: Graph
+    width ::Float64
+    height ::Float64
+    x ::Int64
+    y ::Int64
+end
+
+function area(r ::Circle) ::Float64
+    return pi * r.radius^2
+end
+
+function area(g ::Rec)
+    return g.x*g.y
+end
+
+println(area(Circle(1.0, 1, 1)))
+println(area(Rec(1.0, 1.0, 2, 2)))
+```
+
+julia的多态属于nominal subtyping
+
+##### generic
+
+julia的泛型可以应用在复合类型上
+
+```
+julia> struct Point{T}
+           x::T
+           y::T
+       end
+```
+
+泛型极大丰富了julia的类型系统，我们可以通过实例化一个泛型来创建一个新的类型
+
+```julia
+Point{String}
+```
+
+它和不使用泛型的形式是等价的:
+
+```julia
+struct Point
+  x::String
+  y::String
+end
+```
+
+而且Point本身也是一个类型对象(type object)，它是所有Point{T}实例的父类型
+
+```
+julia> Point{Float64} <: Point
+true
+
+julia> Point{AbstractString} <: Point
+true
+```
+
+tip: `<:`在之后的内容有介绍。
+
+但是julia泛型的类型规则属于不变(*invariant*), 意味着，当`Float64 <: Real`()为真时，`Point{Float64} <: Point{Real}`并不为真，它不会保持或者逆转之前的类型关系。因此当泛型实例作为入参类型时会面临一个问题, 在函数入参类型为Point{Real}时，我们不能对他传入Point{Float64}
+
+```julia
+struct Point{T}
+    x::T
+    y::T
+end
+function norm(p::Point{Real})
+    return sqrt(p.x^2 + p.y^2)
+end
+
+println(norm(Point{Real}(1.0, 1.0)))
+println(norm(Point{Float64}(1.0, 1.0))) # MethodError: no method matching norm(::Point{Float64})
+```
+
+我们用一个类型范围来限定入参类型，而不是一个具体类型:
+
+```julia
+struct Point{T}
+    x::T
+    y::T
+end
+function norm(p::Point{<:Real}) # 所有使用Real子类型实例化的Point{T}都可以作为入参
+    return sqrt(p.x^2 + p.y^2)
+end
+
+println(norm(Point{Real}(1.0, 1.0)))
+println(norm(Point{Float64}(1.0, 1.0))) # OK
+```
+
+泛型也可以应用在抽象类型上:
+
+```julia
+abstract type Point{T} end
+```
+
+或者基础类型上
+
+```julia
+primitive type String{T} 32 end
+```
+
+
+
 * *overloading*: 基于multiple dispatch的函数重载是julia的主要特性。
-* **
 
 
 ### 语法规范
@@ -146,7 +293,7 @@ export PATH=$PATH:$JULIA
 | Char, String                             | 字符/字符串, String能够使用下标索引, 注意: Julia的下标都是从1开始的, 1-based. 关于String的更多内容可以查看[strings](https://docs.julialang.org/en/v0.6.4/manual/strings/) |
 | Bool                                     | 真假值                                      |
 | Float16, Float32,  Float64               | IEEE754-2008浮点,  2.5e-4,  1e10,  0.5f0,  0x1.8p3(16进制浮点),  Inf32, -Inf32, Inf, -Inf, …, NaN, NaN16 |
-| any                                      | 任意类型                                     |
+| Any                                      | 任意类型                                     |
 |                                          |                                          |
 |                                          |                                          |
 |                                          |                                          |
@@ -159,14 +306,15 @@ export PATH=$PATH:$JULIA
 | Complex  | 复数类型, i用im表示 ex.` 0 + 4im`               |
 | Rational | 分数 ex. 6//9, 即9分之6                       |
 | function | 函数，函数的定义在julia有更简洁的方法，ex.  f(x, y) = x + y, 这种写法更贴合科学计算里的公式。当然，函数名也可以是Unicode字符， ∑(x,y) = x + y。在julia里，算术运算符属于函数的语法糖。 |
-| tuple    | 元组                                       |
+| Tuple    | 元组，t = (1, 2,"a")                        |
 | Channel  | 管道，先进先出的队列                               |
-|          |                                          |
-|          |                                          |
-|          |                                          |
-|          |                                          |
+| Abstract | 抽象类型                                     |
+| struct   | 结构体                                      |
+| mutable  | 可修改性修饰                                   |
+| Union    | 联合类型                                     |
+| Nullable | 当一个值不确定它是否存在时可以使用Nullable来封装它，保证访问的安全性   |
 
-###### 匿名函数
+###### 函数
 
 在Julia里函数是一等公民(first-class objects), 能够将函数赋值给变量，也可以作为参数和返回值。
 
@@ -204,7 +352,19 @@ julia> f(2)
 3
 ```
 
-并且支持隐式return
+并且支持隐式return。
+
+当多个函数的逻辑在概念上(conceptual)相同时，我们倾向于使用相同的名称，比如两个类型的想加，会使用*add*来命名。那么自然就存在一个问题，如何选择要执行的函数？选择要执行的函数的过程称为派发(dispatch)，派发分为三种:
+
+* *single-dispatch*: 我们调用对象的方法时，比如obj1.add(a), obj2.add(a')，通过对象类型来决定调用哪个函数的方式称为*single-dispatch*
+* *double-dispatch*: 有时候，对象的方法需要处理不同的类型，比如obj1.add(human), obj1.add(animal), 此时需要根据对象类型和方法的参数来确定调用的函数，这种方式称为*double-dispatch*
+* *multiple-dispatch*: 以此类推，通过对象类型和方法的所有参数类型来确定调用的函数的方式称为*multiple-dispatch*
+
+julia使用mutiple dispatch。
+
+###### Tuple
+
+和泛型不同的是，Tuple的类型规则是协变(*covariant*), 意味着，如果有 `Int32 <: Number`，那么`Tuple{Int32} <: Tuple{Number}` 为真，
 
 ###### Channel
 
@@ -234,7 +394,7 @@ Julia的Channel的Go的chan在使用上基本是一致的。
    ch = Channel(10)
    ```
 
-3. 使用put!和task!来写入和读取数据, 和golang的区别是，julia的channel在定义时可以不指定类型，当不指定类型时，默认为`any`可以写入不任意类型的数据。
+3. 使用put!和task!来写入和读取数据, 和golang的区别是，julia的channel在定义时可以不指定类型，当不指定类型时，默认为`Any`，可以写入任意类型的数据。
 
    ```julia
    ch = Channel{String}(10)
@@ -244,7 +404,7 @@ Julia的Channel的Go的chan在使用上基本是一致的。
    take!(ch)
    ```
 
-4. 关闭
+4. 关闭channel。julia的channel在关闭后仍然可以读取数据，直到为空。
 
    ```julia
    close(ch)
@@ -258,17 +418,112 @@ Julia的Channel的Go的chan在使用上基本是一致的。
 
 6. 比go channel方便的地方是，提供了fetch函数，fetch只会读取数据，不会remove掉数据
 
-7. julia的channel在关闭后仍然可以读取数据，直到为空。
-
-8. Channel可以和一个函数相绑定, 其接受一个匿名函数，并调用它，调用匿名函数时传入一个新建的channel，一般匿名函数会操作这个channel，最后Channel会将这个channel返回。
+7. Channel可以和一个函数相绑定, 其接受一个匿名函数，并调用它，调用匿名函数时传入一个新建的channel，一般匿名函数会操作这个channel，最后Channel会将这个channel返回。
 
    ```julia
    chnl = Channel(c->foreach(i->put!(c,i), 1:4));
    ```
 
+###### Abstract type
+
+抽象类型在julia的类型系统起到构建类型树(type graph)，复用逻辑和实现多态的作用。类型树的根类型是`Any`, 任意类型都是它的子类型(subtype), 叶子类型是`Union{}`, 和`Any`相反，任意类型都是`Union{}`的父类型。我们来看下，julia的数值类型部分的类型树:
+
+```julia
+abstract type Number end
+abstract type Real     <: Number end
+abstract type AbstractFloat <: Real end
+abstract type Integer  <: Real end
+abstract type Signed   <: Integer end
+abstract type Unsigned <: Integer end
+```
+
+数值类型的根是`Number`, 之后由它逐步构建出所有的数值类型。
+
+tip: `A <: B`表达式表示A是B的子类型, 表达式的值是真假值
+
+```
+julia> if Int64 <: Number
+         println("hello")
+       end
+hello
+```
+
+###### Struct
+
+struct的定义, 初始化及访问都是标准的方式:
+
+```
+julia> struct Foo
+           bar
+           baz::Int
+           qux::Float64
+       end
+       
+julia> foo = Foo("Hello, world.", 23, 1.5)
+Foo("Hello, world.", 23, 1.5)
+
+julia> foo.bar
+"Hello, world."
+```
+
+不指定类型的字段，默认类型为`Any`。
+
+特殊的地方是，struct默认是不能修改的:
+
+```
+julia> foo.bar = 1
+ERROR: type Foo is immutable
+```
+
+只能通过它的构造器重新初始化。要使其可修改需要显式地声明`mutable`, 这类struct会分配在堆内存上。
+
+tip: 一个特殊的struct，称为*singleton*:
+
+```
+julia> struct NoFields
+       end
+```
+
+###### Union
+
+定义和初始化都比较常规
+
+```
+julia> IntOrString = Union{Int,AbstractString}
+Union{AbstractString, Int64}
+
+julia> 1 :: IntOrString
+1
+
+julia> "Hello!" :: IntOrString
+"Hello!"
+
+```
+
+###### mutable
+
+这里只说下julia的值传递规则，对于不可修改的对象，在赋值或者作为入参时是值传递(copy), 可修改的对象是引用传递(reference)
+
+###### Nullable
+
+Nullable<T>, 作用和Java里的Optional<T>是一致的，比如函数的返回值不确定是否为空时，可以使用Nullable包裹一下再返回，这样返回值的接受者可以安全地处理它。
+
+```julia
+function calc() ::Nullable{Int64}
+    # return 1
+    # no return
+    # return Nullable(1)
+end
+
+v = calc()
+if !isnull(v)
+    println(get(v))
+end
+```
+
 ##### Variables
 
-julia的变量比较特殊的地方是，它可以用Unicode(UTF-8)作为名字, 因为科学计算中，有很多特殊的数学符号。
+julia的变量比较特殊的地方是，它可以用Unicode(UTF-8)作为名字, 因为科学计算中有很多特殊的数学符号。
 
 ```
 julia> δ = 0.00001
@@ -278,13 +533,13 @@ julia> 안녕하세요 = "Hello"
 "Hello"
 ```
 
-有一个问题是，这些特殊符号怎么输入？在julia的repl中，可以用`\`加单词打打印，比如上述的`δ`符号，英文名叫delta, 在repl里输入:
+有一个问题是，这些特殊符号怎么输入？在julia的repl中，可以用`\`加单词打印出特殊字符，比如上述的`δ`符号，英文名叫delta, 在repl里输入:
 
 ```
 julia> \delta
 ```
 
-按tab键，即可打印出`δ`
+然后按tab键，即可打印出`δ`。
 
 为了科学计算的便利，julia内置了很多常量和函数, 比如`pi`, `sqrt`等，且可以修改它们。
 
@@ -307,6 +562,30 @@ WARNING: imported binding for sqrt overwritten in module Main
 4
 
 ```
+
+另外，变量的定义称为变量绑定，变量没有类型，值有类型，变量名和值是绑定关系。我们可以从类型的声明上来窥探出这一点, 在C里面给变量声明一个类型并初始化可以这样写:
+
+```c
+// c
+float a = 8;
+```
+
+在Julia里这样写:
+
+```
+a = 8 ::Float32
+```
+
+唉？不对，repl报错了
+
+```
+julia> a = 1 ::Float32
+ERROR: TypeError: typeassert: expected Float32, got Int64
+```
+
+编译器认为1是Int64, 而我们尝试给它指定一个Float32的类型，所以报错了，说明1这个值已经有了自己的类型，赋值操作仅仅是将变量名和值进行绑定。
+
+tip: 全局变量不能声明类型。
 
 ##### Operators
 
@@ -342,6 +621,7 @@ WARNING: imported binding for sqrt overwritten in module Main
 | [`<=`](https://docs.julialang.org/en/v0.6.4/stdlib/math/#Base.:%3C=), [`≤`](https://docs.julialang.org/en/v0.6.4/stdlib/math/#Base.:%3C=) | less than or equal to                    |                                          |
 | [`>`](https://docs.julialang.org/en/v0.6.4/stdlib/math/#Base.:%3E) | greater than                             |                                          |
 | [`>=`](https://docs.julialang.org/en/v0.6.4/stdlib/math/#Base.:%3E=), [`≥`](https://docs.julialang.org/en/v0.6.4/stdlib/math/#Base.:%3E=) | greater than or equal to                 |                                          |
+| ===                                      | 对象判等                                     | 对于可修改的对象，用内存地址来判等，对于不可修改的对象，通过对象的二进制数据来判等 |
 |                                          |                                          |                                          |
 | ?:                                       |                                          | 条件运算符                                    |
 
@@ -507,7 +787,7 @@ Julia的作用域不算特殊，主要有GLobal，Local，Module这三种作用�
 
 1. 每个module都有独立的Global Scope，module之间需要先引用才能访问, 但是module A的变量在module B里是只读的
 
-2. 语句都会产生一个local scope, 除`了begin..end`, `if`语句。总的来说，**local scope的所有父级作用域**里的变量在local scope是可见的，反之则不可见，这和我们的经验是一致的。
+2. 语句都会产生一个local scope, 除了`begin..end`, `if`语句。总的来说，**local scope的所有父级作用域**里的变量在local scope是可见的，反之则不可见，这和我们的经验是一致的。
 
    如果需要让local scope里的变量在父级作用域里可见，可以强制定义为global变量
 
@@ -549,7 +829,7 @@ Julia的作用域不算特殊，主要有GLobal，Local，Module这三种作用�
    y  # 1
    ```
 
-   如果不仅仅是使用，还要修改global x呢(当然这么做是不推荐的)？在case1当中，x被修改后，就自动变成local的变量了，因此要将x指明为global，如下:
+   如果不仅仅是使用，还要修改global x呢(当然这么做是不推荐的)？在case1当中，x被修改后，就自动变成local的变量了，因此要将x指明为global再修改，如下:
 
    ```julia
    // case3
@@ -567,17 +847,41 @@ Julia的作用域不算特殊，主要有GLobal，Local，Module这三种作用�
 
 ##### Module
 
+和其他语言一样，module的引入主要是为了引入新的作用域和组织代码结构。定义一个module的方式:
 
+```julia
+module MyModule
+export fn # 需要暴露的的变量或方法使用export来标记
+fn() = "x"
+end
+```
+
+导入的方式有两种，*using*和*import*，它们的区别在于，引入的内容的使用方式，import会将引入的模块的名暴露在当前空间，然后通过模块名来使用引入的内容
+
+```julia
+import MyModule
+MyModule.fn()
+```
+
+using会将模块内所有的exported内容暴露在当前空间，使用时不需要模块名
+
+```julia
+using MyModule
+fn()
+```
 
 ### 编程范式
 
-### concurrency programming
+##### 并发编程
 
+##### 面向对象
 
+##### 元编程
 
 ### 参考资料
 
 1. [Style Guide](https://docs.julialang.org/en/v0.6.2/manual/style-guide/#Style-Guide-1)
 2. [is-julia-strongly-checked?](https://discourse.julialang.org/t/is-julia-a-strongly-checked-language/12990/3?u=songtianyi)
 3. [类型双关](https://zh.wikipedia.org/wiki/%E7%B1%BB%E5%9E%8B%E5%8F%8C%E5%85%B3)
+
 
