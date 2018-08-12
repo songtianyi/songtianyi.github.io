@@ -1,11 +1,7 @@
 # songtianyi's blog
 [site](https://songtianyi.info) 
 
->  html版, 不包含最新的文章(使用:new:标记的为新文章), 但文章索引会更全一些。一般只会将质量稳定的文章转成html。
-
-#### 免责声明
-
-文章中涉及理论的内容会力求精确，涉及实践的内容会力求可复现，但难免会有理解错误或书写错误的地方，欢迎批评指正，由此带来的负面结果，请读者自行担当。对文章有意见或者疑问的欢迎提issue :)
+>  html版, 不包含最新的文章(使用:new:标记的为新文章), 但文章索引会更全一些。一般只会将质量稳定的文章转成html。对文章有意见或者疑问的欢迎提issue :)
 
 #### Highlights :fire:
 * [虚拟桌面协议](https://songtianyi.github.io/article/vdi/004-vdi.html)
