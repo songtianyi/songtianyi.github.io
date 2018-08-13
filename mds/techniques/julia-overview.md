@@ -1,10 +1,10 @@
-# 1小时入门Julia
+# Julia概览
 
 ### 前言
 
 `1分钟`
 
-机器学习的热度一直不减，其相关技术必然是未来程序猿的必修课，要学就趁早。在深度学习领域，python应该是不二之选，但自己实在是爱不起来。python作为一门胶水语言，拥有极其丰富的第三方库，不管解决什么问题，它都应该是比较快的工具，值得大家学习。Julia是一个面向科学计算的高性能动态高级程序设计语言，其语法与其他科学计算语言(Matlab)相似，而且在许多情况下拥有能与编译语言相媲美的性能。值得一提的是，tensorflow和mxnet都有julia的binding，因此julia作为机器学习初学者的上手工具应该没有问题。而且，学习一门新语言，也能打开视野，为未来的技术变迁做储备，毕竟性价比高的机会总是出现在新事物上。
+机器学习的热度一直不减，其相关技术必然是未来程序猿的必修课，要学就趁早。在深度学习领域，python应该是不二之选，python作为一门胶水语言，拥有极其丰富的第三方库，不管解决什么问题，它都应该是比较快的工具，值得大家学习。Julia是一个面向科学计算的高性能动态高级程序设计语言，其语法与其他科学计算语言(Matlab)相似，而且在许多情况下拥有能与编译语言相媲美的性能。值得一提的是，tensorflow和mxnet都有julia的binding，因此julia作为机器学习初学者的上手工具应该没有问题。对于新手，可以尝试用julia打开机器学习的大门，作为老手，学习一门新语言，也能打开视野，为未来的技术变迁做储备，毕竟性价比高的机会总是出现在新事物上。
 
 在开始之前，请先掌握[语言选型](how-to-choose-your-programming-language.md)里的概念。
 
@@ -14,7 +14,7 @@
 
 * 快
 
-  性能是julia设计的初衷。科学计算需要大量的性能开销，主流的python并不能满足这一要求，但julia的设计者们仍然认为动态语言是更好的选择，得益于技术的进步，动态语言同样可以拥有静态语言一样的性能，于是julia在2012年诞生了(python诞生于1991)
+  性能是julia设计的初衷。科学计算需要大量的性能开销，主流的python并不能满足这一要求，但julia的设计者们仍然认为动态语言是更好的选择，得益于技术的进步，动态语言同样可以达到静态语言一样的性能，于是julia在2012年诞生了(python诞生于1991)
 
 * 动态类型
 
@@ -28,7 +28,7 @@
 
 * 多范式，IP,PP,OOP,FP,MP
 
-* 考虑到了通用性
+* 通用性
 
   虽然Julia是为科学计算而设计的，但也注重在其他领域的应用，所以在语法设计上不仅参考了R, MATLAB, Python，也同时吸取了Lisp, Perl, Lua, Ruby等语言的优点。
 
@@ -38,9 +38,9 @@
 
 * 支持宏(Lisp-like)
 
-### JIT(Just-In-Time)
+##### JIT
 
-即，即时编译。我们知道，静态语言是通过编译器将源码编译成机器码来执行的，只需编译一次；动态语言是通过解释器在程序运行时一句句边翻译边运行的，同一段代码可能需要翻译多次。即时编译则是两者的结合，即时编译器在运行时逐句()翻译代码并执行，并将翻译结果缓存(具体的逻辑依赖于JIT的算法实现)，相对于解释器，性能开销要低很多。
+即时编译(Just-In-Time)。我们知道，静态语言是通过编译器将源码编译成机器码来执行的，只需编译一次；动态语言是通过解释器在程序运行时一句句边翻译边运行的，同一段代码可能需要翻译多次。即时编译则是两者的结合，即时编译器在运行时逐句翻译代码并执行，并将翻译结果缓存(具体的逻辑依赖于JIT的算法实现)，相对于解释器，性能开销要低很多。
 
 ### 安装
 
@@ -79,7 +79,7 @@ export PATH=$PATH:$JULIA
 
   * 没有类型双关(type punning)
 
-    >  关于类型双关，简单来说就是通过一些奇技淫巧(通常是用指针操作内存)，绕过语言的类型系统，从而达到用该语言语法难以实现甚至不可能达到的效果，一个安全的类型系统当然是不允许这么做的。类型双关的具体定义可以参考wikipedia<sup>[3]</sup>, 还是比较容易理解的。
+    >  关于类型双关，简单来说就是通过一些奇技淫巧(通常是用指针操作内存)，绕过语言的类型系统，从而达到用该语言语法难以实现甚至不可能达到的效果, 这在C语言里是很常见的。一个安全的类型系统当然是不允许这么做的。类型双关的具体定义可以参考wikipedia<sup>[3]</sup>, 还是比较容易理解的。
 
   在[语言选型](how-to-choose-your-programming-language.md)里讲到过，拥有隐式类型转换的语言属于weakly typed，我们来看下面的例子:
 
@@ -116,7 +116,7 @@ export PATH=$PATH:$JULIA
 
   > There is no meaningful concept of a "compile-time type": the only type a value has is its actual type when the program is running. 
 
-* *type inference*: 支持类型推断。类型推断需要注意的地方是，在不同bit的硬件架构下，推断出的类型会不同
+* *type inference*: julia支持类型推断。需要注意的地方是，在不同bit的硬件架构下，推断出的类型会不同
 
   ```
   # 32-bit system:
@@ -275,8 +275,6 @@ abstract type Point{T} end
 ```julia
 primitive type String{T} 32 end
 ```
-
-
 
 * *overloading*: 基于multiple dispatch的函数重载是julia的主要特性。
 
@@ -883,5 +881,4 @@ fn()
 1. [Style Guide](https://docs.julialang.org/en/v0.6.2/manual/style-guide/#Style-Guide-1)
 2. [is-julia-strongly-checked?](https://discourse.julialang.org/t/is-julia-a-strongly-checked-language/12990/3?u=songtianyi)
 3. [类型双关](https://zh.wikipedia.org/wiki/%E7%B1%BB%E5%9E%8B%E5%8F%8C%E5%85%B3)
-
 
