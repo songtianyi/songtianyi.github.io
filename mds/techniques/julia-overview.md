@@ -4,9 +4,7 @@
 
 `1分钟`
 
-机器学习的热度一直不减，其相关技术必然是未来程序猿的必修课，要学就趁早。在深度学习领域，python应该是不二之选，python作为一门胶水语言，拥有极其丰富的第三方库，不管解决什么问题，它都应该是比较快的工具，值得大家学习。Julia是一个面向科学计算的高性能动态高级程序设计语言，其语法与其他科学计算语言(Matlab)相似，而且在许多情况下拥有能与编译语言相媲美的性能。值得一提的是，tensorflow和mxnet都有julia的binding，因此julia作为机器学习初学者的上手工具应该没有问题。对于新手，可以尝试用julia打开机器学习的大门，作为老手，学习一门新语言，也能打开视野，为未来的技术变迁做储备，毕竟性价比高的机会总是出现在新事物上。
-
-在开始之前，请先掌握[语言选型](how-to-choose-your-programming-language.md)里的概念。
+机器学习的热度一直不减，其相关技术必然是未来程序猿的必修课，要学就趁早。在深度学习领域，python应该是不二之选，python作为一门胶水语言，拥有极其丰富的第三方库，不管解决什么问题，它都应该是比较快的工具，值得大家学习。Julia是一个面向科学计算的高性能动态高级程序设计语言，其语法与其他科学计算语言(Matlab)相似，而且在许多情况下拥有能与编译语言相媲美的性能。值得一提的是，tensorflow和mxnet都有julia的binding，对于新手，可以尝试用julia打开机器学习的大门, 作为老手，学习一门新语言，也能打开视野，为未来的技术变迁做储备。在开始之前，请先掌握[语言选型](how-to-choose-your-programming-language.md)里的概念。
 
 ### Julia是什么
 
@@ -14,13 +12,13 @@
 
 * 快
 
-  性能是julia设计的初衷。科学计算需要大量的性能开销，主流的python并不能满足这一要求，但julia的设计者们仍然认为动态语言是更好的选择，得益于技术的进步，动态语言同样可以达到静态语言一样的性能，于是julia在2012年诞生了(python诞生于1991)
+  性能是julia设计的初衷。科学计算需要大量的性能开销，主流的python并不能满足这一要求，但julia的设计者们仍然认为动态语言是更好的选择，得益于技术的进步，动态语言可以达与静态语言相媲美的性能，于是julia在2012年诞生了(python诞生于1991)
 
 * 动态类型
 
 * optional typing
 
-  一般情况下，动态语言的变量类型都是在运行时确定的，但对于julia来说是可选的，你可以在代码中申明类型，利用JIT，julia可以编译部分代码以提高性能，而这些申明，为JIT提供了用于优化性能的信息。Julia语法提供了预编译的选项。
+  通常，动态语言的变量类型都是在运行时确定的，但对于julia来说是可选的，你可以在代码中申明类型，利用JIT，julia可以编译部分代码以提高性能，而这些申明，为JIT提供了用于优化性能的信息。Julia提供了预编译的选项。
 
 * 多重派发(multiple dispatch)
 
@@ -154,46 +152,6 @@ output:
 4
 ```
 
-Julia提供了扩充类型的方式，即抽象类型，定义一个抽象类型:
-
-```julia
-abstract type Graph end
-```
-
-它的默认父类是`any`, 我们在定义的时候可以指定父类
-
-```
-abstract type Graph <: Any end
-```
-
-和Rust，golang等语言不同的是，我们并不能为一个struct类型定义函数，所以我们看到的仍然是多重派发，而不是其他语言的惯用写法:
-
-```julia
-struct Circle <: Graph
-    radius ::Float64
-    x ::Int64
-    y ::Int64
-end
-
-struct Rec <: Graph
-    width ::Float64
-    height ::Float64
-    x ::Int64
-    y ::Int64
-end
-
-function area(r ::Circle) ::Float64
-    return pi * r.radius^2
-end
-
-function area(g ::Rec)
-    return g.x*g.y
-end
-
-println(area(Circle(1.0, 1, 1)))
-println(area(Rec(1.0, 1.0, 2, 2)))
-```
-
 julia的多态属于nominal subtyping
 
 ##### generic
@@ -293,9 +251,6 @@ primitive type String{T} 32 end
 | Float16, Float32,  Float64               | IEEE754-2008浮点,  2.5e-4,  1e10,  0.5f0,  0x1.8p3(16进制浮点),  Inf32, -Inf32, Inf, -Inf, …, NaN, NaN16 |
 | Any                                      | 任意类型                                     |
 |                                          |                                          |
-|                                          |                                          |
-|                                          |                                          |
-|                                          |                                          |
 
 ###### Composite types
 
@@ -311,6 +266,7 @@ primitive type String{T} 32 end
 | mutable  | 可修改性修饰                                   |
 | Union    | 联合类型                                     |
 | Nullable | 当一个值不确定它是否存在时可以使用Nullable来封装它，保证访问的安全性   |
+|                                          |                                          |
 
 ###### 函数
 
@@ -474,13 +430,6 @@ ERROR: type Foo is immutable
 ```
 
 只能通过它的构造器重新初始化。要使其可修改需要显式地声明`mutable`, 这类struct会分配在堆内存上。
-
-tip: 一个特殊的struct，称为*singleton*:
-
-```
-julia> struct NoFields
-       end
-```
 
 ###### Union
 
@@ -720,7 +669,6 @@ try
 finally
     close(f)
 end
-
 ```
 
 ##### Expressions
@@ -845,7 +793,7 @@ Julia的作用域不算特殊，主要有GLobal，Local，Module这三种作用�
 
 ##### Module
 
-和其他语言一样，module的引入主要是为了引入新的作用域和组织代码结构。定义一个module的方式:
+模块的引入主要是为了引入新的作用域和组织代码结构。定义一个module的方式:
 
 ```julia
 module MyModule
@@ -854,14 +802,14 @@ fn() = "x"
 end
 ```
 
-导入的方式有两种，*using*和*import*，它们的区别在于，引入的内容的使用方式，import会将引入的模块的名暴露在当前空间，然后通过模块名来使用引入的内容
+导入的方式有两种，*using*和*import*，它们的区别在于引入的内容的使用方式，import会将引入的模块的名暴露在当前空间，然后通过模块名来使用引入的内容
 
 ```julia
 import MyModule
 MyModule.fn()
 ```
 
-using会将模块内所有的exported内容暴露在当前空间，使用时不需要模块名
+using会将模块导出的所有内容直接暴露在当前空间，使用时不需要模块名
 
 ```julia
 using MyModule
@@ -870,11 +818,180 @@ fn()
 
 ### 编程范式
 
-##### 并发编程
-
 ##### 面向对象
 
+在subtype的章节中，我们介绍了julia的类型树，自然Julia提供了扩充类型的方式，即抽象类型，定义一个抽象类型:
+
+```julia
+abstract type Graph end
+```
+
+它的默认父类是`Any`, 我们在定义的时候也可以指定父类
+
+```julia
+abstract type Graph <: Any end
+```
+
+和Rust，golang等语言不同的是，我们并不能为一个struct类型定义函数，所以我们看到的仍然是多重派发，而不是其他语言的惯用写法，在理解的时候要暂时抛弃已有的OOP概念，不管是Go，Rust还在Julia，传统的OOP都被摒弃了。
+
+```julia
+struct Circle <: Graph
+    radius ::Float64
+    x ::Int64
+    y ::Int64
+end
+
+struct Rec <: Graph
+    width ::Float64
+    height ::Float64
+    x ::Int64
+    y ::Int64
+end
+
+function area(r ::Circle) ::Float64
+    return pi * r.radius^2
+end
+
+function area(g ::Rec)
+    return g.x*g.y
+end
+
+println(area(Circle(1.0, 1, 1)))
+println(area(Rec(1.0, 1.0, 2, 2)))
+```
+
+可能你会觉得上面的代码并不OOP，我也这么认为，这里举另外一个例子:
+
+```julia
+abstract type AbstractGraph <: Any end
+
+struct Graph{T}
+    x ::Integer
+    y ::Integer
+    v ::T
+end
+
+struct Circle <: AbstractGraph
+    radius ::Float64
+end
+
+struct Rec <: AbstractGraph
+    width ::Float64
+    height ::Float64
+end
+
+showLoc(g ::Graph{<:AbstractGraph}) = println("(", g.x, ",",g.y ,")")
+area(g ::Graph{Circle}) = println(pi * g.v.radius^2)
+area(g ::Graph{Rec}) = println(g.v.width * g.v.height)
+
+showLoc(Graph{Circle}(1,1, Circle(1.0)))
+showLoc(Graph{Rec}(1,1, Rec(1,2)))
+
+area(Graph{Circle}(1,1, Circle(1.0)))
+area(Graph{Rec}(1,1, Rec(1,2)))
+```
+
+不知道这么写是否让你觉得更OOP一点？
+
 ##### 元编程
+
+###### 宏
+
+julia的宏和C/C++一样，使用的是文本替代的方式。一个宏将一组参数映射成一个return语句，类似于函数的定义。定义一个宏:
+
+```julia
+macro say()
+    return "Hi"
+end
+
+println(@say) # 调用时使用@加宏名
+```
+
+###### 表达式对象
+
+我们知道，代码里是有表达式的，它们在运行时被编译器求值，同样地我们可以自己创建一个表达式对象，手动来求值。
+
+```julia
+a = 1
+b = 1
+ex = :($a+$b)
+println(eval(ex))
+```
+
+###### backtick notation
+
+julia可以使用反引号包裹一段shell, Perl或Ruby代码, 并执行这段代码
+
+```
+julia> file = "/etc/passwd"
+"/etc/passwd"
+
+julia> readstring(`sort $file`)
+“#\n# \n# Note that this file is consulted directly only when the system
+...
+```
+
+### 科学计算
+
+##### Multi-dimensional Arrays
+
+julia是一门为科学计算而生的语言，在科学计算里多维数组是一种很常见的数据表达方式。
+
+除了常规的初始化方式之外, julia提供了更高级的数组构建方式:
+
+```julia
+fn(x) = x^2
+[fn(x) for x=1:10]
+```
+
+当然，可以直接将函数写在表达式内:
+
+```julia
+[x^2 for x=1:10]
+```
+
+这种方式叫推导(comprehensions), 上面的代码会生成一个一维数组
+
+```julia
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+```
+
+以此类推，可以生成一个多维数组:
+
+```julia
+[x+y for x=1:10, y=1:10]
+```
+
+当x,y中的值有联系时:
+
+```julia
+[(i,j) for i=1:3 for j=1:i]
+```
+
+julia提供了很多多维数组的操作函数，比如reshape函数，将n\*m的数组转换成x\*y的数组，且能n\*m=x\*y.
+
+```julia
+reshape([x+y for x=0:1, y=1:10], (4,5))
+```
+
+上述代码，将2\*10的数组转换成4\*5的数组。其他的操作函数可以查看文档。
+
+##### Linear algebra
+
+julia内置了很多线性代数的算法，比如计算一个n\*n矩阵的迹数
+
+```
+julia> A = [1 2 3; 4 1 6; 7 8 1]
+3×3 Array{Int64,2}:
+ 1  2  3
+ 4  1  6
+ 7  8  1
+
+julia> trace(A)
+3
+```
+
+这里不再一一列举，感兴趣的可以查看[文档](https://docs.julialang.org/en/v0.6.4/manual/linear-algebra/).
 
 ### 参考资料
 
