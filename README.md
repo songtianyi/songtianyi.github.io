@@ -14,7 +14,8 @@
 * [越南骑行——总结](https://songtianyi.github.io/article/life/vietnam-summary.html)
 * [NETCONF&YANG 介绍](https://songtianyi.github.io/article/programming/netconf-and-yang-introduction.html)
 * [编程语言选型-你需要了解的二三事](mds/techniques/how-to-choose-your-programming-language.md) :new:
-* [1小时入门Rust](mds/techniques/getting-started-with-rust-in-1-hour.md) 🆕
+* [1小时入门Rust](mds/techniques/getting-started-with-rust-in-1-hour.md) :new:
+* [Julia概览](mds/techniques/julia-overview.md) :new:
 
 #### Sharing :on:
 
