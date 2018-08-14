@@ -1440,7 +1440,7 @@ User.find_by_email('songtianyi630@163.com')
 |   Kotlin    |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |    generic, subtype, overloading    | IP,OOP,FP,MP                 |
 | TypeScript  |    ☑️     |               ☑️               |          ❌           |            weakly             |             statically              |     generic, duck, overloading      | IP,SP,PP,OOP,FP,MP           |
 |    Rust     |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, overloading, subtype    | IP,SP,PP,OOP,FP,MP           |
-|    Julia    |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |     generic, overloading, duck      | IP,SP,PP,OOP,FP,MP           |
+| Julia |  ☑️   |             ❌              |        ☑️        |          weakly           |           dynamically           | generic, overloading, subtype | IP,SP,PP,OOP,FP,MP |
 |  **Lang**   | **Typed** | **Static and dynamic  checks** | **Strongly checked** | **Weakly or strongly  typed** | **Dynamically or statically typed** |          **Type theories**          | **Paradigms**                |
 
 整理完这个对比表才发现一些有意思的事情:
