@@ -1,5 +1,7 @@
 # Julia概览
 
+作者: [songtianyi](https://github.com/songtianyi) 2018-08-14
+
 ### 前言
 
 `1分钟`
@@ -18,7 +20,7 @@
 
 * optional typing
 
-  通常，动态语言的变量类型都是在运行时确定的，但对于julia来说是可选的，你可以在代码中申明类型，利用JIT，julia可以编译部分代码以提高性能，而这些申明，为JIT提供了用于优化性能的信息。Julia提供了预编译的选项。
+  通常，动态语言的变量类型都是在运行时确定的，但对于julia来说是可选的，你可以在代码中申明类型，利用JIT，julia可以编译部分代码以提高性能，这些申明为JIT提供了用于优化性能的信息。Julia提供了预编译的选项 `__precompile__()`。
 
 * 多重派发(multiple dispatch)
 
@@ -30,11 +32,11 @@
 
   虽然Julia是为科学计算而设计的，但也注重在其他领域的应用，所以在语法设计上不仅参考了R, MATLAB, Python，也同时吸取了Lisp, Perl, Lua, Ruby等语言的优点。
 
-* coroutine
+* coroutine(Task)
 
 * 可以直接调用C，没有额外的封装
 
-* 支持宏(Lisp-like)
+* 支持宏
 
 ##### JIT
 
@@ -65,9 +67,9 @@ export PATH=$PATH:$JULIA
 
 ### 类型系统
 
-| Lang  | Typed | Static and dynamic  checks | Strongly checked | Weakly or strongly  typed | Dynamically or statically typed |       Type theories        | Paradigms          |
-| :---: | :---: | :------------------------: | :--------------: | :-----------------------: | :-----------------------------: | :------------------------: | ------------------ |
-| Julia |  ☑️   |             ❌              |        ☑️        |          weakly           |           dynamically           | generic, overloading, duck | IP,SP,PP,OOP,FP,MP |
+| Lang  | Typed | Static and dynamic  checks | Strongly checked | Weakly or strongly  typed | Dynamically or statically typed |         Type theories         | Paradigms          |
+| :---: | :---: | :------------------------: | :--------------: | :-----------------------: | :-----------------------------: | :---------------------------: | ------------------ |
+| Julia |  ☑️   |             ❌              |        ☑️        |          weakly           |           dynamically           | generic, overloading, subtype | IP,SP,PP,OOP,FP,MP |
 
 * *static and dynamic checks*: Julia是动态语言，只有动态检查，静态编译也是发生在运行时的。
 
@@ -266,7 +268,7 @@ primitive type String{T} 32 end
 | mutable  | 可修改性修饰                                   |
 | Union    | 联合类型                                     |
 | Nullable | 当一个值不确定它是否存在时可以使用Nullable来封装它，保证访问的安全性   |
-|                                          |                                          |
+| Task     | coroutine                                |
 
 ###### 函数
 
@@ -348,7 +350,7 @@ Julia的Channel的Go的chan在使用上基本是一致的。
    ch = Channel(10)
    ```
 
-3. 使用put!和task!来写入和读取数据, 和golang的区别是，julia的channel在定义时可以不指定类型，当不指定类型时，默认为`Any`，可以写入任意类型的数据。
+3. 使用put!和take!来写入和读取数据, 和golang的区别是，julia的channel在定义时可以不指定类型，当不指定类型时，默认为`Any`，可以写入任意类型的数据。
 
    ```julia
    ch = Channel{String}(10)
@@ -372,7 +374,7 @@ Julia的Channel的Go的chan在使用上基本是一致的。
 
 6. 比go channel方便的地方是，提供了fetch函数，fetch只会读取数据，不会remove掉数据
 
-7. Channel可以和一个函数相绑定, 其接受一个匿名函数，并调用它，调用匿名函数时传入一个新建的channel，一般匿名函数会操作这个channel，最后Channel会将这个channel返回。
+7. Channel可以和一个函数相绑定, 其接受一个匿名函数，并调用它，调用匿名函数时传入一个新建的channel，一般匿名函数会操作这个channel，最后会将这个channel返回。
 
    ```julia
    chnl = Channel(c->foreach(i->put!(c,i), 1:4));
@@ -445,11 +447,12 @@ julia> 1 :: IntOrString
 julia> "Hello!" :: IntOrString
 "Hello!"
 
+
 ```
 
 ###### mutable
 
-这里只说下julia的值传递规则，对于不可修改的对象，在赋值或者作为入参时是值传递(copy), 可修改的对象是引用传递(reference)
+这里只说下julia的值传递规则，对于不可修改的对象，在赋值或者作为入参时是值传递(copy), 可修改的对象是通过指针传递(sharing via pointers), 特别的，不可修改的大内存对象也是指针传递。<sup>[4]</sup>
 
 ###### Nullable
 
@@ -466,6 +469,26 @@ v = calc()
 if !isnull(v)
     println(get(v))
 end
+```
+
+###### Task
+
+可以将函数用Task包裹起来，通过Task的接口，控制任务的执行。
+
+```
+julia> a1() = det(rand(1000, 1000));
+
+julia> b = @task a1();
+
+julia> istaskstarted(b)
+false
+
+julia> schedule(b);
+
+julia> yield();
+
+julia> istaskdone(b)
+true
 ```
 
 ##### Variables
@@ -818,7 +841,34 @@ fn()
 
 ### 编程范式
 
-##### 面向对象
+##### 函数式编程
+
+在Java里，我们对一个Integer数组使用函数式的方法来操作可以这么写:
+
+```java
+array.stream()
+  .filter(x -> x %2 == 0)
+  .map(x -> x*x)
+  .collect(Collectors.toList())
+```
+
+Julia提供了类似的操作方式:
+
+```julia
+array = [1,3,4,5,7,10]
+array = filter(x -> x % 2 == 0, array)
+array = map(x -> x^2, array)
+println(array) # [16, 100]
+```
+
+除了filter, map之外，julia还提供了reduce, mapreduce等函数
+
+```julia
+array = mapreduce(x->x+10, +, array) # (16+10) + (100+10)
+println(array) # 136
+```
+
+##### 面向对象编程
 
 在subtype的章节中，我们介绍了julia的类型树，自然Julia提供了扩充类型的方式，即抽象类型，定义一个抽象类型:
 
@@ -998,4 +1048,5 @@ julia> trace(A)
 1. [Style Guide](https://docs.julialang.org/en/v0.6.2/manual/style-guide/#Style-Guide-1)
 2. [is-julia-strongly-checked?](https://discourse.julialang.org/t/is-julia-a-strongly-checked-language/12990/3?u=songtianyi)
 3. [类型双关](https://zh.wikipedia.org/wiki/%E7%B1%BB%E5%9E%8B%E5%8F%8C%E5%85%B3)
+4. [How to explain these two statements?](https://discourse.julialang.org/t/how-to-explain-these-two-statements/13393)
 
