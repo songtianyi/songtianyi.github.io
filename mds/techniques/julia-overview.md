@@ -71,7 +71,7 @@ export PATH=$PATH:$JULIA
 | :---: | :---: | :------------------------: | :--------------: | :-----------------------: | :-----------------------------: | :---------------------------: | ------------------ |
 | Julia |  ☑️   |             ❌              |        ☑️        |          weakly           |           dynamically           | generic, overloading, subtype | IP,SP,PP,OOP,FP,MP |
 
-* *static and dynamic checks*: Julia是动态语言，只有动态检查，静态编译也是发生在运行时的。
+* *dynamic checks*: Julia是动态语言，只有动态检查，所谓的编译也是发生在运行时的。
 
 * *strongly checked*: 关于类型系统的安全性检查，一直是一个比较难界定的问题，julia的commiter认为julia属于strongly checked的语言<sup>[2]</sup>, 他给出的理由是:
 
@@ -1012,7 +1012,7 @@ fn(x) = x^2
 [x+y for x=1:10, y=1:10]
 ```
 
-当x,y中的值有联系时:
+当x,y的值有联系时:
 
 ```julia
 [(i,j) for i=1:3 for j=1:i]
