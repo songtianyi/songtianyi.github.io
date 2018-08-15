@@ -272,7 +272,7 @@ primitive type String{T} 32 end
 
 ###### 函数
 
-在Julia里函数是一等公民(first-class objects), 能够将函数赋值给变量，也可以作为参数和返回值。
+在Julia里函数是一等公民(first-class objects), 你能够将函数赋值给变量，也可以作为参数和返回值。
 
 ```
 ulia> f = x -> x*x + 2*x - 1
@@ -324,7 +324,7 @@ julia使用mutiple dispatch。
 
 ###### Channel
 
-Julia的Channel的Go的chan在使用上基本是一致的。
+Julia的Channel和Go的chan在使用上基本是一致的。
 
 1. 创建一个没有buffer的channel, channel的写入会被阻塞，直到有人读取它。
 
@@ -350,7 +350,7 @@ Julia的Channel的Go的chan在使用上基本是一致的。
    ch = Channel(10)
    ```
 
-3. 使用put!和take!来写入和读取数据, 和golang的区别是，julia的channel在定义时可以不指定类型，当不指定类型时，默认为`Any`，可以写入任意类型的数据。
+3. 使用put!和take!来写入和读取数据, 和golang的区别是，julia的channel在定义时可以不指定类型，默认为`Any`，可以写入任意类型的数据。
 
    ```julia
    ch = Channel{String}(10)
@@ -372,13 +372,15 @@ Julia的Channel的Go的chan在使用上基本是一致的。
    isready(ch)
    ```
 
-6. 比go channel方便的地方是，提供了fetch函数，fetch只会读取数据，不会remove掉数据
+6. 比go chan方便的地方是，Channel提供了fetch函数，fetch只会读取数据，不会remove掉数据
 
 7. Channel可以和一个函数相绑定, 其接受一个匿名函数，并调用它，调用匿名函数时传入一个新建的channel，一般匿名函数会操作这个channel，最后会将这个channel返回。
 
    ```julia
    chnl = Channel(c->foreach(i->put!(c,i), 1:4));
    ```
+
+   这里的`foreach`接收一个匿名函数和一个可迭代的对象，foreach将对象的每一个迭代值都应用到匿名函数上。
 
 ###### Abstract type
 
