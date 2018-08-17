@@ -137,7 +137,9 @@ export PATH=$PATH:$JULIA
 
 julia的类型系统定义了一个类型树(type graph)，根类型是`Any`, 是所有类型的super type，叶子类型是`Union{}`，是所有类型的subtype，这里只列出数值类型部分:
 
-![type hierarchy for julia numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Type-hierarchy-for-julia-numbers.png/800px-Type-hierarchy-for-julia-numbers.png)在这个类型树里 Float64, Int64等都是Number类型的子类，以此为例，我们来看下julia的多态的书写形式，很简单:
+![type hierarchy for julia numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Type-hierarchy-for-julia-numbers.png/800px-Type-hierarchy-for-julia-numbers.png)
+
+在这个类型树里 Float64, Int64等都是Number类型的子类，以此为例，我们来看下julia的多态的书写形式，很简单:
 
 ```julia
 function print(x ::Number) 
@@ -167,7 +169,7 @@ julia> struct Point{T}
        end
 ```
 
-泛型极大丰富了julia的类型系统，我们可以通过实例化一个泛型来创建一个新的类型
+我们可以通过实例化一个泛型来创建一个新的类型
 
 ```julia
 Point{String}
@@ -192,9 +194,9 @@ julia> Point{AbstractString} <: Point
 true
 ```
 
-tip: `<:`在之后的内容有介绍。
+tip: `A <: B`为真则A是B的子类型成立
 
-但是julia泛型的类型规则属于不变(*invariant*), 意味着，当`Float64 <: Real`()为真时，`Point{Float64} <: Point{Real}`并不为真，它不会保持或者逆转之前的类型关系。因此当泛型实例作为入参类型时会面临一个问题, 在函数入参类型为Point{Real}时，我们不能对他传入Point{Float64}
+但是julia泛型的类型规则属于不变(*invariant*), 意味着，当`Float64 <: Real`()为真时，`Point{Float64} <: Point{Real}`并不为真，它不会保持或者逆转之前的类型关系。因此，当泛型实例作为入参类型时会面临一个问题, 比如函数入参类型为Point{Real}，这时我们不能对它传入Point{Float64}，验证代码如下:
 
 ```julia
 struct Point{T}
@@ -209,7 +211,7 @@ println(norm(Point{Real}(1.0, 1.0)))
 println(norm(Point{Float64}(1.0, 1.0))) # MethodError: no method matching norm(::Point{Float64})
 ```
 
-我们用一个类型范围来限定入参类型，而不是一个具体类型:
+解决的方式是，我们用一个类型范围来限定入参类型，而不是一个具体类型:
 
 ```julia
 struct Point{T}
@@ -236,7 +238,7 @@ abstract type Point{T} end
 primitive type String{T} 32 end
 ```
 
-* *overloading*: 基于multiple dispatch的函数重载是julia的主要特性。
+* *overloading*: 基于multiple dispatch的函数重载是julia的主要特性。关于是否能称为函数重载是有争议的，C++的函数重载发生在编译时期，而multiple dispatch发生在运行时，为了便于理解和书写上的统一，这里姑且就这么写了。
 
 
 ### 语法规范
@@ -312,7 +314,7 @@ julia> f(2)
 
 当多个函数的逻辑在概念上(conceptual)相同时，我们倾向于使用相同的名称，比如两个类型的想加，会使用*add*来命名。那么自然就存在一个问题，如何选择要执行的函数？选择要执行的函数的过程称为派发(dispatch)，派发分为三种:
 
-* *single-dispatch*: 我们调用对象的方法时，比如obj1.add(a), obj2.add(a')，通过对象类型来决定调用哪个函数的方式称为*single-dispatch*
+* *single-dispatch*: 我们调用对象的方法时，比如obj1.add(a), obj2.add(a')，可以通过对象类型即 obj1, obj2 来决定调用哪个函数, 这种方式称为*single-dispatch*
 * *double-dispatch*: 有时候，对象的方法需要处理不同的类型，比如obj1.add(human), obj1.add(animal), 此时需要根据对象类型和方法的参数来确定调用的函数，这种方式称为*double-dispatch*
 * *multiple-dispatch*: 以此类推，通过对象类型和方法的所有参数类型来确定调用的函数的方式称为*multiple-dispatch*
 
@@ -350,7 +352,7 @@ Julia的Channel和Go的chan在使用上基本是一致的。
    ch = Channel(10)
    ```
 
-3. 使用put!和take!来写入和读取数据, 和golang的区别是，julia的channel在定义时可以不指定类型，默认为`Any`，可以写入任意类型的数据。
+3. 使用put!和take!来写入和读取数据, 和golang的区别是，julia的channel在定义时可以不指定类型，默认为`Any`，意味着可以写入任意类型的数据。
 
    ```julia
    ch = Channel{String}(10)
@@ -397,7 +399,7 @@ abstract type Unsigned <: Integer end
 
 数值类型的根是`Number`, 之后由它逐步构建出所有的数值类型。
 
-tip: `A <: B`表达式表示A是B的子类型, 表达式的值是真假值
+tip: `A <: B`为真则A是B的子类型成立
 
 ```
 julia> if Int64 <: Number
