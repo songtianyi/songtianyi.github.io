@@ -238,10 +238,8 @@ abstract type Point{T} end
 primitive type String{T} 32 end
 ```
 
-* *overloading*: 基于multiple dispatch的函数重载是julia的主要特性。关于是否能称为函数重载是有争议的，C++的函数重载发生在编译时期，而multiple dispatch发生在运行时，为了便于理解和书写上的统一，这里姑且就这么写了。
+* *overloading*: 基于multiple dispatch的函数/操作符重载是julia的主要特性。<sup>[5]</sup>
 
-
-### 语法规范
 
 ##### Types
 
@@ -1053,4 +1051,6 @@ julia> trace(A)
 2. [is-julia-strongly-checked?](https://discourse.julialang.org/t/is-julia-a-strongly-checked-language/12990/3?u=songtianyi)
 3. [类型双关](https://zh.wikipedia.org/wiki/%E7%B1%BB%E5%9E%8B%E5%8F%8C%E5%85%B3)
 4. [How to explain these two statements?](https://discourse.julialang.org/t/how-to-explain-these-two-statements/13393)
+5. [《The many facets of operator polymorphism in Julia》](https://raw.githubusercontent.com/wiki/jiahao/parallel-prefix/main.pdf)
 
+### 
