@@ -16,6 +16,7 @@
 * [编程语言选型-你需要了解的二三事](mds/techniques/how-to-choose-your-programming-language.md) :new:
 * [1小时入门Rust](mds/techniques/getting-started-with-rust-in-1-hour.md) :new:
 * [Julia概览](mds/techniques/julia-overview.md) :new:
+* [数据抽象vs接口抽象/层级结构vs扁平结构](mds/techniques/data-abstraction-vs-interface-abstraction-and-hierarchy-structure-vs-flat-structure.md) :new:
 
 #### Sharing :on:
 
