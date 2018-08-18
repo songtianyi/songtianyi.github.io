@@ -424,16 +424,14 @@ julia> foo.bar
 "Hello, world."
 ```
 
-不指定类型的字段，默认类型为`Any`。
-
-特殊的地方是，struct默认是不能修改的:
+不指定类型的字段，默认类型为`Any`。特殊的地方是，struct默认是不能修改的:
 
 ```
 julia> foo.bar = 1
 ERROR: type Foo is immutable
 ```
 
-只能通过它的构造器重新初始化。要使其可修改需要显式地声明`mutable`, 这类struct会分配在堆内存上。
+只能通过它的构造器重新初始化。要使其可修改需要显式地声明`mutable`, mutable struct会分配在堆内存上。
 
 ###### Union
 
@@ -448,8 +446,6 @@ julia> 1 :: IntOrString
 
 julia> "Hello!" :: IntOrString
 "Hello!"
-
-
 ```
 
 ###### mutable
