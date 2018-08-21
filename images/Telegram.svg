@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="18px" viewBox="0 0 22 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>Telegram</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页" transform="translate(-926.000000, -693.000000)" fill="#666666" fill-rule="nonzero">
+            <g id="Group-2" transform="translate(449.000000, 342.000000)">
+                <g id="间距-&lt;h60-&gt;" transform="translate(0.000000, 185.000000)">
+                    <g id="腾讯微博">
+                        <path d="M485.276402,182.911022 L485.618177,177.876651 L494.992565,169.640754 C495.407577,169.271805 494.907121,169.093281 494.357841,169.414624 L482.78633,176.543674 L477.781774,174.996468 C476.707626,174.698928 476.695419,173.972931 478.025899,173.449262 L497.519256,166.117885 C498.410311,165.725132 499.264747,166.332113 498.922973,167.665091 L495.602877,182.911022 C495.370958,183.994066 494.699615,184.255901 493.771942,183.756035 L488.71856,180.11415 L486.28952,182.411156 C486.008776,182.684892 485.776858,182.911022 485.276402,182.911022 Z" id="Telegram"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
