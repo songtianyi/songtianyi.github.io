@@ -102,7 +102,7 @@ img {
   text-decoration: none;
 }
 .nav > ul > li:hover ul {
-  max-height: 300px;
+  max-height: 200px;
 }
 .nav > ul > li ul {
   overflow: hidden;
@@ -158,13 +158,6 @@ img {
 #wrapper .QA img {
   margin-bottom: 20px;
 }
-#wrapper .QA a {
-  text-decoration: none;
-  color: #666666;
-}
-#wrapper .QA a:hover {
-  color: #008FFF;
-}
 .link {
   display: flex;
   justify-content: space-around;
@@ -188,9 +181,6 @@ img {
 .link a:hover .qr {
   display: block;
 }
-.link a:hover .email {
-  display: block;
-}
 .link a .qr {
   position: absolute;
   display: none;
@@ -204,20 +194,6 @@ img {
   line-height: 0;
   padding: 15px;
 }
-.link a .email {
-  position: absolute;
-  display: none;
-  background: #FFFFFF;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  width: 190px;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  line-height: 0;
-  padding: 15px;
-}
-
 .link a i {
   margin-right: 20px;
 }
@@ -248,7 +224,7 @@ img {
   text-align: center;
   margin-bottom: 40px;
 }
-.plant.shadow h2 {
+.plant:hover h2 {
   text-shadow: 0 0 8px rgba(0, 143, 255, 0.8);
 }
 .plant-body ul {
