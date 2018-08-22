@@ -1,284 +1,284 @@
 @charset "UTF-8";
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  list-style: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
 }
 body {
-  font-family: PingFangSC-Semibold, '微软雅黑', sans-serif;
-  margin: 0 auto;
-  box-sizing: content-box;
+    font-family: PingFangSC-Semibold, '微软雅黑', sans-serif;
+    margin: 0 auto;
+    box-sizing: content-box;
 }
 img {
-  max-width: 100%;
+    max-width: 100%;
 }
 .svg {
-  display: inline-block;
-  background-position: 0 0;
-  background-attachment: scroll;
-  background-color: #fff;
-  background-repeat: no-repeat;
+    display: inline-block;
+    background-position: 0 0;
+    background-attachment: scroll;
+    background-color: #fff;
+    background-repeat: no-repeat;
 }
 .svg.music-svg {
-  background-image: url("../images/music.svg");
-  width: 25px;
-  height: 26px;
+    background-image: url("../images/music.svg");
+    width: 25px;
+    height: 26px;
 }
 .svg.douban-svg {
-  background-image: url("../images/douban.svg");
-  width: 22px;
-  height: 21px;
+    background-image: url("../images/douban.svg");
+    width: 22px;
+    height: 21px;
 }
 .svg.github-svg {
-  background-image: url("../images/github.svg");
-  width: 26px;
-  height: 25px;
+    background-image: url("../images/github.svg");
+    width: 26px;
+    height: 25px;
 }
 .svg.telegram-svg {
-  background-image: url("../images/Telegram.svg");
-  width: 22px;
-  height: 18px;
+    background-image: url("../images/Telegram.svg");
+    width: 22px;
+    height: 18px;
 }
 .svg.wechat-svg {
-  background-image: url("../images/Wechat.svg");
-  width: 27px;
-  height: 22px;
+    background-image: url("../images/Wechat.svg");
+    width: 27px;
+    height: 22px;
 }
 .svg.patent-svg {
-  background-image: url("../images/patent.svg");
-  width: 24px;
-  height: 31px;
+    background-image: url("../images/patent.svg");
+    width: 24px;
+    height: 31px;
 }
 .svg.email-svg {
-  background-image: url("../images/Email.svg");
-  width: 24px;
-  height: 18px;
+    background-image: url("../images/Email.svg");
+    width: 24px;
+    height: 18px;
 }
 #header .head {
-  max-width: 1100px;
-  padding: 0 10px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100px;
-  font-size: 24px;
-  color: #333333;
-  letter-spacing: 0.67px;
-  text-align: center;
-  position: relative;
+    max-width: 1100px;
+    padding: 0 10px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    font-size: 24px;
+    color: #333333;
+    letter-spacing: 0.67px;
+    text-align: center;
+    position: relative;
 }
 .nav > ul {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .nav > ul > li {
-  margin: 0 0 0 50px;
-  position: relative;
+    margin: 0 0 0 50px;
+    position: relative;
 }
 .nav > ul > li::after {
-  width: 0;
-  content: '';
-  height: 5px;
-  position: absolute;
-  bottom: -13px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: block;
-  background-color: #333;
-  transition: width .5s;
+    width: 0;
+    content: '';
+    height: 5px;
+    position: absolute;
+    bottom: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    background-color: #333;
+    transition: width .5s;
 }
 .nav > ul > li:hover::after {
-  width: 80px;
+    width: 80px;
 }
 .nav > ul > li a {
-  font-family: PingFangSC-Medium;
-  font-size: 14px;
-  color: #333333;
-  letter-spacing: 0.39px;
-  text-align: center;
-  text-decoration: none;
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.39px;
+    text-align: center;
+    text-decoration: none;
 }
 .nav > ul > li:hover ul {
-  max-height: 300px;
+    max-height: 500px;
 }
 .nav > ul > li ul {
-  overflow: hidden;
-  position: absolute;
-  top: 200%;
-  left: 0;
-  width: auto;
-  max-height: 0;
-  transition: max-height 0.5s;
+    overflow: hidden;
+    position: absolute;
+    top: 200%;
+    left: 0;
+    width: auto;
+    max-height: 0;
+    transition: max-height 1s;
 }
 .nav > ul > li ul li {
-  margin: 0;
-  white-space: nowrap;
-  text-align: left;
+    margin: 0;
+    white-space: nowrap;
+    text-align: left;
 }
 .nav > ul > li ul a {
-  font-family: PingFangSC-Regular;
-  font-size: 14px;
-  color: #333333;
-  letter-spacing: 0.39px;
-  line-height: 20px;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.39px;
+    line-height: 20px;
 }
 .nav > ul > li ul a:hover {
-  color: #008FFF;
+    color: #008FFF;
 }
 #footer {
-  background-color: #F8F8F8;
+    background-color: #F8F8F8;
 }
 #footer .foot {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 10px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 132px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 132px;
 }
 #footer .foot .link {
-  margin: 0;
-  width: 100%;
+    margin: 0;
+    width: 100%;
 }
 #wrapper {
-  margin: 170px auto 0;
-  max-width: 1100px;
+    margin: 170px auto 0;
+    max-width: 1100px;
 }
 #wrapper .QA {
-  text-align: center;
-  font-family: PingFangSC-Regular;
-  font-size: 14px;
-  color: #666666;
-  letter-spacing: 0.39px;
+    text-align: center;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0.39px;
 }
 #wrapper .QA img {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 #wrapper .QA a {
-  text-decoration: none;
-  color: #666666;
+    text-decoration: none;
+    color: #666666;
 }
 #wrapper .QA a:hover {
-  color: #008FFF;
+    color: #008FFF;
 }
 .link {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 200px;
-  margin-bottom: 140px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 200px;
+    margin-bottom: 140px;
 }
 .link a {
-  font-family: PingFangSC-Regular;
-  font-size: 14px;
-  color: #666666;
-  letter-spacing: 0.39px;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  position: relative;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0.39px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    position: relative;
 }
 .link a:hover {
-  color: #008FFF;
+    color: #008FFF;
 }
 .link a:hover .qr {
-  display: block;
+    display: block;
 }
 .link a:hover .email {
-  display: block;
+    display: block;
 }
 .link a .qr {
-  position: absolute;
-  display: none;
-  background: #FFFFFF;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  width: 130px;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  line-height: 0;
-  padding: 15px;
+    position: absolute;
+    display: none;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    width: 130px;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 0;
+    padding: 15px;
 }
 .link a .email {
-  position: absolute;
-  display: none;
-  background: #FFFFFF;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  width: 190px;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  line-height: 0;
-  padding: 15px;
+    position: absolute;
+    display: none;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    width: 190px;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 0;
+    padding: 15px;
 }
 
 .link a i {
-  margin-right: 20px;
+    margin-right: 20px;
 }
 .plant {
-  margin-bottom: 55px;
+    margin-bottom: 55px;
 }
 .plant h2 {
-  font-family: PingFangSC-Medium;
-  font-size: 24px;
-  color: #444444;
-  letter-spacing: 0.67px;
-  text-align: center;
-  margin-bottom: 30px;
+    font-family: PingFangSC-Medium;
+    font-size: 24px;
+    color: #444444;
+    letter-spacing: 0.67px;
+    text-align: center;
+    margin-bottom: 30px;
 }
 .plant h4 {
-  font-family: PingFangSC-Regular;
-  font-size: 14px;
-  color: #333333;
-  letter-spacing: 0.39px;
-  text-align: center;
-  margin-bottom: 10px;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.39px;
+    text-align: center;
+    margin-bottom: 10px;
 }
 .plant p {
-  font-family: PingFangSC-Regular;
-  font-size: 14px;
-  color: #CCCCCC;
-  letter-spacing: 0.39px;
-  text-align: center;
-  margin-bottom: 40px;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #CCCCCC;
+    letter-spacing: 0.39px;
+    text-align: center;
+    margin-bottom: 40px;
 }
-.plant.shadow h2 {
-  text-shadow: 0 0 8px rgba(0, 143, 255, 0.8);
+.plant:hover h2 {
+    text-shadow: 0 0 8px rgba(0, 143, 255, 0.8);
 }
 .plant-body ul {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 .plant-body ul li {
-  width: 33.333%;
-  margin-bottom: 30px;
+    width: 33.333%;
+    margin-bottom: 30px;
 }
 .plant-body ul li a {
-  font-family: PingFangSC-Regular;
-  font-size: 14px;
-  color: #666666;
-  letter-spacing: 0.39px;
-  text-decoration: none;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0.39px;
+    text-decoration: none;
 }
 .plant-body ul li a span {
-  font-family: PingFangSC-Regular;
-  font-size: 14px;
-  color: #003A00;
-  letter-spacing: 0.39px;
-  line-height: 20px;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #003A00;
+    letter-spacing: 0.39px;
+    line-height: 20px;
 }
 .plant-body ul li a:hover {
-  color: #008FFF;
+    color: #008FFF;
 }
 .plant-body ul li a:hover span {
-  color: #008FFF;
+    color: #008FFF;
 }
 /*# sourceMappingURL=style.css.map */
