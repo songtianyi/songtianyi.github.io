@@ -21,7 +21,7 @@
 #### Sharing :on:
 
 * [简易自动化测试](mds/techniques/simple-automated-testing.md) :new:
-* [关于Rust GC的争议](mds/techniques/is-rust-garbage-collected.md) :new:
+* [关于Rust GC的争议](pages/programming/is-rust-garbage-collected.html)
 
 
 #### PR
