@@ -17,7 +17,7 @@ img {
     display: inline-block;
     background-position: 0 0;
     background-attachment: scroll;
-    background-color: #fff;
+    background-color: transparent;
     background-repeat: no-repeat;
 }
 .svg.music-svg {
@@ -198,11 +198,21 @@ img {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     width: 130px;
-    bottom: 100%;
+    bottom: 150%;
     left: 50%;
     transform: translateX(-50%);
     line-height: 0;
     padding: 15px;
+}
+.link a .qr em {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    border-left: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    border-top: 25px solid #fff;
+    border-right: 25px solid transparent;
 }
 .link a .email {
     position: absolute;
