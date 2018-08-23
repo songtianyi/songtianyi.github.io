@@ -1,5 +1,3 @@
-
-
 # 关于Rust GC的争议
 
 作者: [songtianyi](https://github.com/songtianyi)
