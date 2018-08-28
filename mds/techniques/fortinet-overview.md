@@ -302,6 +302,12 @@ end
 
 可以对接口定义policy，相当于从该接口进来或者出去的流量都会应用这个策略。
 
+###### GET
+
+```
+show firewall interface-policy
+```
+
 ### Scheduler
 
 ###### GET
