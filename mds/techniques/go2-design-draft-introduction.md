@@ -8,9 +8,9 @@ Go，毫无疑问已经成为主流服务端开发语言之一，但它的类型
 
 ### 泛型
 
-泛型是复用逻辑的一个有效手段，在2016和2017年的Go语言调查中，泛型都列在最迫切的需求之首，在Go1.0 release之后Go team就已经开始探索如何引入泛型，但同时要保持Go的简洁性(开发者喜爱Go的主要原因之一)，之前的几种实现方式都存在严重的问题，被废弃掉了，所以进展并不算快，甚至导致部分人误解为Go team并不打算引入泛型。现在，最新的草案经过半年的讨论和优化，已经确认可行(could work)，我们期待已久的泛型几乎是板上钉钉的事情了，那么Go的泛型大概长什么样？
+泛型是复用逻辑的一个有效手段，在2016和2017年的Go语言调查中，泛型都列在最迫切的需求之首，在Go1.0 release之后Go team就已经开始探索如何引入泛型，但同时要保持Go的简洁性(开发者喜爱Go的主要原因之一)，之前的几种实现方式都存在严重的问题，被废弃掉了，所以进展并不算快，导致部分人误解为Go team并不打算引入泛型。现在，最新的草案经过半年的讨论和优化已经确认可行(could work)，我们期待已久的泛型几乎是板上钉钉的事情了，那么Go的泛型大概长什么样？
 
-在没有泛型的情况下，通过`interface{}`是可以解决部分问题的，比如[`ring`](https://golang.org/src/container/ring/ring.go)的实现，但这种方法只适合用在数据容器里, 且需要做类型转换。当我们需要实现一个通用的函数时，就做不到了，例如实现一个函数，其返回传入的map的key:
+在没有泛型的情况下，通过`interface{}`是可以解决部分问题的，比如[`ring`](https://golang.org/src/container/ring/ring.go)的实现，但这种方法只适合用在数据容器里, 且需要做类型转换。当我们需要实现一个通用函数时，就做不到了，例如实现一个函数，其返回传入的map的key:
 
 ```go
 package main
@@ -63,7 +63,7 @@ fn print_g<T: Graph>(g : T) {
 }
 ```
 
-Rust在声明T的时候，限定了入参的类型，即入参g必须是Graph的子类。和[Rust](mds/techniques/getting-started-with-rust-in-1-hour.md)的nominal subtyping不同，Go属于structural subtyping，没有显式的类型关系声明，因此不能使用此种方式。Go在草案中引入了`contract`来解决这个问题，语法类似于函数, 写法更复杂，但表达能力比Rust要更强:
+Rust在声明T的时候，限定了入参的类型，即入参 *g* 必须是Graph的子类。和[Rust](mds/techniques/getting-started-with-rust-in-1-hour.md)的nominal subtyping不同，Go属于structural subtyping，没有显式的类型关系声明，因此不能使用此种方式。Go在草案中引入了`contract`来解决这个问题，语法类似于函数, 写法更复杂，但表达能力比Rust要更强:
 
 ```go
 // comparable contract
@@ -76,7 +76,7 @@ contract Addable(t T) {
 }
 ```
 
-上述代码分别约束了T必须是可比较的(comparable)，必须是能做加法运算(addable)的。使用方式很简单, 定义函数的时候加上约束即可:
+上述代码分别约束了T必须是可比较的(comparable)，必须是能做加法运算(addable)的。使用方式很简单, 定义函数的时候加上`contract`即可:
 
 ```go
 func Sum(type T Addable(T))(x []T) T {
@@ -91,15 +91,18 @@ var x []int
 total := Sum(int)(x)
 ```
 
+上述代码约束了入参 *x* 的类型T必须是可以做加法运算的类型。
+
 得益于类型推断，在调用Sum时可以简写成:
 
 ```go
 total := Sum(x)
 ```
 
-contract在使用时，如果参数是一一对应的(可推断), 也可以省略参数:
+contract在使用时，如果参数是一一对应的(可推断), 也可以省略它的参数:
 
 ```go
+// Addable(T) --> Addable
 func Sum(type T Addable)(x []T) T {
 	var total T
 	for _, v := range x {
@@ -112,12 +115,13 @@ func Sum(type T Addable)(x []T) T {
 不可推断时就需要指明该contract是用来约束谁的:
 
 ```go
+// Equal用来约束类型K，而不是类型V
 func Keys(type K, V Equal(K))(m map[K]V) []K {
 	...
 }
 ```
 
-当然，下面的写法也可以推断，最终如何就看Go team的抉择了:
+当然，下面的写法也可以推断，最终的形式就看社区的反馈和Go team的抉择了:
 
 ```go
 func Keys(type K Equal, V)(m map[K]V) []K {
@@ -156,12 +160,13 @@ func CopyFile(src, dst string) error {
 		os.Remove(dst)
 		return fmt.Errorf("copy %s %s: %v", src, dst, err)
 	}
+    return nil
 }
 ```
 
-上述代码中，错误处理的代码占了总代码量的接近50%！
+上述代码中，错误处理的代码占了总代码量的近50%！
 
-Go的`assignment-and-if-statement `错误处理语句是罪魁祸首，草案引入了`check`表达式来代替:
+Go的`assignment-and-if-statement `错误处理语句是罪魁祸首，草案引入了`check`表达式来代替它:
 
 ```go
 r := check os.Open(src)
@@ -173,7 +178,7 @@ r := check os.Open(src)
 return fmt.Errorf("copy %s %s: %v", src, dst, err)
 ```
 
-它是可以被统一处理的, 于是Go在引入`check`的同时引入了`handle`语句:
+它是可以被统一处理的, 于是Go在引入`check`的同时引入了`handle`语句，官方称之为handler:
 
 ```go
 handle err {
@@ -204,7 +209,7 @@ func CopyFile(src, dst string) error {
 }
 ```
 
-check失败后，先被执行最里层的(inner most)的handler，接着被上一个(按照语法顺序)handler处理，直到handler执行了`return`语句。
+check失败后，error先被最里层的(inner most)handler处理，接着被上一个(按照语法顺序)handler处理，直到某个handler执行了`return`语句。
 
 Go team对该草案的期望是能够减少错误处理的代码量, 且兼容之前的错误处理方式, 要求不算高，这个设计也算能接受吧。
 
