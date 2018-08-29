@@ -182,7 +182,7 @@ return fmt.Errorf("copy %s %s: %v", src, dst, err)
 
 ```go
 handle err {
-		return fmt.Errorf("copy %s %s: %v", src, dst, err)
+	return fmt.Errorf("copy %s %s: %v", src, dst, err)
 }
 ```
 
