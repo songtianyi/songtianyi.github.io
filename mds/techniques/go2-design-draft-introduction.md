@@ -93,7 +93,7 @@ total := Sum(int)(x)
 
 得益于类型推断，在调用Sum时可以简写成:
 
-```
+```go
 total := Sum(x)
 ```
 
@@ -111,7 +111,7 @@ func Sum(type T Addable)(x []T) T {
 
 不可推断时就需要指明该contract是用来约束谁的:
 
-```
+```go
 func Keys(type K, V Equal(K))(m map[K]V) []K {
 	...
 }
@@ -119,7 +119,7 @@ func Keys(type K, V Equal(K))(m map[K]V) []K {
 
 当然，下面的写法也可以推断，最终如何就看Go team的抉择了:
 
-```
+```go
 func Keys(type K Equal, V)(m map[K]V) []K {
 	...
 }
@@ -175,15 +175,38 @@ return fmt.Errorf("copy %s %s: %v", src, dst, err)
 
 它是可以被统一处理的, 于是Go在引入`check`的同时引入了`handle`语句:
 
-```
+```go
 handle err {
 		return fmt.Errorf("copy %s %s: %v", src, dst, err)
 }
 ```
 
-在Java等语言中，通过`try..catch`语句来处理异常，当前层级的错误处理不了，可以抛给上一级，Go的handle语句也类似，错误会先被最里层的(inner most)的handle处理，接着被上一层级的handle处理，直到handler执行了`return`语句。
+修改后的代码为:
 
-Go team对该草案的期望是能够减少错误处理的代码量, 且兼容之前的错误处理方式。
+```go
+func CopyFile(src, dst string) error {
+	handle err {
+		return fmt.Errorf("copy %s %s: %v", src, dst, err)
+	}
+
+	r := check os.Open(src)
+	defer r.Close()
+
+	w := check os.Create(dst)
+	handle err {
+		w.Close()
+		os.Remove(dst) // (only if a check fails)
+	}
+
+	check io.Copy(w, r)
+	check w.Close()
+	return nil
+}
+```
+
+check失败后，先被执行最里层的(inner most)的handler，接着被上一个(按照语法顺序)handler处理，直到handler执行了`return`语句。
+
+Go team对该草案的期望是能够减少错误处理的代码量, 且兼容之前的错误处理方式, 要求不算高，这个设计也算能接受吧。
 
 [反馈渠道](https://golang.org/wiki/Go2ErrorHandlingFeedback)
 
@@ -236,13 +259,13 @@ func main() {
 call fn2 failed, (12): no route to the remote address
 ```
 
-很明显的问题是，我们在main函数里对err进行处理的时候不能通过类型判断, 比如使用if语句判断:
+很明显的问题是，我们在main函数里对error进行处理的时候不能进行类型判断, 比如使用if语句判断:
 
 ```go
 if err == io.EOF { ... }
 ```
 
-或者通过类型断言:
+或者进行类型断言:
 
 ```go
 if pe, ok := err.(*os.PathError); ok { ... pe.Path ... }
@@ -254,7 +277,7 @@ if pe, ok := err.(*os.PathError); ok { ... pe.Path ... }
 
 草案引入了一个error wrapper来包裹错误链, 它相当于一个指针，将错误栈链接起来:
 
-```
+```go
 package errors
 
 // A Wrapper is an error implementation
@@ -268,7 +291,7 @@ type Wrapper interface {
 
 每个层级的error都实现这个wrapper，这样在main函数里，我们可以通过err.Unwrap() 来获取下一个层级的error。另外，草案引入了两个函数来简化这个过程:
 
-```
+```go
 // Is reports whether err or any of the errors in its chain is equal to target.
 func Is(err, target error) bool
 
@@ -292,7 +315,7 @@ type Formatter interface {
 
 error类型可以实现Format函数来打印更详细的信息:
 
-```
+```go
 func (e *WriteError) Format(p errors.Printer) (next error) {
 	p.Printf("write %s database", e.Database)
 	if p.Detail() {
