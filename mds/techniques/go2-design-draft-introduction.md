@@ -54,7 +54,7 @@ func main() {
 }
 ```
 
-但是这种写法是有缺陷的，假设append函数并不支持string类型，就可能会出现运行时错误，当然，你可以做静态检查，但也是有成本的。我们可以看下其他语言的做法:
+但是这种写法是有缺陷的，假设append函数并不支持string类型，就可能会出现编译错误。我们可以看下其他语言的做法:
 
 ```rust
 // rust
@@ -109,7 +109,7 @@ func Sum(type T Addable)(x []T) T {
 }
 ```
 
-不可推断时就需要指明:
+不可推断时就需要指明该contract是用来约束谁的:
 
 ```
 func Keys(type K, V Equal(K))(m map[K]V) []K {
@@ -117,7 +117,7 @@ func Keys(type K, V Equal(K))(m map[K]V) []K {
 }
 ```
 
-当然，下面的写法也可以推断，最后就看Go team是如何抉择的了:
+当然，下面的写法也可以推断，最终如何就看Go team的抉择了:
 
 ```
 func Keys(type K Equal, V)(m map[K]V) []K {
