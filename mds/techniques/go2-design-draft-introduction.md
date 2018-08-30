@@ -63,7 +63,7 @@ fn print_g<T: Graph>(g : T) {
 }
 ```
 
-Rust在声明T的时候，限定了入参的类型，即入参 *g* 必须是Graph的子类。和[Rust](mds/techniques/getting-started-with-rust-in-1-hour.md)的nominal subtyping不同，Go属于structural subtyping，没有显式的类型关系声明，因此不能使用此种方式。Go在草案中引入了`contract`来解决这个问题，语法类似于函数, 写法更复杂，但表达能力比Rust要更强:
+Rust在声明T的时候，限定了入参的类型，即入参 *g* 必须是Graph的子类型(subtype, not subclass)。和[Rust](mds/techniques/getting-started-with-rust-in-1-hour.md)的nominal subtyping不同，Go属于structural subtyping，没有显式的类型关系声明，因此不能使用此种方式。Go在草案中引入了`contract`来解决这个问题，语法类似于函数, 写法更复杂，但表达能力比Rust要更强:
 
 ```go
 // comparable contract
