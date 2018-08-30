@@ -93,6 +93,10 @@ total := Sum(int)(x)
 
 上述代码约束了入参 *x* 的类型T必须是可以做加法运算的类型。
 
+> 可能大家会有跟我一样的疑问，为什么是(type T Addable) , 而不是 \<T>, 为什么不用惯用的尖括号？
+>
+> 官方给出的解释是 [*keep the Go parser simple*](https://go.googlesource.com/proposal/+/master/design/go2draft-contracts.md#why-not-use-like-c_and-java)
+
 得益于类型推断，在调用Sum时可以简写成:
 
 ```go
