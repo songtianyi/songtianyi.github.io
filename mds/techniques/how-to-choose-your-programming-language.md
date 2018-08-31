@@ -220,26 +220,37 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
 
    接着，我们来看这两种类型区分方式和subtyping的关系。
 
-   * *Nominal subtyping*: 参照*nominal typing*的规则，只有当类型S被显式地声明为T的子类型，才认为`S <: T`，使用这种规则的subtyping属于*nominal subtyping*。比如Rust里的trait(类interface)
+   * *Nominal subtyping*: 参照*nominal typing*的规则，只有当类型S被显式地声明为T的子类型，才认为`S <: T`，使用这种规则的subtyping属于*nominal subtyping*。比如Julia:
 
      ```rust
-     trait Graph {
-         fn area(&self) -> f64;
-     }
-     struct Circle {
-         x: f64,
-         y: f64,
-         radius: f64,
-     }
-     // 实现Graph
-     impl Graph for Circle {
-         fn area(&self) -> f64 {
-             std::f64::consts::PI * (self.radius * self.radius)
-         }
-     }
+     abstract type Graph <: Any end
+
+     struct Circle <: Graph
+         radius ::Float64
+         x ::Int64
+         y ::Int64
+     end
+
+     struct Rec <: Graph
+         width ::Float64
+         height ::Float64
+         x ::Int64
+         y ::Int64
+     end
+
+     function area(r ::Circle) ::Float64
+         return pi * r.radius^2
+     end
+
+     function area(g ::Rec)
+         return g.x*g.y
+     end
+
+     println(area(Circle(1.0, 1, 1)))
+     println(area(Rec(1.0, 1.0, 2, 2)))
      ```
 
-     上述代码通过`impl`关键字显式地声明了这种关系，`Circle <: Graph` 。C++, Java也是*nominal subtyping*
+     上述代码通过`<:`显式地声明了这种关系，`Circle <: Graph` 。C++, Java也是*nominal subtyping*
 
    * *Structural subtyping*: 参照*structural typing*的规则，类型之间的子/父关系是通过类型的结构来区分的，使用这种规则的subtyping属于*structural subtyping*。Golang的interface属于此类，interface里声明的函数(feature)在它的子类型中都能找到对应的实现，至于匹配的规则，依赖于类型系统的具体实现。*structural subtyping*相对*nominal subtyping*要更加灵活。
 
@@ -1440,7 +1451,7 @@ User.find_by_email('songtianyi630@163.com')
 |   Kotlin    |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |    generic, subtype, overloading    | IP,OOP,FP,MP                 |
 | TypeScript  |    ☑️     |               ☑️               |          ❌           |            weakly             |             statically              |     generic, duck, overloading      | IP,SP,PP,OOP,FP,MP           |
 |    Rust     |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, overloading, subtype    | IP,SP,PP,OOP,FP,MP           |
-| Julia |  ☑️   |             ❌              |        ☑️        |          weakly           |           dynamically           | generic, overloading, subtype | IP,SP,PP,OOP,FP,MP |
+|    Julia    |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |    generic, overloading, subtype    | IP,SP,PP,OOP,FP,MP           |
 |  **Lang**   | **Typed** | **Static and dynamic  checks** | **Strongly checked** | **Weakly or strongly  typed** | **Dynamically or statically typed** |          **Type theories**          | **Paradigms**                |
 
 整理完这个对比表才发现一些有意思的事情:
