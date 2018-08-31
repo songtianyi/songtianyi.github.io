@@ -263,12 +263,56 @@ fn main() {
 
 ```
 
-##### 多态
-
-即subtyping。Rust和golang一样并没有继承这一说，也没有class，但struct是可以定义函数的，也能指定可见性。struct和trait结合使用能够达到通常OOP中继承和多态的效果。Rust的subtyping属于nominal subtyping，而Golang中的interface属于structural subtyping。
+值得一提的是，我们可以限定`T`的类型范围:
 
 ```rust
-// 定义一个trait，trait约束了实现它的类型所必需要实现的函数
+trait Graph {
+    fn area(&self) -> f64;
+}
+// 限定T的类型必须是实现了Graph的类型
+fn foo<T : Graph>(_x: &[T]) {}
+```
+
+还有另外一种表达能力更强的写法，`where`语句:
+
+```rust
+fn foo<T>(_x: &[T]) where T : Graph {}
+```
+
+当我们限定的不是T，而是使用T的方式时`where`会很有用:
+
+```
+use std::fmt::Debug;
+
+trait PrintInOption {
+    fn print_in_option(self);
+}
+
+// Because we would otherwise have to express this as `T: Debug` or 
+// use another method of indirect approach, this requires a `where` clause:
+impl<T> PrintInOption for T where Option<T>: Debug {
+    // We want `Option<T>: Debug` as our bound because that is what's
+    // being printed. Doing otherwise would be using the wrong bound.
+    fn print_in_option(self) {
+        println!("{:?}", Some(self));
+    }
+}
+
+fn main() {
+    let vec = vec![1, 2, 3];
+
+    vec.print_in_option();
+}
+
+```
+
+上述代码中，我们限定了 `Option<T> : Debug`, 即Option\<T>必须实现了Debug trait。
+
+##### 多态
+
+即subtyping。Rust和golang一样并没有继承这一说，也没有class，但struct是可以定义函数的，也能指定可见性。struct和 trait结合使用能够达到通常OOP中继承和多态的效果。
+
+```rust
 trait Graph {
     fn area(&self) -> f64;
 }
@@ -279,7 +323,6 @@ struct Circle {
     radius: f64,
 }
 // 为Circle实现Graph trait，或者说实现Graph接口
-// 此时Cicle为Graph的子类型
 impl Graph for Circle {
     // 必须实现area
     fn area(&self) -> f64 {
@@ -294,7 +337,6 @@ struct Rec {
     height: f64,
 }
 // 为Rec实现Graph trait
-// 此时Rec是Graph的子类型
 impl Graph for Rec {
     // 必须实现area
     fn area(&self) -> f64 {
@@ -302,10 +344,10 @@ impl Graph for Rec {
     }
 }
 
-// 用trait bound限定泛型的类型为实现了Graph的类型
-fn print_g<T: Graph>(g : T) {
+fn print_g(g : &Graph) {
     println!("graph area {}", g.area());
 }
+
 fn main() {
     let c = Circle{
         x: 1.0,
@@ -318,12 +360,13 @@ fn main() {
         length: 1.0,
         height: 2.0,
     };
-    print_g(c);
-    print_g(r);
+    print_g(&c);
+    print_g(&r);
 }
+
 ```
 
-上述代码中`print_g`的入参类型为Graph, 既能将Circle作为输入，也能将Rec作为输入，即是多态用法。
+上述代码中`print_g`的入参类型为`&Graph`, 既能将`&Circle`作为输入，也能将`&Rec`作为输入，即是多态用法。需要强调的是，trait是没有类型关系的，我们不能说Rec是Graph的子类型, 这和其他基于类型关系的subtyping不一样。Rust传统意义上的subtyping是在lifetime中体现的，`'big <: 'small` 意味着big的生命周期比small长，big是small的子类型(subtype), 在使用`'small`(它是一个类型)的地方都可以使用`'big`代替。
 
 ##### 重载
 
