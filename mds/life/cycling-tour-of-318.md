@@ -32,7 +32,7 @@
 
 ##### 成都出发
 
-过完年，15号我就出发去了成都。除了我，夏升也提前到了青旅, 我们两个先住了一晚。第二天，我们去采购用品，队员也陆续到了三个，但还差一个。晚上三巷一号老板主厨，给我们做了很多好吃的，喝点小酒壮壮行。由于人还没齐，17号没能出发，三巷一号就组织我们去成都的黄龙溪拉练，一天来回。我们回到青旅的时候，最后一位也到了。人齐了，一共六人，夏升，庹(Tuǒ)拉，我，乔凯，朱顺超，陆犯焉识。
+过完年，15号我就出发去了成都。除了我，夏升和庹拉已经提前到了青旅, 我们三个先住了一晚。第二天，我们去采购用品，队员也陆续到了两个，但还差一个。晚上三巷一号老板主厨，给我们做了很多好吃的，喝点小酒壮壮行。由于人还没齐，17号没能出发，三巷一号就组织我们去成都的黄龙溪拉练，一天来回。我们回到青旅的时候，最后一位也到了。人齐了，一共六人，夏升，庹(Tuǒ)拉，我，乔凯，朱顺超，陆犯焉识。
 
 ![image](http://owm6k6w0y.bkt.clouddn.com/318-3-1.jpg)
 
@@ -102,7 +102,7 @@
 
 ##### 新都桥—>雅江
 
-新都桥号称摄影家天堂，草原风光异常壮美，但这个季节是欣赏不到了，就没作停留，继续骑行。今天要翻越的是高尔寺山，有隧道。
+新都桥号称摄影家天堂，草原风光异常壮美，但这个季节是欣赏不到了，就没作停留，继续骑行。陆犯焉识因为家里有事，就此别过了，比较遗憾。今天要翻越的是高尔寺山，有隧道。
 
 ![image](http://owm6k6w0y.bkt.clouddn.com/318-9-8.jpg)
 
@@ -234,35 +234,241 @@
 
 今天的路程85km，像是整天都在爬坡，难度很大，我依稀记得身心煎熬的那些瞬间。先是从芒康翻拉乌山，海拔从3750上升到4338，中间要经过一个巨型U型弯，很多人都想抄近道爬山直接过去，其实时间和精力上消耗差不多。到了拉乌山垭口，没作停留，火速下山到了如美吃午饭，因为下午的压力更大。下午翻觉巴山才体会到什么叫绝望，全程都是之字形的上坡路，一个之字路结束又是一个之子路的开始。我们到傍晚才到达垭口，庹拉体力不支，我留在山顶等他，之后一起摸黑下山。大山里的天黑是真的暗无天日，一点光亮都没有，随身带的车灯只能打开不到5m的视线，好在路比较好走，后面又碰到私家车，一路尾随它下山。
 
+![image](http://owm6k6w0y.bkt.clouddn.com/318-14-1.jpg)
 
+![image](http://owm6k6w0y.bkt.clouddn.com/318-14-2.jpg)
 
-**登巴村**—>**左贡 72km**
+![image](http://owm6k6w0y.bkt.clouddn.com/318-14-3.jpg)
 
-左贡—>**邦达104km**
+![image](http://owm6k6w0y.bkt.clouddn.com/318-14-4.jpg)
 
-邦达—>**八宿**95
+![image](http://owm6k6w0y.bkt.clouddn.com/318-14-5.jpg)
 
-**八宿**—>**然乌90km**
+![image](http://owm6k6w0y.bkt.clouddn.com/318-14-6.jpg)
 
-**然乌90km**—>**波密128km**
+##### 登巴村—>左贡
 
-**波密128km**—>排龙乡
+今天我们要翻越第一座5000m以上的垭口，东达山，总里程72km。从登巴出门开始我们就在爬坡，一直爬到荣许兵站，坡度不大，但是海拔高，氧缺的厉害，只能一脚一脚蹬。到了兵站，发现连个吃顿饱饭的地方都没有，这段时间刚好是春节，有一半的餐馆(包括自行车店)都还没开门。我们找了一家饭店，老板也是今天刚到的，开不了火，只能买些泡面和零食来吃。吃饭的时候我们在考虑要不要叫车送过去-。- 但的确叫不到车，我们只好硬着头皮上了。乔凯和小胖体力还不错，整个上午我都在头阵，下午骑了10公里实在没力气了，他们赶了上来一会儿就没影了。我和夏升在第二梯队，庹拉在最后，还看不见身影。荣许兵站到东达山这段路是出了名的天气多变，说一天经历四季一点都不夸张，在我们蜗牛般前进的时候开始下雪了，还伴有逆风，我沿着路边埋头蹬车的时候一股风直接把我刮进了路边的水泥沟里。我越来越跟不上了，没力气，头疼，夏升越来越远，不见了身影，这个时候天色也暗了下来，恐惧的情绪又向我袭来，以这个天气，就算到了海拔5000m的山顶不知道还有没有条件下山。我开始拦车，但拦不到，我不敢往前骑，犹豫了一下立马掉了头，爬了一下午的坡，半个小时就奔回去了，下坡真爽。。。。我在荣许找了家民宿住下，准备第二天再战。第二天的天气没之前那么恶劣，经历了半天的煎熬终于在中午到了山顶, 山顶气温很低，风也特别大，拍了照就开始下山。快下到山脚的时候有人在私家车前面挥手让我停下，一车人下来要找我合影。。。他们说路上看到我在爬坡很佩服，特意等了很久找我合影，还给了瓶红牛给我，特别感动。
 
-排龙乡—> **鲁朗**
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-1.jpg)
 
-**鲁朗**—>**八一 100km**
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-2.jpg)
 
-八一—>**工布江达130km**
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-3.jpg)
 
-**工布江达-松多98km**
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-4.jpg)
 
-**松多--米拉山-墨竹工卡-拉萨 182km**
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-5.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-6.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-7.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-8.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-9.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-10.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-11.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-12.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-15-13.jpg)
+
+##### 左贡—>邦达
+
+下了东达山是下午一两点的样子，我和庹拉找了辆车前往邦达，因为昨天就翻过东达山的队友已经前往邦达了。就发下他们这段路的照片吧。
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-16-1.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-16-2.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-16-3.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-16-4.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-16-5.jpg)
+
+##### 邦达—>**八宿**
+
+今天要下72拐，大家都很兴奋，而且已经翻过那么多山了，所以印象中不怎么累，虽然短短10km的路，海拔上升了600多m，气温也很低。比较遗憾的是，72拐的雪已经化了，文中第一张图的美景看不到了。不多说，放照片。
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-17-1.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-17-2.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-17-3.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-17-4.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-17-5.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-17-6.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-17-7.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-17-8.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-17-9.jpg)
+
+到了八宿开始下起了雨，我们找了家还不错的青旅住下，条件应该是一路来最好的了，价格也不贵。舒舒服服地洗了个澡，开始期待晚饭，期待明天。
+
+##### 八宿—>然乌
+
+今天的路，是一条永远也看不到饭点的路。出发没多久我们的热情就被身体的煎熬磨没了，好不容易熬到中午仍然看不到吃饭的地方，路永远看不到尽头，若是你到了尽头，等着你的只会是另一条没有尽头的路。我们熬到了一个小镇，狠狠地吃了一顿，然后包车到了山顶，去他喵的骑车。
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-18-1.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-18-2.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-18-3.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-18-4.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-18-5.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-18-6.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-18-7.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-18-8.jpg)
+
+到了然乌才发现我们心心念念的然乌湖没有水。。。因为枯水季，然乌镇附近的湖面都干了，索性就下湖里走了一遭。我们住进了一家青旅，我认出了这家店老板的车，下72拐的时候看到过，一打听还真是，他们也是这两天才从家里过完春节回来开张。晚上我们去了网红藏餐店饱腹了一顿。
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-18-9.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-18-10.jpg)
+
+##### 然乌—>波密
+
+今天的路程有128公里，好在是起伏路和下坡路居多，就是内心有些煎熬，毕竟要骑一整天。早上出发的时候我们才窥见然乌湖冬季的美，兴奋地不行，总算没白来。
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-19-2.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-19-3.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-19-1.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-19-4.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-19-5.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-19-7.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-19-8.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-19-10.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-19-6.jpg)
+
+到了波密，大家都还有力气，小胖学过厨艺，我们就自己买菜做了一顿还算丰盛的晚餐，吃的很开心，感谢小胖的手艺。
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-19-9.jpg)
+
+##### 波密—>排龙乡
+
+路程很长，天快黑才到。因为通麦修了大桥，通麦天险已是过去时，所以难度降低了很多，我们闲着无聊就挑战了下已经毁损的老路。到了排龙乡，晚上去吃了网红美食石锅鸡！住的是山脚下的小木屋，正下着小雨，很是惬意。
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-20-1.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-20-2.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-20-3.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-20-4.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-20-5.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-20-6.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-20-7.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-20-8.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-20-9.jpg)
+
+##### 排龙乡—> 鲁朗
+
+今天的难度中规中矩，印象不深，只记得清晨山间云雾缭绕，如至仙境。
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-21-2.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-21-1.jpg)
+
+##### 鲁朗**—>**八一
+
+早上起来才发现昨晚又下了大雪，可能是我们跟雪有缘。不好的是，海拔上升后又感觉没有力气，头晕目眩，上山的路的又很长，刚好有辆私家车到八一，我就搭车到了色季拉山垭口，他们四人骑行上山，可惜没能跟他们一起欣赏用冰雕琢的巍巍山林。
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-1.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-2.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-3.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-4.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-5.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-6.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-7.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-8.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-9.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-10.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-11.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-12.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-22-13.jpg)
+
+##### 八一—>工布江达
+
+八一到工布江达有130km，是起伏路，还算轻松。中间已经修建了高速路，但自行车是不能上的，只能咬牙切齿地瞅着在我们身旁路过。
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-23-1.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-23-2.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-23-3.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-23-4.jpg)
+
+##### 工布江达—>松多—>拉萨
+
+今天是竭尽全力的一天，路程虽不及昨天，只有98公里，但是海拔一直在上升，中午便没了力气。在我们吃完午饭准备出发的时候，小胖的车坏了，修理店都修理不好，所以他直接搭车到了拉萨。。我记不清了，应该是拉萨。
+
+下午我们四人摇摇晃晃，又碰到逆风和风沙，一路走一路在讨论要不要搭车到拉萨算了。天色渐晚，就在我们还在做思想斗争的时候，松多到了，我们还不罢休，想要搭车，因为大家都知道明天的路程是今天的两倍，还要爬米拉山，不搭车铁定到不了拉萨，他们要赶着回班机回去上班。算求，第二天早上我们搭车到了米拉山山顶，第二座海拔5000m的山峰。到了垭口稍作停留，就开始下山，本以为很轻松，结果全是石子路，真是心凉蛋碎。从米拉山到拉萨，海拔直线下降1500m，但是一点都不轻松，下午更是逆风。终于，在傍晚的时候我们熬到了拉萨，庹拉还在拉萨门口爆了胎，终于可以闲下心来等他修车了，之后便直接骑去了布达拉宫，今天总共骑了160多公里。
 
 ##### 拉萨
 
-##### 下一站台湾
+在拉萨逛了一天之后我们就各自返程回家，结束了这次骑行，每次想起，都感慨万千。希望有生之年，还能再和他们相约在一起，完成另一段旅程。
 
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-1.jpg)
 
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-2.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-3.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-4.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-5.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-6.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-7.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-8.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-9.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-10.jpg)
+
+![image](http://owm6k6w0y.bkt.clouddn.com/318-24-11.jpg)
 
 
 
