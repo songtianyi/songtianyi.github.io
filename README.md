@@ -27,7 +27,7 @@
 * [go2设计草案介绍](mds/techniques/go2-design-draft-introduction.md) :new:
 
 
-###Subscribe
+#### Subscribe
 
 你可以将自己的邮箱通过PullRequest的方式写在[订阅者列表](subscribers.md)里，或者订阅我的[Telegram频道](https://t.me/songtianyi), 有新文章会将链接推送到邮箱和Telegram
 
