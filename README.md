@@ -17,6 +17,7 @@
 * [1小时入门Rust](mds/techniques/getting-started-with-rust-in-1-hour.md) :new:
 * [Julia概览](mds/techniques/julia-overview.md) :new:
 * [数据抽象vs接口抽象/层级结构vs扁平结构](http://songtianyi.info/pages/programming/data-abstraction-vs-interface-abstraction-and-hierarchy-structure-vs-flat-structure.html)
+* [2.17成都出发](mds/life/cycling-tour-of-318.md) :new:
 
 #### Sharing :on:
 
