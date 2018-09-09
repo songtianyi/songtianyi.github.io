@@ -20,7 +20,7 @@
 
 * optional typing
 
-  通常，动态语言的变量类型都是在运行时确定的，但对于julia来说是可选的，你可以在代码中申明类型，利用JIT，julia可以编译部分代码以提高性能，这些申明为JIT提供了用于优化性能的信息。Julia提供了预编译的选项 `__precompile__()`。
+  通常，动态语言的变量类型都是在运行时确定的，但对于julia来说是可选的，你可以在代码中申明类型，利用JIT，julia可以编译部分代码以提高性能，这些声明为JIT提供了用于优化性能的信息。Julia提供了预编译的选项 `__precompile__()`。
 
 * 多重派发(multiple dispatch)
 
@@ -175,7 +175,7 @@ julia> struct Point{T}
 Point{String}
 ```
 
-它和不使用泛型的形式是等价的:
+它和不使用泛型的形式的效果是一样的:
 
 ```julia
 struct Point
@@ -196,7 +196,7 @@ true
 
 tip: `A <: B`为真则A是B的子类型成立
 
-但是julia泛型的类型规则属于不变(*invariant*), 意味着，当`Float64 <: Real`()为真时，`Point{Float64} <: Point{Real}`并不为真，它不会保持或者逆转之前的类型关系。因此，当泛型实例作为入参类型时会面临一个问题, 比如函数入参类型为Point{Real}，这时我们不能对它传入Point{Float64}，验证代码如下:
+但是julia泛型的类型规则属于不变(*invariant*), 意味着，当`Float64 <: Real`为真时，`Point{Float64} <: Point{Real}`并不为真，它不会保持或者逆转之前的类型关系。因此，当泛型实例作为入参类型时会面临一个问题, 比如函数入参类型为Point{Real}，这时我们不能对它传入Point{Float64}，验证代码如下:
 
 ```julia
 struct Point{T}
@@ -241,6 +241,8 @@ primitive type String{T} 32 end
 * *overloading*: 基于multiple dispatch的函数/操作符重载是julia的主要特性。<sup>[5]</sup>
 
 
+### 语法规范
+
 ##### Types
 
 ###### Primitive types
@@ -265,9 +267,9 @@ primitive type String{T} 32 end
 | Channel  | 管道，先进先出的队列                               |
 | Abstract | 抽象类型                                     |
 | struct   | 结构体                                      |
-| mutable  | 可修改性修饰                                   |
+| mutable  | 修饰类型的是否可修改                               |
 | Union    | 联合类型                                     |
-| Nullable | 当一个值不确定它是否存在时可以使用Nullable来封装它，保证访问的安全性   |
+| Nullable | 当一个值不确定它是否存在时可以使用Nullable来封装它，保证访问的安全性，类似于Java的Optional\<T> |
 | Task     | coroutine                                |
 
 ###### 函数
@@ -384,7 +386,7 @@ Julia的Channel和Go的chan在使用上基本是一致的。
 
 ###### Abstract type
 
-抽象类型在julia的类型系统起到构建类型树(type graph)，复用逻辑和实现多态的作用。类型树的根类型是`Any`, 任意类型都是它的子类型(subtype), 叶子类型是`Union{}`, 和`Any`相反，任意类型都是`Union{}`的父类型。我们来看下，julia的数值类型部分的类型树:
+抽象类型在julia的类型系统中起到构建类型树(type graph)，复用逻辑和实现多态的作用。类型树的根类型是`Any`, 任意类型都是它的子类型(subtype), 叶子类型是`Union{}`, 和`Any`相反，任意类型都是`Union{}`的父类型。我们来看下，julia的数值类型部分的类型树:
 
 ```julia
 abstract type Number end
@@ -454,7 +456,7 @@ julia> "Hello!" :: IntOrString
 
 ###### Nullable
 
-Nullable<T>, 作用和Java里的Optional<T>是一致的，比如函数的返回值不确定是否为空时，可以使用Nullable包裹一下再返回，这样返回值的接受者可以安全地处理它。
+Nullable<T>, 作用和Java里的Optional<T>是一致的，比如函数的返回值不确定是否为空时，可以使用Nullable包裹一下再返回，这样返回值的接收者可以安全地处理它。
 
 ```julia
 function calc() ::Nullable{Int64}
@@ -823,7 +825,7 @@ fn() = "x"
 end
 ```
 
-导入的方式有两种，*using*和*import*，它们的区别在于引入的内容的使用方式，import会将引入的模块的名暴露在当前空间，然后通过模块名来使用引入的内容
+导入的方式有两种，*using*和*import*，它们的区别在于引入的内容的使用方式，import会将引入的模块的名称暴露在当前空间，然后通过模块名来使用引入的内容
 
 ```julia
 import MyModule
@@ -880,7 +882,7 @@ abstract type Graph end
 abstract type Graph <: Any end
 ```
 
-和Rust，golang等语言不同的是，我们并不能为一个struct类型定义函数，所以我们看到的仍然是多重派发，而不是其他语言的惯用写法，在理解的时候要暂时抛弃已有的OOP概念，不管是Go，Rust还在Julia，传统的OOP都被摒弃了。
+和Rust，golang等语言不同的是，我们并不能为一个struct类型定义函数，所以我们看到的仍然是多重派发，而不是其他语言的惯用写法，在理解的时候要暂时抛弃已有的OOP概念，不管是Go，Rust还是Julia，传统的OOP都被摒弃了。
 
 ```julia
 struct Circle <: Graph
@@ -1016,7 +1018,7 @@ fn(x) = x^2
 [(i,j) for i=1:3 for j=1:i]
 ```
 
-julia提供了很多多维数组的操作函数，比如reshape函数，将n\*m的数组转换成x\*y的数组，且能n\*m=x\*y.
+julia提供了很多多维数组的操作函数，比如reshape函数，将n\*m的数组转换成x\*y的数组，且n\*m=x\*y.
 
 ```julia
 reshape([x+y for x=0:1, y=1:10], (4,5))
