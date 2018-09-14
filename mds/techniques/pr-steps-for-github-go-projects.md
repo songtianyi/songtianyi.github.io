@@ -64,4 +64,4 @@
   git push fork master
   ```
 
-* 创建pr，将远程的songtianyi/golory合并到远程的1pb-club/songtianyi
+* 创建pr，将远程的songtianyi/golory合并到远程的1pb-club/golory
