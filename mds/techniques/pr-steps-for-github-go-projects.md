@@ -8,6 +8,8 @@
 
 ### PR
 
+这里以golory项目和我自己的账户来举例。
+
 ##### 简洁方式
 
 - fork golory到songtianyi的账户下
@@ -25,8 +27,6 @@
 - 创建pr，将远程的songtianyi/golory合并到远程的1pb-club/golory
 
 ##### 通用方式
-
-这里以golory项目和我自己的账户来举例:
 
 * fork golory到songtianyi的账户下
 
