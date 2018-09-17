@@ -8,6 +8,24 @@
 
 ### PR
 
+##### 简洁方式
+
+- fork golory到songtianyi的账户下
+
+  登录账户，在1pb-club/golory项目主页点击**fork**按钮
+
+- 将fork仓库clone到本地, 并指定目录
+
+  ```bash
+  git clone https://github.com/songtianyi/golory.git $GOPATH/src/github.com/1pb-club/golory
+  ```
+
+- 修改代码/commit/push等操作
+
+- 创建pr，将远程的songtianyi/golory合并到远程的1pb-club/golory
+
+##### 通用方式
+
 这里以golory项目和我自己的账户来举例:
 
 * fork golory到songtianyi的账户下
