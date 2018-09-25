@@ -18,6 +18,7 @@
 * [Julia概览](mds/techniques/julia-overview.md) :new:
 * [数据抽象vs接口抽象/层级结构vs扁平结构](http://songtianyi.info/pages/programming/data-abstraction-vs-interface-abstraction-and-hierarchy-structure-vs-flat-structure.html)
 * [2.17成都出发](mds/life/cycling-tour-of-318.md) :new:
+* [二元决策图](mds/techniques/binary-decision-diagram.md) :new:
 
 #### Sharing :on:
 
