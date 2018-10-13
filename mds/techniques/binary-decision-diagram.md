@@ -1,6 +1,6 @@
 # 二元决策图
 
-作者: [songtianyi](songtianyi.info) 2018-09-25
+作者: [songtianyi](http://songtianyi.info) 2018-09-25
 
 ### 前言
 
