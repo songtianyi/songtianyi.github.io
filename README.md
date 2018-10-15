@@ -27,6 +27,7 @@
 * [fortinet概览](mds/techniques/fortinet-overview.md) :new:
 * [go2设计草案介绍](mds/techniques/go2-design-draft-introduction.md) :new:
 * [Github Go项目PR方式](mds/techniques/pr-steps-for-github-go-projects.md) :new:
+* [工具收藏](mds/techniques/collection-of-tools.md) :new:
 
 
 #### Subscribe
