@@ -596,7 +596,7 @@ a = Animal::Cat { name: "Spotty".to_string(), weight: 2.7 };
 
 ###### 联合
 
-rust一开始时没有union类型的，因为rust的enum即是tagged union，属于比较安全的union实现方式。后来加入了untagged union, 在访问它的字段时要加`unsafe`
+rust一开始是没有union类型的，因为rust的enum即是tagged union，属于比较安全的union实现方式。后来加入了untagged union, 在访问它的字段时要加`unsafe`
 
 ```rust
 #[repr(C)]
