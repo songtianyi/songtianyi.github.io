@@ -29,6 +29,7 @@
 * [go2设计草案介绍](mds/techniques/go2-design-draft-introduction.md) :new:
 * [Github Go项目PR方式](mds/techniques/pr-steps-for-github-go-projects.md) :new:
 * [工具收藏](mds/techniques/collection-of-tools.md) :new:
+* [如何评估一个github项目的价值](mds/techniques/how-to-evalute-github-project.md) :new:
 
 
 #### PR
