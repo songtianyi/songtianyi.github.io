@@ -30,6 +30,9 @@
 * [Github Go项目PR方式](mds/techniques/pr-steps-for-github-go-projects.md) :new:
 * [工具收藏](mds/techniques/collection-of-tools.md) :new:
 * [如何评估一个github项目的价值](mds/techniques/how-to-evalute-github-project.md) :new:
+* [Palo alto概览](mds/techniques/paloalto-overview.md) 🆕
+* [Hillstone概览](mds/techniques/hillstone-overview.md) 🆕
+* [delve-debugging](mds/techniques/delve-debugging.md) 🆕
 
 
 #### PR
