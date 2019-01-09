@@ -33,6 +33,7 @@
 * [Palo alto概览](mds/techniques/paloalto-overview.md) 🆕
 * [Hillstone概览](mds/techniques/hillstone-overview.md) 🆕
 * [delve-debugging](mds/techniques/delve-debugging.md) 🆕
+* [东冲浪报-48h](pages/life/dongchong-surf-subscribe.html) 🆕
 
 
 #### PR
