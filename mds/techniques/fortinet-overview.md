@@ -438,5 +438,11 @@ config firewall vip
 end
 ```
 
+##### Zone
+
+```shell
+show system zone
+```
+
 
 
