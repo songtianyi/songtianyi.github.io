@@ -28,6 +28,8 @@
 
 ##### 通用方式
 
+简洁方式的前提是你不会编辑1pb-club/golory仓库下的代码，因为它被fork代码覆盖了，当这个前提不成立的时候可以使用下面的方法。
+
 * fork golory到songtianyi的账户下
 
   登录账户，在1pb-club/golory项目主页点击**fork**按钮
