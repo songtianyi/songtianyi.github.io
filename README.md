@@ -1,7 +1,7 @@
 # songtianyi's blog
 [web pages](https://songtianyi.info) 
 
->  html版, 不包含最新的文章(使用:new:标记的为新文章), 但文章索引会更全一些。一般只会将质量稳定的文章转成html。对文章有意见或者疑问的欢迎提issue :)
+>  网页博客, 不包含最新的文章(使用:new:标记的为新文章), 但文章索引会更全一些。一般只会将质量稳定的文章放入网页。对文章有意见或者疑问的欢迎提issue :)
 
 #### Highlights :fire:
 * [虚拟桌面协议](https://songtianyi.github.io/pages/vdi/004-vdi.html)
@@ -20,29 +20,15 @@
 * [2.17成都出发](mds/life/cycling-tour-of-318.md) :new:
 * [二元决策图](mds/techniques/binary-decision-diagram.md) :new:
 * [基于Trie的防火墙策略搜索方法](mds/techniques/trie-based-firewall-policy-searching.md) :new:
-* [容器: 云计算的下一步](mds/techniques/cloud-next.md) :new:
-
-#### Sharing :on:
-
+* [go2设计草案介绍](mds/techniques/go2-design-draft-introduction.md)
 * [简易自动化测试](mds/techniques/simple-automated-testing.md) :new:
 * [关于Rust GC的争议](https://songtianyi.github.io/pages/programming/is-rust-garbage-collected.html)
 * [fortinet概览](mds/techniques/fortinet-overview.md) :new:
-* [go2设计草案介绍](mds/techniques/go2-design-draft-introduction.md) :new:
 * [Github Go项目PR方式](mds/techniques/pr-steps-for-github-go-projects.md) :new:
 * [工具收藏](mds/techniques/collection-of-tools.md) :new:
 * [如何评估一个github项目的价值](mds/techniques/how-to-evalute-github-project.md) :new:
 * [Palo alto概览](mds/techniques/paloalto-overview.md) 🆕
 * [Hillstone概览](mds/techniques/hillstone-overview.md) 🆕
-* [delve-debugging](mds/techniques/delve-debugging.md) 🆕
+* [delve-debugging](mds/techniques/delve-debugging.md)
 * [东冲浪报-48h](pages/life/dongchong-surf-subscribe.html) 🆕
-
-
-#### PR
-
-虽然这是个人博客，但还是非常欢迎PR:
-
-* 内容改进，欢迎对内容/格式等提出改进意见, 可直接修改原内容。
-* 投稿，如果你有不错的文章想在这里分享，可以提PR，只接收mardown格式, 格式参考:
-  * [example-contribute](README.md) :new:  :email:
-
-  归类在**Sharing**列表下，质量稳定之后转成html。
+* [容器: 云计算的下一步](mds/techniques/cloud-next.md) :new:
