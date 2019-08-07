@@ -47,6 +47,7 @@
   {
     "prerequisites": [],
     "_id": "5b4c4ff30207459803bfb3df",
+    "name": "auth"
     "api": "/api/auth",
     "method": "POST",
     "when": {
@@ -68,6 +69,7 @@
       "5b4c4ff30207459803bfb3df"
     ],
     "_id": "5b4c50210207459803bfb3e0",
+    "name": "user_list_test"
     "api": "/api/users",
     "method": "GET",
     "when": {
