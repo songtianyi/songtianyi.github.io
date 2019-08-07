@@ -20,6 +20,7 @@
 * [2.17成都出发](mds/life/cycling-tour-of-318.md) :new:
 * [二元决策图](mds/techniques/binary-decision-diagram.md) :new:
 * [基于Trie的防火墙策略搜索方法](mds/techniques/trie-based-firewall-policy-searching.md) :new:
+* [容器: 云计算的下一步](mds/techniques/cloud-next.md) :new:
 
 #### Sharing :on:
 

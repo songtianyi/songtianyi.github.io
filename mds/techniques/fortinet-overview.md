@@ -444,5 +444,20 @@ end
 show system zone
 ```
 
+```
+1. NAP device mode设置为zone，不可修改
+2. 如果地址匹配到zone，下发zone，如果未匹配到zone，下发port(interface)
+```
+
+
+
+
+
+##### VDOM
+
+
+
+
+
 
 

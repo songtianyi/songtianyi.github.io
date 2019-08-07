@@ -184,6 +184,13 @@ set zone l31 user-acl include-list addrg
 set zone l31 network layer3 loopback
 ```
 
+```
+1. NAP device mode设置为zone，不可修改
+2. 如果地址匹配到了zone，下发时使用zone，如果没有匹配到，使用any
+```
+
+
+
 ##### policy
 
 > In earlier releases of PAN-OS prior to 6.1 there is no classification called "RULE TYPE" in the security policy.This is new feature incorporated in the 6.1 version of PAN-OS
@@ -193,6 +200,18 @@ set zone l31 network layer3 loopback
 | **Universal** | By default, all the traffic destined between two zones, regardless of being from the same zone or different zone, this applies the rule to all matching interzone and intrazone traffic in the specified source and destination zones.For example, if creating a universal role with source zones A and B and destination zones A and B, the rule would apply to all traffic within zone A, all traffic within zone B, and all traffic from zone A to zone B and all traffic from zone B to zone A. |
 | **Intrazone** | A security policy allowing traffic between the same zone, this applies the rule to all matching traffic within the specified source zones (cannot specify a destination zone for intrazone rules).For example, if setting the source zone to A and B, the rule would apply to all traffic within zone A and all traffic within zone B, but not to traffic between zones A and B. |
 | **Interzone** | A security policy allowing traffic between two different zones. However, the traffic between the same zone will not be allowed when created with this type, this applies the rule to all matching traffic between the specified source and destination zones.For example, if setting the source zone to A, B, and C and the destination zone to A and B, the rule would apply to traffic from zone A to zone B, from zone B to zone A, from zone C to zone A, and from zone C to zone B, but not traffic within zones A, B, or C. |
+
+```
+Universal policies are just a way to carry through the pre-6.x behaviour (I think this was a 6.0 feature). It basically means the policy rule will match any flow which has any of the source zones AND any of the destination zones, regardless of whether the source and destination zones are the same, or not.
+
+Most policies are intended as interzone rules, eg. inside to outside. If you create a universal rule with src: inside and dst: outside, a universal rule and an interzone rule will behave in the same way.
+
+Alternatively, if you create a rule with src: inside, outside and dst: outside, each rule type would match differently. Intra would match outside>outside flows only; Inter would match inside>outside flows only; Universal would match both.
+
+I normally just use universal rules except in the very specific circumstances where it creates a more concise rulebase to use one of the other types.
+```
+
+
 
 ```
 show rulebase security
@@ -265,3 +284,16 @@ service is invalid
 [edit]
 ```
 
+##### User-ID
+
+
+
+##### 版本差异
+
+> 命令set service-group srvg members [ asdf service-http ]，相比pa6.0多了个关键字members
+
+> 从pa6.1起，Policy新增Rule Type字段，取值<universal | intrazone | interzone>
+
+> 命令set shared log-settings syslog asdf server asdf format IETF server 192.168.1.99 port 5514 transport TCP，相比pa6.0  syslog 下的server里多了 format和 transport字段，其取值如下
+>
+>  format ：<BSD | IETF>  ；transport ： <SSL | TCP | UDP>
