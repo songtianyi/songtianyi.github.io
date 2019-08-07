@@ -18,15 +18,15 @@
 
 最简单的计算方式是 star + fork + watch，然后计算和参考项目的差值并计算比例即可，但从某个角度来说，star,fork,watch是三个不同的度量，好比单位不同(你不能直接将单位为米的star和单位为厘米的fork相加)，此外，star,fork,watch 它们的在计算时的权重也应有所差异，watch的权重应该最高，其次是fork。我们可以估算一个权重`star=5*fork=10*watch`。我们可以把它们看成三维空间的x,y,z轴上的值，如果有多个参考对象，先使用欧式距离分别计算它们和当前项目的距离，设参考项目j的要素值为(star<sub>j</sub>, fork <sub>j</sub>, watch<sub>j</sub>), 则有:
 
-![image](http://owm6k6w0y.bkt.clouddn.com/weight-euclidean-dist-between-i-j.png)
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/weight-euclidean-dist-between-i-j.png)
 
 由于有多个参考项目，我们取d最小的j, 其到零点的距离为:
 
-![image](http://owm6k6w0y.bkt.clouddn.com/euclidean_dist_with_zero_right.png)
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/euclidean_dist_with_zero_right.png)
 
 同样地，计算出当前项目i到零点的距离d<sub>i</sub>, 那么项目i的打分为为:
 
-![image](http://owm6k6w0y.bkt.clouddn.com/di-multi-100-divide-dj.png)
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/di-multi-100-divide-dj.png)
 
 PS. 写着写着发现自己在扯淡，充个数吧。
 

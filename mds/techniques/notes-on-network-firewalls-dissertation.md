@@ -31,11 +31,11 @@ access-list 101 permit tcp 20.9.17.8  255.255.255.255 121.11.127.20 255.255.255.
 
 1. Representing numbers as bit-vectors, examples:
 
-   ![image](http://owm6k6w0y.bkt.clouddn.com/20.9.17.8-bool-expression.png)
+   ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/20.9.17.8-bool-expression.png)
 
    ​
 
-   ![image](http://owm6k6w0y.bkt.clouddn.com/128.0.0.0:8-bool-expression.png)
+   ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/128.0.0.0:8-bool-expression.png)
 
 
 

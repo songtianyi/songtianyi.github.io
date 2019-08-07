@@ -128,7 +128,7 @@ public class Address {
 
 `Address`模型既可以表示cisco的地址又可以表示juniper的地址。这样，我们的api接口关于地址的输入/输出都可以使用此模型。利用不同厂商设备配置之间的数据共性，建立一个统一的模型，这种数据建模方式我们称之为**数据抽象**。以此类推，对于服务对象/策略等配置，也采取同样的建模方式, 那么数据流可以简单表示为:
 
-<img src="http://owm6k6w0y.bkt.clouddn.com/unified-model-data-flow.jpg" style="width:400px;"/>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/unified-model-data-flow.jpg" style="width:400px;"/>
 
 为了方便描述，这里给它取个名字 **N2U**
 
@@ -144,7 +144,7 @@ object-group network netgrp
 
 而在juniper中，不管是地址组还是策略都是以名称来引用的，没有内建的形式。三，juniper的NAT规则和cisco的NAT规则，在定义方式和数据的结构两方面的差异都很大，cisco可以在地址对象里定义NAT规则，juniper不可以，cisco的一条NAT配置就是一条规则，而juniper则是一个set。渐渐地，你会发现设备之间的配置差异很大，好像除了五元组没有什么是相同的。另外，对于配置的约束条件，比如地址名称的格式，地址组的最大地址数等，不同设备之间也有差异。由于不同厂商设备配置携带的信息量是有差异的，因此几乎每个厂商都需要一套自己的模型，才能保证在建模的时候不丢失信息，那么这种形式的数据流(命名为**N2N**)可以简单表示为:
 
-<img src="http://owm6k6w0y.bkt.clouddn.com/vendor-model-data-flow.jpg" style="width:400px;"/>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/vendor-model-data-flow.jpg" style="width:400px;"/>
 
 在前言中我们提到过，不管后台的逻辑多复杂，我们暴露给用户的接口都应该尽量简单，所以上面的图中只有一个API。这样自然会有一个问题，比如api提供的策略搜索功能, 在上述数据流的情况下，需要编写两个函数来分别处理cisco和juniper的配置:
 
@@ -155,7 +155,7 @@ List<Policy> search(JuniperConfig) {}
 
 考虑到api层逻辑的代码编写量，我们最终还是定义了一套统一的模型来解决这个问题，数据流(取名为**N2N2U**)可以简单表示为:
 
-<img src="http://owm6k6w0y.bkt.clouddn.com/vendor-and-unified-model-data-flow.jpg" style="width:550px;"/>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/vendor-and-unified-model-data-flow.jpg" style="width:550px;"/>
 
 这样业务逻辑只需编写一次:
 
@@ -230,7 +230,7 @@ public class JuniperConfig implements ConfigInterface<JuniperConfig> {
 
 按照这种方式，修改后的数据流(取名为**N2NI**)简单表示为:
 
-<img src="http://owm6k6w0y.bkt.clouddn.com/vendor-model-and-interface.jpg" style="width:550px;"/>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/vendor-model-and-interface.jpg" style="width:550px;"/>
 
 通过图形化的对比我们发现，工作量的差异主要在**实现业务逻辑接口的工作量和模型抽象及转换的工作量**之间。业务逻辑需要实现N次，模型抽象需要N次，模型转换也需要N次，N为厂商的类型个数。
 

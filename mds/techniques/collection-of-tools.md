@@ -10,11 +10,11 @@
 
 * *[codecogs](https://www.codecogs.com/latex/eqneditor.php?lang=zh-cn)*: 在线数学公式编辑器，符号很全，可以下载为多种格式的。
 
-  ![image](http://owm6k6w0y.bkt.clouddn.com/codecosg-demo.jpg)
+  ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/codecosg-demo.jpg)
 
 * *[mathcha](https://www.mathcha.io/editor)*: 在线数学编辑器，虽然公式的编辑没有*codecogs*强大，但是要画图以及在图里展示公式就需要它了。
 
-  ![image](http://owm6k6w0y.bkt.clouddn.com/mathcha-demo.jpg)
+  ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/mathcha-demo.jpg)
 
 ##### Regex
 

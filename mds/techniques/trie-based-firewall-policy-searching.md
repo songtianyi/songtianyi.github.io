@@ -18,7 +18,7 @@ Trie(读作/ˈtriː/)又称前缀树或字典树，是一种有序树，一个�
 
 先创建一个空的根节点，枚举S，对于元素S<sub>i</sub>, 从根节点开始，找到和其第一个字符匹配的节点，如果没有则创建，再以匹配到的节点为始，找到和其第二个字符匹配的节点，如果没有则创建，依次类推，构建出整棵树。最终得到Trie结构:
 
-![image](http://owm6k6w0y.bkt.clouddn.com/trie-demo.png)
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/trie-demo.png)
 
 ### 防火墙策略搜索
 
@@ -138,15 +138,15 @@ R = (a, p, [sal, sar], [dal, dar], [spl, spr], [dpl, dpr])
 
 我们可以把一个六元组看成trie树例子中的字符串，依次处理六元组的每个元素。比如对于协议，我们的构造的结果如图所示:
 
-![image](http://owm6k6w0y.bkt.clouddn.com/any-tcp-udp-without-virtual-node.png)
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/any-tcp-udp-without-virtual-node.png)
 
 以此类推，构造出整棵树, 由于图片大小限制，只给出部分构造，并且省略了保存策略的叶子结点:
 
-![image](http://owm6k6w0y.bkt.clouddn.com/part-policy-trie.png)
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/part-policy-trie.png)
 
 在匹配策略时按照广度优先来搜索策略树即可，这里以策略(3232243969, 3232243969, 3232235809, 3232235809, 6, 0, 65535, 80, 80, 1)为例, 从策略树中找出包含该策略的策略，流程如下:
 
-![image](http://owm6k6w0y.bkt.clouddn.com/part-policy-trie-dfs.png)
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/part-policy-trie-dfs.png)
 
 从图中可以看出，`0`所在的分枝被立即排除在结果集之外，达到了优化比较次数的目的，但效果有限。
 
