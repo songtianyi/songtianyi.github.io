@@ -15,7 +15,6 @@
 * [NETCONF&YANG 介绍](https://songtianyi.github.io/pages/programming/netconf-and-yang-introduction.html)
 * [编程语言选型-你需要了解的二三事](mds/techniques/how-to-choose-your-programming-language.md) :new:
 * [1小时入门Rust](mds/techniques/getting-started-with-rust-in-1-hour.md) :new:
-* [Julia概览](mds/techniques/julia-overview.md) :new:
 * [数据抽象vs接口抽象/层级结构vs扁平结构](http://songtianyi.info/pages/programming/data-abstraction-vs-interface-abstraction-and-hierarchy-structure-vs-flat-structure.html)
 * [2.17成都出发](mds/life/cycling-tour-of-318.md) :new:
 * [二元决策图](mds/techniques/binary-decision-diagram.md) :new:
@@ -23,12 +22,8 @@
 * [go2设计草案介绍](mds/techniques/go2-design-draft-introduction.md)
 * [简易自动化测试](mds/techniques/simple-automated-testing.md) :new:
 * [关于Rust GC的争议](https://songtianyi.github.io/pages/programming/is-rust-garbage-collected.html)
-* [fortinet概览](mds/techniques/fortinet-overview.md) :new:
 * [Github Go项目PR方式](mds/techniques/pr-steps-for-github-go-projects.md) :new:
 * [工具收藏](mds/techniques/collection-of-tools.md) :new:
 * [如何评估一个github项目的价值](mds/techniques/how-to-evalute-github-project.md) :new:
-* [Palo alto概览](mds/techniques/paloalto-overview.md) 🆕
-* [Hillstone概览](mds/techniques/hillstone-overview.md) 🆕
-* [delve-debugging](mds/techniques/delve-debugging.md)
 * [东冲浪报-48h](pages/life/dongchong-surf-subscribe.html) 🆕
-* [容器: 云计算的下一步](mds/techniques/cloud-next.md) :new:
+* [游泳基础](mds/life/swimming-basics.md) 🆕
