@@ -1,6 +1,6 @@
 # 防火墙论文阅读笔记
 
-### Firewall Policy Diagram
+### 1. Firewall Policy Diagram
 
 [《Firewall Policy Diagram: Novel Data Structures and Algorithms for Modeling, Analysis, and Comprehension of Network Firewalls》](https://kuscholarworks.ku.edu/bitstream/handle/1808/11462/Clark_ku_0099D_12729_DATA_1.pdf;sequence=1)
 
@@ -19,7 +19,7 @@
 * Different rules for ingress or egress routing • Different rules for different router interfaces
 
 
-### Algorithms for Analysing Firewall and Router Access Lists
+### 2. Algorithms for Analysing Firewall and Router Access Lists
 
 [《Algorithms for Analysing Firewall and Router Access Lists》](https://www.researchgate.net/publication/2300371/download)
 
@@ -33,13 +33,13 @@ access-list 101 permit tcp 20.9.17.8  255.255.255.255 121.11.127.20 255.255.255.
 
    ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/20.9.17.8-bool-expression.png)
 
-   ​
+   
 
    ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/128.0.0.0:8-bool-expression.png)
 
 
 
-### A Firewall Application Using Binary Decision Diagram
+### 3. A Firewall Application Using Binary Decision Diagram
 
 [《A Firewall Application Using Binary Decision Diagram》](http://dpi-proceedings.com/index.php/dtcse/article/viewFile/8909/8478)
 
@@ -58,15 +58,15 @@ access-list 101 permit tcp 20.9.17.8  255.255.255.255 121.11.127.20 255.255.255.
 
 - get original redundancy with the mapping information
 
-  ​
+  
 
-### Complete Redundancy Detection in Firewalls
+### 4. Complete Redundancy Detection in Firewalls
 
 [《Complete Redundancy Detection in Firewalls》](https://web.cse.msu.edu/~alexliu/publications/Redundancy/redundancy.pdf)
 
 ​		
 
-### THE GEOMETRIC EFFICIENT MATCHING ALGORITHM FOR FIREWALLS EXTENDED ABSTRACT
+### 5. THE GEOMETRIC EFFICIENT MATCHING ALGORITHM FOR FIREWALLS EXTENDED ABSTRACT
 
 [《THE GEOMETRIC EFFICIENT MATCHING ALGORITHM FOR FIREWALLS EXTENDED ABSTRACT》](https://www.eng.tau.ac.il/~yash/ieeei04-gem.pdf)		
 
@@ -77,24 +77,41 @@ Every rule consists of set of ranges [l<sub>i</sub> , r<sub>i</sub> ] for i = 1,
 
 
 
-### Efficient Techniques for Fast Packet Classification
+### 6. Efficient Techniques for Fast Packet Classification
 
 [《Efficient Techniques for Fast Packet Classification》](https://pdfs.semanticscholar.org/6e41/003adff1179f3bea0765743877a699b7f49e.pdf)
 
-### Network Firewall Policy Tries
+### 7. Network Firewall Policy Tries
 
 [《Network Firewall Policy Tries》](https://pdfs.semanticscholar.org/bca2/0ba743daf0b9a786fe3d5faa90d53a9a7344.pdf)
 
 
 
-### COMPARISON OF ALGORITHMS FOR DETECTING FIREWALL POLICY ANOMALIES 
+### 8. COMPARISON OF ALGORITHMS FOR DETECTING FIREWALL POLICY ANOMALIES 
 
 [《COMPARISON OF ALGORITHMS FOR DETECTING FIREWALL POLICY ANOMALIES》](http://www.iraj.in/journal/journal_file/journal_pdf/3-218-145413332618-22.pdf)
 
+### 9. Study of Efficient Firewall Packet Filtering and Matching Algorithms
+[《Study of Efficient Firewall Packet Filtering and Matching Algorithms》](https://www.ijraset.com/fileserve.php?FID=1384)
 
+### 10. Rule Order Optimization For Packet Filtering Firewall
+[《Rule Order Optimization For Packet Filtering Firewall》](https://www.ijser.org/researchpaper/Rule-order-optimization-for-packet-filtering-firewall.pdf)
+
+### 11. Detection and Resolution of Anomalies in Firewall Policy Rules
+
+https://personal.utdallas.edu/~bxt043000/Publications/Conference-Papers/DAS/C70_Detection_and_Resolution_of_Anomalies_in_Firewall_Policy_Rules.pdf
+
+主要贡献是策略关系的分类
+
+### 12. Detecting and Resolving Firewall Policy Anomalies
+
+https://people.cs.clemson.edu/~hongxih/papers/TDSC2012-3.pdf
+
+### 13. Methods for Firewall Policy Detection and Prevention
+
+http://ijsetr.org/wp-content/uploads/2014/07/IJSETR-VOL-3-ISSUE-7-1934-1939.pdf
 
 ### 参考资料​​​
 
 
-​		
 ​	
