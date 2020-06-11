@@ -62,7 +62,7 @@ x为择偶对象，x = {age, character, shape},  我们将其换成一般性的�
 
   ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/remove-all-redundant-test-single.png)
 
-经过这三个无损地(不影响结果)的消除规则优化的BDD称为RBDD(Reduced Binary Decision Diagram), 它是一个有向无环图(DAG). 我们以图的形式讲述了从布尔函数到BDT再到BDD的过程，但是代码却不能这么写，前边提到了BDT会占用较大的空间，通用的做法是利用香农展开(也叫香农分解)来构造布尔函数的RBDD.
+经过这三个无损(不影响结果)的消除规则优化的BDD称为RBDD(Reduced Binary Decision Diagram), 它是一个有向无环图(DAG). 我们以图的形式讲述了从布尔函数到BDT再到BDD的过程，但是代码却不能这么写，前边提到了BDT会占用较大的空间，通用的做法是利用香农展开(也叫香农分解)来构造布尔函数的RBDD.
 
 ##### 香农分解
 
