@@ -1,6 +1,6 @@
 # 解码TLS
 
-作者: [songtianyi](https://github.com/songtianyi) 2020-06-11
+作者: [songtianyi](http://songtianyi.info) 2020-06-11
 
 > 本文前三小节会介绍TLS相关的基础知识，只对解密部分感兴趣的可直接跳到TLS握手这一节
 
