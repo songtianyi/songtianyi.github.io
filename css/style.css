@@ -63,7 +63,7 @@ img {
     justify-content: space-between;
     align-items: center;
     height: 100px;
-    font-size: 24px;
+    font-size: 25px;
     color: #333333;
     letter-spacing: 0.67px;
     text-align: center;
@@ -95,7 +95,7 @@ img {
 }
 .nav > ul > li a {
     font-family: PingFangSC-Medium;
-    font-size: 14px;
+    font-size: 15px;
     color: #333333;
     letter-spacing: 0.39px;
     text-align: center;
@@ -120,7 +120,7 @@ img {
 }
 .nav > ul > li ul a {
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 15px;
     color: #333333;
     letter-spacing: 0.39px;
     line-height: 20px;
@@ -151,7 +151,7 @@ img {
 #wrapper .QA {
     text-align: center;
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 15px;
     color: #666666;
     letter-spacing: 0.39px;
 }
@@ -174,7 +174,7 @@ img {
 }
 .link a {
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 15px;
     color: #666666;
     letter-spacing: 0.39px;
     text-decoration: none;
@@ -236,7 +236,7 @@ img {
 }
 .plant h2 {
     font-family: PingFangSC-Medium;
-    font-size: 24px;
+    font-size: 25px;
     color: #444444;
     letter-spacing: 0.67px;
     text-align: center;
@@ -244,7 +244,7 @@ img {
 }
 .plant h4 {
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 15px;
     color: #333333;
     letter-spacing: 0.39px;
     text-align: center;
@@ -252,7 +252,7 @@ img {
 }
 .plant p {
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 15px;
     color: #CCCCCC;
     letter-spacing: 0.39px;
     text-align: center;
@@ -273,14 +273,14 @@ img {
 }
 .plant-body ul li a {
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 15px;
     color: #666666;
     letter-spacing: 0.39px;
     text-decoration: none;
 }
 .plant-body ul li a span {
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 1px;
     color: #003A00;
     letter-spacing: 0.39px;
     line-height: 20px;
