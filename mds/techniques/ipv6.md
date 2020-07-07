@@ -125,7 +125,7 @@ ipv4除了静态路由，还可以通过ICMP路由器请求报文和ICMP路由�
 
 ##### NAT
 
-[为什么ipv6保留了NAT？](https://help.fortinet.com/fos50hlp/54/Content/FortiOS/fortigate-firewall-52/Concepts/NAT 66.htm)
+[为什么ipv6保留了NAT？](https://help.fortinet.com/fos50hlp/54/Content/FortiOS/fortigate-firewall-52/Concepts/NAT%2066.htm)
 
 NAT-PT（Network Address Translation - Protocol Translation）技术，用于v4和v6的地址映射, 以下是静态NAT-PT示例
 ```
