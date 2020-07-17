@@ -1,6 +1,6 @@
 # songtianyi's blog
 
-[![songtianyi's github stats](https://github-readme-stats.vercel.app/api?username=songtianyi)](https://github.com/anuraghazra/github-readme-stats)
+[![songtianyi's github stats](https://github-readme-stats.vercel.app/api?username=songtianyi&show_icons=true)](https://github.com/anuraghazra/github-readme-stats)
 
 [web pages](https://songtianyi.info) 
 
