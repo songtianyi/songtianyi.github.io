@@ -2,7 +2,7 @@
 
 [![songtianyi's github stats](https://github-readme-stats.vercel.app/api?username=songtianyi&show_icons=true)](https://github.com/anuraghazra/github-readme-stats)
 
-[web pages](https://songtianyi.info) 
+[博客地址](https://songtianyi.info) 
 
 >  网页博客, 不包含最新的文章(使用:new:标记的为新文章), 但文章索引会更全一些。一般只会将质量稳定的文章放入网页。对文章有意见或者疑问的欢迎提issue :)
 
