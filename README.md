@@ -18,6 +18,7 @@
 * [NETCONF&YANG 介绍](https://songtianyi.github.io/pages/programming/netconf-and-yang-introduction.html)
 * [编程语言选型-你需要了解的二三事](mds/techniques/how-to-choose-your-programming-language.md) :new:
 * [1小时入门Rust](mds/techniques/getting-started-with-rust-in-1-hour.md) :new:
+* [1小时入门Rust](mds/techniques/julia-overview.md) :new:
 * [数据抽象vs接口抽象/层级结构vs扁平结构](http://songtianyi.info/pages/programming/data-abstraction-vs-interface-abstraction-and-hierarchy-structure-vs-flat-structure.html)
 * [2.17成都出发](mds/life/cycling-tour-of-318.md) :new:
 * [二元决策图](mds/techniques/binary-decision-diagram.md) :new:
