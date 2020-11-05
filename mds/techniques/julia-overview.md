@@ -277,7 +277,7 @@ primitive type String{T} 32 end
 在Julia里函数是一等公民(first-class objects), 你能够将函数赋值给变量，也可以作为参数和返回值。
 
 ```
-ulia> f = x -> x*x + 2*x - 1
+julia> f = x -> x*x + 2*x - 1
 (::#13) (generic function with 1 method)
 
 julia> f(2)
