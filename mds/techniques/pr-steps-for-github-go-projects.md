@@ -47,7 +47,7 @@
   git remote add upstream https://github.com/1pb-club/golory.git
   ```
 
-* 本地songtianyi/golory(即fork)和远程1pb-club/golory的代码同步方式, master可以替换成其他分支
+* 本地songtianyi/golory(即fork)和远程1pb-club/golory的代码同步方式 (master可以替换成其他分支)
 
   ```bash
   cd $YOUR_FORKED_PATH_PREFIX/songtianyi/golory
