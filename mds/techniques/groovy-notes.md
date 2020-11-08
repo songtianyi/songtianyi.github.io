@@ -399,5 +399,3 @@ println john.listen()
 
 在这个例子中，Friend的方法被添加到了Person中. 通过向注解提供由多个类名组成的列表，可以混入多个类，就像这样：@Mixin([Friend, Teacher])。
 
-#### MOP方法合成
-
