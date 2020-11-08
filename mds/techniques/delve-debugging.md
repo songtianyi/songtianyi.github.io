@@ -1,5 +1,7 @@
 # 用delve调试go程序
 
+作者: [songtianyi](http://songtianyi.info) create@2019-06-08
+
 #### debug daemon process on macOS
 
 ```
