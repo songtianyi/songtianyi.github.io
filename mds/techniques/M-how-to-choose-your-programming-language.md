@@ -1,6 +1,6 @@
 # 编程语言选型-你需要了解的二三事
 
-作者: [songtianyi](https://github.com/songtianyi/songtianyi.github.io), 2018-07-09
+作者: [songtianyi](http://songtianyi.info), 2018-07-09
 
 ### 前言
 
