@@ -137,7 +137,7 @@ export PATH=$PATH:$JULIA
 
 julia的类型系统定义了一个类型树(type graph)，根类型是`Any`, 是所有类型的super type，叶子类型是`Union{}`，是所有类型的subtype，这里只列出数值类型部分:
 
-![type hierarchy for julia numbers](https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Type-hierarchy-for-julia-numbers.png/800px-Type-hierarchy-for-julia-numbers.png)
+![type hierarchy for julia numbers](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/800px-Type-hierarchy-for-julia-numbers.png)
 
 在这个类型树里 Float64, Int64等都是Number类型的子类，以此为例，我们来看下julia的多态的书写形式，很简单:
 
