@@ -2,9 +2,9 @@
 
 [![songtianyi's github stats](https://github-readme-stats.vercel.app/api?username=songtianyi&show_icons=true)](https://github.com/anuraghazra/github-readme-stats)
 
-[博客地址](https://songtianyi.info) 
+[博客地址](http://songtianyi.info) 
 
->  [网页博客](songtianyi.info) 不包含最新的文章(使用:new:标记或文件名为`M-`开头的为新文章), 但文章索引会更全一些。一般只会将质量稳定的文章放入网页。对文章有意见或者疑问的欢迎提issue :)
+>  [网页博客](http://songtianyi.info) 不包含最新的文章(使用:new:标记或文件名为`M-`开头的为新文章), 但文章索引会更全一些。一般只会将质量稳定的文章放入网页。对文章有意见或者疑问的欢迎提issue :)
 
 #### Highlights :fire:
 * [虚拟桌面协议](https://songtianyi.github.io/pages/vdi/004-vdi.html)
@@ -33,3 +33,4 @@
 * [工具收藏](mds/techniques/M-collection-of-tools.md) :new:
 * [如何评估一个github项目的价值](mds/techniques/M-how-to-evalute-github-project.md) :new:
 * [游泳基础](mds/life/swimming-basics.md) 🆕
+* [编程核心概念](mds/techniques/M-core-concepts-in-programming.md) :new:
