@@ -1,6 +1,6 @@
 # 基于Trie的防火墙策略搜索方法
 
-作者: [songtianyi](songtianyi.info)
+作者: [songtianyi](http://www.songtianyi.info)
 
 ### 前言
 
