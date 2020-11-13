@@ -1,6 +1,6 @@
 # IPv6
 
-作者: [songtianyi](www.songtianyi.info) 2020-06-17
+作者: [songtianyi](http://www.songtianyi.info) 2020-06-17
 
 > 图片来自网络
 
