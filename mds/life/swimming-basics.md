@@ -1,6 +1,6 @@
 ## 游泳基础
 
-作者: [songtianyi](songtianyi.info) 2019-09-10
+作者: [songtianyi](http://www.songtianyi.info) 2019-09-10
 
 ##### 免责声明
 
