@@ -45,7 +45,7 @@ Hash functions are used alongside encryption for their integrity capabilities.
 void FPC::__32To16(const float x, unsigned short &res)
 {
 
-	//little endian
+    //little endian
     assert(GABS(x)  < 1.0f);
     int  nTmp = static_cast<int>(x*32768);
     nTmp += 32768;
