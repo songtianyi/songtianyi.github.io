@@ -1,6 +1,6 @@
 # 1小时入门Rust
 
-作者: [songtianyi](https://github.com/songtianyi) 2018-07-29
+作者: [songtianyi](https://github.com/songtianyi) create@2018-07-29, update@2020-11-22
 
 ### 前言
 
@@ -37,7 +37,7 @@ linux下可以直接执行这个命令来下载安装脚本并执行它。
 curl https://sh.rustup.rs -sSf | sh
 ```
 
-由于墙的原因，失败的概率会很高，在[这个页面](https://www.rust-lang.org/zh-CN/other-installers.html)可以找到对应个系统的离线安装包，比如[mac的]([.pkg](https://static.rust-lang.org/dist/rust-beta-x86_64-apple-darwin.pkg))
+由于墙的原因，失败的概率会很高，在[这个页面](https://forge.rust-lang.org/infra/other-installation-methods.html#standalone)可以找到对应个系统的离线安装包，比如[mac的]([.pkg](https://static.rust-lang.org/dist/rust-beta-x86_64-apple-darwin.pkg))
 
 验证安装结果:
 
