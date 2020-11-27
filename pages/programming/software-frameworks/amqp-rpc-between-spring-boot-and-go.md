@@ -18,7 +18,7 @@ client端用spring boot实现
 
 创建一个配置类
 
-``` 
+``` java
 
 package common.rpc.amqp;
 
@@ -80,7 +80,7 @@ public class AmqpConfig {
 
 #### 消息发送的部分代码
 
-``` 
+``` Java
 
 // 创建一个request对象
 Command command = new Command("set system host-name 666666");
@@ -98,7 +98,7 @@ server端用go实现
 
 #### 实现consumer
 
-``` 
+``` golang
 
 package consumer
 
