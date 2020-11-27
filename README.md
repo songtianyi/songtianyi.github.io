@@ -17,20 +17,20 @@
 * [越南骑行——总结](http://songtianyi.github.io/pages/life/vietnam-summary.html)
 * [NETCONF&YANG 介绍](http://songtianyi.github.io/pages/programming/networks/netconf-and-yang-introduction.html)
 * [编程语言选型-你需要了解的二三事](pages/programming/programming-languages/M-how-to-choose-your-programming-language.md) :new:
-* [1小时入门Rust](http://songtianyi.info/pages/programmig/getting-started-with-rust-in-1-hour.html)
-* [Julia概览](pages/programming/programming-languages/M-julia-overview.md) :new:
+* [1小时入门Rust](http://songtianyi.info/pages/programmig/programming-languages/getting-started-with-rust-in-1-hour.html)
+* [Julia概览](http://songtianyi.info/pages/programming/programming-languages/M-julia-overview.md) :new:
 * [数据抽象vs接口抽象/层级结构vs扁平结构](http://songtianyi.info/pages/programming/software-engineering/data-abstraction-vs-interface-abstraction-and-hierarchy-structure-vs-flat-structure.html)
-* [2.17成都出发](pages/life/M-cycling-tour-of-318.md) :new:
-* [二元决策图](pages/programming/data-structure-and-algorithms/M-binary-decision-diagram.md) :new:
+* [2.17成都出发](http://songtianyi.info/pages/life/M-cycling-tour-of-318.md) :new:
+* [二元决策图](http://songtianyi.info/pages/programming/data-structure-and-algorithms/M-binary-decision-diagram.md) :new:
 * [基于Trie的防火墙策略搜索方法](pages/programming/networks/M-trie-based-firewall-policy-searching.md) :new:
-* [go2设计草案介绍](http://songtianyi.info/pages/programming/programing-languages/go2-design-draft-introduction.html)
+* [go2设计草案介绍](http://songtianyi.info/pages/programming/programming-languages/go2-design-draft-introduction.html)
 * [简易自动化测试](pages/programming/software-development-and-quality-assurance/M-simple-automated-testing.md) :new:
-* [解码TLS](secure/M-decrypt-tls.md) :new:
+* [解码TLS](http://songtianyi.info/pages/secure/M-decrypt-tls.md) :new:
 * [网络数据智能平台-技术要点](pages/programming/software-architecture-and-solutions/M-network-data-intelligence-techniques-review.md) :new:
-* [IPv6](pager/programming/networks/M-ipv6.md) :new:
+* [IPv6](http://songtianyi.info/pages/programming/networks/M-ipv6.md) :new:
 * [关于Rust GC的争议](http://songtianyi.github.io/pages/programming/programming-languages/is-rust-garbage-collected.html)
 * [Github Go项目PR方式](http://songtianyi.info/pages/programming/software-development-and-quality-assurance/pr-steps-for-github-go-projects.html)
 * [工具收藏](pages/programming/uncategorized/M-collection-of-tools.md) :new:
-* [如何评估一个github项目的价值](pages/programming/data-structure-and-algorithms/M-how-to-evalute-github-project.md) :new:
+* [如何评估一个github项目的价值](pages/programming/data-structure-and-algorithms/M-how-to-evaluate-github-project.md) :new:
 * [游泳基础](pages/life/swimming-basics.md) 🆕
 * [编程核心概念](pages/programming/software-engineering/M-core-concepts-in-programming.md) :new:
