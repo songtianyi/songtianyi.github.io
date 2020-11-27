@@ -1,28 +1,35 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <header style="padding-bottom:50px">
-<ul>
-	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
-</ul>
-<link href="https://cdn.bootcss.com/highlight.js/9.11.0/styles/default.min.css" rel="stylesheet">
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+	<ul>
+		<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+	</ul>
+	<link href="https://cdn.bootcss.com/highlight.js/9.11.0/styles/default.min.css" rel="stylesheet">
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<script>
+		hljs.initHighlightingOnLoad();
+	</script>
 </header>
 
 <style type="text/css">
-	div{
-		font-size:11pt;
+	div {
+		font-size: 11pt;
 	}
-	p{
-		text-indent:2em;/*段落缩进*/
-		line-height:140%;/*行间距*/
+
+	p {
+		text-indent: 2em;
+		/*段落缩进*/
+		line-height: 140%;
+		/*行间距*/
 	}
+
 	blockquote {
-		background:#f9f9f9;
-		border-left:10px solid darkblue;
+		background: #f9f9f9;
+		border-left: 10px solid darkblue;
 	}
+
 	blockquote p {
-		display:inline;
+		display: inline;
 	}
 </style>
 
@@ -57,20 +64,21 @@
 
 	<!--第一段，介绍文章的内容-->
 	<p>
-	spring boot集成websocket. 由于现实当中网络环境复杂，b/s之间的层层代理某些可能不支持websocket，所以使用兼容性强的sockjs，当遇到不支持的情况时，降级为streaming，long polling等模式。
+		spring boot集成websocket. 由于现实当中网络环境复杂，b/s之间的层层代理某些可能不支持websocket，所以使用兼容性强的sockjs，当遇到不支持的情况时，降级为streaming，long
+		polling等模式。
 	</p>
 
 	<h2 id="">server端</h2>
 	<p>
-	老套路，在spring boot工程里引入对应的包, 添加配置代码.
+		老套路，在spring boot工程里引入对应的包, 添加配置代码.
 	</p>
 	<pre><code class="Markdown">
 // websocket
 compile('org.springframework.boot:spring-boot-starter-websocket')
 	</code></pre>
-	
+
 	<div>
-	<pre><code class="Java">
+		<pre><code class="Java">
 package net.skycloud.nap.common.websocket;
 
 import org.springframework.context.annotation.Configuration;
@@ -102,10 +110,10 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	<h2 id="">浏览器端</h2>
 	<p>
-	测试页面很简单，先引入sockjs和stomp, stomp是对协议封装后的高级API. 之后订阅公共频道和自己的频道即可.
+		测试页面很简单，先引入sockjs和stomp, stomp是对协议封装后的高级API. 之后订阅公共频道和自己的频道即可.
 	</p>
 	<div>
-	<pre><code class="html">
+		<pre><code class="html">
 &lt;!DOCTYPE HTML&gt;
 &lt;html&gt;
    &lt;head&gt;
@@ -138,4 +146,3 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	</div>
 
 </div>
-

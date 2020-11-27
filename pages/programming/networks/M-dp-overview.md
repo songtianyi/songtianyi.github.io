@@ -6,7 +6,8 @@
 
 ### 综合
 
-````
+``` 
+
 show version
 通过radius来控制账户权限
 HA: 静默单活，配同个ip，不做vip
@@ -14,13 +15,15 @@ HA: 静默单活，配同个ip，不做vip
 
 ### Full-configuration
 
-```
+``` 
+
 show running-config
 ```
 
 ### Output settings
 
-```
+``` 
+
 terminal line 0
 ```
 
@@ -28,13 +31,14 @@ terminal line 0
 
 ###### GET
 
-```
+``` 
 
 ```
 
 ###### SET
 
-```
+``` 
+
 hostname xxx
 no hostname
 ```
@@ -43,13 +47,14 @@ no hostname
 
 ###### GET
 
-```
+``` 
+
 show interface
 ```
 
 ###### SET
 
-```
+``` 
 
 ```
 
@@ -57,13 +62,14 @@ show interface
 
 ###### GET
 
-```
+``` 
+
 show ip route static
 ```
 
 ###### SET
 
-```
+``` 
 
 ```
 
@@ -71,17 +77,17 @@ show ip route static
 
 ###### GET
 
-```
+``` 
 
 ```
 
 ###### SET
 
-```
+``` 
 
 ```
 
-```
+``` 
 
 ```
 
@@ -89,13 +95,14 @@ show ip route static
 
 ###### GET
 
-```
+``` 
+
 show address-object *
 ```
 
 ###### SET
 
-```
+``` 
 
 ```
 
@@ -103,17 +110,18 @@ show address-object *
 
 ###### GET
 
-```
+``` 
+
 show address-group *
 ```
 
 ###### SET
 
-```
+``` 
 
 ```
 
-```
+``` 
 
 ```
 
@@ -121,14 +129,15 @@ show address-group *
 
  ###### GET
 
-```
+``` 
+
 show predefined-service *
 show service-object *
 ```
 
 ###### SET
 
-```
+``` 
 
 ```
 
@@ -136,13 +145,14 @@ show service-object *
 
 ###### GET
 
-```
+``` 
+
 show service-group *
 ```
 
 ###### SET
 
-```
+``` 
 
 ```
 
@@ -150,7 +160,8 @@ show service-group *
 
 ###### GET
 
-```
+``` 
+
 show running-config | inc security-policy
 show security-policy *
 show security-policy id $id
@@ -159,7 +170,7 @@ show security-policy name $name
 
 ###### SET
 
-```
+``` 
 
 ```
 
@@ -167,33 +178,33 @@ show security-policy name $name
 
 ###### GET
 
-```
+``` 
+
 show time-object *
 ```
 
-```
+``` 
 
 ```
-
-
 
 ###### SET
 
-```
+``` 
 
 ```
 
-```
+``` 
 
 ```
 
-```
+``` 
 
 ```
 
 ###### Weekday
 
-```
+``` 
+
 sunday       Sunday.
 monday       Monday.
 tuesday      Tuesday.
@@ -210,13 +221,14 @@ none         None.
 
 ###### GET
 
-```
+``` 
+
 show nat source-nat *
 ```
 
 ###### SET
 
-```
+``` 
 
 ```
 
@@ -224,13 +236,14 @@ show nat source-nat *
 
 ###### GET
 
-```
+``` 
+
 show nat destination-nat *
 ```
 
 ###### SET
 
-```
+``` 
 
 ```
 
@@ -238,30 +251,35 @@ show nat destination-nat *
 
 ###### GET
 
-```
+``` 
+
 show nat static *
 ```
 
 ###### SET
 
-````
+`
+
+``` 
 
 ````
 
 ##### Zone
 
-```shell
+``` shell
 show security-zone *
 ```
 
-```
+``` 
+
 1. NAP device mode设置为zone，不可修改
 2. 如果地址匹配到zone，下发zone，如果未匹配到zone，下发port(interface)
+
 ```
 
 ### Errors
 
-```
+``` 
+
 % Unknown command.
 ```
-
