@@ -20,7 +20,7 @@ int main() {
     return 0;
 }
 ```
-但是，老师或者书里应该会告诉我们，尽量不要使用宏。复杂的宏定义会降低代码的可读性，而且容易写出意想不到的 bug，举个例子：
+但是老师或者书本里应该会告诉我们，尽量不要使用宏。复杂的宏定义会降低代码的可读性，而且容易写出意想不到的 bug，举个例子：
 ```c
 #define TEN 5 + 5
 
@@ -45,6 +45,26 @@ int add(int a, int b) {
 ```
 
 ## Rust macro
-Rust 宏相对 C 来说要复杂很多。
+Rust 宏相对 C 来说要复杂很多。我们最先接触到的宏应该是 `println!`. 它的定义是这样的:
+``` rust
+macro_rules! println {
+    () => { ... };
+    ($($arg:tt)*) => { ... };
+}
+```
+很难看懂对不对？
+`macro_rules!` 相当于 `#define`, `println` 是宏的名称，用来做标记并最终被编译器展开。括号里的内容是 `println` 宏具体的定义。
+
+`()` 在我们忘记写函数的返回语句的时候会看到的提示。
+```
+ --> println.rs:3:5
+  |
+2 | fn return() -> i32 {
+  |                --- expected `i32` because of return type
+3 |     ()
+  |     ^^ expected `i32`, found `()`
+
+```
+
 
 
