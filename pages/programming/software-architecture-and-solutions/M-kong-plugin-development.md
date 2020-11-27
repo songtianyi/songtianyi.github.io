@@ -12,19 +12,19 @@ https://docs.konghq.com/0.14.x/plugin-development/
 
 特别注意文档的版本，需要和你所使用的kong的版本相匹配，否则写出来的代码不兼容。
 
-```bash
+``` bash
 kong version
 ```
 
 另外，可以参考kong内置的插件代码, 足够我们进行copy&paste
 
-```bash
+``` bash
 find . -name handler.lua
 ```
 
 通过grep发现，内置插件中并没有http请求的代码，补充如下:
 
-```lua
+``` lua
   token, err = retrieve_token(conf)
   local resp = {}
   r, c, h = http.request {
@@ -37,6 +37,7 @@ find . -name handler.lua
   }
   kong.log.inspect(r, c, h, resp)
 ```
+
 注: 如果使用docker/k8s部署的kong，请先登录容器然后再执行上述命令
 
 ### 打包代码
@@ -45,7 +46,7 @@ find . -name handler.lua
 
 打包前需要编写一个配置文件，参考如下
 
-```lua
+``` lua
 package = "kong-plugin-rbac"
 version = "1.0.0-1"
 -- The version '1.0.0' is the source code version, the trailing '1' is the version of this rockspec.
@@ -84,35 +85,48 @@ build = {
 
 打包命令
 
-```bash
+``` bash
 luarocks pack kong-plugin-rbac 1.0.0-1
 ```
 
 上传到服务器，并安装，安装命令如下:
 
-```
+``` 
 luarocks install kong-plugin-rbac-1.0.0-1.all.rock
 ```
+
 ### docker环境下kong插件部署
 
 在docker环境下kong插件的部署要较麻烦一些，需要做路径映射，将本地安装的kong插件映射到容器内，同时修改lua包的搜索路径。kong的配置文件里的参数都是可以通过环境变量控制的，变量名的规律为 xx_xx, KONG_XX_XX, 比如 lua_package_path参数对应的环境变量名为 KONG_LUA_PACKAGE_PATH.
 
-```yaml
+``` yaml
     volumeMounts:
+
         - name: tz
+
           mountPath: /etc/localtime
+
         - name: rbac
+
           mountPath: /kong/plugins/rbac/
+
         - name: logs
+
           mountPath: /usr/local/kong/logs/
       volumes:
+
       - name: tz
+
         hostPath:
           path: /etc/localtime
+
       - name: rbac
+
         hostPath:
           path: /usr/local/share/lua/5.1/kong/plugins/rbac/
+
       - name : logs
+
         hostPath:
           path: /srv/nap/kong/logs/
 ```
@@ -121,12 +135,18 @@ luarocks install kong-plugin-rbac-1.0.0-1.all.rock
 
 先使用luarocks将代码打包, 打包需要一个配置文件，参考如下
 
-```yaml
+``` yaml
+
         - name: KONG_LUA_PACKAGE_PATH
+
           value: /usr/lib64/lua/5.1/?.lua;/usr/lib64/lua/5.1/?/init.lua;/usr/share/lua/5.1/?.lua;/usr/share/lua/5.1/?/init.lua;./?.lua;./?/init.lua;/usr/local/share/lua/5.1/kong/plugins/rbac/?.lua;
+
         - name: KONG_LOG_LEVEL
+
           value: debug
+
         - name: KONG_PLUGINS
+
           value: rbac,jwt-keycloak,oidc,acl,aws-lambda,azure-functions,basic-auth,bot-detection,correlation-id,cors,datadog,file-log,hmac-auth,http-log,ip-restriction,jwt,key-auth,ldap-auth,loggly,oauth2,post-function,pre-function,prometheus,rate-limiting,request-size-limiting,request-termination,request-transformer,statsd,syslog,tcp-log,udp-log,zipkin
 ```
 
@@ -134,7 +154,7 @@ luarocks install kong-plugin-rbac-1.0.0-1.all.rock
 
 kong的多个插件是按照优先级依次执行的，要注意这点，方便按照预期的方式调试/验证代码.
 
-```lua
+``` lua
 local RBACHandler =  BasePlugin:extend()
 
 local priority_env_var = "KONG_RBAC_PRIORITY"

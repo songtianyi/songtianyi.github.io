@@ -1,15 +1,25 @@
 # amqp rpc模式实现
+
 ## 安装rabiitmq
+
 #### mac
-```
+
+``` 
+
 brew install rabbitmq
 rabbitmq-server -detach
 ```
+
 ## client
+
 client端用spring boot实现
+
 #### amqp config
+
 创建一个配置类
-```
+
+``` java
+
 package common.rpc.amqp;
 
 import org.springframework.amqp.core.Queue;
@@ -67,8 +77,11 @@ public class AmqpConfig {
 }
 
 ```
+
 #### 消息发送的部分代码
-```
+
+``` Java
+
 // 创建一个request对象
 Command command = new Command("set system host-name 666666");
 // 将request发送到rpc交换机，路由键为ssh-request，最终会被路由到requests队列
@@ -78,10 +91,15 @@ Object rpcResponse = rabbitTemplate.convertSendAndReceive("rpc", "ssh-request", 
             return message;
         });
 ```
+
 ## server
+
 server端用go实现
+
 #### 实现consumer
-```
+
+``` golang
+
 package consumer
 
 import (
@@ -223,4 +241,5 @@ func (s *Consumer) handle(deliveries <-chan amqp.Delivery) {
 	logs.Info("handle: deliveries channel closed")
 }
 ```
+
 写一个main程序，new一个consumer，监听rpc交换机的request队列，当收到消息时，往rpc交换机的response队列回json消息，路由键为ssh-response。

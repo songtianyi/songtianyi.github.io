@@ -185,7 +185,7 @@ config = tls.Config{
 
 ### 参考资料
 
-* [1] wireshark TLS 〔DB/OL〕https://wiki.wireshark.org/TLS
-* [2] RSA加密算法的探究与实现 〔DB/OL〕http://songtianyi.info/pages/secure/001-secure.html
-* [3] What Is an X.509 Certificate? 〔DB/OL〕https://www.ssl.com/faqs/what-is-an-x-509-certificate/
-* [4] tls-example 〔DB/OL〕https://github.com/songtianyi/tls-example
+* [1] wireshark TLS 〔DB/OL〕[https://wiki.wireshark.org/TLS](https://wiki.wireshark.org/TLS)
+* [2] RSA加密算法的探究与实现 〔DB/OL〕[http://songtianyi.info/pages/secure/001-secure.html](http://songtianyi.info/pages/secure/001-secure.html)
+* [3] What Is an X.509 Certificate? 〔DB/OL〕[https://www.ssl.com/faqs/what-is-an-x-509-certificate/](https://www.ssl.com/faqs/what-is-an-x-509-certificate/)
+* [4] tls-example 〔DB/OL〕[https://github.com/songtianyi/tls-example](https://github.com/songtianyi/tls-example)
