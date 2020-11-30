@@ -19,7 +19,7 @@
 * [编程语言选型-你需要了解的二三事](pages/programming/programming-languages/M-how-to-choose-your-programming-language.md) :new:
 * [1小时入门Rust](http://songtianyi.info/pages/programmig/programming-languages/getting-started-with-rust-in-1-hour.html)
 * [Julia概览](http://songtianyi.info/pages/programming/programming-languages/M-julia-overview.md) :new:
-* [数据抽象vs接口抽象/层级结构vs扁平结构](http://songtianyi.info/pages/programming/software-engineering/data-abstraction-vs-interface-abstraction-and-hierarchy-structure-vs-flat-structure.html)
+* [数据抽象vs接口抽象/层级结构vs扁平结构](http://songtianyi.info/pages/programming/software-engineering/M-data-vs-interface-abstraction-and-nested-vs-flat-structure.html)
 * [2.17成都出发](http://songtianyi.info/pages/life/M-cycling-tour-of-318.md) :new:
 * [二元决策图](http://songtianyi.info/pages/programming/data-structure-and-algorithms/M-binary-decision-diagram.md) :new:
 * [基于Trie的防火墙策略搜索方法](pages/programming/networks/M-trie-based-firewall-policy-searching.md) :new:
