@@ -72,6 +72,11 @@ def http = [
  200 : 'OK',
  400 : 'BAD REQUEST'
 ] 
+
+def zh = [
+    你的名字: "songtianyi",
+    你的年龄: 18
+]
 ```
 
 * 提供了高级的流控制语法
@@ -223,6 +228,10 @@ groovy:000> print x
 
 ['a', 'b']  << 'c' // output [a, b, c], 相当于 append
 ```
+
+## DSL
+
+得益于 Groovy 灵活的语法，你可以很轻松地创建自己的 DSL(Domain specific language)
 
 ## Java 和 Groovy 的亲和性
 
