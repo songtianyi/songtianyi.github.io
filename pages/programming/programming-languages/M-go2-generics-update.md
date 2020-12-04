@@ -1,6 +1,6 @@
 # Go2 泛型设计草案更新
 
-作者: songtianyi create@2020/12/03
+作者: [songtianyi](http://songtianyi.info) create@2020/12/03
 
 ### 前言
 
