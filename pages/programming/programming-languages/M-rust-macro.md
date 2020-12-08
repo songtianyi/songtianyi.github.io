@@ -1,12 +1,14 @@
 # Rust 宏
 
 ## 前言
+
 18年系统学习编程语言理论的时候，快速学过 Rust，两年过去了还没实际使用过它做开发，最近在使用 TDengine 的时候，发现 TDengine 的 Go binding 没有实现订阅的接口，C++ 又没多大兴趣，于是在前人的基础上把 TDengine 的 Rust binding 写了一遍，然后使用 Rust 写了 业务逻辑的 API 接口。在做错误处理的时候，认识到了 Rust 宏的强大，所以想着重新学下 Rust 宏，做个笔记。
 
 ## C Macro
+
 宏的概念我们在刚学计算的时候就接触过，C 语言里的 `#define xxx` 就是宏。
 
-```c
+``` c
 #define LENGTH_OF_ARRAY 5 // this is a define macro
 
 int main() {
@@ -20,8 +22,10 @@ int main() {
     return 0;
 }
 ```
+
 但是老师或者书本里应该会告诉我们，尽量不要使用宏。复杂的宏定义会降低代码的可读性，而且容易写出意想不到的 bug，举个例子：
-```c
+
+``` c
 #define TEN 5 + 5
 
 int main() {
@@ -30,9 +34,11 @@ int main() {
     return 0;
 }
 ```
+
 只有能驾驭好它的程序员才能随心使用它。
 C 语言的宏不仅是简单的字符串替换，它还支持参数:
-```c
+
+``` c
 #define ADD(X, Y) (X + Y)
 
 int add(int a, int b) {
@@ -45,18 +51,23 @@ int add(int a, int b) {
 ```
 
 ## Rust macro
-Rust 宏相对 C 来说要复杂很多。我们最先接触到的宏应该是 `println!`. 它的定义是这样的:
+
+Rust 宏相对 C 来说要复杂很多。我们最先接触到的宏应该是 `println!` . 它的定义是这样的:
+
 ``` rust
 macro_rules! println {
     () => { ... };
     ($($arg:tt)*) => { ... };
 }
 ```
+
 很难看懂对不对？
-`macro_rules!` 相当于 `#define`, `println` 是宏的名称，用来做标记并最终被编译器展开。括号里的内容是 `println` 宏具体的定义。
+`macro_rules!` 相当于 `#define` , `println` 是宏的名称，用来做标记并最终被编译器展开。括号里的内容是 `println` 宏具体的定义。
 
 `()` 在我们忘记写函数的返回语句的时候会看到的提示。
-```
+
+``` 
+
  --> println.rs:3:5
   |
 2 | fn return() -> i32 {
@@ -66,5 +77,82 @@ macro_rules! println {
 
 ```
 
+* item: an item, such as a function, a struct, a module, etc.
+* block: a block (i.e. a block of statements and/or an expression, surrounded by braces)
+* stmt: a statement
+* pat: a pattern
+* expr: an expression
+* ty: a type
+* ident: an identifier
+* path: a path (e.g. foo, ::std::mem::replace, transmute::<_, int>, ...)
+* meta: a meta item; the things that go inside #[...] and #![...] attributes
+* tt: a single token tree
 
+``` rust
+use std::collections::HashMap;
+macro_rules! map {
+    ($($key:expr => $value:expr), *) => {
+        {
+            let mut hm = HashMap::new();
+            $( hm.insert($key, $value); )*
+            hm
+		}
+    }
+}
 
+fn main() {
+	println!("{:#?}", map!(
+	    "a" => "b",
+	    "c" => "d"
+	));
+}
+```
+
+`=>` 不能被替换成其他符号，如 `:` , `->` 等
+
+``` rust
+pub enum Field {
+    tinyInt(i8),
+    smallInt(i16),
+    normalInt(i32),
+    bigInt(i64),
+    float(f32),
+    double(f64),
+    string(String),
+    boolType(bool),
+}
+
+macro_rules! impl_as_fields {
+    ($fn:ident, $pattern:pat => $v:expr, $type:ty) => {
+        pub fn $fn(&self) -> $type {
+            match *self {
+                $pattern => $v,
+                _ => {
+                    println!("unexpected $type value {}", self);
+                    Default::default()
+                }
+            }
+        }
+    };
+}
+
+impl Field {
+    impl_as_fields!(as_i8, Field::tinyInt(v) => v, i8);
+    impl_as_fields!(as_i16, Field::smallInt(v) => v, i16);
+    impl_as_fields!(as_i32, Field::normalInt(v) => v, i32);
+    impl_as_fields!(as_i64, Field::bigInt(v) => v, i64);
+    impl_as_fields!(as_f32, Field::float(v) => v, f32);
+    impl_as_fields!(as_f64, Field::double(v) => v, f64);
+    impl_as_fields!(as_bool, Field::boolType(v) => v, bool);
+
+    pub fn as_string(&self) -> String {
+        match &*self {
+            Field::string(v) => v.to_string(),
+            _ => {
+                println!("unexpected string value {}", self);
+                "".to_string()
+            }
+        }
+    }
+}
+```
