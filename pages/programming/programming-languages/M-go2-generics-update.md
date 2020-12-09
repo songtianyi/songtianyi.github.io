@@ -4,14 +4,15 @@
 
 ### 前言
 
-18年的时候，go team 发布了Go2 的几个新特性的草案，其中包括呼声较高的泛型，当时[写了一篇文章做了介绍](http://songtianyi.info/pages/programming/programming-languages/go2-design-draft-introduction.html)。最近 Go team对泛型的设计草案进行了较大的改动，有必要更新下这个改动并分享出来。
+18年的时候，go team 发布了Go2 的几个新特性的草案，其中包括呼声较高的泛型，当时[写了一篇文章做了介绍](http://songtianyi.info/pages/programming/programming-languages/go2-design-draft-introduction.html)。最近 Go team 对泛型的设计草案进行了较大的改动，有必要更新下这个改动并分享出来。
 
 ### contracts
 
 在18年释出的草案中，是使用 `contract` 来约束泛型的类型参数(type parameters)的，最新的草案放弃了这种做法, 用已有的概念 `interface` 代替。
-在继续之前，先来熟悉这个概念 `type parameter` :
+在继续之前，先来熟悉 `type parameter` 这个概念:
 
-> Generic code is code that is written using types that will be specified later. Each unspecified type is called a type parameter. When running the generic code, the type parameter will be set to a type argument.
+> Generic code is code that is written using types that will be specified later. Each unspecified type is called a type parameter. 
+> When running the generic code, the type parameter will be set to a type argument.
 
 好，继续。回顾下 `contract` 形式的例子:
 
@@ -57,7 +58,7 @@ func Stringify[T Stringer](s []T) (ret []string) {
 ```
 
 上述代码，使用 interface `Stringer` 来约束入参 s 的类型 T 必须是实现了 `String() string` 函数的类型。
-除了使用自定义的 interface 来约束之外，Go 内置了 `any` 来指明入参是可以为任意类型的, 这样，当我们不需要约束的时候使用 `any` 来保证写法的一致性, `any` 相当于 `interface{}` 。
+除了使用自定义的 interface 来约束之外，Go 内置了 `any` 来指明入参是可以为任意类型的, 当我们不需要约束的时候可以使用 `any` 来维持写法的一致性, `any` 相当于 `interface{}` 。
 
 ``` go
 // Print prints the elements of any slice.
@@ -80,7 +81,7 @@ contract stringer(T) {
 
 这和 `Stringer` interface 的定义其实是重复的。
 
-看到这里是不是觉得这个改动还是很棒的？相对contract 来说，interface 更好理解，有时候也可以省掉重复的定义。
+看到这里是不是觉得这个改动还是很棒的？相对 contract 来说，interface 更好理解，有时候也可以省掉重复的定义。
 
 但是，interface 只能定义函数，因此，我们只能使用 interface 来约束 T 必须实现的函数，而不能约束 T 所能支持的运算。
 
@@ -144,7 +145,7 @@ func Smallest[T constraints.Ordered](s []T) T {
 }
 ```
 
-Ordered interface 里列出来的类型是 Ordered 约束可以接受的类型参数。由此看来，针对运算符的约束写起来变的更复杂了，幸运的是，go 会内置常用的约束。
+`Ordered` interface 里列出来的类型是 `Ordered` 约束可以接受的类型参数。由此看来，针对运算符的约束写起来变的更复杂了，幸运的是，go 会内置常用的约束, 不用我们自己来写.
 
 约束是可以组合的:
 
@@ -171,4 +172,6 @@ type StringableSignedInteger interface {
 
 类似地，可以将可接受的类型列表(type list)和函数约束放在一起。
 
-讲到这里，关于泛型改动的核心内容已经讲完了，更复杂的用法可以查看文档 [go2draft-type-parameters](https://go.googlesource.com/proposal/+/refs/heads/master/design/go2draft-type-parameters.md)。
+讲到这里，关于泛型改动的核心内容已经讲完了，更复杂的用法可以查看文档 [go2draft-type-parameters](https://go.googlesource.com/proposal/+/refs/heads/master/design/go2draft-type-parameters.md).
+
+个人认为，这个改动是一个比较成功的改动，没有引入新的概念，通过内置一些约束，支持约束组合来方便开发者。
