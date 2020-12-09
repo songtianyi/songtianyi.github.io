@@ -418,7 +418,7 @@ When running the generic code, the type parameter will be set to a type argument
 strSlice = []<span class="hljs-keyword">string</span>{}
 
 </div></code></pre>
-<p>上述代码约束了入参 s 的类型T必须是实现了 String 函数的类型</p>
+<p>上述代码约束了入参 s 的类型 T 必须是实现了 String 函数的类型</p>
 <h3 id="interface">interface</h3>
 <p>那么改用 interface 之后怎么做？</p>
 <pre class="hljs"><code><div><span class="hljs-comment">// Stringer is a type constraint that requires the type argument to have</span>
@@ -438,7 +438,7 @@ strSlice = []<span class="hljs-keyword">string</span>{}
 }
 
 </div></code></pre>
-<p>上述代码，使用 interface <code>Stringer</code> 来约束入参 s 的类型 T 必须是实现了 <code>String() string</code> 函数的类型。<br>
+<p>上述代码，使用 <code>Stringer</code> interface 来约束入参 s 的类型 T 必须是实现了 <code>String() string</code> 函数的类型。<br>
 除了使用自定义的 interface 来约束之外，Go 内置了 <code>any</code> 来指明入参是可以为任意类型的, 当我们不需要约束的时候可以使用 <code>any</code> 来维持写法的一致性, <code>any</code> 相当于 <code>interface{}</code> 。</p>
 <pre class="hljs"><code><div><span class="hljs-comment">// Print prints the elements of any slice.</span>
 <span class="hljs-comment">// Print has a type parameter T and has a single (non-type)</span>
@@ -449,27 +449,43 @@ strSlice = []<span class="hljs-keyword">string</span>{}
 	}
 }
 </div></code></pre>
-<p>interface 我们经常会用到，是一个已经非常熟悉的概念，而且使用 interface 可以避免不必要的重复定义的情况。以上面的 <code>Stringer</code> 为例，我们要为所有的 <code>Stringer</code> 实现 <code>Stringify</code> 函数，如果使用contract，我们需要定义:</p>
-<pre class="hljs"><code><div>contract stringer(T) {
+<p>interface 我们经常会用到，是一个已经非常熟悉的概念，而且使用 interface 可以避免不必要的重复定义的情况。以上面的 <code>Stringer</code> 为例，对 <code>Stringify</code> 函数，如果使用 contract 来进行约束，我们需要定义:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 约束</span>
+contract stringer_c(T) {
 	T String() <span class="hljs-keyword">string</span>
 }
-</div></code></pre>
-<p>这和 <code>Stringer</code> interface 的定义其实是重复的。</p>
-<p>看到这里是不是觉得这个改动还是很棒的？相对 contract 来说，interface 更好理解，有时候也可以省掉重复的定义。</p>
-<p>但是，interface 只能定义函数，因此，我们只能使用 interface 来约束 T 必须实现的函数，而不能约束 T 所能支持的运算。</p>
-<pre class="hljs"><code><div><span class="hljs-comment">// This function is INVALID.</span>
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Smallest</span>[<span class="hljs-title">T</span> <span class="hljs-title">any</span>]<span class="hljs-params">(s []T)</span> <span class="hljs-title">T</span></span> {
-	r := s[<span class="hljs-number">0</span>] <span class="hljs-comment">// panic if slice is empty</span>
-	<span class="hljs-keyword">for</span> _, v := <span class="hljs-keyword">range</span> s[<span class="hljs-number">1</span>:] {
-		<span class="hljs-keyword">if</span> v &lt; r { <span class="hljs-comment">// INVALID</span>
-			r = v
-		}
-	}
-	<span class="hljs-keyword">return</span> r
+
+<span class="hljs-comment">// Stringer 接口</span>
+<span class="hljs-keyword">type</span> Stringer <span class="hljs-keyword">interface</span> {
+	String() <span class="hljs-keyword">string</span>
 }
+
+<span class="hljs-comment">// 入参 s 被约束为实现了 String() string 函数的类型</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Stringify</span>[<span class="hljs-title">T</span> <span class="hljs-title">stringer_c</span>]<span class="hljs-params">(s []T)</span> <span class="hljs-params">(ret []<span class="hljs-keyword">string</span>)</span></span> {
+	<span class="hljs-keyword">for</span> _, v := <span class="hljs-keyword">range</span> s {
+		ret = <span class="hljs-built_in">append</span>(ret, v.String())
+	}
+	<span class="hljs-keyword">return</span> ret
+}
+
+<span class="hljs-comment">// 实现了 String() string 的结构体</span>
+<span class="hljs-keyword">type</span> IStringer <span class="hljs-keyword">struct</span> {
+	v <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-comment">// String() string 实现</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(i *IStringer)</span> <span class="hljs-title">String</span><span class="hljs-params">()</span> <span class="hljs-title">string</span></span> {
+	<span class="hljs-keyword">return</span> v
+}
+
+<span class="hljs-keyword">var</span> i_stringer IStringer
+Stringfy([]IStringer{i_stringer}) <span class="hljs-comment">// 合法入参</span>
 </div></code></pre>
-<p><code>v &lt; r</code> 是不合法的。</p>
-<p>使用 contract 是比较容易定义这种情况的.</p>
+<p>从上面的代码可以看出， <code>stringer_c</code> contract 其实和 <code>Stringer</code> interface 是重复的。<br>
+这和 <code>Stringer</code> interface 的定义其实是重复的。</p>
+<p>看到这里是不是觉得这个改动还是很棒的？相对 contract 来说，interface 更好理解，有时候也可以省掉重复的定义。<br>
+但是，interface 只能定义函数，因此，我们只能使用 interface 来约束 T 必须实现的函数，而不能约束 T 所能支持的运算。<br>
+使用 contract 来约束类型参数所支持的运算符的例子:</p>
 <pre class="hljs"><code><div><span class="hljs-comment">// comparable contract</span>
 contract ordered(t T) {
   t &lt; t
@@ -484,7 +500,8 @@ contract ordered(t T) {
 	<span class="hljs-keyword">return</span> r
 }
 </div></code></pre>
-<p>但使用 interface 就没那么方便了:</p>
+<p>很方便。<br>
+但使用 interface 就没那么方便了:</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">package</span> constraints
 
 <span class="hljs-comment">// Ordered is a type constraint that matches any ordered type.</span>
@@ -508,8 +525,11 @@ contract ordered(t T) {
 	<span class="hljs-keyword">return</span> r
 }
 </div></code></pre>
-<p><code>Ordered</code> interface 里列出来的类型是 <code>Ordered</code> 约束可以接受的类型参数。由此看来，针对运算符的约束写起来变的更复杂了，幸运的是，go 会内置常用的约束, 不用我们自己来写.</p>
-<p>约束是可以组合的:</p>
+<blockquote>
+<p>要写一大堆... 心里一阵 mmp... 先别慌!</p>
+</blockquote>
+<p><code>Ordered</code> interface 里列出来的类型是 <code>Ordered</code> 约束可以接受的类型参数。由此看来，针对运算符的约束写起来变的更复杂了，幸运的是，go 会内置常用的约束, <strong>不用我们自己来写</strong>.<br>
+而且，约束是可以组合的:</p>
 <pre class="hljs"><code><div><span class="hljs-comment">// ComparableHasher is a type constraint that matches all</span>
 <span class="hljs-comment">// comparable types with a Hash method.</span>
 <span class="hljs-keyword">type</span> ComparableHasher <span class="hljs-keyword">interface</span> {
