@@ -71,7 +71,7 @@ func Print[T any](s []T) {
 }
 ```
 
-interface 我们经常会用到，是一个已经非常熟悉的概念，而且使用 interface 可以避免不必要的重复定义的情况。以上面的 `Stringer` 为例，对 `Stringify` 函数，如果使用 contract 来进行约束，我们需要定义:
+interface 我们经常会用到，是一个已经非常熟悉的概念，而且使用 interface 可以避免不必要的重复定义的情况。以上面的 `Stringer` 为例，如果使用 contract 来对 `Stringify` 函数的入参类型进行约束，我们需要定义:
 
 ``` go
 // 约束
@@ -107,10 +107,11 @@ Stringfy([]IStringer{i_stringer}) // 合法入参
 ```
 
 从上面的代码可以看出， `stringer_c` contract 其实和 `Stringer` interface 是重复的。
-这和 `Stringer` interface 的定义其实是重复的。
 
 看到这里是不是觉得这个改动还是很棒的？相对 contract 来说，interface 更好理解，有时候也可以省掉重复的定义。
+
 但是，interface 只能定义函数，因此，我们只能使用 interface 来约束 T 必须实现的函数，而不能约束 T 所能支持的运算。
+
 使用 contract 来约束类型参数所支持的运算符的例子:
 
 ``` go
@@ -129,8 +130,7 @@ func Smallest[T ordered](s []T) T {
 }
 ```
 
-很方便。
-但使用 interface 就没那么方便了:
+很方便。但使用 interface 就没那么方便了:
 
 ``` go
 package constraints
