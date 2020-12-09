@@ -52,19 +52,21 @@ int add(int a, int b) {
 
 ## Rust macro
 
-Rust 宏相对 C 来说要复杂很多。我们最先接触到的宏应该是 `println!` . 它的定义是这样的:
+Rust 宏相对 C 来说要复杂很多，自然也强大很多。我们最先接触到的宏应该是 `println!` . 它的定义是这样的:
 
 ``` rust
 macro_rules! println {
-    () => { ... };
-    ($($arg:tt)*) => { ... };
+    () => ($crate::print!("\n"));
+    ($($arg:tt)*) => ({
+        $crate::io::_print($crate::format_args_nl!($($arg)*));
+    })
 }
 ```
 
 很难看懂对不对？
-`macro_rules!` 相当于 `#define` , `println` 是宏的名称，用来做标记并最终被编译器展开。括号里的内容是 `println` 宏具体的定义。
+`macro_rules!` 相当于 `#define` , 用来标记这是一段宏定义， `println` 是宏的名称，括号里的内容是 `println` 这个宏具体的定义。
 
-`()` 在我们忘记写函数的返回语句的时候会看到的提示。
+`()` 在我们忘记写函数的返回语句的时候会看到的提示:
 
 ``` 
 
@@ -76,6 +78,16 @@ macro_rules! println {
   |     ^^ expected `i32`, found `()`
 
 ```
+
+我们可以把它简单看做是 empty。
+那么这段代码就比较容易理解了
+
+``` rust
+() => ($crate::print!("\n"))
+```
+
+，我们使用 `println` 宏的时候不写参数，就会匹配到这条语句，这条语句只会打印换行。
+所以 `=>` 之前 `()` 内的内容就是匹配模式，称为 `Matcher` , 之后的内容就是匹配到入参之后，待展开的逻辑，称为 `Transcriber` , 编译器利用入参和 `Transcriber` 来生成展开后的 Rust 代码。
 
 * item: an item, such as a function, a struct, a module, etc.
 * block: a block (i.e. a block of statements and/or an expression, surrounded by braces)
