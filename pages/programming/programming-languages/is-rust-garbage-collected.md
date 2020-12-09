@@ -1,6 +1,6 @@
 # 关于Rust GC的争议
 
-作者: [songtianyi](https://github.com/songtianyi)
+作者: [songtianyi](http://songtianyi.info)
 
 ### 前言
 
@@ -22,7 +22,7 @@ GC，全称Garbage Collection，指的是内存自动化管理这种行为<sup>[
 >
 > Rust avoids the need for GC through its system of ownership and borrowing, but that same system helps with a host of other problems, including [resource management in general](http://blog.skylight.io/rust-means-never-having-to-close-a-socket/) and [concurrency](http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html).
 >
-> For when single ownership does not suffice, Rust programs rely on the standard reference-counting smart pointer type, [`Rc`](https://doc.rust-lang.org/std/rc/struct.Rc.html), and its thread-safe counterpart, [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html), instead of GC.
+> For when single ownership does not suffice, Rust programs rely on the standard reference-counting smart pointer type, [ `Rc` ](https://doc.rust-lang.org/std/rc/struct.Rc.html), and its thread-safe counterpart, [ `Arc` ](https://doc.rust-lang.org/std/sync/struct.Arc.html), instead of GC.
 >
 > We are however investigating *optional* garbage collection as a future extension. The goal is to enable smooth integration with garbage-collected runtimes, such as those offered by the [Spidermonkey](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey) and [V8](https://developers.google.com/v8/?hl=en) JavaScript engines. Finally, some people have investigated implementing [pure Rust garbage collectors](https://manishearth.github.io/blog/2015/09/01/designing-a-gc-in-rust/) without compiler support.
 
