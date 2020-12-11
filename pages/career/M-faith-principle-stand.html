@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-faith-principle-stand.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* a11y-light theme */
+/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
+/* @author: ericwbailey */
+
+/* Comment */
+.hljs-comment,
+.hljs-quote {
+  color: #696969;
+}
+
+/* Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+  color: #d91e18;
+}
+
+/* Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+  color: #aa5d00;
+}
+
+/* Yellow */
+.hljs-attribute {
+  color: #aa5d00;
+}
+
+/* Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: #008000;
+}
+
+/* Blue */
+.hljs-title,
+.hljs-section {
+  color: #007faa;
+}
+
+/* Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #7928a1;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #fefefe;
+  color: #545454;
+  padding: 0.5em;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+@media screen and (-ms-high-contrast: active) {
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-bullet,
+  .hljs-comment,
+  .hljs-link,
+  .hljs-literal,
+  .hljs-meta,
+  .hljs-number,
+  .hljs-params,
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-type,
+  .hljs-quote {
+        color: highlight;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag {
+        font-weight: bold;
+    }
+}
+
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E4%BF%A1%E5%BF%B5-%E5%8E%9F%E5%88%99-%E7%AB%8B%E5%9C%BA">信念 原则 立场</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a> create@2020/12/10</p>
+<h2 id="%E5%89%8D%E8%A8%80">前言</h2>
+<p>这些词我们都很熟悉，但不一定会去想它们到底意味着什么。能时常挂在心上，用来指导自己生活和工作的人也很少。</p>
+<p>最近美国给我们表演了一场选举大秀，吃瓜之外，我们能学到什么？美国2020选举的投票率达到近百年之最，但也仅仅只有65%, 剩下35%的选民难道还没通网？这些游离在选举之外的民众，被川普上台之后的滑稽表演唤醒了，他们选择把他投下去, 但仍然只是少数。这说明，在我们生活中，差不多也有1/3的人是不持任何立场的，也许是不爱表达，也是是害怕和他人发生冲突, 也许是，他们压根儿没有思考过这些事情。也许只有当他们的切身利益被波及到的时候，才会选择发声。这没错，在一个大熔炉里，当一个内心和平的人，也是一种不错的生存策略。</p>
+<p>但这样做是没前途的, 没有立场的人不会有真正的朋友，骑墙派作为缓冲地带，作为需要争被取的潜在队伍，有他们存在的意义，但骑墙派不可能成为主角。</p>
+<p>作为管理者更要注意，没有坚定的信念，就不可能有稳固的团队，没有原则和立场，那么两边就会‘打架’。信念给团队信心，原则让事情的处理变得简单，有稳定的依据可循，立场可以拉拢人，也可以用来淘汰人。</p>
+<p>信念，原则，立场是相辅相成的。信念，是原则和立场的地基，可以让你的立场和原则更坚定，原则是你确立立场的明确依据，立场则是信念和原则的输出形式。</p>
+<h2 id="%E4%BF%A1%E5%BF%B5">信念</h2>
+<p>信念这个词，每个人会有自己的理解，但也有标准定义。</p>
+<blockquote>
+<p>信念是指一个人坚信某种观点的正确性，并支配自己行动的个性倾向，是一个人在长期的实践活动中，根据自己的生活内容和积累的知识经过深思熟虑所决定的努力方向和奋斗目标。信念强调的不是认识的正确性，而是情感的倾向性和意志的坚定性，它超出单纯的知识范围，有着更为丰富的内涵，成为一种综合的精神状态。</p>
+</blockquote>
+<blockquote>
+<p>信念是认识事物的基点和评判事物的基础标准。信念是强大的精神力量，有了坚定的信念，就能精神振奋、克服困难，甚至生命受到威胁，也不轻易放弃内心信念。</p>
+</blockquote>
+<p>信念具有稳定性：信念形成后难以改变，即使以后在认知层面上对信念产生疑惑，情感上强烈的认同也会在相当程度上支持既定的信念。</p>
+<p>信念具有多样性：不同的人，由于社会环境、思想观念、阶级利益需要和个人具体经历等不同，会形成不同的乃至截然相反的信念。</p>
+<p>信念具有时代特征: “驱除鞑虏，恢复中华“, &quot;为中华之崛起而读书&quot;，这些都是非常具有时代色彩的个人信念。</p>
+<p>信念具有集体特征: 大到国家属性，小到企业文化，一个普适强大的信念将大家集结在一起，形成所谓的凝聚力。在一个组织里，信念往往是自上而下传递的，代表着领导者的思想意志。</p>
+<h4 id="%E4%BF%A1%E5%BF%B5%E7%9A%84%E6%97%B6%E4%BB%A3%E7%89%B9%E5%BE%81">信念的时代特征</h4>
+<blockquote>
+<p>2007年11月，Google与84家硬件制造商、软件开发商及电信营运商组建开放手机联盟共同研发改良Android系统。随后Google以Apache开源许可证的授权方式，发布了Android的源代码。第一部Android智能手机发布于2008年10月。</p>
+</blockquote>
+<blockquote>
+<p>2009年 sns社交网络、人人网、开心网、qq等SNS平台兴起, b站创立。</p>
+</blockquote>
+<blockquote>
+<p>2009年12月16日由詹姆斯·卡梅隆执导的《阿凡达》（Avatar）以2D、3D和IMAX-3D三种制式在北美上映。</p>
+</blockquote>
+<blockquote>
+<p>2009年，新浪微博成立，淘宝首次举办双十一。</p>
+</blockquote>
+<blockquote>
+<p>2009年，阿里云诞生。</p>
+</blockquote>
+<blockquote>
+<p>北京时间2010年3月23日凌晨3时零3分，谷歌公司高级副总裁、首席法律官大卫德拉蒙德公开发表声明，再次借黑客攻击问题指责中国，宣布停止对谷歌中国搜索服务的“过滤审查”，并将搜索服务由中国内地转至中国香港。</p>
+</blockquote>
+<blockquote>
+<p>2010年1月7日，Google发布了旗下第一款自主品牌的android手机：Nexus one(HTC G5)。</p>
+</blockquote>
+<blockquote>
+<p>2010年1月27日，苹果公司推出首款平板电脑iPad，其后平板电脑造成许多电子公司在市场上相互竞争。</p>
+</blockquote>
+<blockquote>
+<p>2010年团购网站兴起，数量超过1700家。</p>
+</blockquote>
+<blockquote>
+<p>2010年6月8日凌晨1点，史蒂夫·乔布斯在美国Moscone West会展中心举行的苹果全球开发者大会（WWDC 2010）上发布了苹果第四代手机iPhone 4，16GB版签订2年合约价199美元，32GB版2年合约价299美元。</p>
+</blockquote>
+<blockquote>
+<p>2010年9月27日，360发布了其新开发的“隐私保护器”，专门搜集QQ软件是否侵犯用户隐私。随后，QQ立即指出360浏览器涉嫌借黄色网站推广。2010年11月3日，腾讯宣布在装有360软件的电脑上停止运行QQ软件，用户必须卸载360软件才可登录QQ，强迫用户“二选一”。</p>
+</blockquote>
+<blockquote>
+<p>2010年10月1日《社交网络》在美国上映，主要讲述马克·扎克伯格和埃德华多·萨瓦林两人如何建立和发展Facebook的发家史。</p>
+</blockquote>
+<blockquote>
+<p>2011年，安卓操作系统超越称霸十年的塞班操作系统，跃居全球第一，用户总数超过1.35亿。</p>
+</blockquote>
+<blockquote>
+<p>2011年2月9日, 全球首个加密货币比特币汇率首次升穿一美元，其后世界诞生大量加密货币。</p>
+</blockquote>
+<blockquote>
+<p>2011年 微博迅猛发展，快手Gif上线, 知乎上线。</p>
+</blockquote>
+<blockquote>
+<p>2011年，微信诞生，小米手机发布。</p>
+</blockquote>
+<blockquote>
+<p>2012年, 今日头条上线。</p>
+</blockquote>
+<blockquote>
+<p>2013年余额宝上线，微博内置短视频应用—秒拍，喜马拉雅上线。</p>
+</blockquote>
+<blockquote>
+<p>2013年，全球首支3D打印金属枪问世。</p>
+</blockquote>
+<blockquote>
+<p>2014年8月19日，滴滴专车在北京公测，主要面向中高端商务约租车群体。</p>
+</blockquote>
+<p>如果你在大学的时候经历过这个时代，一定能猜到我想说什么。这是一个激动人心的时代，一个充满创业梦的时代，一个巨头诞生的时代，一个学习一门技术就敢创业的时代，一个模仿扎克伯格，乔布斯辍学创业的时代，一个相信技术改变世界的时代，这是属于中国互联网的创业时代。现在回味起来，还是会热血澎湃。</p>
+<p>那个时代的显著特征是技术创业，所以从那个时代成长起来的我们，对技术是有信仰的，我们有技术可以改变世界的信念，对技术有极高的热情。</p>
+<p>这是信念的时代特征。</p>
+<h4 id="%E4%BF%A1%E5%BF%B5%E4%B8%8E%E4%BF%A1%E4%BB%B0%E7%9A%84%E5%8C%BA%E5%88%AB">信念与信仰的区别</h4>
+<p>信念和信仰有相同的地方，比如稳定性，都是坚定不移地相信一种事物。它们的主要区别是，信念是内观，是对自己想法的坚定，信仰则是外寻，是自身对外部事物的执着相信。</p>
+<h4 id="%E4%BC%81%E4%B8%9A%E6%96%87%E5%8C%96">企业文化</h4>
+<p>企业创始人的信念，原则和立场指导企业决策的原则和立场，逐级传播，并且不断提炼形成企业文化，同时领导层以及各级别管理者坚定地维护和践行企业文化，使得企业员工形成对公司文化的信仰。当这种信仰塑造完成后，员工对企业的制度和决策才会有统一的理解，对于各类行为才会有统一的判断标准，也只有这时候，企业中才会形成管理者所期望的一种氛围，并且这种氛围能够不断自我维持和培育。所以，信念是企业文化的来源，也是企业文化的重要保证，如果企业文化只是单纯地模仿一些口号，那就形同虚设，这种务虚的文化并不能自动让员工产生企业想要的行为。</p>
+<p>“治好一个病人, 交好一个朋友, 树好一个口碑”</p>
+<p>这是某医院的服务理念，在看到这句话之前，你应该没见过和患者交朋友这样的企业文化，我们通常见的都是服务好客户，把客户放在第一位这样的理念。这种不同一般的办院理念就包含着企业领导者的个人信念，治病救人的同时，还要做好人文关怀这样的信念。当这样的文化建立起来，那么哪些是好的，优秀的，哪些是应该淘汰的就会一目了然。</p>
+<p>员工对企业文化信仰的三个层次:</p>
+<ul>
+<li>松散层: 处于这一层面的员工，他们或许是因为企业的氛围、待遇、地位而来到企业，他们并没有形成对企业文化的信仰，当然一般情况下他们也不会违反企业文化。当出现困境的时候，他们是最有可能离开企业的，他们也是最可能不按照企业文化进行判断的。在企业发展的过程中，他们会被不断的淘汰和补充，所谓铁打的营房，流水的兵。</li>
+<li>紧密层: 处于这一层面的员工，他们认同企业的文化，愿意被企业文化所激励，能够为企业的发展而努力。他们是企业的中坚阶层，通过他们，企业管理者可以将自己在文化方面的认识贯彻到整个企业，并且主要是依靠他们，企业才能在松散层员工进进出出的过程中依旧保证企业文化的持续性。</li>
+<li>核心层: 处于这一层面的员工，与紧密层相比，他们除了对企业文化同样坚持和信服外，他们一般还具有比较高的职位，能够动用企业的资源和自己的权利为企业文化的塑造服务。他们是企业信仰的源泉，通过他们，企业文化被提出并被塑造，同时随着时代的发展而被不断的丰富。</li>
+</ul>
+<h4 id="%E4%BF%A1%E5%BF%B5%E7%9A%84%E6%9E%84%E5%BB%BA">信念的构建</h4>
+<p>长期观察，思考，实践，验证一种事物，你才会形成较强的信念。“一切能用硬件实现的东西，都可以用软件来模拟”, 这是我多年来，不停验证，不停寻找反例而逐渐强化的一种信念。长期的观察和思考，你才能发现事物的运行规律，进而通过实践来验证自己的想法，循环往复，形成信念。</p>
+<p>只有信念，才能让你义无反顾地去坚持做一件事，除非反例出现了，信念才会有所动摇，但不影响方向，只有大量反例出现，信念才可能崩塌瓦解，甚至可能导致整个人的崩溃。信念能给人强大的支撑，但崩塌时也会是毁灭性的。信念形成的过程有时较隐蔽，有些信念具有时效性，有些则完全是错误的。没有独立思考能力，意志力不坚定，喜欢随波逐流的人，则容易被灌入错误的信念，</p>
+<h2 id="%E5%8E%9F%E5%88%99">原则</h2>
+<p>原则是我们做人行事的依据和准则。和方法论不同，原则主要用来做决策，例如，企业文化就是用来指导和约束员工的原则，管理者可以依据这些原则进行招聘和淘汰员工。再比如法律和道德准则。</p>
+<p>原则不一定具有稳定性，有人会犯法，或者没有公德心，会明知不可为而为之，这和个人的意志力，定力有关，而由个人信念支撑起来的原则，能够呈现出较强的稳定性。</p>
+<p>领导者的做人行事的原则始终保持一致，那就会得到下属的信服和敬仰，从而不断强化，形成所谓的领导力。</p>
+<p>原则可以让决策更有条理，更简单。这里举一个我发邮件时遵循的抄送原则的例子。</p>
+<p>很多人发邮件会把领导放在前面，我个人是不太喜欢这种方式。一方面容易得罪人，领导也分级别，分部门，怎么排？有时候你可能连他们之间的职级，关系都不知道，如果你是按照级别来排，那别人就会窥探到你内心的一些想法，排的不好就会得罪人，除非，你的目的就是要通过这些细节来表达自己的立场。</p>
+<p>我自己的原则则是，按照邮件所讲的内容的关联程度来排。比如，邮件的内容是汇报一个项目的进度和 TODO 事项，把汇报的对象作为收件人，一般是你的直属 leader，然后，你负责的这个项目后续需要哪些人支持，就把哪些人往前排，不考虑职级。你需要同事 A 来马上支持你处理那些优先级最高的事项，就把 A 同事排第一，以此类推，如果是跨部门的协作，把目标部门的具体负责 TODO 事项的同事 B 排在前面，以此类推，之后跟上他们的直属 leader。最后，此件事情还需要让谁知道？如果你需要更高级别的人知道，也可以排在后面，对于他们来说，这是属于可看可不看的邮件，这是优先级不高的邮件，他们看个开头，发现没有自己，就可以选择不继续看下去了，也是节省他们的时间。我觉得这是一种比较省时省心的原则。</p>
+<h2 id="%E7%AB%8B%E5%9C%BA">立场</h2>
+<p>立场必须要有坚定的信念和为人处世的原则作为基础，否则就是胡来。立场是信念和原则的输出形式，它是什么不那么重要，重要的是表达。表达立场也是一次实践的过程，在这个过程中，你会强化自己的原则和信念，也可能会受挫，产生自我怀疑，但你会去改进去修正自己的内在，从而不断成长。</p>
+
+</body>
+</html>
