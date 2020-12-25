@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-quick-introduction-for-faas.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* a11y-light theme */
+/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
+/* @author: ericwbailey */
+
+/* Comment */
+.hljs-comment,
+.hljs-quote {
+  color: #696969;
+}
+
+/* Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+  color: #d91e18;
+}
+
+/* Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+  color: #aa5d00;
+}
+
+/* Yellow */
+.hljs-attribute {
+  color: #aa5d00;
+}
+
+/* Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: #008000;
+}
+
+/* Blue */
+.hljs-title,
+.hljs-section {
+  color: #007faa;
+}
+
+/* Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #7928a1;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #fefefe;
+  color: #545454;
+  padding: 0.5em;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+@media screen and (-ms-high-contrast: active) {
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-bullet,
+  .hljs-comment,
+  .hljs-link,
+  .hljs-literal,
+  .hljs-meta,
+  .hljs-number,
+  .hljs-params,
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-type,
+  .hljs-quote {
+        color: highlight;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag {
+        font-weight: bold;
+    }
+}
+
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="faas%E7%AE%80%E4%BB%8B">FaaS简介</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a></p>
+<h3 id="%E5%89%8D%E8%A8%80">前言</h3>
+<p>FaaS(Function as a service)是最近几年兴起的serverless架构的计算服务(computing services)。早在2010年，就有一些初创公司提供这类服务，如PiCloud, 你可以编写job(function)并远程调用(Cloud.call), 然后获取到执行结果(Cloud.result). 在2014年10月13，亚马逊发布了自己的FaaS服务Lambda, Google/Microsoft/IBM也在2016年相继推出了自己的faas服务，2017年oracle推出了cloud fn.</p>
+<h3 id="%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2%E7%9A%84%E6%BC%94%E8%BF%9B">应用部署的演进</h3>
+<p><img src="/Users/work/Downloads/软件服务栈.jpg" alt="软件服务栈"></p>
+<h3 id="faas-vs-serverless">FaaS VS Serverless</h3>
+<p>serverless是一种架构模型，旨在向开发者屏蔽应用部署的几乎所有细节，开发者也无需关心应用的伸缩。faas是基于serverless架构的一种服务，用户只需提供自己的逻辑，faas服务可以调动海量的计算资源来运行这段逻辑并返回结果。</p>
+<h3 id="faas-vs-paas">Faas VS PaaS</h3>
+<ul>
+<li>用户在使用PaaS服务的时候仍然需要主动申请资源，自己去考虑扩容或者缩容，而faas则不需要</li>
+<li>paas服务始终有一个server在运行并提供服务，一直在消耗资源，哪怕没有请求进来，而faas只会在用户发起请求的时候启动server并消耗资源，属于真正的按需计算</li>
+</ul>
+<h3 id="%E4%B8%8A%E6%89%8B%E5%AE%9E%E8%B7%B5">上手实践</h3>
+<ol>
+<li>
+<p>在 https://stdlib.com 上注册一个账号</p>
+</li>
+<li>
+<p>本地安装</p>
+</li>
+</ol>
+<pre class="hljs"><code><div>   npm install lib.cli -g
+</div></code></pre>
+<ol start="3">
+<li>创建并部署自己的应用</li>
+</ol>
+<pre class="hljs"><code><div>   mkdir stdlib-workspace
+   cd stdlib-workspace
+<span class="hljs-meta">   #</span><span class="bash"> 初始化</span>
+   lib init
+<span class="hljs-meta">   #</span><span class="bash"> 创建</span>
+   lib create default
+<span class="hljs-meta">   #</span><span class="bash"> <span class="hljs-built_in">cd</span> 到default目录执行</span>
+   lib .
+<span class="hljs-meta">   #</span><span class="bash"> 部署</span>
+   lib up dev
+<span class="hljs-meta">   #</span><span class="bash"> 调用</span>
+   lib songtianyi.default[@dev]
+<span class="hljs-meta">   #</span><span class="bash"> 传参</span>
+   lib songtianyi.uppercase[@dev] --name "asf"
+</div></code></pre>
+<h3 id="faas%E7%9A%84%E7%8E%B0%E7%8A%B6">Faas的现状</h3>
+<ul>
+<li>布局者众多，主流云厂商(国外aws, google cloud, azure, 国内腾讯，阿里，华为)都已支持faas，和自身产品及服务集成度最高的是aws</li>
+<li>主流function语言是js，这取决于语言的自身特性</li>
+<li>开源项目众多</li>
+</ul>
+<p><img src="/Users/work/Downloads/faas-opensource.jpg" alt="faas-opensource"></p>
+<ul>
+<li>
+<p>应用场景</p>
+<ul>
+<li>微服务</li>
+<li>视频/图片(今日头条大规模视频处理的挑战与应对, UCloud UGC)</li>
+<li>流式事件处理</li>
+<li>事件驱动架构</li>
+<li>IoT</li>
+<li>跨云/混合云</li>
+<li>边缘计算(edge computing, 雾计算)</li>
+</ul>
+</li>
+<li>
+<p>landscape</p>
+</li>
+</ul>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/cncf-serverless-landscape.png" alt="image"></p>
+<h3 id="faas%E7%9A%84%E6%9C%AA%E6%9D%A5">Faas的未来</h3>
+<ul>
+<li>cncf(wg-serverless)</li>
+<li>faaslang</li>
+<li><a href="https://github.com/cloudevents/spec">cloudevents</a></li>
+<li>firecracker</li>
+</ul>
+
+</body>
+</html>

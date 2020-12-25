@@ -25,7 +25,7 @@
                             <li><a href="#vdi">虚拟桌面(Virtual Desktop Infrastructure)</a></li>
                             <li><a href="#acm">国际大学生程序设计竞赛(ACM/ICPC)</a></li>
                             <li><a href="#data">数据压缩(Data compression)</a></li>
-                            <li><a href="#Cybersecurity">网络安全(Cybersecurity)</a></li>
+                            <li><a href="#Cybersecurity-Cryptography">网络安全与加密(Cybersecurity-and-Cryptography)</a></li>
                             <li><a href="#Programming">编程(Programming)</a></li>
                             <li><a href="#career">职业(Career)</a></li>
                             <li><a href="#life">生活(Life)</a></li>
@@ -135,11 +135,11 @@
             </div>
         </div>
 
-        <div id="Cybersecurity" class="plant">
-            <h2>网络安全(Cybersecurity)</h2>
+        <div id="Cybersecurity-Cryptography" class="plant">
+            <h2>网络安全与加密(Cybersecurity-and-Cryptography)</h2>
             <div class="plant-body">
                 <ul>
-                    <li><a href="pages/secure/001-secure.html">RSA加密算法 <span>理论</span></a></li>
+                    <li><a href="pages/secure/001-secure.html">RSA加密算法 <span>理论 证明</span></a></li>
                     <li><a href="pages/secure/M-decrypt-tls.html">解码TLS
                             <span>wireshark 数字证书</span></a></li>
                 </ul>
@@ -150,65 +150,93 @@
 
         <div id="Programming" class="plant">
             <h2>编程(Programming)</h2>
-            <h4>Programming languages</h4>
-            <p>c/c++, node, golang, jvm(java, groovy, scala..), type theories, paradigms, etc.</p>
-            <div class="plant-body">
-                <ul>
-                    <li><a href="pages/programming/programming-languages/tencent-parser.html">nodejs爬腾讯微博 <span>读书笔记
-                            </span></a></li>
-                    <li><a href="pages/programming/programming-languages/groovy-notes.html">Groovy笔记
-                            <span>Java</span></a></li>
-                    <li><a href="pages/programming/programming-languages/is-rust-garbage-collected.html">关于Rust GC的争议
-                            <span>Rust</span></a>
-                    </li>
-                    <li><a href="pages/programming/programming-languages/getting-started-with-rust-in-1-hour.html">1小时入门Rust
-                            <span>Rust</span></a></li>
-                    <li><a href="pages/programming/programming-languages/go2-design-draft-introduction.html">go2设计草案介绍
-                            <span>Go</span></a>
-                    </li>
-                    <li><a href="pages/programming/programming-languages/M-go2-generics-update.html">go2 泛型变动
-                            <span>Go</span></a>
-                    </li>
-                </ul>
+            <div class="plant">
+                <h4>Programming languages</h4>
+                <p>c/c++, node, golang, jvm(java, groovy, scala..), type theories, paradigms, etc.</p>
+                <div class="plant-body">
+                    <ul>
+                        <li><a href="pages/programming/programming-languages/tencent-parser.html">nodejs爬腾讯微博 <span>读书笔记
+                                </span></a></li>
+                        <li><a href="pages/programming/programming-languages/groovy-notes.html">Groovy笔记
+                                <span>Java</span></a></li>
+                        <li><a href="pages/programming/programming-languages/is-rust-garbage-collected.html">关于Rust
+                                GC的争议
+                                <span>Rust</span></a>
+                        </li>
+                        <li><a href="pages/programming/programming-languages/getting-started-with-rust-in-1-hour.html">1小时入门Rust
+                                <span>Rust</span></a></li>
+                        <li><a href="pages/programming/programming-languages/go2-design-draft-introduction.html">go2设计草案介绍
+                                <span>Go</span></a>
+                        </li>
+                        <li><a href="pages/programming/programming-languages/M-go2-generics-update.html">go2 泛型变动
+                                <span>Go</span></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
 
-        <div class="plant">
-            <h4>Data structure and algorithms</h4>
-            <p>queue, set, linked list, heap, stack, hash-table, trie, b tree, b+ tree, red-black tree, dfs, bfs, quick
-                sort, heap sort, binary search, dynamic programming, dijkstra, floyd, etc.</p>
-            <div class="plant-body">
-                <ul>
-                    <li><a href="pages/programming/data-structure-and-algorithms/binary-decision-diagram.html">二元决策图
-                            <span>防火墙 </span></a></li>
-                    </li>
-                </ul>
+            <div class="plant">
+                <h4>Data structure and algorithms</h4>
+                <p>queue, set, linked list, heap, stack, hash-table, trie, b tree, b+ tree, red-black tree, splay tree,
+                    dfs, bfs,
+                    quick
+                    sort, heap sort, binary search, dynamic programming, dijkstra, floyd, etc.</p>
+                <div class="plant-body">
+                    <ul>
+                        <li><a href="pages/programming/data-structure-and-algorithms/binary-decision-diagram.html">二元决策图
+                                <span>防火墙 </span></a></li>
+                        </li>
+                        <li>
+                            <a
+                                href="pages/programming/data-structure-and-algorithms/M-how-to-evaluate-github-project.md">算法优化之时空交换
+                                <span>复杂性</span></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
 
-        <div class="plant">
-            <h4>Software engineering</h4>
-            <p>runtime(os, virtualization, interpreters, container..), design patterns, models(concurrency, memory..),
-                mechanisms(gc, transactional..), theories, rfcs, etc.</p>
-            <div class="plant-body">
-                <ul>
-                    <li><a
-                            href="pages/programming/software/engineering/M-data-vs-interface-abstraction-and-nested-vs-flat-structure.html">数据抽象vs接口抽象/层级结构vs扁平结构
-                            <span>modeling</span></a>
-                    </li>
-                    <li>
-                        <a href="pages/programming/software-engineering/M-core-concepts-in-programming.html">
-                            编程核心概念
-                            <span>技术之道</span>
-                        </a>
-                    </li>
+            <div class="plant">
+                <h4>Computer architecture</h4>
+                <p></p>
+                <div class="plant-body">
+                </div>
+            </div>
 
-                </ul>
+
+            <div class="plant">
+                <h4>Software engineering</h4>
+                <p>runtime(os, virtualization, interpreters, container..), design patterns, models(concurrency,
+                    memory..),
+                    mechanisms(gc, transactional..), theories, rfcs, etc.</p>
+                <div class="plant-body">
+                    <ul>
+                        <li><a
+                                href="pages/programming/software/engineering/M-data-vs-interface-abstraction-and-nested-vs-flat-structure.html">数据抽象vs接口抽象/层级结构vs扁平结构
+                                <span>modeling</span></a>
+                        </li>
+                        <li>
+                            <a href="pages/programming/software-engineering/M-core-concepts-in-programming.html">
+                                编程核心概念
+                                <span>技术之道</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="pages/programming/software-architecture-and-solutions/M-quick-introduction-for-faas.html">
+                                FAAS简介
+                                <span>serverless</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
             </div>
 
             <div class="plant">
                 <h4>Software frameworks</h4>
-                <p>spring-boot, boost, express, vue, protobuf, zookeeper, hadoop, antlr, ionic, gtk, openGL, qt, etc.
+                <p>spring-boot, boost, express, vue, protobuf, zookeeper, hadoop, antlr, ionic, gtk, openGL, qt,
+                    etc.
                 </p>
                 <div class="plant-body">
                     <ul>
@@ -256,7 +284,8 @@
 
             <div class="plant">
                 <h4>Software architecture and solutions</h4>
-                <p>c/s, b/s, p2p, distributed systems, decentralized systems, plugin, HA, micro services, serverless,
+                <p>c/s, b/s, p2p, distributed systems, decentralized systems, plugin, HA, micro services,
+                    serverless,
                     faas, cloud infrastructure, etc.</p>
                 <div class="plant-body">
                     <ul>
@@ -269,7 +298,8 @@
 
             <div class="plant">
                 <h4>Software development and quality assurance</h4>
-                <p>methodologies, debugging, deployment, tools, testing, mainteance, performance, docs, CI/CD, security,
+                <p>methodologies, debugging, deployment, tools, testing, mainteance, performance, docs, CI/CD,
+                    security,
                     monitoring, etc.</p>
                 <div class="plant-body">
                     <ul>
