@@ -4,9 +4,10 @@
 
 [网页版地址](http://songtianyi.info) 
 
->  对文章有意见或者疑问的欢迎提issue :)
+> 对文章有意见或者疑问的欢迎提issue :)
 
 #### Highlights :fire:
+
 * [虚拟桌面协议](http://songtianyi.github.io/pages/vdi/004-vdi.html)
 * [数论笔记](http://songtianyi.github.io/pages/acm/001-acm.html)
 * [Euclidean algorithm](http://songtianyi.github.io/pages/acm/010-acm.html)
@@ -27,3 +28,4 @@
 * [IPv6](http://songtianyi.info/pages/programming/networks/M-ipv6.md) :new:
 * [关于Rust GC的争议](http://songtianyi.github.io/pages/programming/programming-languages/is-rust-garbage-collected.html)
 * [编程核心概念](pages/programming/software-engineering/M-core-concepts-in-programming.md) :new:
+* [Go2 泛型设计草案更新](http://songtianyi.info/pages/programming/programming-languages/M-go2-generics-update.html)
