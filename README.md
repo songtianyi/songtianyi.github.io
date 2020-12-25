@@ -28,4 +28,4 @@
 * [IPv6](http://songtianyi.info/pages/programming/networks/M-ipv6.md) :new:
 * [关于Rust GC的争议](http://songtianyi.github.io/pages/programming/programming-languages/is-rust-garbage-collected.html)
 * [编程核心概念](pages/programming/software-engineering/M-core-concepts-in-programming.md) :new:
-* [Go2 泛型设计草案更新](http://songtianyi.info/pages/programming/programming-languages/M-go2-generics-update.html)
+* [Go2 泛型设计草案更新](http://songtianyi.info/pages/programming/programming-languages/M-go2-generics-update.html) :new:
