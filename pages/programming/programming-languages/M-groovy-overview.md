@@ -233,6 +233,14 @@ groovy:000> print x
 
 得益于 Groovy 灵活的语法，你可以很轻松地创建自己的 DSL(Domain specific language)
 
+``` groovy
+block source("192.168.1.0/24") from '2020/12/01 08:00' to '2020/12/01: 09:00'
+commit source("192.168.1.0/24") destination("a.b.c.d") to firewall("asa")
+select policy src("192.168.1.0/24")
+select policy has src("192.168.1.0/24")
+select address name("xx")
+select address match
+
 ## Java 和 Groovy 的亲和性
 
 ### Java 调用 Groovy
