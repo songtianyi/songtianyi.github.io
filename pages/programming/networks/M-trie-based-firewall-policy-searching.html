@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-trie-based-firewall-policy-searching.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* a11y-light theme */
+/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
+/* @author: ericwbailey */
+
+/* Comment */
+.hljs-comment,
+.hljs-quote {
+  color: #696969;
+}
+
+/* Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+  color: #d91e18;
+}
+
+/* Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+  color: #aa5d00;
+}
+
+/* Yellow */
+.hljs-attribute {
+  color: #aa5d00;
+}
+
+/* Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: #008000;
+}
+
+/* Blue */
+.hljs-title,
+.hljs-section {
+  color: #007faa;
+}
+
+/* Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #7928a1;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #fefefe;
+  color: #545454;
+  padding: 0.5em;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+@media screen and (-ms-high-contrast: active) {
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-bullet,
+  .hljs-comment,
+  .hljs-link,
+  .hljs-literal,
+  .hljs-meta,
+  .hljs-number,
+  .hljs-params,
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-type,
+  .hljs-quote {
+        color: highlight;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag {
+        font-weight: bold;
+    }
+}
+
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E5%9F%BA%E4%BA%8Etrie%E7%9A%84%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95">基于Trie的防火墙策略搜索方法</h1>
+<p>作者: <a href="http://www.songtianyi.info">songtianyi</a></p>
+<h3 id="%E5%89%8D%E8%A8%80">前言</h3>
+<p>在网络工程师对防火墙策略作运维变更时，通常需要知道防火墙是否存在一条或者多条策略满足了当前需求，或者当前需求冲突；需要知道某个端口是否已经被开放等等，因此基于用户输入的五元组信息搜索出关联策略是一个高频需求。暴力的方法是遍历已有策略，根据输入条件进行过滤得到结果，但在金融企业里，当结果可能存在于任意一台防火墙上时，策略总数可能多达十几万条，而且策略之间的对比比较复杂，O(N)的复杂度难以应对高频次的搜索需求。一个简单的优化是对输入和输出作映射并缓存，但并不解决根本问题。</p>
+<h3 id="trie">Trie</h3>
+<p>Trie(读作/ˈtriː/)又称前缀树或字典树，是一种有序树，一个节点的所有子孙都有相同的前缀。它的用途很广泛，比如用户搜索提示，当输入一个网址(公共前缀)时，可以从Trie中找到所有可能的选择，也可以用于词频统计，字符串查询等方面。</p>
+<h5 id="trie%E7%9A%84%E6%9E%84%E9%80%A0">Trie的构造</h5>
+<p>对于字符串数组S, 其元素为:</p>
+<pre class="hljs"><code><div>[<span class="hljs-string">"A"</span>, <span class="hljs-string">"to"</span>, <span class="hljs-string">"tea"</span>, <span class="hljs-string">"ted"</span>, <span class="hljs-string">"ten"</span>, <span class="hljs-string">"i"</span>, <span class="hljs-string">"in"</span>,<span class="hljs-string">"inn"</span>]
+</div></code></pre>
+<p>先创建一个空的根节点，枚举S，对于元素S<sub>i</sub>, 从根节点开始，找到和其第一个字符匹配的节点，如果没有则创建，再以匹配到的节点为始，找到和其第二个字符匹配的节点，如果没有则创建，依次类推，构建出整棵树。最终得到Trie结构:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/trie-demo.png" alt="image"></p>
+<h3 id="%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5%E6%90%9C%E7%B4%A2">防火墙策略搜索</h3>
+<p>防火墙策略的搜索是输入的五元组+动作和已有策略的比较过程，如果我们将已有策略划分成不相关的集合(即，有集合A和B，如果策略P只存在于A或者只存在于B，那么认为A和B是不相关的)，并且集合內的策略是有序的，那么比较次数会大大减少。Trie的树形结构能够表达集合之间的不相交特性，所以适合用Trie来表达已有策略，最终搜索已有策略的过程变成搜索Trie的过程。</p>
+<h5 id="%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5%E9%A2%84%E5%A4%84%E7%90%86">防火墙策略预处理</h5>
+<p>防火墙策略的结构本质是五元组+动作的六元组，即(SrcAddr, DstAddr, Protocol, SrcPort, DstPort, Action)。</p>
+<ul>
+<li>对于地址，我们可以将其转换为数字范围, 比如对于IP地址<code>192.168.1.8</code>可以转换成<code>[3232235784, 3232235784</code>, 对于CIDR地址址<code>192.168.1.0/25</code>, 它的可用范围为<code>192.168.1.1~192.168.1.126</code>, 转换成数字范围为<code>[3232235777, 3232235902]</code></li>
+<li>对于协议，可以将其转换成数字，比如TCP可以转成6</li>
+<li>对于端口，部分防火墙使用字符串表示端口，比如www代表80等等，将其转换成数字形式</li>
+<li>如果协议是ICMP/ICMP6, 它的type和code也可以用数字表示</li>
+<li>对于动作，用0表示deny，用1表示accept</li>
+<li>对于any，可以用-1表示</li>
+</ul>
+<p>经过预处理的策略表示为:</p>
+<pre class="hljs"><code><div>R = (a, p, [sal, sar], [dal, dar], [spl, spr], [dpl, dpr])
+</div></code></pre>
+<h5 id="%E6%9E%84%E9%80%A0%E7%AD%96%E7%95%A5%E6%A0%91">构造策略树</h5>
+<p>现有经过预处理的已有策略数组 S, S = [R<sub>1</sub>, R<sub>2</sub>, …, R<sub>n</sub>], 其Json格式为:</p>
+<pre class="hljs"><code><div>{  
+   <span class="hljs-attr">"S"</span>:[  
+      {  
+         <span class="hljs-attr">"sal"</span>:<span class="hljs-number">167876354</span>,
+         <span class="hljs-attr">"sar"</span>:<span class="hljs-number">167876354</span>,
+         <span class="hljs-attr">"dal"</span>:<span class="hljs-number">3232244222</span>,
+         <span class="hljs-attr">"dar"</span>:<span class="hljs-number">3232244222</span>,
+         <span class="hljs-attr">"p"</span>:<span class="hljs-number">6</span>,
+         <span class="hljs-attr">"spl"</span>:<span class="hljs-number">0</span>,
+         <span class="hljs-attr">"spr"</span>:<span class="hljs-number">65535</span>,
+         <span class="hljs-attr">"dpl"</span>:<span class="hljs-number">88</span>,
+         <span class="hljs-attr">"dpr"</span>:<span class="hljs-number">88</span>,
+         <span class="hljs-attr">"a"</span>:<span class="hljs-number">1</span>
+      },
+      {  
+         <span class="hljs-attr">"sal"</span>:<span class="hljs-number">3232243969</span>,
+         <span class="hljs-attr">"sar"</span>:<span class="hljs-number">3232243969</span>,
+         <span class="hljs-attr">"dal"</span>:<span class="hljs-number">3232235777</span>,
+         <span class="hljs-attr">"dar"</span>:<span class="hljs-number">3232235777</span>,
+         <span class="hljs-attr">"p"</span>:<span class="hljs-number">6</span>,
+         <span class="hljs-attr">"spl"</span>:<span class="hljs-number">0</span>,
+         <span class="hljs-attr">"spr"</span>:<span class="hljs-number">65535</span>,
+         <span class="hljs-attr">"dpl"</span>:<span class="hljs-number">80</span>,
+         <span class="hljs-attr">"dpr"</span>:<span class="hljs-number">80</span>,
+         <span class="hljs-attr">"a"</span>:<span class="hljs-number">1</span>
+      },
+      {  
+         <span class="hljs-attr">"sal"</span>:<span class="hljs-number">3232243969</span>,
+         <span class="hljs-attr">"sar"</span>:<span class="hljs-number">3232243969</span>,
+         <span class="hljs-attr">"dal"</span>:<span class="hljs-number">3232235809</span>,
+         <span class="hljs-attr">"dar"</span>:<span class="hljs-number">3232235809</span>,
+         <span class="hljs-attr">"p"</span>:<span class="hljs-number">6</span>,
+         <span class="hljs-attr">"spl"</span>:<span class="hljs-number">0</span>,
+         <span class="hljs-attr">"spr"</span>:<span class="hljs-number">65535</span>,
+         <span class="hljs-attr">"dpl"</span>:<span class="hljs-number">80</span>,
+         <span class="hljs-attr">"dpr"</span>:<span class="hljs-number">80</span>,
+         <span class="hljs-attr">"a"</span>:<span class="hljs-number">1</span>
+      },
+      {  
+         <span class="hljs-attr">"sal"</span>:<span class="hljs-number">3232244001</span>,
+         <span class="hljs-attr">"sar"</span>:<span class="hljs-number">3232244001</span>,
+         <span class="hljs-attr">"dal"</span>:<span class="hljs-number">3232235789</span>,
+         <span class="hljs-attr">"dar"</span>:<span class="hljs-number">3232235789</span>,
+         <span class="hljs-attr">"p"</span>:<span class="hljs-number">6</span>,
+         <span class="hljs-attr">"spl"</span>:<span class="hljs-number">0</span>,
+         <span class="hljs-attr">"spr"</span>:<span class="hljs-number">65535</span>,
+         <span class="hljs-attr">"dpl"</span>:<span class="hljs-number">80</span>,
+         <span class="hljs-attr">"dpr"</span>:<span class="hljs-number">80</span>,
+         <span class="hljs-attr">"a"</span>:<span class="hljs-number">1</span>
+      },
+      {  
+         <span class="hljs-attr">"sal"</span>:<span class="hljs-number">167903844</span>,
+         <span class="hljs-attr">"sar"</span>:<span class="hljs-number">167903844</span>,
+         <span class="hljs-attr">"dal"</span>:<span class="hljs-number">167838052</span>,
+         <span class="hljs-attr">"dar"</span>:<span class="hljs-number">167838052</span>,
+         <span class="hljs-attr">"p"</span>:<span class="hljs-number">17</span>,
+         <span class="hljs-attr">"spl"</span>:<span class="hljs-number">0</span>,
+         <span class="hljs-attr">"spr"</span>:<span class="hljs-number">65535</span>,
+         <span class="hljs-attr">"dpl"</span>:<span class="hljs-number">2667</span>,
+         <span class="hljs-attr">"dpr"</span>:<span class="hljs-number">65535</span>,
+         <span class="hljs-attr">"a"</span>:<span class="hljs-number">0</span>
+      },
+      {  
+         <span class="hljs-attr">"sal"</span>:<span class="hljs-number">3232235886</span>,
+         <span class="hljs-attr">"sar"</span>:<span class="hljs-number">3232235887</span>,
+         <span class="hljs-attr">"dal"</span>:<span class="hljs-number">3232235976</span>,
+         <span class="hljs-attr">"dar"</span>:<span class="hljs-number">3232235976</span>,
+         <span class="hljs-attr">"p"</span>:<span class="hljs-number">-1</span>,
+         <span class="hljs-attr">"spl"</span>:<span class="hljs-number">0</span>,
+         <span class="hljs-attr">"spr"</span>:<span class="hljs-number">65535</span>,
+         <span class="hljs-attr">"dpl"</span>:<span class="hljs-number">0</span>,
+         <span class="hljs-attr">"dpr"</span>:<span class="hljs-number">65535</span>,
+         <span class="hljs-attr">"a"</span>:<span class="hljs-number">1</span>
+      },
+      {  
+         <span class="hljs-attr">"sal"</span>:<span class="hljs-number">-1</span>,
+         <span class="hljs-attr">"sar"</span>:<span class="hljs-number">-1</span>,
+         <span class="hljs-attr">"dal"</span>:<span class="hljs-number">-1</span>,
+         <span class="hljs-attr">"dar"</span>:<span class="hljs-number">-1</span>,
+         <span class="hljs-attr">"p"</span>:<span class="hljs-number">-1</span>,
+         <span class="hljs-attr">"spl"</span>:<span class="hljs-number">0</span>,
+         <span class="hljs-attr">"spr"</span>:<span class="hljs-number">65535</span>,
+         <span class="hljs-attr">"dpl"</span>:<span class="hljs-number">0</span>,
+         <span class="hljs-attr">"dpr"</span>:<span class="hljs-number">65535</span>,
+         <span class="hljs-attr">"a"</span>:<span class="hljs-number">1</span>
+      }
+   ]
+}
+</div></code></pre>
+<p>我们可以把一个六元组看成trie树例子中的字符串，依次处理六元组的每个元素。比如对于协议，我们的构造的结果如图所示:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/any-tcp-udp-without-virtual-node.png" alt="image"></p>
+<p>以此类推，构造出整棵树, 由于图片大小限制，只给出部分构造，并且省略了保存策略的叶子结点:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/part-policy-trie.png" alt="image"></p>
+<p>这里以策略(3232243969, 3232243969, 3232235809, 3232235809, 6, 0, 65535, 80, 80, 1)为例, 从策略树中找出包含该策略的策略，流程如下:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/part-policy-trie-dfs.png" alt="image"></p>
+<p>从图中可以看出， <code>0</code> 所在的分枝被立即排除在结果集之外，达到了优化比较次数的目的，但效果有限。</p>
+<h5 id="%E4%B8%8D%E7%9B%B8%E4%BA%A4%E7%89%B9%E6%80%A7">不相交特性</h5>
+<p>看了上图你会发现，我们在搜索的时候需要遍历某个节点的所有子节点，比如第二步和第五步，这是因为我们在构造策略树没有保证它们的不相交特性，结果存在于 <code>6</code> 分枝的叶子结点中，也可能存在于 <code>-1</code> 分枝的叶子结点中，因为 <code>-1</code> 是包含 <code>6</code> 的。同样的，五元组的每个元素都存在这个问题，所以只能称之为部分不相交。</p>
+<h3 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h3>
+<ol>
+<li><a href="https://segmentfault.com/a/1190000008877595">小白详解 Trie 树</a></li>
+</ol>
+
+</body>
+</html>
