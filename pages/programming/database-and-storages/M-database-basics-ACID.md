@@ -239,3 +239,4 @@ undo log 主要记录事物结束之前的操作，当事物失败进行回滚�
 * [PostgreSQL WAL vs. Oracle Redo Log](https://www.moeding.net/2012/07/postgresql-wal-vs.-oracle-redo-log/#:~:text=The%20most%20visible%20difference%20between%20WAL%20and%20redo, only%20change%20if%20the%20DBA%20modifies%20the%20configuration.)
 * [Postgres  WAL Configuration](https://www.postgresql.org/docs/9.2/wal-configuration.html)
 * [MVCC](https://www.php.cn/mysql-tutorials-460111.html)
+* [Checkpointing, Redo, Undo/Redo Logging](http://www.cs.sjsu.edu/faculty/pollett/157b.12.05s/Lec20042005.pdf)
