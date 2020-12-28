@@ -456,7 +456,7 @@ Hash functions are used alongside encryption for their integrity capabilities.
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/data-race.png" alt="image"></p>
 <p>如图所示，P1, P2相当于&quot;同时&quot;在访问这个内存块，因为P1的读还未结束，P2就开始修改它了。因此，我们需要对资源加锁，保证P1在完成读之前，P2是是不能写的。</p>
 <p>真正的并行需要增加多个'时间线', 即多核, 每个核是独立的时间线。但多核也会让内存等不能按时间分片的资源更容易产生竞争, 处理起来也更复杂。在多核的情况下，我们可以对内存这类资源分片来减少共享数据，比如找数组的最大值，先将数组分成多份，然后合并结果。</p>
-<p>spinlock/semaphore/mutex/concurrency/parallel</p>
+<p>spinlock/semaphore/mutex/concurrency/parallel/shared lock/exclusive lock</p>
 <h3 id="centralizedecentralize-and-distribution">centralize/decentralize and distribution</h3>
 <p>我们经常会听到分布式架构, 但分布式（distribution）和去中心化（decentralize，也可以称非集中式）不是一个概念。分布式是指整个系统被分散到不同的位置，用来提升性能或者提高可靠性（比如git），而去中心化是指的是不存在一个单一的管理实体去管理整个系统，去中心化依赖多个相互独立的管理实体共同管理整个系统。SDN是中心化（也称集中式）的，区块链是去中心化的，也是分布式的。</p>
 <p>CAP/BASE/Paxos/Raft/ZAB/Gossip/distributed-lock/distributed-id</p>

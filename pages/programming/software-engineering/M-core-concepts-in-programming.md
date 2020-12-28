@@ -99,7 +99,7 @@ heap/stack/queue/linked-list/array/tree/graph/sort/search/indexing
 
 真正的并行需要增加多个'时间线', 即多核, 每个核是独立的时间线。但多核也会让内存等不能按时间分片的资源更容易产生竞争, 处理起来也更复杂。在多核的情况下，我们可以对内存这类资源分片来减少共享数据，比如找数组的最大值，先将数组分成多份，然后合并结果。
 
-spinlock/semaphore/mutex/concurrency/parallel
+spinlock/semaphore/mutex/concurrency/parallel/shared lock/exclusive lock
 
 ### centralize/decentralize and distribution
 
