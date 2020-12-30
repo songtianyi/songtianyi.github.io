@@ -1,6 +1,6 @@
 # 数据库基础-索引
 
-作者: [songtianyi](http://songtianyi.info)
+作者: [songtianyi](http://songtianyi.info)create@2020/12/27
 
 ## 前言
 
@@ -9,7 +9,6 @@
 
 ``` c
 i --> array[i]
-p --> *p
 key --> map[key]
 ```
 

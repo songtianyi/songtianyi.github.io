@@ -107,6 +107,36 @@ spinlock/semaphore/mutex/concurrency/parallel/shared lock/exclusive lock
 
 CAP/BASE/Paxos/Raft/ZAB/Gossip/distributed-lock/distributed-id
 
+### cache and buffer
+
+之所以将 cache 作为核心概念，一是，它很重要，无处不在，二是，我不能很快地在现实世界中找到同样的案例，因此没把它归类到 `emulation` 里。
+
+我们通常接触到的 cache 是我们的内存，它的读写速度比磁盘快很多，但也很贵，存储容量有限。cache 就是在容量和性能之间做的一个较好的权衡，用较小的代价，换取可观的性能收益。它的理论基础可以认为是:
+
+* 时间局部性：如果某个数据被访问，那么在不久的将来它很可能被再次访问
+* 空间局部性：如果某个数据被访问，那么与它相邻的数据很快也可能被访问
+
+此为局部性原理。
+
+在此类有性能差的软硬件之间，就可以设置 cache 层，来达到一个不错的效果。比如:
+
+***CPU cache***
+CPU 的性能相对主存要快很多，如果 CPU 直接访问主存，那么会浪费掉 CPU 的性能，而 CPU 所使用的 cache （Static RAM）是比主存(main memory) 快的多的硬件(Dynamic RAM), 而且有多级的 cache。当然，这种高速 cache 的容量是很小很小的，如果 miss ，cpu 会直接访问主存。
+***GPU cache***
+和 CPU cache 的架构类似，但是是针对3维数据，纹理数据做了优化的。
+***Dsik cache***
+磁盘也有 cache ，也是为了弥补内存和磁盘之间性能差距的，能够大幅提高磁盘的读写速度。所以，也许你认为已经写到磁盘的数据，其实并未写入，写底层的软件就要注意如何刷脏数据了。postgres 就犯了这样的错误，而且过了很多年才发现。
+
+buffer 又是是什么？和 cache 有什么区别？ 
+
+从字面上理解，buffer 是缓冲，而 cache 是缓存。cache 一般用来提高 io 速度，而 buffer 一般用来提高 io 吞吐效率。buffer 一般是用来提高写效率，cache 一般用来提高读效率。之所以放在一起，是因为它们的功能是一样的，都是为了弥补性能鸿沟。
+
+> Disk cache 有时候也被成为 disk buffer, 可见它们之间的渊源。
+
+当一些数据不能马上被拿走或消费掉的时候，就需要用 buffer，比如消息队列，它可以提高业务处理不过来的时候的响应速度，再比如 tcp 连接的 buffer，传输过来的数据会先被放进 buffer，这样传输就不用受限于业务程序的处理效率。 再如，数据库里使用的 WAL 技术，也可以认为是一种基于文件的 buffer, 提供持久性的同时，用顺序 io 代替随机 io 以提高写入速度。
+
 ### 参考资料
 
 [1] [is-sha-1-encryption](https://security.stackexchange.com/questions/29482/is-sha-1-encryption)
+[2] [局部性原理——各类优化的基石](https://www.cnblogs.com/xindoo/p/11303906.html)
+[3] [Types of locality](https://en.wikipedia.org/wiki/Locality_of_reference#Types_of_locality)
