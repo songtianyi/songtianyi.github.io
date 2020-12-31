@@ -394,17 +394,17 @@ code {
   </script>
 <h1 id="%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5">编程核心概念</h1>
 <p>作者: <a href="http://songtianyi.info">songtianyi</a> create@2020-11-08</p>
-<p>计算机技术非常庞大，而且仍在快速更新，面对越来越多的新技术，我们似乎跟不上了。如何面对新技术，如果面对换工作时的技术迁移，是必须要考虑的。<br>
+<p>计算机技术非常庞杂，而且仍在快速更新，面对越来越多的新技术，我们似乎跟不上了。如何面对新技术，如果面对换工作时的技术迁移，是必须要考虑的。<br>
 优秀的程序员不会被技术迭代淘汰掉，也不惧怕切入新的技术领域。掌握一些核心的概念，可迁移的能力，是我们从容应对的底气。之后要介绍的内容，正是基于此而产生的，我个人认为比较重要的一些核心概念。这些概念虽然简单，但需要我们时常放在心上。</p>
 <p>除了讲述基本概念，每个概念会附带一些技术名词，方便进一步学习。</p>
 <h3 id="protocol"><strong>protocol</strong></h3>
 <p>协议，或者说约定，是我们构建任何系统的基础，我们制定标准，在标准的指导下通力合作，构建出一个个庞杂的系统。比如网络协议 tcp/ip，编码标准，编程语言，甚至我们平时说的普通话，都可以算作是协议。协议本身是很简单的，都是规定死的东西，重要的是协议为什么是这样设计的, 所以它的发展历程很重要。<br>
-我们在学tcp/ip 的时候，如果一开始就扎进协议的细节里，会学的很痛苦，协议本身是很枯燥的，而且庞杂，好比我们学英语的时候去死背英语单词。正确的学习方式是，从简单的协议开始，理解协议本身，建立“每一个设计细节背后，都有一个精妙的设计初衷”这种观念，比如tcp/ip协议栈的层级结构，它在一开始就是这样的嘛，这样一个复杂的东西，是怎么一步步变成现在这个样子的，然后再一点点地去了解协议细节，以及背后的设计初衷。精密的事物，都有精妙的设计哲学在里面，重要的是，我们能感知这种哲学，感受设计者的思想，这才是最有意思的事情。</p>
+我们在学 tcp/ip 的时候，如果一开始就扎进协议的细节里，会学的很痛苦，协议本身是很枯燥的，而且庞杂，好比我们学英语的时候去死背英语单词。正确的学习方式是，从简单的协议开始，理解协议本身，建立“每一个设计细节背后，都有一个精妙的设计初衷”这种观念，比如 tcp/ip 协议栈的层级结构，它在一开始就是这样的嘛，这样一个复杂的东西，是怎么一步步变成现在这个样子的，然后再一点点地去了解协议细节，以及背后的设计初衷。精密的事物，都有精妙的设计哲学在里面，重要的是，我们能感知这种哲学，感受设计者的思想，这才是最有意思的事情。</p>
 <p>programming-languages/network-protocols/RFCs/encoding-decoding-protocols</p>
 <h3 id="encodingdecoding"><strong>encoding/decoding</strong></h3>
-<p>编码与解码无处不在，在我的概念里，编码/解码是协议的实现，比如utf-8的编解码实现了utf-8这个标准。<br>
+<p>编码与解码无处不在，在我的概念里，编码/解码是协议的实现，比如 utf-8 的编解码实现了 utf-8 这个标准。<br>
 编解码处理的是数据，而且一般成对出现，是可逆的，比如软件工程里的逆向工程；但有的是不可逆的，比如有损压缩，你需要借助一些插值算法，才能把数据补回去，补回去的数据也并非原数据；再比如hash，只有编码过程，没有解码过程。</p>
-<p>之前面试的时候，有面试者说SHA1 hash是加密算法，虽然加密算法也是encoding的过程，但区别是，加密必然伴随着解密，即decoding，所以hash只能算编码算法。这里贴一段英文的解释<sup>[1]</sup>，因为大部分中文教程里，都有 <s><code>md5是加密算法</code></s> 这样的错误描述，导致很多人对此深信不疑。</p>
+<p>之前面试的时候，有面试者说 SHA1 hash 是加密算法，虽然加密算法也是 encoding 的过程，但区别是，加密必然伴随着解密，即 decoding，所以 hash 只能算编码算法。这里贴一段英文的解释<sup>[1]</sup>，因为大部分中文教程里，都有 <s><code>md5是加密算法</code></s> 这样的错误描述，导致很多人对此深信不疑。</p>
 <pre class="hljs"><code><div>
 By definition, a hash function is not encryption.
 
@@ -418,12 +418,12 @@ Encryption provides confidentiality while hash functions provide integrity.
 
 Hash functions are used alongside encryption for their integrity capabilities.
 </div></code></pre>
-<p>我们在阅读或者debug代码的时候，多去寻找编解码的函数，如此，数据的边界，流向，变化过程会比较清晰，便于我们快速定位出错的位置。<br>
-举个乱码的例子，很多人都遇到过乱码，有些情况比较简单，有些则看起来复杂。比如，同样的代码，在虚拟机上的输出是乱码，在本地PC上的输出却是正常的。如果我们只关注到代码是一样的，你会觉得这问题出的很是莫名其妙对不对，但如果你注意到，我们从程序里输出到terminal的内容，是会被terminal解码的，这时你应该会想到，是不是本地 terminal 设置的编码和远程虚拟机 terminal 设置的编码不一致导致了这种差异。</p>
+<p>我们在阅读或者 debug 代码的时候，多去寻找编解码的函数，如此，数据的边界，流向，变化过程会比较清晰，便于我们快速定位出错的位置。<br>
+举个乱码的例子，很多人都遇到过乱码，有些情况比较简单，有些则看起来复杂。比如，同样的代码，在虚拟机上的输出是乱码，在本地PC上的输出却是正常的。如果我们只关注到代码是一样的，你会觉得这问题出的很是莫名其妙对不对，但如果你注意到，我们从程序里输出到terminal的内容，是会被 terminal 解码的，这时你应该会想到，是不是本地 terminal 设置的编码和远程虚拟机 terminal 设置的编码不一致导致了这种差异。</p>
 <p>ffmpeg/open-ssl/compiler-decompiler/compression-decompression</p>
 <h3 id="binary"><strong>binary</strong></h3>
 <p>二进制是我们在计算机人门时最先接触到的概念，虽然我们熟知二进制是信息最基础的表现形式，但我们并不一定时常能以这样的认知去看待事物。<br>
-以编程语言里的类型来举例，在我们的认知里，类型通常是不能随意转换的，你会遇到各种编译错误，对不对？但实际上是可以的。所谓类型，只是编译器用来约束变量边界的规范，任何类型，其本质都是二进制，我们可以用 <code>int32</code> 来存储1-4个 <code>char</code> ，也可以用一个 <code>double</code> 来存储1-4个 <code>int32</code> , 还可以用 <code>short</code> 来存储 <code>float</code> 以降低 <code>float</code> 的精度，从而达到降低存储空间的目的等等。二进制级别的运算是很有意思的，可以借助指针让我们直接操作内存，在性能和存储空间方面做更深入的优化，也可以做一些精妙的hack。但并不是所有语言都提供这种自由。</p>
+以编程语言里的类型来举例，在我们的认知里，类型通常是不能随意转换的，你会遇到各种编译错误，对不对？但实际上是可以的。所谓类型，只是编译器用来约束变量边界的规范，任何类型，其本质都是二进制，我们可以用 <code>int32</code> 来存储1-4个 <code>char</code> ，也可以用一个 <code>double</code> 来存储1-4个 <code>int32</code> , 还可以用 <code>short</code> 来存储 <code>float</code> 以降低 <code>float</code> 的精度，从而达到降低存储空间的目的等等。二进制级别的运算是很有意思的，可以借助指针让我们直接操作内存，在性能和存储空间方面做更深入的优化，也可以做一些精妙的 hack。但并不是所有语言都提供这种自由。</p>
 <pre class="hljs"><code><div><span class="hljs-comment">// c++</span>
 <span class="hljs-comment">// 32bit float 降精度，用16bit short 存，节省存储空间</span>
 <span class="hljs-keyword">void</span> FPC::__32To16(<span class="hljs-keyword">const</span> <span class="hljs-keyword">float</span> x, <span class="hljs-keyword">unsigned</span> short &amp;res)
@@ -439,27 +439,28 @@ Hash functions are used alongside encryption for their integrity capabilities.
 </div></code></pre>
 <p>binary-arithmetic/pointer</p>
 <h3 id="inputoutput"><strong>input/output</strong></h3>
-<p>i/o 无处不在，但我们不一定会特别注意到它。比如磁盘io，键盘(input)+显示器(output)，网络io等。io一般发生在软件与软件或者软件与硬件的边界处，对我们理解软件／系统架构至关重要，自己做架构设计时候也要时常注意io的边界。</p>
+<p>i/o 无处不在，但我们不一定会特别注意到它。比如磁盘io，键盘(input)+显示器(output)，网络 io 等。io 一般发生在软件与软件或者软件与硬件的边界处，对我们理解软件／系统架构至关重要，自己做架构设计时候也要时常注意io的边界。</p>
 <p>network-io/disk-io/functions-input-output</p>
 <h3 id="emulation"><strong>emulation</strong></h3>
 <p>&quot;一切能用硬件实现的东西，都可以用软件来模拟“。这是一位学长教给我的至今印象很深的一句话。就像摩尔定律一样，这句话相当于一种论断，预言，它能带给你信心，也会促使你去寻找反例。我们可以用软件构建出一个和现实世界一模一样的虚拟世界: 仿真系统，虚拟化，自动化系统等等。</p>
 <p>除了使用软件模拟现实世界这方面，模拟的概念也时常出现在使用软件模拟软件方面。比如，模拟浏览器访问网站；模拟软件系统中的某个组件，用来测试系统中的其他组件或者伪装身份等等。</p>
 <p>qemu/automation-system/simulation-system/games/man-in-the-middle-attack/mock</p>
 <h3 id="data-structure-and-algorithm"><strong>data-structure and algorithm</strong></h3>
-<p>程序设计 = 数据结构 + 算法， 在C语言的第一堂课里，老师应该会给你们讲这个公式，它们的重要性不言而喻。数据结构用来组织数据，堆栈，数组，链表，图，树等等，我们需要掌握很多种数据结构，并关注它们的使用场景。算法和数据结构是相辅相成的，合在一起构成解决问题的方案，也可以认为是解耦的，同一个算法可以使用不同的数据结构来实现。</p>
+<p>程序设计 = 数据结构 + 算法， 在 C 语言的第一堂课里，老师应该会给你们讲这个公式，它们的重要性不言而喻。数据结构用来组织数据，堆栈、数组、链表、图、树，等等，我们需要掌握很多种数据结构，并关注它们的使用场景。算法和数据结构是相辅相成的，合在一起构成解决问题的方案，也可以认为是解耦的，同一个算法可以使用不同的数据结构来实现。</p>
 <p>从我个人理解的角度以及实用的角度讲，数据结构要比算法重要的多，首先数据结构是我们解决问题的第一步，即如何表达数据，表达数据不是单纯地存取它，而是发掘数据的内在结构，以一种较贴切的数据结构去表达数据的特性，当我们很好的完成第一步，接下来就能比较容易地去套用成熟算法了。</p>
 <p>heap/stack/queue/linked-list/array/tree/graph/sort/search/indexing</p>
 <h3 id="time-sharing-and-asynchronous"><strong>time-sharing and asynchronous</strong></h3>
-<p>我们熟知的操作系统都属于分时操作系统，这种分时机制可以让多个进程&quot;同时&quot;跑，cpu资源按时间分片，分配给不同的进程，以达到多任务的效果, 它是并发的基础。而我们熟知的异步, 和并发的概念是不同的，异步是一种编程模型，你可以开一个子进程去执行长操作（比如磁盘io），而不用阻塞长操作之后的逻辑。</p>
+<p>我们熟知的操作系统都属于分时操作系统，这种分时机制可以让多个进程&quot;同时&quot;跑，cpu 资源按时间分片，分配给不同的进程，以达到多任务的效果, 它是并发的基础。而我们熟知的异步, 和并发的概念是不同的，异步是一种编程模型，你可以开一个子进程去执行长操作（比如磁盘 io ），而不用阻塞长操作之后的逻辑。</p>
 <h3 id="lock"><strong>lock</strong></h3>
 <p>对于cpu资源，操作系统会把它按时间分片，然后分配给所有线程，不存在竞争，因为时间是不可能重叠的，不可复用的，但像内存，文件这类资源，是没办法按时间分片的，在并发的时候就有可能产生数据竞争（data race）。</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/data-race.png" alt="image"></p>
-<p>如图所示，P1, P2相当于&quot;同时&quot;在访问这个内存块，因为P1的读还未结束，P2就开始修改它了。因此，我们需要对资源加锁，保证P1在完成读之前，P2是是不能写的。</p>
+<p>如图所示，P1, P2 相当于&quot;同时&quot;在访问这个内存块，因为 P1 的读还未结束，P2 就开始修改它了。因此，我们需要对资源加锁，保证 P1 在完成读之前，P2 是是不能写的。</p>
 <p>真正的并行需要增加多个'时间线', 即多核, 每个核是独立的时间线。但多核也会让内存等不能按时间分片的资源更容易产生竞争, 处理起来也更复杂。在多核的情况下，我们可以对内存这类资源分片来减少共享数据，比如找数组的最大值，先将数组分成多份，然后合并结果。</p>
-<p>spinlock/semaphore/mutex/concurrency/parallel/shared lock/exclusive lock</p>
+<p>MYSQL 数据库在处理事物并发的时候，会使用 MVCC . MVCC 用一种多版本的方式来消除数据竞争，可以理解为它通过创造多个时间线来达到数据并行。</p>
+<p>spinlock/semaphore/mutex/concurrency/parallel/shared lock/exclusive lock/MVCC</p>
 <h3 id="centralizeddecentralized-and-distributed-system"><strong>centralized/decentralized and distributed system</strong></h3>
-<p>我们经常会听到分布式架构, 但分布式（distribution）和去中心化（decentralize，也可以称非集中式）不是一个概念。分布式是指整个系统被分散到不同的位置，用来提升性能或者提高可靠性（比如git），而去中心化是指的是不存在一个单一的管理实体去管理整个系统，去中心化依赖多个相互独立的管理实体共同管理整个系统。SDN是中心化（也称集中式）的，区块链是去中心化的，也是分布式的。</p>
-<p>CAP/BASE/Paxos/Raft/ZAB/Gossip/distributed-lock/distributed-id</p>
+<p>我们经常会听到分布式架构, 但分布式（distribution）和去中心化（decentralize，也可以称非集中式）不是一个概念。分布式是指整个系统被分散到不同的位置，用来提升性能或者提高可靠性（比如 git），而去中心化指的是不存在一个单一的管理实体去管理整个系统，去中心化依赖多个相互独立的管理实体共同管理整个系统。SDN 是中心化（也称集中式）的，区块链是去中心化的，也是分布式的。</p>
+<p>CAP/BASE/Paxos/Raft/ZAB/Gossip/distributed-lock/distributed-id/consistent-hash</p>
 <h3 id="cache-and-buffer"><strong>cache and buffer</strong></h3>
 <p>之所以将 cache 作为核心概念，一是，它很重要，无处不在，二是，我不能很快地在现实世界中找到同样的案例，因此没把它归类到 <code>emulation</code> 里。</p>
 <p>我们通常接触到的 cache 是我们的内存，它的读写速度比磁盘快很多，但也很贵，存储容量有限。cache 就是在容量和性能之间做的一个较好的权衡，用较小的代价，换取可观的性能收益。它的理论基础可以认为是:</p>
@@ -470,9 +471,9 @@ Hash functions are used alongside encryption for their integrity capabilities.
 <p>此为局部性原理。</p>
 <p>在此类有性能差的软硬件之间，就可以设置 cache 层，来达到一个不错的效果。比如:</p>
 <p><em>CPU cache</em><br>
-CPU 的性能相对主存要快很多，如果 CPU 直接访问主存，那么会浪费掉 CPU 的性能，而 CPU 所使用的 cache （Static RAM）是比主存(main memory) 快的多的硬件(Dynamic RAM), 而且有多级的 cache。当然，这种高速 cache 的容量是很小很小的，如果 miss ，cpu 会直接访问主存。<br>
+CPU 的性能相对主存(main memory, 即我们熟知的内存)要快很多，如果 CPU 直接访问主存，那么会浪费掉 CPU 的性能，而 CPU 所使用的 cache （Static RAM）是比主存快的多的硬件(Dynamic RAM), 而且有多级的 cache。当然，这种高速 cache 的容量是很小很小的，如果 miss ，cpu 会直接访问主存。<br>
 <em>GPU cache</em><br>
-和 CPU cache 的架构类似，但是是针对3维数据，纹理数据做了优化的。<br>
+和 CPU cache 的架构类似，但是是针对3维数据，纹理数据等做了优化的。<br>
 <em>Dsik cache</em><br>
 磁盘也有 cache ，也是为了弥补内存和磁盘之间性能差距的，能够大幅提高磁盘的读写速度。</p>
 <p>buffer 又是是什么？和 cache 有什么区别？</p>
@@ -481,6 +482,12 @@ CPU 的性能相对主存要快很多，如果 CPU 直接访问主存，那么�
 <p>Disk cache 有时候也被称为 disk buffer, 可见它们之间的渊源。</p>
 </blockquote>
 <p>当一些数据不能马上被拿走或消费掉的时候，就需要用 buffer，比如消息队列，它可以提高业务处理不过来的时候的响应速度，再比如 tcp 连接的 buffer，传输过来的数据会先被放进 buffer，这样传输就不用受限于业务程序的处理效率。 再如，数据库里使用的 WAL 技术，也可以认为是一种基于文件的 buffer, 提供持久性的同时，用顺序 io 代替随机 io 以提高写入速度。</p>
+<h3 id="resuing-and-multiplexing">Resuing and Multiplexing</h3>
+<p>代码复用(code resue)，连接池(connection pool)，线程池(thread pool) 这些都是复用(resuing)里的经典案例。我们要思考的是，它们的共性是什么。<br>
+当我们创建, 维持或销毁一个对象，需要付出较高的代价时，我们就可以考虑复用它，现实生活中的垃圾回收再利用，也是同样的道理。<br>
+代码复用是因为创建代码的成本很高；连接（如 tcp 连接）的创建和销毁要经过三次握手和四次挥手，在高并发的场景里，这种消耗也是遭不住的，所以, 用完的连接可以放进连接池，等待下一次请求时使用；线程的创建，维持以及销毁都需要较高的代价，所以处理方式也是类似的。</p>
+<p>Multiplexing 的字面意思也是复用，但多指 <code>多路复用</code></p>
+<h3 id="replication-and-backups">Replication and backups</h3>
 <h3 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><strong>参考资料</strong></h3>
 <ul>
 <li>[1] <a href="https://security.stackexchange.com/questions/29482/is-sha-1-encryption">is-sha-1-encryption</a></li>
