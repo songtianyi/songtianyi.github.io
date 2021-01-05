@@ -8,7 +8,7 @@
 
 ##### 要素的选取
 
-对比的要素github已经都标出来了，star,fork,watch.  比如目前比较热的深度学习框架Tensorflow，它的要素值为(112564, 68801,8471),
+对比的要素github已经都标出来了，star, fork, watch.  比如目前比较热的深度学习框架Tensorflow，它的要素值为(112564, 68801, 8471), 
 
 ##### 确定参考项目
 
@@ -16,7 +16,7 @@
 
 ##### 计算
 
-最简单的计算方式是 star + fork + watch，然后计算和参考项目的差值并计算比例即可，但从某个角度来说，star,fork,watch是三个不同的度量，好比单位不同(你不能直接将单位为米的star和单位为厘米的fork相加)，此外，star,fork,watch 它们的在计算时的权重也应有所差异，watch的权重应该最高，其次是fork。我们可以估算一个权重`star=5*fork=10*watch`。我们可以把它们看成三维空间的x,y,z轴上的值，如果有多个参考对象，先使用欧式距离分别计算它们和当前项目的距离，设参考项目j的要素值为(star<sub>j</sub>, fork <sub>j</sub>, watch<sub>j</sub>), 则有:
+最简单的计算方式是 star + fork + watch，然后计算和参考项目的差值并计算比例即可，但从某个角度来说，star, fork, watch是三个不同的度量，好比单位不同(你不能直接将单位为米的star和单位为厘米的fork相加)，此外，star, fork, watch 它们的在计算时的权重也应有所差异，watch的权重应该最高，其次是fork。我们可以估算一个权重 `star=5*fork=10*watch` 。我们可以把它们看成三维空间的x, y, z轴上的值，如果有多个参考对象，先使用欧式距离分别计算它们和当前项目的距离，设参考项目j的要素值为(star<sub>j</sub>, fork <sub>j</sub>, watch<sub>j</sub>), 则有:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/weight-euclidean-dist-between-i-j.png)
 
@@ -33,8 +33,3 @@ PS. 写着写着发现自己在扯淡，充个数吧。
 ### 参考资料
 
 1. [Euclidean Distance](http://www.pbarrett.net/techpapers/euclid.pdf)
-
-
-
-
-

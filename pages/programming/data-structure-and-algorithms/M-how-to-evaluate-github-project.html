@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>M-time-space-trade-off.md</title>
+<title>M-how-to-evaluate-github-project.md</title>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
 <style>
@@ -392,61 +392,26 @@ code {
           : 'default'
     });
   </script>
-<h1 id="%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96%E4%B9%8B%E6%97%B6%E7%A9%BA%E4%BA%A4%E6%8D%A2">算法优化之时空交换</h1>
-<p>作者: <a href="http://songtianyi.info">songtianyi</a> create@2020/12/13</p>
-<p>我们在最初学习算法，解算法题的时候，会经常遇到 “时间换空间”, “空间换时间&quot; 这种说法。比如，当时间复杂度不可接受的时候，我们可以考虑在空间上做文章。<br>
-或者换个更肯定的说法，当时间复杂度已经被优化到极致的时候(未牺牲空间)，那么要想继续降低时间复杂度，必然要牺牲空间。</p>
-<p>我们先看一道题目，来具体感受下。</p>
-<p>两数之和</p>
-<blockquote>
-<p>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
-</blockquote>
-<p>示例:</p>
-<blockquote>
-<p>给定 nums = [2, 7, 11, 15], target = 9<br>
-因为 nums[0] + nums[1] = 2 + 7 = 9<br>
-所以返回 [0, 1]</p>
-</blockquote>
-<p>我们很容易想出暴力的方法解决这个问题。</p>
-<pre class="hljs"><code><div>  <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">twoSum</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> target)</span> </span>{
-
-        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; *res = <span class="hljs-keyword">new</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;i &lt; nums.<span class="hljs-built_in">size</span>()<span class="hljs-number">-1</span>;i++) {
-            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = i+<span class="hljs-number">1</span>;j &lt; nums.<span class="hljs-built_in">size</span>();j++) {
-                <span class="hljs-keyword">if</span>(nums[i] + nums[j] == target) {
-                    res-&gt;push_back(i);
-                    res-&gt;push_back(j);
-                    <span class="hljs-keyword">return</span> *res;
-                }
-            }
-        }
-        <span class="hljs-keyword">return</span> *res;
-    }
-
-</div></code></pre>
-<p>但是，如何将时间复杂度降低到 O(N) ? 好的算法往往是反直觉的，与其寻找两个数满足和为 target, 不如寻找一个数 nums[j], 满足 target - nums[j] = 已经出现过的 nums[i].</p>
-<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">twoSum</span><span class="hljs-params">(nums []<span class="hljs-keyword">int</span>, target <span class="hljs-keyword">int</span>)</span> []<span class="hljs-title">int</span></span> {
-    m := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[<span class="hljs-keyword">int</span>]<span class="hljs-keyword">int</span>,<span class="hljs-number">0</span>)
-    <span class="hljs-keyword">for</span> j, v := <span class="hljs-keyword">range</span> nums {
-        <span class="hljs-keyword">if</span> i, ok := m[target-v]; ok {
-            <span class="hljs-keyword">return</span> []<span class="hljs-keyword">int</span>{i,j} 
-        }
-        m[v] = j
-    }
-    <span class="hljs-keyword">return</span> []<span class="hljs-keyword">int</span>{<span class="hljs-number">0</span>,<span class="hljs-number">0</span>}
-}
-</div></code></pre>
-<p>我们通过增加 map 来记录已经遍历过的值，来降低复杂度，以空间换时间。</p>
-<p>但是这篇文章，不是告诉你可以这么做，因为做过算法的人都知道这种优化技巧，我想表达的是，必然要这么做。<strong>当时间最优的时候，空间一定不是最优的, 反之亦然</strong>。</p>
-<blockquote>
-<p>需要强调的是，这是我自己的论断，没有考证过资料，我也不能证明。</p>
-</blockquote>
-<p>这个论断起源于我对复杂性的思考，我认为一件事物，它的复杂性是固定的，好比你家到公司的距离是固定的，你可以走路，可以开车，甚至坐直升机上班，改变的是时间，距离是不变的。</p>
-<p>我思考这些东西，起初是为了反驳那些，以为上了什么新技术，新系统，就万事大吉的观点，不存在银弹，不存在一劳永逸的事情。</p>
-<p>复杂性可以被转移/隐藏，但不会消失。比如，我们可以购买一些软件系统，来减少我们的工作量，付出金钱，将这些复杂性转移出去。再比如，我们可以利用 DSL，以及把大量代码封装复用，来减轻业务开发人员的工作量，对于他们来说，复杂性被隐藏起来了。</p>
-<p>软件最大的特性是可以无限复制，但互联网的发展，开源才是基石，没有开源，我们就不能几乎 0 成本的把复杂性转移出去。开源是互联网如今如此成功的决定性因素。</p>
-<p>复杂性是固定的这个论断，是受了信息熵的启发。熵在信息论中是对不确定度的度量，在数据压缩领域同样可以使用信息熵来度量文件内容的随机性，从而反映出压缩的极限。类似的，系统的复杂性可以和信息的熵值做类比，不管你是用什么手段，系统复杂性都会有一个被简化的极限。</p>
-<p>事实上，的确有一些学者提出了度量复杂性的方法，比如 logic depth, effective complexity, statistical complexity.</p>
+<h1 id="%E5%A6%82%E4%BD%95%E8%AF%84%E4%BC%B0%E4%B8%80%E4%B8%AAgithub%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BB%B7%E5%80%BC">如何评估一个github项目的价值</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a> 2018-10-22</p>
+<h3 id="%E5%89%8D%E8%A8%80">前言</h3>
+<p>一直觉得github的社交价值有待挖掘，想了下，可以做一个发现周围技术牛人的小程序，具体怎么做，这里先不说。如果去实现它，要解决的问题之一就是怎么评价github项目的价值。</p>
+<h5 id="%E8%A6%81%E7%B4%A0%E7%9A%84%E9%80%89%E5%8F%96">要素的选取</h5>
+<p>对比的要素github已经都标出来了，star, fork, watch.  比如目前比较热的深度学习框架Tensorflow，它的要素值为(112564, 68801, 8471),</p>
+<h5 id="%E7%A1%AE%E5%AE%9A%E5%8F%82%E8%80%83%E9%A1%B9%E7%9B%AE">确定参考项目</h5>
+<p>另外，我们需要一个或者多个项目作为参考值。 不同的项目所对应的参考项目应该是不一样的，拿一个爬虫项目和Tensorflow对比没有意义, 而且冷门领域的star数会小几个数量级。所以，需要分类选取多个参考项目，简单点，我们把star排名前N的项目都找出来，作为参考项目，这些项目应该已经涵盖到了技术的方方面面了。在计算分数的时候，根据编程语言，标签(topics)找到匹配的参考项目进行计算。匹配的原则是，任意一个元素匹配即可，比如A项目的分类属性值为(go, wechat, bot), B项目的分类属性值为(ruby, wechat, tool), 其中wechat是匹配的，那么B可以作为A的参考项目，这样更容易将项目的价值凸显出来。</p>
+<h5 id="%E8%AE%A1%E7%AE%97">计算</h5>
+<p>最简单的计算方式是 star + fork + watch，然后计算和参考项目的差值并计算比例即可，但从某个角度来说，star, fork, watch是三个不同的度量，好比单位不同(你不能直接将单位为米的star和单位为厘米的fork相加)，此外，star, fork, watch 它们的在计算时的权重也应有所差异，watch的权重应该最高，其次是fork。我们可以估算一个权重 <code>star=5*fork=10*watch</code> 。我们可以把它们看成三维空间的x, y, z轴上的值，如果有多个参考对象，先使用欧式距离分别计算它们和当前项目的距离，设参考项目j的要素值为(star<sub>j</sub>, fork <sub>j</sub>, watch<sub>j</sub>), 则有:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/weight-euclidean-dist-between-i-j.png" alt="image"></p>
+<p>由于有多个参考项目，我们取d最小的j, 其到零点的距离为:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/euclidean_dist_with_zero_right.png" alt="image"></p>
+<p>同样地，计算出当前项目i到零点的距离d<sub>i</sub>, 那么项目i的打分为为:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/di-multi-100-divide-dj.png" alt="image"></p>
+<p>PS. 写着写着发现自己在扯淡，充个数吧。</p>
+<h3 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h3>
+<ol>
+<li><a href="http://www.pbarrett.net/techpapers/euclid.pdf">Euclidean Distance</a></li>
+</ol>
 
 </body>
 </html>
