@@ -211,7 +211,7 @@ select count(*) from t where type="x";
 
 此时，**被选中的行**是加锁的，不允许修改，但**新增行**是可以的，那么第二次读的时候就会多出来新增部分的行。
 
-**Serializable***
+**Serializable**
 
 可串行化
 
@@ -238,7 +238,6 @@ undo log 主要记录事物结束之前的操作，当事物失败进行回滚�
 
 * [深入解析 fsync](https://github.com/AlexiaChen/AlexiaChen.github.io/issues/111#issuecomment-740297154)
 * [database 101 acid](http://ithare.com/databases-101-acid-mvcc-vs-locks-transaction-isolation-levels-and-concurrency/)
-* [PostgreSQL WAL vs. Oracle Redo Log](https://www.moeding.net/2012/07/postgresql-wal-vs.-oracle-redo-log/#:~:text=The%20most%20visible%20difference%20between%20WAL%20and%20redo, only%20change%20if%20the%20DBA%20modifies%20the%20configuration.)
 * [Postgres  WAL Configuration](https://www.postgresql.org/docs/9.2/wal-configuration.html)
 * [MVCC](https://www.php.cn/mysql-tutorials-460111.html)
 * [Checkpointing, Redo, Undo/Redo Logging](http://www.cs.sjsu.edu/faculty/pollett/157b.12.05s/Lec20042005.pdf)
