@@ -1,550 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-        <style>:root
-{
---markdown-font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui, "Ubuntu", "Droid Sans", sans-serif;
---markdown-font-size: 14px;
---markdown-line-height: 1.6;
---vscode-font-family:"Segoe WPC", "Segoe UI", sans-serif;
---vscode-font-weight:normal;
---vscode-font-size:13px;
---vscode-editor-font-family:Consolas, "Courier New", monospace;
---vscode-editor-font-weight:normal;
---vscode-editor-font-size:14px;
---vscode-foreground:#616161;
---vscode-errorForeground:#a1260d;
---vscode-descriptionForeground:#717171;
---vscode-icon-foreground:#424242;
---vscode-focusBorder:#0090f1;
---vscode-textSeparator-foreground:rgba(0, 0, 0, 0.18);
---vscode-textLink-foreground:#006ab1;
---vscode-textLink-activeForeground:#006ab1;
---vscode-textPreformat-foreground:#a31515;
---vscode-textBlockQuote-background:rgba(127, 127, 127, 0.1);
---vscode-textBlockQuote-border:rgba(0, 122, 204, 0.5);
---vscode-textCodeBlock-background:rgba(220, 220, 220, 0.4);
---vscode-widget-shadow:#a8a8a8;
---vscode-input-background:#ffffff;
---vscode-input-foreground:#616161;
---vscode-inputOption-activeBorder:rgba(0, 122, 204, 0);
---vscode-inputOption-activeBackground:rgba(0, 144, 241, 0.2);
---vscode-inputOption-activeForeground:#000000;
---vscode-input-placeholderForeground:#767676;
---vscode-inputValidation-infoBackground:#d6ecf2;
---vscode-inputValidation-infoBorder:#007acc;
---vscode-inputValidation-warningBackground:#f6f5d2;
---vscode-inputValidation-warningBorder:#b89500;
---vscode-inputValidation-errorBackground:#f2dede;
---vscode-inputValidation-errorBorder:#be1100;
---vscode-dropdown-background:#ffffff;
---vscode-dropdown-border:#cecece;
---vscode-checkbox-background:#ffffff;
---vscode-checkbox-border:#cecece;
---vscode-button-foreground:#ffffff;
---vscode-button-background:#007acc;
---vscode-button-hoverBackground:#0062a3;
---vscode-button-secondaryForeground:#ffffff;
---vscode-button-secondaryBackground:#5f6a79;
---vscode-button-secondaryHoverBackground:#4c5561;
---vscode-badge-background:#c4c4c4;
---vscode-badge-foreground:#333333;
---vscode-scrollbar-shadow:#dddddd;
---vscode-scrollbarSlider-background:rgba(100, 100, 100, 0.4);
---vscode-scrollbarSlider-hoverBackground:rgba(100, 100, 100, 0.7);
---vscode-scrollbarSlider-activeBackground:rgba(0, 0, 0, 0.6);
---vscode-progressBar-background:#0e70c0;
---vscode-editorError-foreground:#e51400;
---vscode-editorWarning-foreground:#e9a700;
---vscode-editorInfo-foreground:#75beff;
---vscode-editorHint-foreground:#6c6c6c;
---vscode-editor-background:#ffffff;
---vscode-editor-foreground:#000000;
---vscode-editorWidget-background:#f3f3f3;
---vscode-editorWidget-foreground:#616161;
---vscode-editorWidget-border:#c8c8c8;
---vscode-quickInput-background:#f3f3f3;
---vscode-quickInput-foreground:#616161;
---vscode-quickInputTitle-background:rgba(0, 0, 0, 0.06);
---vscode-pickerGroup-foreground:#0066bf;
---vscode-pickerGroup-border:#cccedb;
---vscode-editor-selectionBackground:#add6ff;
---vscode-editor-inactiveSelectionBackground:#e5ebf1;
---vscode-editor-selectionHighlightBackground:rgba(173, 214, 255, 0.5);
---vscode-editor-findMatchBackground:#a8ac94;
---vscode-editor-findMatchHighlightBackground:rgba(234, 92, 0, 0.33);
---vscode-editor-findRangeHighlightBackground:rgba(180, 180, 180, 0.3);
---vscode-searchEditor-findMatchBackground:rgba(234, 92, 0, 0.22);
---vscode-editor-hoverHighlightBackground:rgba(173, 214, 255, 0.15);
---vscode-editorHoverWidget-background:#f3f3f3;
---vscode-editorHoverWidget-foreground:#616161;
---vscode-editorHoverWidget-border:#c8c8c8;
---vscode-editorHoverWidget-statusBarBackground:#e7e7e7;
---vscode-editorLink-activeForeground:#0000ff;
---vscode-editorLightBulb-foreground:#ddb100;
---vscode-editorLightBulbAutoFix-foreground:#007acc;
---vscode-diffEditor-insertedTextBackground:rgba(155, 185, 85, 0.2);
---vscode-diffEditor-removedTextBackground:rgba(255, 0, 0, 0.2);
---vscode-diffEditor-diagonalFill:rgba(34, 34, 34, 0.2);
---vscode-list-focusBackground:#d6ebff;
---vscode-list-activeSelectionBackground:#0074e8;
---vscode-list-activeSelectionForeground:#ffffff;
---vscode-list-inactiveSelectionBackground:#e4e6f1;
---vscode-list-hoverBackground:#e8e8e8;
---vscode-list-dropBackground:#d6ebff;
---vscode-list-highlightForeground:#0066bf;
---vscode-list-invalidItemForeground:#b89500;
---vscode-list-errorForeground:#b01011;
---vscode-list-warningForeground:#855f00;
---vscode-listFilterWidget-background:#efc1ad;
---vscode-listFilterWidget-outline:rgba(0, 0, 0, 0);
---vscode-listFilterWidget-noMatchesOutline:#be1100;
---vscode-list-filterMatchBackground:rgba(234, 92, 0, 0.33);
---vscode-tree-indentGuidesStroke:#a9a9a9;
---vscode-list-deemphasizedForeground:#8e8e90;
---vscode-menu-foreground:#616161;
---vscode-menu-background:#ffffff;
---vscode-menu-selectionForeground:#ffffff;
---vscode-menu-selectionBackground:#0074e8;
---vscode-menu-separatorBackground:#888888;
---vscode-editor-snippetTabstopHighlightBackground:rgba(10, 50, 100, 0.2);
---vscode-editor-snippetFinalTabstopHighlightBorder:rgba(10, 50, 100, 0.5);
---vscode-breadcrumb-foreground:rgba(97, 97, 97, 0.8);
---vscode-breadcrumb-background:#ffffff;
---vscode-breadcrumb-focusForeground:#4e4e4e;
---vscode-breadcrumb-activeSelectionForeground:#4e4e4e;
---vscode-breadcrumbPicker-background:#f3f3f3;
---vscode-merge-currentHeaderBackground:rgba(64, 200, 174, 0.5);
---vscode-merge-currentContentBackground:rgba(64, 200, 174, 0.2);
---vscode-merge-incomingHeaderBackground:rgba(64, 166, 255, 0.5);
---vscode-merge-incomingContentBackground:rgba(64, 166, 255, 0.2);
---vscode-merge-commonHeaderBackground:rgba(96, 96, 96, 0.4);
---vscode-merge-commonContentBackground:rgba(96, 96, 96, 0.16);
---vscode-editorOverviewRuler-currentContentForeground:rgba(64, 200, 174, 0.5);
---vscode-editorOverviewRuler-incomingContentForeground:rgba(64, 166, 255, 0.5);
---vscode-editorOverviewRuler-commonContentForeground:rgba(96, 96, 96, 0.4);
---vscode-editorOverviewRuler-findMatchForeground:rgba(209, 134, 22, 0.49);
---vscode-editorOverviewRuler-selectionHighlightForeground:rgba(160, 160, 160, 0.8);
---vscode-minimap-findMatchHighlight:#d18616;
---vscode-minimap-selectionHighlight:#add6ff;
---vscode-minimap-errorHighlight:rgba(255, 18, 18, 0.7);
---vscode-minimap-warningHighlight:#e9a700;
---vscode-minimapSlider-background:rgba(100, 100, 100, 0.2);
---vscode-minimapSlider-hoverBackground:rgba(100, 100, 100, 0.35);
---vscode-minimapSlider-activeBackground:rgba(0, 0, 0, 0.3);
---vscode-problemsErrorIcon-foreground:#e51400;
---vscode-problemsWarningIcon-foreground:#e9a700;
---vscode-problemsInfoIcon-foreground:#75beff;
---vscode-editor-lineHighlightBorder:#eeeeee;
---vscode-editor-rangeHighlightBackground:rgba(253, 255, 0, 0.2);
---vscode-editor-symbolHighlightBackground:rgba(234, 92, 0, 0.33);
---vscode-editorCursor-foreground:#000000;
---vscode-editorWhitespace-foreground:rgba(51, 51, 51, 0.2);
---vscode-editorIndentGuide-background:#d3d3d3;
---vscode-editorIndentGuide-activeBackground:#939393;
---vscode-editorLineNumber-foreground:#237893;
---vscode-editorActiveLineNumber-foreground:#0b216f;
---vscode-editorLineNumber-activeForeground:#0b216f;
---vscode-editorRuler-foreground:#d3d3d3;
---vscode-editorCodeLens-foreground:#999999;
---vscode-editorBracketMatch-background:rgba(0, 100, 0, 0.1);
---vscode-editorBracketMatch-border:#b9b9b9;
---vscode-editorOverviewRuler-border:rgba(127, 127, 127, 0.3);
---vscode-editorGutter-background:#ffffff;
---vscode-editorUnnecessaryCode-opacity:rgba(0, 0, 0, 0.47);
---vscode-editorOverviewRuler-rangeHighlightForeground:rgba(0, 122, 204, 0.6);
---vscode-editorOverviewRuler-errorForeground:rgba(255, 18, 18, 0.7);
---vscode-editorOverviewRuler-warningForeground:#e9a700;
---vscode-editorOverviewRuler-infoForeground:#75beff;
---vscode-editorOverviewRuler-bracketMatchForeground:#a0a0a0;
---vscode-symbolIcon-arrayForeground:#616161;
---vscode-symbolIcon-booleanForeground:#616161;
---vscode-symbolIcon-classForeground:#d67e00;
---vscode-symbolIcon-colorForeground:#616161;
---vscode-symbolIcon-constantForeground:#616161;
---vscode-symbolIcon-constructorForeground:#652d90;
---vscode-symbolIcon-enumeratorForeground:#d67e00;
---vscode-symbolIcon-enumeratorMemberForeground:#007acc;
---vscode-symbolIcon-eventForeground:#d67e00;
---vscode-symbolIcon-fieldForeground:#007acc;
---vscode-symbolIcon-fileForeground:#616161;
---vscode-symbolIcon-folderForeground:#616161;
---vscode-symbolIcon-functionForeground:#652d90;
---vscode-symbolIcon-interfaceForeground:#007acc;
---vscode-symbolIcon-keyForeground:#616161;
---vscode-symbolIcon-keywordForeground:#616161;
---vscode-symbolIcon-methodForeground:#652d90;
---vscode-symbolIcon-moduleForeground:#616161;
---vscode-symbolIcon-namespaceForeground:#616161;
---vscode-symbolIcon-nullForeground:#616161;
---vscode-symbolIcon-numberForeground:#616161;
---vscode-symbolIcon-objectForeground:#616161;
---vscode-symbolIcon-operatorForeground:#616161;
---vscode-symbolIcon-packageForeground:#616161;
---vscode-symbolIcon-propertyForeground:#616161;
---vscode-symbolIcon-referenceForeground:#616161;
---vscode-symbolIcon-snippetForeground:#616161;
---vscode-symbolIcon-stringForeground:#616161;
---vscode-symbolIcon-structForeground:#616161;
---vscode-symbolIcon-textForeground:#616161;
---vscode-symbolIcon-typeParameterForeground:#616161;
---vscode-symbolIcon-unitForeground:#616161;
---vscode-symbolIcon-variableForeground:#007acc;
---vscode-editor-foldBackground:rgba(173, 214, 255, 0.3);
---vscode-editorGutter-foldingControlForeground:#424242;
---vscode-editor-onTypeRenameBackground:rgba(255, 0, 0, 0.3);
---vscode-editorSuggestWidget-background:#f3f3f3;
---vscode-editorSuggestWidget-border:#c8c8c8;
---vscode-editorSuggestWidget-foreground:#000000;
---vscode-editorSuggestWidget-selectedBackground:#d6ebff;
---vscode-editorSuggestWidget-highlightForeground:#0066bf;
---vscode-editor-wordHighlightBackground:rgba(87, 87, 87, 0.25);
---vscode-editor-wordHighlightStrongBackground:rgba(14, 99, 156, 0.25);
---vscode-editorOverviewRuler-wordHighlightForeground:rgba(160, 160, 160, 0.8);
---vscode-editorOverviewRuler-wordHighlightStrongForeground:rgba(192, 160, 192, 0.8);
---vscode-peekViewTitle-background:#ffffff;
---vscode-peekViewTitleLabel-foreground:#333333;
---vscode-peekViewTitleDescription-foreground:rgba(97, 97, 97, 0.9);
---vscode-peekView-border:#007acc;
---vscode-peekViewResult-background:#f3f3f3;
---vscode-peekViewResult-lineForeground:#646465;
---vscode-peekViewResult-fileForeground:#1e1e1e;
---vscode-peekViewResult-selectionBackground:rgba(51, 153, 255, 0.2);
---vscode-peekViewResult-selectionForeground:#6c6c6c;
---vscode-peekViewEditor-background:#f2f8fc;
---vscode-peekViewEditorGutter-background:#f2f8fc;
---vscode-peekViewResult-matchHighlightBackground:rgba(234, 92, 0, 0.3);
---vscode-peekViewEditor-matchHighlightBackground:rgba(245, 216, 2, 0.87);
---vscode-editorMarkerNavigationError-background:#e51400;
---vscode-editorMarkerNavigationWarning-background:#e9a700;
---vscode-editorMarkerNavigationInfo-background:#75beff;
---vscode-editorMarkerNavigation-background:#ffffff;
---vscode-tab-activeBackground:#ffffff;
---vscode-tab-unfocusedActiveBackground:#ffffff;
---vscode-tab-inactiveBackground:#ececec;
---vscode-tab-unfocusedInactiveBackground:#ececec;
---vscode-tab-activeForeground:#333333;
---vscode-tab-inactiveForeground:rgba(51, 51, 51, 0.7);
---vscode-tab-unfocusedActiveForeground:rgba(51, 51, 51, 0.7);
---vscode-tab-unfocusedInactiveForeground:rgba(51, 51, 51, 0.35);
---vscode-tab-activeModifiedBorder:#33aaee;
---vscode-tab-inactiveModifiedBorder:rgba(51, 170, 238, 0.5);
---vscode-tab-unfocusedActiveModifiedBorder:rgba(51, 170, 238, 0.7);
---vscode-tab-unfocusedInactiveModifiedBorder:rgba(51, 170, 238, 0.25);
---vscode-tab-border:#f3f3f3;
---vscode-editorPane-background:#ffffff;
---vscode-editorGroupHeader-tabsBackground:#f3f3f3;
---vscode-editorGroupHeader-noTabsBackground:#ffffff;
---vscode-editorGroup-border:#e7e7e7;
---vscode-editorGroup-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-imagePreview-border:rgba(128, 128, 128, 0.35);
---vscode-panel-background:#ffffff;
---vscode-panel-border:rgba(128, 128, 128, 0.35);
---vscode-panelTitle-activeForeground:#424242;
---vscode-panelTitle-inactiveForeground:rgba(66, 66, 66, 0.75);
---vscode-panelTitle-activeBorder:#424242;
---vscode-panelInput-border:#dddddd;
---vscode-panel-dropBorder:#424242;
---vscode-panelSection-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-panelSectionHeader-background:rgba(128, 128, 128, 0.2);
---vscode-panelSection-border:rgba(128, 128, 128, 0.35);
---vscode-statusBar-foreground:#ffffff;
---vscode-statusBar-noFolderForeground:#ffffff;
---vscode-statusBar-background:#007acc;
---vscode-statusBar-noFolderBackground:#68217a;
---vscode-statusBarItem-activeBackground:rgba(255, 255, 255, 0.18);
---vscode-statusBarItem-hoverBackground:rgba(255, 255, 255, 0.12);
---vscode-statusBarItem-prominentForeground:#ffffff;
---vscode-statusBarItem-prominentBackground:rgba(0, 0, 0, 0.5);
---vscode-statusBarItem-prominentHoverBackground:rgba(0, 0, 0, 0.3);
---vscode-activityBar-background:#2c2c2c;
---vscode-activityBar-foreground:#ffffff;
---vscode-activityBar-inactiveForeground:rgba(255, 255, 255, 0.4);
---vscode-activityBar-activeBorder:#ffffff;
---vscode-activityBar-dropBorder:#ffffff;
---vscode-activityBarBadge-background:#007acc;
---vscode-activityBarBadge-foreground:#ffffff;
---vscode-statusBarItem-remoteBackground:#16825d;
---vscode-statusBarItem-remoteForeground:#ffffff;
---vscode-extensionBadge-remoteBackground:#007acc;
---vscode-extensionBadge-remoteForeground:#ffffff;
---vscode-sideBar-background:#f3f3f3;
---vscode-sideBarTitle-foreground:#6f6f6f;
---vscode-sideBar-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-sideBarSectionHeader-background:rgba(0, 0, 0, 0);
---vscode-sideBarSectionHeader-border:rgba(97, 97, 97, 0.19);
---vscode-titleBar-activeForeground:#333333;
---vscode-titleBar-inactiveForeground:rgba(51, 51, 51, 0.6);
---vscode-titleBar-activeBackground:#dddddd;
---vscode-titleBar-inactiveBackground:rgba(221, 221, 221, 0.6);
---vscode-menubar-selectionForeground:#333333;
---vscode-menubar-selectionBackground:rgba(0, 0, 0, 0.1);
---vscode-notifications-foreground:#616161;
---vscode-notifications-background:#f3f3f3;
---vscode-notificationLink-foreground:#006ab1;
---vscode-notificationCenterHeader-background:#e7e7e7;
---vscode-notifications-border:#e7e7e7;
---vscode-notificationsErrorIcon-foreground:#e51400;
---vscode-notificationsWarningIcon-foreground:#e9a700;
---vscode-notificationsInfoIcon-foreground:#75beff;
---vscode-editorGutter-commentRangeForeground:#c5c5c5;
---vscode-editor-stackFrameHighlightBackground:rgba(255, 255, 102, 0.45);
---vscode-editor-focusedStackFrameHighlightBackground:rgba(206, 231, 206, 0.45);
---vscode-terminal-foreground:#333333;
---vscode-terminal-selectionBackground:rgba(0, 0, 0, 0.25);
---vscode-terminal-border:rgba(128, 128, 128, 0.35);
---vscode-statusBar-debuggingBackground:#cc6633;
---vscode-statusBar-debuggingForeground:#ffffff;
---vscode-settings-headerForeground:#444444;
---vscode-settings-modifiedItemIndicator:#66afe0;
---vscode-settings-dropdownBackground:#ffffff;
---vscode-settings-dropdownBorder:#cecece;
---vscode-settings-dropdownListBorder:#c8c8c8;
---vscode-settings-checkboxBackground:#ffffff;
---vscode-settings-checkboxBorder:#cecece;
---vscode-settings-textInputBackground:#ffffff;
---vscode-settings-textInputForeground:#616161;
---vscode-settings-textInputBorder:#cecece;
---vscode-settings-numberInputBackground:#ffffff;
---vscode-settings-numberInputForeground:#616161;
---vscode-settings-numberInputBorder:#cecece;
---vscode-debugExceptionWidget-border:#a31515;
---vscode-debugExceptionWidget-background:#f1dfde;
---vscode-editorGutter-modifiedBackground:#66afe0;
---vscode-editorGutter-addedBackground:#81b88b;
---vscode-editorGutter-deletedBackground:#ca4b51;
---vscode-minimapGutter-modifiedBackground:#66afe0;
---vscode-minimapGutter-addedBackground:#81b88b;
---vscode-minimapGutter-deletedBackground:#ca4b51;
---vscode-editorOverviewRuler-modifiedForeground:rgba(102, 175, 224, 0.6);
---vscode-editorOverviewRuler-addedForeground:rgba(129, 184, 139, 0.6);
---vscode-editorOverviewRuler-deletedForeground:rgba(202, 75, 81, 0.6);
---vscode-searchEditor-textInputBorder:#cecece;
---vscode-debugIcon-breakpointForeground:#e51400;
---vscode-debugIcon-breakpointDisabledForeground:#848484;
---vscode-debugIcon-breakpointUnverifiedForeground:#848484;
---vscode-debugIcon-breakpointCurrentStackframeForeground:#ffcc00;
---vscode-debugIcon-breakpointStackframeForeground:#89d185;
---vscode-debugToolBar-background:#f3f3f3;
---vscode-debugIcon-startForeground:#388a34;
---vscode-debugIcon-pauseForeground:#007acc;
---vscode-debugIcon-stopForeground:#a1260d;
---vscode-debugIcon-disconnectForeground:#a1260d;
---vscode-debugIcon-restartForeground:#388a34;
---vscode-debugIcon-stepOverForeground:#007acc;
---vscode-debugIcon-stepIntoForeground:#007acc;
---vscode-debugIcon-stepOutForeground:#007acc;
---vscode-debugIcon-continueForeground:#007acc;
---vscode-debugIcon-stepBackForeground:#007acc;
---vscode-debugTokenExpression-name:#9b46b0;
---vscode-debugTokenExpression-value:rgba(108, 108, 108, 0.8);
---vscode-debugTokenExpression-string:#a31515;
---vscode-debugTokenExpression-boolean:#0000ff;
---vscode-debugTokenExpression-number:#098658;
---vscode-debugTokenExpression-error:#e51400;
---vscode-debugView-exceptionLabelForeground:#ffffff;
---vscode-debugView-exceptionLabelBackground:#a31515;
---vscode-debugView-stateLabelForeground:#616161;
---vscode-debugView-stateLabelBackground:rgba(136, 136, 136, 0.27);
---vscode-debugView-valueChangedHighlight:#569cd6;
---vscode-debugConsole-infoForeground:#75beff;
---vscode-debugConsole-warningForeground:#e9a700;
---vscode-debugConsole-errorForeground:#a1260d;
---vscode-debugConsole-sourceForeground:#616161;
---vscode-debugConsoleInputIcon-foreground:#616161;
---vscode-extensionButton-prominentBackground:#327e36;
---vscode-extensionButton-prominentForeground:#ffffff;
---vscode-extensionButton-prominentHoverBackground:#28632b;
---vscode-notebook-cellBorderColor:#dae3e9;
---vscode-notebook-focusedEditorBorder:#0090f1;
---vscode-notebookStatusSuccessIcon-foreground:#388a34;
---vscode-notebookStatusErrorIcon-foreground:#a1260d;
---vscode-notebookStatusRunningIcon-foreground:#616161;
---vscode-notebook-outputContainerBackgroundColor:rgba(200, 221, 241, 0.31);
---vscode-notebook-cellToolbarSeparator:rgba(128, 128, 128, 0.35);
---vscode-notebook-focusedCellBackground:rgba(200, 221, 241, 0.31);
---vscode-notebook-cellHoverBackground:rgba(200, 221, 241, 0.22);
---vscode-notebook-focusedCellBorder:rgba(0, 0, 0, 0.12);
---vscode-notebook-cellStatusBarItemHoverBackground:rgba(0, 0, 0, 0.08);
---vscode-notebook-cellInsertionIndicator:#0090f1;
---vscode-notebookScrollbarSlider-background:rgba(100, 100, 100, 0.4);
---vscode-notebookScrollbarSlider-hoverBackground:rgba(100, 100, 100, 0.7);
---vscode-notebookScrollbarSlider-activeBackground:rgba(0, 0, 0, 0.6);
---vscode-notebook-symbolHighlightBackground:rgba(253, 255, 0, 0.2);
---vscode-scm-providerBorder:#c8c8c8;
---vscode-terminal-ansiBlack:#000000;
---vscode-terminal-ansiRed:#cd3131;
---vscode-terminal-ansiGreen:#00bc00;
---vscode-terminal-ansiYellow:#949800;
---vscode-terminal-ansiBlue:#0451a5;
---vscode-terminal-ansiMagenta:#bc05bc;
---vscode-terminal-ansiCyan:#0598bc;
---vscode-terminal-ansiWhite:#555555;
---vscode-terminal-ansiBrightBlack:#666666;
---vscode-terminal-ansiBrightRed:#cd3131;
---vscode-terminal-ansiBrightGreen:#14ce14;
---vscode-terminal-ansiBrightYellow:#b5ba00;
---vscode-terminal-ansiBrightBlue:#0451a5;
---vscode-terminal-ansiBrightMagenta:#bc05bc;
---vscode-terminal-ansiBrightCyan:#0598bc;
---vscode-terminal-ansiBrightWhite:#a5a5a5;
---vscode-gitDecoration-addedResourceForeground:#587c0c;
---vscode-gitDecoration-modifiedResourceForeground:#895503;
---vscode-gitDecoration-deletedResourceForeground:#ad0707;
---vscode-gitDecoration-untrackedResourceForeground:#007100;
---vscode-gitDecoration-ignoredResourceForeground:#8e8e90;
---vscode-gitDecoration-conflictingResourceForeground:#6c6cc4;
---vscode-gitDecoration-submoduleResourceForeground:#1258a7;
---vscode-gitlens-gutterBackgroundColor:rgba(0, 0, 0, 0.05);
---vscode-gitlens-gutterForegroundColor:#747474;
---vscode-gitlens-gutterUncommittedForegroundColor:rgba(0, 188, 242, 0.6);
---vscode-gitlens-trailingLineBackgroundColor:rgba(0, 0, 0, 0);
---vscode-gitlens-trailingLineForegroundColor:rgba(153, 153, 153, 0.35);
---vscode-gitlens-lineHighlightBackgroundColor:rgba(0, 188, 242, 0.2);
---vscode-gitlens-lineHighlightOverviewRulerColor:rgba(0, 188, 242, 0.6);
---vscode-issues-newIssueDecoration:rgba(0, 0, 0, 0.28);
-}
+<head>
+<title>M-core-concepts-in-programming.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-body
-{
-background-color: var(--vscode-editor-background);
-color: var(--vscode-editor-foreground);
-font-family: var(--vscode-font-family);
-font-weight: var(--vscode-font-weight);
-font-size: var(--vscode-font-size);
-margin: 0;
-padding: 0 20px;
-}
-
-img
-{
-max-width: 100%;
-max-height: 100%;
-}
-
-a
-{
-color: var(--vscode-textLink-foreground);
-}
-
-a:hover
-{
-color: var(--vscode-textLink-activeForeground);
-}
-
-a:focus,
-input:focus,
-select:focus,
-textarea:focus
-{
-outline: 1px solid -webkit-focus-ring-color;
-outline-offset: -1px;
-}
-
-code
-{
-color: var(--vscode-textPreformat-foreground);
-}
-
-blockquote
-{
-background: var(--vscode-textBlockQuote-background);
-border-color: var(--vscode-textBlockQuote-border);
-}
-
-kbd
-{
-color: var(--vscode-editor-foreground);
-border-radius: 3px;
-vertical-align: middle;
-padding: 1px 3px;
-
-background-color: hsla(0,0%,50%,.17);
-border: 1px solid rgba(71,71,71,.4);
-border-bottom-color: rgba(88,88,88,.4);
-box-shadow: inset 0 -1px 0 rgba(88,88,88,.4);
-}
-
-.vscode-light kbd
-{
-background-color: hsla(0,0%,87%,.5);
-border: 1px solid hsla(0,0%,80%,.7);
-border-bottom-color: hsla(0,0%,73%,.7);
-box-shadow: inset 0 -1px 0 hsla(0,0%,73%,.7);
-}
-
-::-webkit-scrollbar
-{
-width: 10px;
-height: 10px;
-}
-
-::-webkit-scrollbar-corner
-{
-background-color: var(--vscode-editor-background);
-}
-
-::-webkit-scrollbar-thumb
-{
-background-color: var(--vscode-scrollbarSlider-background);
-}
-::-webkit-scrollbar-thumb:hover
-{
-background-color: var(--vscode-scrollbarSlider-hoverBackground);
-}
-::-webkit-scrollbar-thumb:active
-{
-background-color: var(--vscode-scrollbarSlider-activeBackground);
-}
-
-.emoji
-{
-height: 20px;
-}
-
-pre
-{
-white-space: pre-wrap;
-}
-
-.page-break
-{
-display: block;
-page-break-after: always;
-}
-
-.no-page-break
-{
-page-break-inside: avoid;
-}
-</style>
-<style>/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
-
-html, body {
-	font-family: var(--markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui, "Ubuntu", "Droid Sans", sans-serif);
-	font-size: var(--markdown-font-size, 14px);
-	padding: 0 26px;
-	line-height: var(--markdown-line-height, 22px);
-	word-wrap: break-word;
-}
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 body {
-	padding-top: 1em;
-}
-
-/* Reset margin top for elements */
-h1, h2, h3, h4, h5, h6,
-p, ol, ul, pre {
-	margin-top: 0;
-}
-
-h2, h3, h4, h5, h6 {
-	font-weight: normal;
-	margin-bottom: 0.2em;
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
 }
 
 #code-csp-warning {
@@ -648,15 +120,6 @@ textarea:focus {
 	outline-offset: -1px;
 }
 
-p {
-	margin-bottom: 0.7em;
-}
-
-ul,
-ol {
-	margin-bottom: 0.7em;
-}
-
 hr {
 	border: 0;
 	height: 2px;
@@ -668,6 +131,9 @@ h1 {
 	line-height: 1.2;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
 	font-weight: normal;
 }
 
@@ -675,13 +141,15 @@ table {
 	border-collapse: collapse;
 }
 
-th {
+table > thead > tr > th {
 	text-align: left;
 	border-bottom: 1px solid;
 }
 
-th,
-td {
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
 	padding: 5px 10px;
 }
 
@@ -697,7 +165,7 @@ blockquote {
 }
 
 code {
-	font-family: var(--vscode-editor-font-family, "SF Mono", Monaco, Menlo, Consolas, "Ubuntu Mono", "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace);
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
 	font-size: 1em;
 	line-height: 1.357em;
 }
@@ -736,235 +204,208 @@ pre code {
 	border-color: rgb(0, 0, 0);
 }
 
-.vscode-light th {
+.vscode-light table > thead > tr > th {
 	border-color: rgba(0, 0, 0, 0.69);
 }
 
-.vscode-dark th {
+.vscode-dark table > thead > tr > th {
 	border-color: rgba(255, 255, 255, 0.69);
 }
 
 .vscode-light h1,
 .vscode-light hr,
-.vscode-light td {
+.vscode-light table > tbody > tr + tr > td {
 	border-color: rgba(0, 0, 0, 0.18);
 }
 
 .vscode-dark h1,
 .vscode-dark hr,
-.vscode-dark td {
+.vscode-dark table > tbody > tr + tr > td {
 	border-color: rgba(255, 255, 255, 0.18);
 }
+
 </style>
-<style>/*
-https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs2015.css
-*/
-/*
-* Visual Studio 2015 dark style
-* Author: Nicolas LLOBERA <nllobera@gmail.com>
-*/
 
+<style>
+/* a11y-light theme */
+/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
+/* @author: ericwbailey */
 
-.hljs-keyword,
-.hljs-literal,
-.hljs-symbol,
-.hljs-name {
-	color: #569CD6;
-}
-.hljs-link {
-	color: #569CD6;
-	text-decoration: underline;
-}
-
-.hljs-built_in,
-.hljs-type {
-	color: #4EC9B0;
-}
-
-.hljs-number,
-.hljs-class {
-	color: #B8D7A3;
-}
-
-.hljs-string,
-.hljs-meta-string {
-	color: #D69D85;
-}
-
-.hljs-regexp,
-.hljs-template-tag {
-	color: #9A5334;
-}
-
-.hljs-subst,
-.hljs-function,
-.hljs-title,
-.hljs-params,
-.hljs-formula {
-	color: #DCDCDC;
-}
-
+/* Comment */
 .hljs-comment,
 .hljs-quote {
-	color: #57A64A;
-	font-style: italic;
+  color: #696969;
 }
 
-.hljs-doctag {
-	color: #608B4E;
-}
-
-.hljs-meta,
-.hljs-meta-keyword,
-.hljs-tag {
-	color: #9B9B9B;
-}
-
+/* Red */
 .hljs-variable,
-.hljs-template-variable {
-	color: #BD63C5;
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+  color: #d91e18;
 }
 
-.hljs-attr,
-.hljs-attribute,
-.hljs-builtin-name {
-	color: #9CDCFE;
+/* Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+  color: #aa5d00;
 }
 
+/* Yellow */
+.hljs-attribute {
+  color: #aa5d00;
+}
+
+/* Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: #008000;
+}
+
+/* Blue */
+.hljs-title,
 .hljs-section {
-	color: gold;
+  color: #007faa;
+}
+
+/* Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #7928a1;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #fefefe;
+  color: #545454;
+  padding: 0.5em;
 }
 
 .hljs-emphasis {
-	font-style: italic;
+  font-style: italic;
 }
 
 .hljs-strong {
-	font-weight: bold;
+  font-weight: bold;
 }
 
-/*.hljs-code {
-	font-family:'Monospace';
-}*/
+@media screen and (-ms-high-contrast: active) {
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-bullet,
+  .hljs-comment,
+  .hljs-link,
+  .hljs-literal,
+  .hljs-meta,
+  .hljs-number,
+  .hljs-params,
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-type,
+  .hljs-quote {
+        color: highlight;
+    }
 
-.hljs-bullet,
-.hljs-selector-tag,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-selector-attr,
-.hljs-selector-pseudo {
-	color: #D7BA7D;
+    .hljs-keyword,
+    .hljs-selector-tag {
+        font-weight: bold;
+    }
 }
 
-.hljs-addition {
-	background-color: var(--vscode-diffEditor-insertedTextBackground, rgba(155, 185, 85, 0.2));
-	color: rgb(155, 185, 85);
-	display: inline-block;
-	width: 100%;
-}
-
-.hljs-deletion {
-	background: var(--vscode-diffEditor-removedTextBackground, rgba(255, 0, 0, 0.2));
-	color: rgb(255, 0, 0);
-	display: inline-block;
-	width: 100%;
-}
-
-
-/*
-From https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs.css
-*/
-/*
-
-Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
-
-*/
-
-.vscode-light .hljs-function,
-.vscode-light .hljs-params,
-.vscode-light .hljs-number,
-.vscode-light .hljs-class  {
-	color: inherit;
-}
-
-.vscode-light .hljs-comment,
-.vscode-light .hljs-quote,
-.vscode-light .hljs-number,
-.vscode-light .hljs-class,
-.vscode-light .hljs-variable {
-	color: #008000;
-}
-
-.vscode-light .hljs-keyword,
-.vscode-light .hljs-selector-tag,
-.vscode-light .hljs-name,
-.vscode-light .hljs-tag {
-	color: #00f;
-}
-
-.vscode-light .hljs-built_in,
-.vscode-light .hljs-builtin-name {
-	color: #007acc;
-}
-
-.vscode-light .hljs-string,
-.vscode-light .hljs-section,
-.vscode-light .hljs-attribute,
-.vscode-light .hljs-literal,
-.vscode-light .hljs-template-tag,
-.vscode-light .hljs-template-variable,
-.vscode-light .hljs-type {
-	color: #a31515;
-}
-
-.vscode-light .hljs-selector-attr,
-.vscode-light .hljs-selector-pseudo,
-.vscode-light .hljs-meta,
-.vscode-light .hljs-meta-keyword {
-	color: #2b91af;
-}
-
-.vscode-light .hljs-title,
-.vscode-light .hljs-doctag {
-	color: #808080;
-}
-
-.vscode-light .hljs-attr {
-	color: #f00;
-}
-
-.vscode-light .hljs-symbol,
-.vscode-light .hljs-bullet,
-.vscode-light .hljs-link {
-	color: #00b0e8;
-}
-
-
-.vscode-light .hljs-emphasis {
-	font-style: italic;
-}
-
-.vscode-light .hljs-strong {
-	font-weight: bold;
-}
 </style>
 
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="bian-cheng-he-xin-gai-nian" id="%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5" data-line="0" class="code-line">编程核心概念</h1>
-<p data-line="2" class="code-line">作者: <a href="http://songtianyi.info" data-href="http://songtianyi.info">songtianyi</a> create@2020-11-08</p>
-<p data-line="4" class="code-line">计算机技术非常庞杂，而且仍在快速更新，面对越来越多的新技术，我们似乎跟不上了。如何面对新技术，如果面对换工作时的技术迁移，是必须要考虑的。
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5">编程核心概念</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a> create@2020-11-08</p>
+<p>计算机技术非常庞杂，而且仍在快速更新，面对越来越多的新技术，我们似乎跟不上了。如何面对新技术，如果面对换工作时的技术迁移，是必须要考虑的。<br>
 优秀的程序员不会被技术迭代淘汰掉，也不惧怕切入新的技术领域。掌握一些核心的概念，可迁移的能力，是我们从容应对的底气。之后要介绍的内容，正是基于此而产生的，我个人认为比较重要的一些核心概念。这些概念虽然简单，但需要我们时常放在心上。</p>
-<p data-line="7" class="code-line">除了讲述基本概念，每个概念会附带一些技术名词，方便进一步学习。</p>
-<h3 id="protocol" id="protocol" data-line="9" class="code-line"><strong>protocol</strong></h3>
-<p data-line="11" class="code-line">协议，或者说约定，是我们构建任何系统的基础，我们制定标准，在标准的指导下通力合作，构建出一个个庞杂的系统。比如网络协议 tcp/ip，编码标准，编程语言，甚至我们平时说的普通话，都可以算作是协议。协议本身是很简单的，都是规定死的东西，重要的是协议为什么是这样设计的, 所以它的发展历程很重要。
+<p>除了讲述基本概念，每个概念会附带一些技术名词，方便进一步学习。</p>
+<h3 id="protocol"><strong>protocol</strong></h3>
+<p>协议，或者说约定，是我们构建任何系统的基础，我们制定标准，在标准的指导下通力合作，构建出一个个庞杂的系统。比如网络协议 tcp/ip，编码标准，编程语言，甚至我们平时说的普通话，都可以算作是协议。协议本身是很简单的，都是规定死的东西，重要的是协议为什么是这样设计的, 所以它的发展历程很重要。<br>
 我们在学 tcp/ip 的时候，如果一开始就扎进协议的细节里，会学的很痛苦，协议本身是很枯燥的，而且庞杂，好比我们学英语的时候去死背英语单词。正确的学习方式是，从简单的协议开始，理解协议本身，建立“每一个设计细节背后，都有一个精妙的设计初衷”这种观念，比如 tcp/ip 协议栈的层级结构，它在一开始就是这样的嘛，这样一个复杂的东西，是怎么一步步变成现在这个样子的，然后再一点点地去了解协议细节，以及背后的设计初衷。精密的事物，都有精妙的设计哲学在里面，重要的是，我们能感知这种哲学，感受设计者的思想，这才是最有意思的事情。</p>
-<p data-line="14" class="code-line">programming-languages/network-protocols/RFCs/encoding-decoding-protocols</p>
-<h3 id="encoding-decoding" id="encodingdecoding" data-line="16" class="code-line"><strong>encoding/decoding</strong></h3>
-<p data-line="18" class="code-line">编码与解码无处不在，在我的概念里，编码/解码是协议的实现，比如 utf-8 的编解码实现了 utf-8 这个标准。
+<p>programming-languages/network-protocols/RFCs/encoding-decoding-protocols</p>
+<h3 id="encodingdecoding"><strong>encoding/decoding</strong></h3>
+<p>编码与解码无处不在，在我的概念里，编码/解码是协议的实现，比如 utf-8 的编解码实现了 utf-8 这个标准。<br>
 编解码处理的是数据，而且一般成对出现，是可逆的，比如软件工程里的逆向工程；但有的是不可逆的，比如有损压缩，你需要借助一些插值算法，才能把数据补回去，补回去的数据也并非原数据；再比如hash，只有编码过程，没有解码过程。</p>
-<p data-line="21" class="code-line">之前面试的时候，有面试者说 SHA1 hash 是加密算法，虽然加密算法也是 encoding 的过程，但区别是，加密必然伴随着解密，即 decoding，所以 hash 只能算编码算法。这里贴一段英文的解释<sup>[1]</sup>，因为大部分中文教程里，都有 <s><code>md5是加密算法</code></s> 这样的错误描述，导致很多人对此深信不疑。</p>
-<pre><code data-line="23" class="code-line"><code><div>
+<p>之前面试的时候，有面试者说 SHA1 hash 是加密算法，虽然加密算法也是 encoding 的过程，但区别是，加密必然伴随着解密，即 decoding，所以 hash 只能算编码算法。这里贴一段英文的解释<sup>[1]</sup>，因为大部分中文教程里，都有 <s><code>md5是加密算法</code></s> 这样的错误描述，导致很多人对此深信不疑。</p>
+<pre class="hljs"><code><div>
 By definition, a hash function is not encryption.
 
 &gt; Encryption is the process of encoding messages (or information) in such a way that eavesdroppers cannot read it, but that authorized parties can.
@@ -976,16 +417,16 @@ and
 Encryption provides confidentiality while hash functions provide integrity.
 
 Hash functions are used alongside encryption for their integrity capabilities.
-</div></code></code></pre>
-<p data-line="38" class="code-line">我们在阅读或者 debug 代码的时候，多去寻找编解码的函数，如此，数据的边界，流向，变化过程会比较清晰，便于我们快速定位出错的位置。
+</div></code></pre>
+<p>我们在阅读或者 debug 代码的时候，多去寻找编解码的函数，如此，数据的边界，流向，变化过程会比较清晰，便于我们快速定位出错的位置。<br>
 举个乱码的例子，很多人都遇到过乱码，有些情况比较简单，有些则看起来复杂。比如，同样的代码，在虚拟机上的输出是乱码，在本地PC上的输出却是正常的。如果我们只关注到代码是一样的，你会觉得这问题出的很是莫名其妙对不对，但如果你注意到，我们从程序里输出到terminal的内容，是会被 terminal 解码的，这时你应该会想到，是不是本地 terminal 设置的编码和远程虚拟机 terminal 设置的编码不一致导致了这种差异。</p>
-<p data-line="41" class="code-line">ffmpeg/open-ssl/compiler-decompiler/compression-decompression</p>
-<h3 id="binary" id="binary" data-line="43" class="code-line"><strong>binary</strong></h3>
-<p data-line="45" class="code-line">二进制是我们在计算机人门时最先接触到的概念，虽然我们熟知二进制是信息最基础的表现形式，但我们并不一定时常能以这样的认知去看待事物。
+<p>ffmpeg/open-ssl/compiler-decompiler/compression-decompression</p>
+<h3 id="binary"><strong>binary</strong></h3>
+<p>二进制是我们在计算机人门时最先接触到的概念，虽然我们熟知二进制是信息最基础的表现形式，但我们并不一定时常能以这样的认知去看待事物。<br>
 以编程语言里的类型来举例，在我们的认知里，类型通常是不能随意转换的，你会遇到各种编译错误，对不对？但实际上是可以的。所谓类型，只是编译器用来约束变量边界的规范，任何类型，其本质都是二进制，我们可以用 <code>int32</code> 来存储1-4个 <code>char</code> ，也可以用一个 <code>double</code> 来存储1-4个 <code>int32</code> , 还可以用 <code>short</code> 来存储 <code>float</code> 以降低 <code>float</code> 的精度，从而达到降低存储空间的目的等等。二进制级别的运算是很有意思的，可以借助指针让我们直接操作内存，在性能和存储空间方面做更深入的优化，也可以做一些精妙的 hack。但并不是所有语言都提供这种自由。</p>
-<pre><code data-line="48" class="code-line language-c++"><div><span class="hljs-comment">// c++</span>
+<pre class="hljs"><code><div><span class="hljs-comment">// c++</span>
 <span class="hljs-comment">// 32bit float 降精度，用16bit short 存，节省存储空间</span>
-<span class="hljs-keyword">void</span> FPC::__32To16(<span class="hljs-keyword">const</span> <span class="hljs-keyword">float</span> x, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span> &amp;res)
+<span class="hljs-keyword">void</span> FPC::__32To16(<span class="hljs-keyword">const</span> <span class="hljs-keyword">float</span> x, <span class="hljs-keyword">unsigned</span> short &amp;res)
 {
 
     <span class="hljs-comment">//little endian</span>
@@ -997,79 +438,77 @@ Hash functions are used alongside encryption for their integrity capabilities.
 }
 
 </div></code></pre>
-<p data-line="64" class="code-line">binary-arithmetic/pointer</p>
-<h3 id="input-output" id="inputoutput" data-line="66" class="code-line"><strong>input/output</strong></h3>
-<p data-line="68" class="code-line">i/o 无处不在，但我们不一定会特别注意到它。比如磁盘io，键盘(input)+显示器(output)，网络 io 等。io 一般发生在软件与软件或者软件与硬件的边界处，对我们理解软件／系统架构至关重要，自己做架构设计时候也要时常注意io的边界。</p>
-<p data-line="70" class="code-line">network-io/disk-io/functions-input-output</p>
-<h3 id="emulation" id="emulation" data-line="72" class="code-line"><strong>emulation</strong></h3>
-<p data-line="74" class="code-line">&quot;一切能用硬件实现的东西，都可以用软件来模拟“。这是一位学长教给我的至今印象很深的一句话。就像摩尔定律一样，这句话相当于一种论断，预言，它能带给你信心，也会促使你去寻找反例。我们可以用软件构建出一个和现实世界一模一样的虚拟世界: 仿真系统，虚拟化，自动化系统等等。</p>
-<p data-line="76" class="code-line">除了使用软件模拟现实世界这方面，模拟的概念也时常出现在使用软件模拟软件方面。比如，模拟浏览器访问网站；模拟软件系统中的某个组件，用来测试系统中的其他组件或者伪装身份等等。</p>
-<p data-line="78" class="code-line">qemu/automation-system/simulation-system/games/man-in-the-middle-attack/mock</p>
-<h3 id="data-structure-and-algorithm" id="data-structure-and-algorithm" data-line="80" class="code-line"><strong>data-structure and algorithm</strong></h3>
-<p data-line="82" class="code-line">程序设计 = 数据结构 + 算法， 在 C 语言的第一堂课里，老师应该会给你们讲这个公式，它们的重要性不言而喻。数据结构用来组织数据，堆栈、数组、链表、图、树，等等，我们需要掌握很多种数据结构，并关注它们的使用场景。算法和数据结构是相辅相成的，合在一起构成解决问题的方案，也可以认为是解耦的，同一个算法可以使用不同的数据结构来实现。</p>
-<p data-line="84" class="code-line">从我个人理解的角度以及实用的角度讲，数据结构要比算法重要的多，首先数据结构是我们解决问题的第一步，即如何表达数据，表达数据不是单纯地存取它，而是发掘数据的内在结构，以一种较贴切的数据结构去表达数据的特性，当我们很好的完成第一步，接下来就能比较容易地去套用成熟算法了。</p>
-<p data-line="86" class="code-line">heap/stack/queue/linked-list/array/tree/graph/sort/search/indexing</p>
-<h3 id="time-sharing-and-asynchronous" id="time-sharing-and-asynchronous" data-line="88" class="code-line"><strong>time-sharing and asynchronous</strong></h3>
-<p data-line="90" class="code-line">我们熟知的操作系统都属于分时操作系统，这种分时机制可以让多个进程&quot;同时&quot;跑，cpu 资源按时间分片，分配给不同的进程/线程，以达到多任务的效果, 它是并发的基础。而我们熟知的异步, 和并发的概念是不同的，异步是一种编程模型，是相对于同步来讲的。在同步的情况下，函数完成任务之后返回，那相对应的，异步的情况是，函数没有完成就直接返回了，之后函数继续完成这个任务，那调用者如何得知被调用者是否完成了呢？可以通过轮询，事件通知，回调的方式。与同步异步相伴的是阻塞和非阻塞，区别是，同步异步是相对于被调用者而言的，阻塞和非阻塞是相对于调用者而言的。</p>
+<p>binary-arithmetic/pointer</p>
+<h3 id="inputoutput"><strong>input/output</strong></h3>
+<p>i/o 无处不在，但我们不一定会特别注意到它。比如磁盘io，键盘(input)+显示器(output)，网络 io 等。io 一般发生在软件与软件或者软件与硬件的边界处，对我们理解软件／系统架构至关重要，自己做架构设计时候也要时常注意io的边界。</p>
+<p>network-io/disk-io/functions-input-output</p>
+<h3 id="emulation"><strong>emulation</strong></h3>
+<p>&quot;一切能用硬件实现的东西，都可以用软件来模拟“。这是一位学长教给我的至今印象很深的一句话。就像摩尔定律一样，这句话相当于一种论断，预言，它能带给你信心，也会促使你去寻找反例。我们可以用软件构建出一个和现实世界一模一样的虚拟世界: 仿真系统，虚拟化，自动化系统等等。</p>
+<p>除了使用软件模拟现实世界这方面，模拟的概念也时常出现在使用软件模拟软件方面。比如，模拟浏览器访问网站；模拟软件系统中的某个组件，用来测试系统中的其他组件或者伪装身份等等。</p>
+<p>qemu/automation-system/simulation-system/games/man-in-the-middle-attack/mock</p>
+<h3 id="data-structure-and-algorithm"><strong>data-structure and algorithm</strong></h3>
+<p>程序设计 = 数据结构 + 算法， 在 C 语言的第一堂课里，老师应该会给你们讲这个公式，它们的重要性不言而喻。数据结构用来组织数据，堆栈、数组、链表、图、树，等等，我们需要掌握很多种数据结构，并关注它们的使用场景。算法和数据结构是相辅相成的，合在一起构成解决问题的方案，也可以认为是解耦的，同一个算法可以使用不同的数据结构来实现。</p>
+<p>从我个人理解的角度以及实用的角度讲，数据结构要比算法重要的多，首先数据结构是我们解决问题的第一步，即如何表达数据，表达数据不是单纯地存取它，而是发掘数据的内在结构，以一种较贴切的数据结构去表达数据的特性，当我们很好的完成第一步，接下来就能比较容易地去套用成熟算法了。</p>
+<p>heap/stack/queue/linked-list/array/tree/graph/sort/search/indexing</p>
+<h3 id="time-sharing-and-asynchronous"><strong>time-sharing and asynchronous</strong></h3>
+<p>我们熟知的操作系统都属于分时操作系统，这种分时机制可以让多个进程&quot;同时&quot;跑，cpu 资源按时间分片，分配给不同的进程/线程，以达到多任务的效果, 它是并发的基础。而我们熟知的异步, 和并发的概念是不同的，异步是一种编程模型，是相对于同步来讲的。在同步的情况下，函数完成任务之后返回，那相对应的，异步的情况是，函数没有完成就直接返回了，之后函数继续完成这个任务，那调用者如何得知被调用者是否完成了呢？可以通过轮询，事件通知，回调的方式。与同步异步相伴的是阻塞和非阻塞，区别是，同步异步是相对于被调用者而言的，阻塞和非阻塞是相对于调用者而言的。</p>
 <ul>
-<li data-line="92" class="code-line">A(调用者)打电话问 B(被调用者)，你的生日是什么时候？ A 一直在等 B 的答复（阻塞），B 想了一会儿说，10月1号(同步)</li>
-<li data-line="93" class="code-line">A(调用者)打电话问 B(被调用者), 你的生日是什么时候? A 觉得 B 要想很久，于是 A 跑去买了个橘子...(非阻塞), B 想了好久说，10月1号(同步)</li>
-<li data-line="94" class="code-line">A(调用者)打电话问 B(被调用者), 你的生日是什么时候? A 觉得 B 要想很久，于是 A 跑去买了个橘子...(非阻塞), B 觉得自己要想很久，于是先告诉A(任务未完成就返回，异步)，你等10分钟之后再打过来(轮询)</li>
-<li data-line="95" class="code-line">A(调用者)打电话问 B(被调用者), 你的生日是什么时候? A 一直在等 B 的答复（阻塞），B 觉得自己要想很久，于是先告诉A（任务未完成就返回，异步），我想起来了会通知你，但 A 一直还在等，并未挂断电话, 也没有做其他事情。</li>
+<li>A(调用者)打电话问 B(被调用者)，你的生日是什么时候？ A 一直在等 B 的答复（阻塞），B 想了一会儿说，10月1号(同步)</li>
+<li>A(调用者)打电话问 B(被调用者), 你的生日是什么时候? A 觉得 B 要想很久，于是 A 跑去买了个橘子...(非阻塞), B 想了好久说，10月1号(同步)</li>
+<li>A(调用者)打电话问 B(被调用者), 你的生日是什么时候? A 觉得 B 要想很久，于是 A 跑去买了个橘子...(非阻塞), B 觉得自己要想很久，于是先告诉A(任务未完成就返回，异步)，你等10分钟之后再打过来(轮询)</li>
+<li>A(调用者)打电话问 B(被调用者), 你的生日是什么时候? A 一直在等 B 的答复（阻塞），B 觉得自己要想很久，于是先告诉A（任务未完成就返回，异步），我想起来了会通知你，但 A 一直还在等，并未挂断电话, 也没有做其他事情。</li>
 </ul>
-<p data-line="97" class="code-line">可以看出，第四种是无意义的，而第一种在计算密集的时候较常用，第二种和第三种在 io 密集型的应用里比较常用。</p>
-<h3 id="lock" id="lock" data-line="99" class="code-line"><strong>lock</strong></h3>
-<p data-line="101" class="code-line">对于cpu资源，操作系统会把它按时间分片，然后分配给所有线程，不存在竞争，因为时间是不可能重叠的，不可复用的，但像内存，文件这类资源，是没办法按时间分片的，在并发的时候就有可能产生数据竞争（data race）。</p>
-<p data-line="103" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/data-race.png" alt="image" class="loading" id="image-hash--1218296310"></p>
-<p data-line="105" class="code-line">如图所示，P1, P2 相当于&quot;同时&quot;在访问这个内存块，因为 P1 的读还未结束，P2 就开始修改它了。因此，我们需要对资源加锁，保证 P1 在完成读之前，P2 是是不能写的。</p>
-<p data-line="107" class="code-line">真正的并行需要增加多个'时间线', 即多核, 每个核是独立的时间线。但多核也会让内存等不能按时间分片的资源更容易产生竞争, 处理起来也更复杂。在多核的情况下，我们可以对内存这类资源分片来减少共享数据，比如找数组的最大值，先将数组分成多份，然后合并结果。</p>
-<p data-line="109" class="code-line">MYSQL 数据库在处理事物并发的时候，会使用 MVCC . MVCC 用一种多版本的方式来消除数据竞争，可以理解为它通过创造多个时间线来达到数据并行。</p>
-<p data-line="111" class="code-line">spinlock/semaphore/mutex/concurrency/parallel/shared lock/exclusive lock/MVCC</p>
-<h3 id="centralized-decentralized-and-distributed-system" id="centralizeddecentralized-and-distributed-system" data-line="113" class="code-line"><strong>centralized/decentralized and distributed system</strong></h3>
-<p data-line="115" class="code-line">我们经常会听到分布式架构, 但分布式（distribution）和去中心化（decentralize，也可以称非集中式）不是一个概念。分布式是指整个系统被分散到不同的位置，用来提升性能或者提高可靠性（比如 git），而去中心化指的是不存在一个单一的管理实体去管理整个系统，去中心化依赖多个相互独立的管理实体共同管理整个系统。SDN 是中心化（也称集中式）的，区块链是去中心化的，也是分布式的。</p>
-<p data-line="117" class="code-line">CAP/BASE/Paxos/Raft/ZAB/Gossip/distributed-lock/distributed-id/consistent-hash</p>
-<h3 id="cache-and-buffer" id="cache-and-buffer" data-line="119" class="code-line"><strong>cache and buffer</strong></h3>
-<p data-line="121" class="code-line">之所以将 cache 作为核心概念，一是，它很重要，无处不在，二是，我不能很快地在现实世界中找到同样的案例，因此没把它归类到 <code>emulation</code> 里。</p>
-<p data-line="123" class="code-line">我们通常接触到的 cache 是我们的内存，它的读写速度比磁盘快很多，但也很贵，存储容量有限。cache 就是在容量和性能之间做的一个较好的权衡，用较小的代价，换取可观的性能收益。它的理论基础可以认为是:</p>
+<p>可以看出，第四种是无意义的，而第一种在计算密集的应用里较常用，第二种和第三种在 io 密集型的应用里比较常用。</p>
+<h3 id="lock"><strong>lock</strong></h3>
+<p>对于cpu资源，操作系统会把它按时间分片，然后分配给所有线程，不存在竞争，因为时间是不可能重叠的，不可复用的，但像内存，文件这类资源，是没办法按时间分片的，在并发的时候就有可能产生数据竞争（data race）。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/data-race.png" alt="image"></p>
+<p>如图所示，P1, P2 相当于&quot;同时&quot;在访问这个内存块，因为 P1 的读还未结束，P2 就开始修改它了。因此，我们需要对资源加锁，保证 P1 在完成读之前，P2 是是不能写的。</p>
+<p>真正的并行需要增加多个'时间线', 即多核, 每个核是独立的时间线。但多核也会让内存等不能按时间分片的资源更容易产生竞争, 处理起来也更复杂。在多核的情况下，我们可以对内存这类资源分片来减少共享数据，比如找数组的最大值，先将数组分成多份，然后合并结果。</p>
+<p>MYSQL 数据库在处理事物并发的时候，会使用 MVCC . MVCC 用一种多版本的方式来消除数据竞争，可以理解为它通过创造多个时间线来达到数据并行。</p>
+<p>spinlock/semaphore/mutex/concurrency/parallel/shared lock/exclusive lock/MVCC</p>
+<h3 id="centralizeddecentralized-and-distributed-system"><strong>centralized/decentralized and distributed system</strong></h3>
+<p>我们经常会听到分布式架构, 但分布式（distribution）和去中心化（decentralize，也可以称非集中式）不是一个概念。分布式是指整个系统被分散到不同的位置，用来提升性能或者提高可靠性（比如 git），而去中心化指的是不存在一个单一的管理实体去管理整个系统，去中心化依赖多个相互独立的管理实体共同管理整个系统。SDN 是中心化（也称集中式）的，区块链是去中心化的，也是分布式的。</p>
+<p>CAP/BASE/Paxos/Raft/ZAB/Gossip/distributed-lock/distributed-id/consistent-hash</p>
+<h3 id="cache-and-buffer"><strong>cache and buffer</strong></h3>
+<p>之所以将 cache 作为核心概念，一是，它很重要，无处不在，二是，我不能很快地在现实世界中找到同样的案例，因此没把它归类到 <code>emulation</code> 里。</p>
+<p>我们通常接触到的 cache 是我们的内存，它的读写速度比磁盘快很多，但也很贵，存储容量有限。cache 就是在容量和性能之间做的一个较好的权衡，用较小的代价，换取可观的性能收益。它的理论基础可以认为是:</p>
 <ul>
-<li data-line="125" class="code-line">时间局部性：如果某个数据被访问，那么在不久的将来它很可能被再次访问</li>
-<li data-line="126" class="code-line">空间局部性：如果某个数据被访问，那么与它相邻的数据很快也可能被访问</li>
+<li>时间局部性：如果某个数据被访问，那么在不久的将来它很可能被再次访问</li>
+<li>空间局部性：如果某个数据被访问，那么与它相邻的数据很快也可能被访问</li>
 </ul>
-<p data-line="128" class="code-line">此为局部性原理。</p>
-<p data-line="130" class="code-line">在此类有性能差的软硬件之间，就可以设置 cache 层，来达到一个不错的效果。比如:</p>
-<p data-line="132" class="code-line"><em>CPU cache</em>
-CPU 的性能相对主存(main memory, 即我们熟知的内存)要快很多，如果 CPU 直接访问主存，那么会浪费掉 CPU 的性能，而 CPU 所使用的 cache （Static RAM）是比主存快的多的硬件(Dynamic RAM), 而且有多级的 cache。当然，这种高速 cache 的容量是很小很小的，如果 miss ，cpu 会直接访问主存。
-<em>GPU cache</em>
-和 CPU cache 的架构类似，但是是针对3维数据，纹理数据等做了优化的。
-<em>Dsik cache</em>
+<p>此为局部性原理。</p>
+<p>在此类有性能差的软硬件之间，就可以设置 cache 层，来达到一个不错的效果。比如:</p>
+<p><em>CPU cache</em><br>
+CPU 的性能相对主存(main memory, 即我们熟知的内存)要快很多，如果 CPU 直接访问主存，那么会浪费掉 CPU 的性能，而 CPU 所使用的 cache （Static RAM）是比主存快的多的硬件(Dynamic RAM), 而且有多级的 cache。当然，这种高速 cache 的容量是很小很小的，如果 miss ，cpu 会直接访问主存。<br>
+<em>GPU cache</em><br>
+和 CPU cache 的架构类似，但是是针对3维数据，纹理数据等做了优化的。<br>
+<em>Dsik cache</em><br>
 磁盘也有 cache ，也是为了弥补内存和磁盘之间性能差距的，能够大幅提高磁盘的读写速度。</p>
-<p data-line="139" class="code-line">buffer 又是是什么？和 cache 有什么区别？</p>
-<p data-line="141" class="code-line">从字面上理解，buffer 是缓冲，而 cache 是缓存。cache 一般用来提高 io 速度，而 buffer 一般用来提高 io 吞吐效率。buffer 一般是用来提高写效率，cache 一般用来提高读效率。之所以放在一起，是因为它们的功能是一样的，都是为了弥补性能鸿沟。</p>
-<blockquote data-line="143" class="code-line">
-<p data-line="143" class="code-line">Disk cache 有时候也被称为 disk buffer, 可见它们之间的渊源。</p>
+<p>buffer 又是是什么？和 cache 有什么区别？</p>
+<p>从字面上理解，buffer 是缓冲，而 cache 是缓存。cache 一般用来提高 io 速度，而 buffer 一般用来提高 io 吞吐效率。buffer 一般是用来提高写效率，cache 一般用来提高读效率。之所以放在一起，是因为它们的功能是一样的，都是为了弥补性能鸿沟。</p>
+<blockquote>
+<p>Disk cache 有时候也被称为 disk buffer, 可见它们之间的渊源。</p>
 </blockquote>
-<p data-line="145" class="code-line">当一些数据不能马上被拿走或消费掉的时候，就需要用 buffer，比如消息队列，它可以提高业务处理不过来的时候的响应速度，再比如 tcp 连接的 buffer，传输过来的数据会先被放进 buffer，这样传输就不用受限于业务程序的处理效率。 再如，数据库里使用的 WAL 技术，也可以认为是一种基于文件的 buffer, 提供持久性的同时，用顺序 io 代替随机 io 以提高写入速度。</p>
-<p data-line="147" class="code-line">redis/message-queue</p>
-<h3 id="resuing-and-multiplexing" id="resuing-and-multiplexing" data-line="149" class="code-line"><strong>Resuing and Multiplexing</strong></h3>
-<p data-line="151" class="code-line">代码复用(code resue)，连接池(connection pool)，线程池(thread pool) 这些都是复用(resuing)里的经典案例。我们要思考的是，它们的共性是什么。
-当我们创建, 维持或销毁一个对象，需要付出较高的代价时，我们就可以考虑复用它，现实生活中的垃圾回收再利用，也是同样的道理。
+<p>当一些数据不能马上被拿走或消费掉的时候(生产者生产的速度大于消费者消费的速度)，就需要用 buffer，比如消息队列，它可以提高业务处理不过来的时候的响应速度，再比如 tcp 连接的 buffer，传输过来的数据会先被放进 buffer，这样传输就不用受限于业务程序的处理效率。 再如，数据库里使用的 WAL 技术，也可以认为是一种基于文件的 buffer, 提供持久性的同时，用顺序 io 代替随机 io 以提高写入速度。</p>
+<p>redis/message-queue</p>
+<h3 id="resuing-and-multiplexing"><strong>Resuing and Multiplexing</strong></h3>
+<p>代码复用(code resue)，连接池(connection pool)，线程池(thread pool) 这些都是复用(resuing)里的经典案例。我们要思考的是，它们的共性是什么。<br>
+当我们创建, 维持或销毁一个对象，需要付出较高的代价时，我们就可以考虑复用它，现实生活中的垃圾回收再利用，也是同样的道理。<br>
 代码复用是因为创建代码的成本很高；连接（如 tcp 连接）的创建和销毁要经过三次握手和四次挥手，在高并发的场景里，这种消耗也是遭不住的，所以, 用完的连接可以放进连接池，等待下一次请求时使用；线程的创建，维持以及销毁都需要较高的代价，所以处理方式也是类似的。</p>
-<p data-line="155" class="code-line">Multiplexing 的字面意思也是复用，但多指 <code>多路复用</code> 。我们可以尝试用高速公路来理解它们之间微秒的区别，reuse 指公路本身可以重复再利用，而 multiplexing 指的是高速公路双向 8 车道这种特性，多个活动同时发生。常见的多路复用是 io 多路复用(io multiplexing)，在理解上和公路的例子稍稍有些偏差，更多的是指将多个活动汇聚在一起处理, 这样上层逻辑可以在一个线程里处理多个活动(socket)。</p>
-<p data-line="157" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/multiplexing.jpeg" alt="image" class="loading" id="image-hash-441949079"></p>
-<p data-line="159" class="code-line">上图是 io 多路复用的模型图，可以看出，多个活动被汇聚到了一个管道去处理。</p>
-<p data-line="161" class="code-line">io multiplexing/tcp multiplexing</p>
-<h3 id="replication-and-backups" id="replication-and-backups" data-line="163" class="code-line"><strong>Replication and backups</strong></h3>
-<p data-line="165" class="code-line">backup 一般指数据备份，replication 一般指副本，可能是数据副本，可能是服务副本。副本一般用来做高可用，主挂了，副本可以接管主来继续服务，而 backup 一般是用在数据丢失的情况下恢复数据或者把存储不下的数据放在另外的地方以作备用，不会直接接替主去服务。</p>
-<p data-line="167" class="code-line">副本的概念会经常出现在分布式数据服务里，使用副本技术，可以达到高可用的目的。</p>
-<h3 id="can-kao-zi-liao" id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99" data-line="169" class="code-line"><strong>参考资料</strong></h3>
+<p>Multiplexing 的字面意思也是复用，但多指 <code>多路复用</code> 。我们可以尝试用高速公路来理解它们之间微秒的区别，reuse 指公路本身可以重复再利用，而 multiplexing 指的是高速公路双向 8 车道这种特性，多个活动同时发生。常见的多路复用是 io 多路复用(io multiplexing)，在理解上和公路的例子稍稍有些偏差，更多的是指将多个活动汇聚在一起处理, 这样上层逻辑可以在一个线程里处理多个活动(socket)。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/multiplexing.jpeg" alt="image"></p>
+<p>上图是 io 多路复用的模型图，可以看出，多个活动被汇聚到了一个管道去处理。</p>
+<p>io multiplexing/tcp multiplexing</p>
+<h3 id="replication-and-backups"><strong>Replication and backups</strong></h3>
+<p>backup 一般指数据备份，replication 一般指副本，可能是数据副本，可能是服务副本。副本一般用来做高可用，主挂了，副本可以接管主来继续服务，而 backup 一般是用在数据丢失的情况下恢复数据或者把存储不下的数据放在另外的地方以作备用，不会直接接替主去服务。</p>
+<p>副本的概念会经常出现在分布式数据服务里，使用副本技术，可以达到高可用的目的。</p>
+<h3 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><strong>参考资料</strong></h3>
 <ul>
-<li data-line="171" class="code-line">[1] <a href="https://security.stackexchange.com/questions/29482/is-sha-1-encryption" data-href="https://security.stackexchange.com/questions/29482/is-sha-1-encryption">is-sha-1-encryption</a></li>
-<li data-line="172" class="code-line">[2] <a href="https://www.cnblogs.com/xindoo/p/11303906.html" data-href="https://www.cnblogs.com/xindoo/p/11303906.html">局部性原理——各类优化的基石</a></li>
-<li data-line="173" class="code-line">[3] <a href="https://en.wikipedia.org/wiki/Locality_of_reference#Types_of_locality" data-href="https://en.wikipedia.org/wiki/Locality_of_reference#Types_of_locality">Types of locality</a></li>
-<li data-line="174" class="code-line">[4] <a href="https://wikidiff.com/multiplex/reuse" data-href="https://wikidiff.com/multiplex/reuse">resue vs multiplex</a></li>
+<li>[1] <a href="https://security.stackexchange.com/questions/29482/is-sha-1-encryption">is-sha-1-encryption</a></li>
+<li>[2] <a href="https://www.cnblogs.com/xindoo/p/11303906.html">局部性原理——各类优化的基石</a></li>
+<li>[3] <a href="https://en.wikipedia.org/wiki/Locality_of_reference#Types_of_locality">Types of locality</a></li>
+<li>[4] <a href="https://wikidiff.com/multiplex/reuse">resue vs multiplex</a></li>
 </ul>
 
-        <script>!function(e){var t={};function n(o){if(t[o])return t[o].exports;var i=t[o]={i:o,l:!1,exports:{}};return e[o].call(i.exports,i,i.exports,n),i.l=!0,i.exports}n.m=e,n.c=t,n.d=function(e,t,o){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:o})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)n.d(o,i,function(t){return e[t]}.bind(null,i));return o},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=3)}([function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});let o=void 0;function i(e){const t=document.getElementById("vscode-markdown-preview-data");if(t){const n=t.getAttribute(e);if(n)return JSON.parse(n)}throw new Error(`Could not load data for ${e}`)}t.getData=i,t.getSettings=function(){if(o)return o;if(o=i("data-settings"))return o;throw new Error("Could not load settings")}},function(e,t){var n;n=function(){return this}();try{n=n||new Function("return this")()}catch(e){"object"==typeof window&&(n=window)}e.exports=n},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(0),i="code-line";function r(e){return t=0,n=o.getSettings().lineCount-1,i=e,Math.min(n,Math.max(t,i));var t,n,i}const c=(()=>{let e;return()=>{if(!e){e=[{element:document.body,line:0}];for(const t of document.getElementsByClassName(i)){const n=+t.getAttribute("data-line");isNaN(n)||("CODE"===t.tagName&&t.parentElement&&"PRE"===t.parentElement.tagName?e.push({element:t.parentElement,line:n}):e.push({element:t,line:n}))}}return e}})();function s(e){const t=Math.floor(e),n=c();let o=n[0]||null;for(const e of n){if(e.line===t)return{previous:e,next:void 0};if(e.line>t)return{previous:o,next:e};o=e}return{previous:o}}function a(e){const t=c(),n=e-window.scrollY;let o=-1,i=t.length-1;for(;o+1<i;){const e=Math.floor((o+i)/2),r=u(t[e]);r.top+r.height>=n?i=e:o=e}const r=t[i],s=u(r);if(i>=1&&s.top>n){return{previous:t[o],next:r}}return i>1&&i<t.length&&s.top+s.height>n?{previous:r,next:t[i+1]}:{previous:r}}function u({element:e}){const t=e.getBoundingClientRect(),n=e.querySelector(`.${i}`);if(n){const e=n.getBoundingClientRect(),o=Math.max(1,e.top-t.top);return{top:t.top,height:o}}return t}t.getElementsForSourceLine=s,t.getLineElementsAtPageOffset=a,t.scrollToRevealSourceLine=function(e){if(!o.getSettings().scrollPreviewWithEditor)return;if(e<=0)return void window.scroll(window.scrollX,0);const{previous:t,next:n}=s(e);if(!t)return;let i=0;const r=u(t),c=r.top;if(n&&n.line!==t.line){i=c+(e-t.line)/(n.line-t.line)*(n.element.getBoundingClientRect().top-c)}else{const t=e-Math.floor(e);i=c+r.height*t}window.scroll(window.scrollX,Math.max(1,window.scrollY+i))},t.getEditorLineNumberForPageOffset=function(e){const{previous:t,next:n}=a(e);if(t){const o=u(t),i=e-window.scrollY-o.top;if(n){const e=i/(u(n).top-o.top);return r(t.line+e*(n.line-t.line))}{const e=i/o.height;return r(t.line+e)}}return null},t.getLineElementForFragment=function(e){return c().find(t=>t.element.id===e)}},function(e,t,n){"use strict";(function(e){Object.defineProperty(t,"__esModule",{value:!0});const o=n(7),i=n(8),r=n(9),c=n(2),s=n(0),a=n(10);let u=!0;const l=new o.ActiveLineMarker,f=s.getSettings(),d=acquireVsCodeApi(),m=d.getState(),p={..."object"==typeof m?m:{},...s.getData("data-state")};d.setState(p);const g=r.createPosterForVsCode(d);window.cspAlerter.setPoster(g),window.styleLoadingMonitor.setPoster(g),window.onload=()=>{v()},i.onceDocumentLoaded(()=>{const t=p.scrollProgress;"number"!=typeof t||f.fragment?f.scrollPreviewWithEditor&&e(()=>{if(f.fragment){p.fragment=void 0,d.setState(p);const e=c.getLineElementForFragment(f.fragment);e&&(u=!0,c.scrollToRevealSourceLine(e.line))}else isNaN(f.line)||(u=!0,c.scrollToRevealSourceLine(f.line))}):e(()=>{u=!0,window.scrollTo(0,t*document.body.clientHeight)})});const h=(()=>{const e=a(e=>{u=!0,c.scrollToRevealSourceLine(e)},50);return t=>{isNaN(t)||(p.line=t,e(t))}})();let v=a(()=>{const e=[];let t=document.getElementsByTagName("img");if(t){let n;for(n=0;n<t.length;n++){const o=t[n];o.classList.contains("loading")&&o.classList.remove("loading"),e.push({id:o.id,height:o.height,width:o.width})}g.postMessage("cacheImageSizes",e)}},50);window.addEventListener("resize",()=>{u=!0,w(),v()},!0),window.addEventListener("message",e=>{if(e.data.source===f.source)switch(e.data.type){case"onDidChangeTextEditorSelection":l.onDidChangeTextEditorSelection(e.data.line);break;case"updateView":h(e.data.line)}},!1),document.addEventListener("dblclick",e=>{if(!f.doubleClickToSwitchToEditor)return;for(let t=e.target;t;t=t.parentNode)if("A"===t.tagName)return;const t=e.pageY,n=c.getEditorLineNumberForPageOffset(t);"number"!=typeof n||isNaN(n)||g.postMessage("didClick",{line:Math.floor(n)})});const y=["http:","https:","mailto:","vscode:","vscode-insiders:"];function w(){p.scrollProgress=window.scrollY/document.body.clientHeight,d.setState(p)}document.addEventListener("click",e=>{if(!e)return;let t=e.target;for(;t;){if(t.tagName&&"A"===t.tagName&&t.href){if(t.getAttribute("href").startsWith("#"))return;let n=t.getAttribute("data-href");if(!n){if(y.some(e=>t.href.startsWith(e)))return;n=t.getAttribute("href")}return/^[a-z\-]+:/i.test(n)?void 0:(g.postMessage("openLink",{href:n}),e.preventDefault(),void e.stopPropagation())}t=t.parentNode}},!0),window.addEventListener("scroll",a(()=>{if(w(),u)u=!1;else{const e=c.getEditorLineNumberForPageOffset(window.scrollY);"number"!=typeof e||isNaN(e)||g.postMessage("revealLine",{line:e})}},50))}).call(this,n(4).setImmediate)},function(e,t,n){(function(e){var o=Function.prototype.apply;function i(e,t){this._id=e,this._clearFn=t}t.setTimeout=function(){return new i(o.call(setTimeout,window,arguments),clearTimeout)},t.setInterval=function(){return new i(o.call(setInterval,window,arguments),clearInterval)},t.clearTimeout=t.clearInterval=function(e){e&&e.close()},i.prototype.unref=i.prototype.ref=function(){},i.prototype.close=function(){this._clearFn.call(window,this._id)},t.enroll=function(e,t){clearTimeout(e._idleTimeoutId),e._idleTimeout=t},t.unenroll=function(e){clearTimeout(e._idleTimeoutId),e._idleTimeout=-1},t._unrefActive=t.active=function(e){clearTimeout(e._idleTimeoutId);var t=e._idleTimeout;t>=0&&(e._idleTimeoutId=setTimeout((function(){e._onTimeout&&e._onTimeout()}),t))},n(5),t.setImmediate="undefined"!=typeof self&&self.setImmediate||void 0!==e&&e.setImmediate||this&&this.setImmediate,t.clearImmediate="undefined"!=typeof self&&self.clearImmediate||void 0!==e&&e.clearImmediate||this&&this.clearImmediate}).call(this,n(1))},function(e,t,n){(function(e,t){!function(e,n){"use strict";if(!e.setImmediate){var o,i,r,c,s,a=1,u={},l=!1,f=e.document,d=Object.getPrototypeOf&&Object.getPrototypeOf(e);d=d&&d.setTimeout?d:e,"[object process]"==={}.toString.call(e.process)?o=function(e){t.nextTick((function(){p(e)}))}:!function(){if(e.postMessage&&!e.importScripts){var t=!0,n=e.onmessage;return e.onmessage=function(){t=!1},e.postMessage("","*"),e.onmessage=n,t}}()?e.MessageChannel?((r=new MessageChannel).port1.onmessage=function(e){p(e.data)},o=function(e){r.port2.postMessage(e)}):f&&"onreadystatechange"in f.createElement("script")?(i=f.documentElement,o=function(e){var t=f.createElement("script");t.onreadystatechange=function(){p(e),t.onreadystatechange=null,i.removeChild(t),t=null},i.appendChild(t)}):o=function(e){setTimeout(p,0,e)}:(c="setImmediate$"+Math.random()+"$",s=function(t){t.source===e&&"string"==typeof t.data&&0===t.data.indexOf(c)&&p(+t.data.slice(c.length))},e.addEventListener?e.addEventListener("message",s,!1):e.attachEvent("onmessage",s),o=function(t){e.postMessage(c+t,"*")}),d.setImmediate=function(e){"function"!=typeof e&&(e=new Function(""+e));for(var t=new Array(arguments.length-1),n=0;n<t.length;n++)t[n]=arguments[n+1];var i={callback:e,args:t};return u[a]=i,o(a),a++},d.clearImmediate=m}function m(e){delete u[e]}function p(e){if(l)setTimeout(p,0,e);else{var t=u[e];if(t){l=!0;try{!function(e){var t=e.callback,o=e.args;switch(o.length){case 0:t();break;case 1:t(o[0]);break;case 2:t(o[0],o[1]);break;case 3:t(o[0],o[1],o[2]);break;default:t.apply(n,o)}}(t)}finally{m(e),l=!1}}}}}("undefined"==typeof self?void 0===e?this:e:self)}).call(this,n(1),n(6))},function(e,t){var n,o,i=e.exports={};function r(){throw new Error("setTimeout has not been defined")}function c(){throw new Error("clearTimeout has not been defined")}function s(e){if(n===setTimeout)return setTimeout(e,0);if((n===r||!n)&&setTimeout)return n=setTimeout,setTimeout(e,0);try{return n(e,0)}catch(t){try{return n.call(null,e,0)}catch(t){return n.call(this,e,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:r}catch(e){n=r}try{o="function"==typeof clearTimeout?clearTimeout:c}catch(e){o=c}}();var a,u=[],l=!1,f=-1;function d(){l&&a&&(l=!1,a.length?u=a.concat(u):f=-1,u.length&&m())}function m(){if(!l){var e=s(d);l=!0;for(var t=u.length;t;){for(a=u,u=[];++f<t;)a&&a[f].run();f=-1,t=u.length}a=null,l=!1,function(e){if(o===clearTimeout)return clearTimeout(e);if((o===c||!o)&&clearTimeout)return o=clearTimeout,clearTimeout(e);try{o(e)}catch(t){try{return o.call(null,e)}catch(t){return o.call(this,e)}}}(e)}}function p(e,t){this.fun=e,this.array=t}function g(){}i.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];u.push(new p(e,t)),1!==u.length||l||s(m)},p.prototype.run=function(){this.fun.apply(null,this.array)},i.title="browser",i.browser=!0,i.env={},i.argv=[],i.version="",i.versions={},i.on=g,i.addListener=g,i.once=g,i.off=g,i.removeListener=g,i.removeAllListeners=g,i.emit=g,i.prependListener=g,i.prependOnceListener=g,i.listeners=function(e){return[]},i.binding=function(e){throw new Error("process.binding is not supported")},i.cwd=function(){return"/"},i.chdir=function(e){throw new Error("process.chdir is not supported")},i.umask=function(){return 0}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(2);t.ActiveLineMarker=class{onDidChangeTextEditorSelection(e){const{previous:t}=o.getElementsForSourceLine(e);this._update(t&&t.element)}_update(e){this._unmarkActiveElement(this._current),this._markActiveElement(e),this._current=e}_unmarkActiveElement(e){e&&(e.className=e.className.replace(/\bcode-active-line\b/g,""))}_markActiveElement(e){e&&(e.className+=" code-active-line")}}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.onceDocumentLoaded=function(e){"loading"===document.readyState||"uninitialized"===document.readyState?document.addEventListener("DOMContentLoaded",e):e()}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(0);t.createPosterForVsCode=e=>new class{postMessage(t,n){e.postMessage({type:t,source:o.getSettings().source,body:n})}}},function(e,t,n){(function(t){var n="Expected a function",o=NaN,i="[object Symbol]",r=/^\s+|\s+$/g,c=/^[-+]0x[0-9a-f]+$/i,s=/^0b[01]+$/i,a=/^0o[0-7]+$/i,u=parseInt,l="object"==typeof t&&t&&t.Object===Object&&t,f="object"==typeof self&&self&&self.Object===Object&&self,d=l||f||Function("return this")(),m=Object.prototype.toString,p=Math.max,g=Math.min,h=function(){return d.Date.now()};function v(e,t,o){var i,r,c,s,a,u,l=0,f=!1,d=!1,m=!0;if("function"!=typeof e)throw new TypeError(n);function v(t){var n=i,o=r;return i=r=void 0,l=t,s=e.apply(o,n)}function b(e){var n=e-u;return void 0===u||n>=t||n<0||d&&e-l>=c}function T(){var e=h();if(b(e))return E(e);a=setTimeout(T,function(e){var n=t-(e-u);return d?g(n,c-(e-l)):n}(e))}function E(e){return a=void 0,m&&i?v(e):(i=r=void 0,s)}function _(){var e=h(),n=b(e);if(i=arguments,r=this,u=e,n){if(void 0===a)return function(e){return l=e,a=setTimeout(T,t),f?v(e):s}(u);if(d)return a=setTimeout(T,t),v(u)}return void 0===a&&(a=setTimeout(T,t)),s}return t=w(t)||0,y(o)&&(f=!!o.leading,c=(d="maxWait"in o)?p(w(o.maxWait)||0,t):c,m="trailing"in o?!!o.trailing:m),_.cancel=function(){void 0!==a&&clearTimeout(a),l=0,i=u=r=a=void 0},_.flush=function(){return void 0===a?s:E(h())},_}function y(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function w(e){if("number"==typeof e)return e;if(function(e){return"symbol"==typeof e||function(e){return!!e&&"object"==typeof e}(e)&&m.call(e)==i}(e))return o;if(y(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=y(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(r,"");var n=s.test(e);return n||a.test(e)?u(e.slice(2),n?2:8):c.test(e)?o:+e}e.exports=function(e,t,o){var i=!0,r=!0;if("function"!=typeof e)throw new TypeError(n);return y(o)&&(i="leading"in o?!!o.leading:i,r="trailing"in o?!!o.trailing:r),v(e,t,{leading:i,maxWait:t,trailing:r})}}).call(this,n(1))}]);</script>
-
-    </body>
+</body>
 </html>

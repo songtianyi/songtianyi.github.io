@@ -483,9 +483,47 @@ code {
 </blockquote>
 <p>那我们怎么构建这样的 AVL 树呢？通过调整输入的值的顺序是不现实的，因为输入可能是流式的，没办法在当前时间点得到未来时间点的输入。那么可行的方法是，一边构建 BST, 一边将 BST 调整成 AVL, 而且是马上调整，因为我们要时刻保持 AVL 树的特性。这种调整是基于 <code>旋转</code> 实现的。</p>
 <h3 id="%E5%B7%A6%E6%97%8B">左旋</h3>
+<p>如图，当插入节点 14 知乎，以 1 为根的子树的左子树的深度为1，右子树的深度为 3，相差 2，不满足 AVL 的特性。此时，可以将 1 逆时针旋转（左旋），同时改变连接关系，将节点 10 作为子树的根结点，1 从父节点变为 10 的左子树，14 仍然作为 10 的右子树。<br>
+我们可以观察出，所谓的旋转是以子树的根为圆心，顺时针或者逆时针旋转，旋转之后，连接关系会被改变。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-left-rotate-1.png" alt="image"></p>
+<h3 id="%E5%8F%B3%E6%97%8B">右旋</h3>
+<p>和左旋类似，不再赘述。通过这两种基本的旋转，我们能总结出一个旋转规律：</p>
+<ul>
+<li>当右子树的深度小于左子树，右旋</li>
+<li>当右子树的深度大于左子树，左旋</li>
+</ul>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-right-rotate.png" alt="image"></p>
+<h3 id="%E5%A4%9A%E6%AC%A1%E6%97%8B%E8%BD%AC">多次旋转</h3>
+<p>对于一直向左，或者一直向右延伸的情况，我们比较容易能够知道应该怎么旋转。接着我们来看一下较复杂的情况。</p>
+<blockquote>
+<p>图中的数字 A/B 的含义，该节点的值为 A，该节点的左子树深度 - 该节点的左子树深度 = B</p>
+</blockquote>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-complicate-rotate-question-mark.png" alt="image"></p>
+<p>如上图，当我们插入 3 这个节点后，导致了不平衡，如果 3 是插入在了 450 的右边，那么左旋就可以了，我们从物理学的角度来直观感受，插在右边会很明显地导致右边重左边轻，但现在插入了左边，那么到底是左边重一点，还是右边重一点，我们是不是很难靠直觉来判断了？<br>
+由于节点比较少，我们可以通过枚举来得知，一次旋转是不够的，需要两次旋转。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-right-left-rotate.png" alt="image"></p>
+<p>如上图，经过两次旋转(先右旋，后左旋)达到平衡, 写到这里我发现，可以把节点以及节点之间的联系想象成一个链条，左旋是逆时针<strong>拉动链条</strong>, 右旋是顺时针拉动链条，这和我们的生活常识是相通的。另外， 我们可以看出，第一次拉动是为第二次拉动做准备的，第一次拉动让链条变得更加平整，有序，这样第二次拉动就比较简单了。</p>
+<p>再来看一个新的例子:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-left-right-rotate.png" alt="image"></p>
+<p>如上图，有了之前的经验，我们应该可以很快知道怎么旋转。</p>
+<p>多加一个例子，这样我们才能更容易看出其规律:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-right-left-rotate-1.png" alt="image"></p>
+<p>结合这几个实际案例，我们现在大致可以弄明白两件事。</p>
+<ol>
+<li>旋转的触发条件</li>
+<li>旋转的方式</li>
+</ol>
+<p>阐述一下:</p>
+<ol>
+<li>当插入节点 w，导致深度差为 2  时，如果 w 是作为右子树插入，那么左旋就可以了</li>
+<li>当插入节点 w, 导致深度差为 -2 时，如果 w 是作为左子树插入，那么右旋就可以了</li>
+<li>当插入节点 w, 导致深度差为 2  时，如果 w 是作为左子树插入，先右旋，让它变成情况 1，然后再左旋就可以了</li>
+<li>当插入节点 w, 导致深度差为 -2 时，如果 w 是作为右子树插入，先左旋，让它变成情况 2，然后再右旋就可以了</li>
+</ol>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
 <ul>
 <li><a href="https://blog.csdn.net/qq_36667170/article/details/84142019">树的高度和深度</a></li>
+<li><a href="http://data.biancheng.net/view/59.html">平衡二叉树（AVL树）及C语言实现</a></li>
 </ul>
 
 </body>
