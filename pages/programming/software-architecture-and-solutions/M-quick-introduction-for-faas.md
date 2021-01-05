@@ -6,10 +6,6 @@
 
 FaaS(Function as a service)是最近几年兴起的serverless架构的计算服务(computing services)。早在2010年，就有一些初创公司提供这类服务，如PiCloud, 你可以编写job(function)并远程调用(Cloud.call), 然后获取到执行结果(Cloud.result). 在2014年10月13，亚马逊发布了自己的FaaS服务Lambda, Google/Microsoft/IBM也在2016年相继推出了自己的faas服务，2017年oracle推出了cloud fn.
 
-### 应用部署的演进
-
-![软件服务栈](/Users/work/Downloads/软件服务栈.jpg)
-
 ### FaaS VS Serverless
 
 serverless是一种架构模型，旨在向开发者屏蔽应用部署的几乎所有细节，开发者也无需关心应用的伸缩。faas是基于serverless架构的一种服务，用户只需提供自己的逻辑，faas服务可以调动海量的计算资源来运行这段逻辑并返回结果。
@@ -58,7 +54,7 @@ serverless是一种架构模型，旨在向开发者屏蔽应用部署的几乎�
 * 主流function语言是js，这取决于语言的自身特性
 * 开源项目众多
 
-![faas-opensource](/Users/work/Downloads/faas-opensource.jpg)
+![faas-opensource](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/faas-opensource.jpg)
 
 * 应用场景
 
