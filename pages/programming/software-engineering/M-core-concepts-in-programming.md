@@ -147,7 +147,7 @@ buffer 又是是什么？和 cache 有什么区别？
 
 当一些数据不能马上被拿走或消费掉的时候(生产者生产的速度大于消费者消费的速度)，就需要用 buffer，比如消息队列，它可以提高业务处理不过来的时候的响应速度，再比如 tcp 连接的 buffer，传输过来的数据会先被放进 buffer，这样传输就不用受限于业务程序的处理效率。 再如，数据库里使用的 WAL 技术，也可以认为是一种基于文件的 buffer, 提供持久性的同时，用顺序 io 代替随机 io 以提高写入速度。
 
-redis/message-queue
+redis/message-queue/LRU
 
 ### **Resuing and Multiplexing**
 
