@@ -401,16 +401,16 @@ struct node *newN(int v) {
   return n;
 }
 
-struct node *insert(struct node *curr, int v) {
+struct node *avl_insert(struct node *curr, int v) {
   // BST
   if (curr == NULL) {
     return newN(v);
   }
 
   if (v < curr->value) {
-    curr->left = insert(curr->left, v);
+    curr->left = avl_insert(curr->left, v);
   } else if (v > curr->value) {
-    curr->right = insert(curr->right, v);
+    curr->right = avl_insert(curr->right, v);
   } else {
     return curr;  // NOT INSERT
   }
@@ -463,13 +463,17 @@ int main() {
   int a[10] = {1, 450, 3, 4, 56, 12, 123, 45, 23, 6};
   struct node *root = NULL;
   for (int i = 0; i < 10; i++) {
-    root = insert(root, a[i]);
+    root = avl_insert(root, a[i]);
   }
 
   bst_inorder_traversal(root);
   bst_preorder_traversal(root);
 }
 ```
+
+### AVL 删除操作
+
+前面讲了那么多都是关于
 
 ## 参考资料
 
