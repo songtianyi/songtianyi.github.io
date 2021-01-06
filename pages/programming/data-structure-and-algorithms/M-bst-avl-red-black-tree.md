@@ -339,26 +339,135 @@ int main() {
 5. 旋转的时候根会变化，连接关系需要调整
 
 ``` C
-// A utility function to get the height of the tree 
-int height(struct Node *N) 
-{ 
-    if (N == NULL) 
-        return 0; 
-    return N->height; 
-} 
+#include <stdio.h>
+#include <stdlib.h>
+struct node {
+  int value;
+  struct node *left, *right;
+  int height;
+};
+
+// A utility function to get the height of the tree
+int height(struct node *N) {
+  if (N == NULL) return 0;
+  return N->height;
+}
+
+int max(int a, int b) { return a > b ? a : b; }
 
 // left rotate
 // pivot x
 struct node *left_rotate(struct node *x) {
-  struct node *pivot = x->right; // x 是旧的枢纽, pivot 是新的枢纽
-  struct node *influenced = pivot->left; // 左子树要跟随调整
+  printf("left rotate %d\n", x->value);
+  struct node *pivot = x->right;  // x 是旧的枢纽, pivot 是新的枢纽
+  struct node *influenced = pivot->left;  // 左子树要跟随调整
 
-  pivot->left = x; // rotate
-  x->right = influenced; // 因为被影响的左子树是新的枢纽的左子树，是必然大于旧枢纽的，所以放在旧枢纽的右边
+  pivot->left = x;  // rotate
+  // 因为被影响的左子树是新的枢纽的左子树，是必然大于旧枢纽的，所以放在旧枢纽的右边
+  x->right = influenced;
+  // 新的高度为 左子树高度 右子树高度之间的最大值再加自身
+  x->height = max(height(x->left), height(x->right)) + 1;
+  // 同理
+  pivot->height = max(height(pivot->left), height(pivot->right)) + 1;
+  // 返回新的枢纽，既新的根
+  return pivot;
+}
 
-  x->height = max(height(x->left),height(x->right) + 1; // 新的高度为 左子树高度 右子树高度之间的最大值再加自身
-  pivot->height =  max(height(pivot->left), height(pivot->right))+1; // 同理
-  return pivot; // 返回新的枢纽，既新的根
+// right rotate
+// pivot x
+struct node *right_rotate(struct node *x) {
+  printf("right rotate %d\n", x->value);
+  struct node *pivot = x->left;  // new pivot
+  struct node *influenced = pivot->right;
+
+  pivot->right = x;
+  x->left = influenced;
+  // 新的高度为 左子树高度 右子树高度之间的最大值再加自身
+  x->height = max(height(x->left), height(x->right)) + 1;
+  // 同理
+  pivot->height = max(height(pivot->left), height(pivot->right)) + 1;
+  // 返回新的枢纽，即新的根
+  return pivot;
+}
+
+// calc balance factor
+int BF(struct node *x) { return height(x->left) - height(x->right); }
+
+struct node *newN(int v) {
+  struct node *n = malloc(sizeof(struct node));
+  n->value = v;
+  n->left = n->right = NULL;
+  n->height = 1;
+  return n;
+}
+
+struct node *insert(struct node *curr, int v) {
+  // BST
+  if (curr == NULL) {
+    return newN(v);
+  }
+
+  if (v < curr->value) {
+    curr->left = insert(curr->left, v);
+  } else if (v > curr->value) {
+    curr->right = insert(curr->right, v);
+  } else {
+    return curr;  // NOT INSERT
+  }
+  curr->height = 1 + max(height(curr->left), height(curr->right));
+
+  int bf = BF(curr);
+
+  // CASE 3
+  if (bf > 1 && v < curr->left->value) {
+    return right_rotate(curr);
+  }
+
+  // CASE 1
+  if (bf < -1 && v > curr->right->value) {
+    return left_rotate(curr);
+  }
+
+  // CASE 4
+  if (bf > 1 && v > curr->left->value) {
+    curr->left = left_rotate(curr->left);
+    return right_rotate(curr);
+  }
+
+  // CASE 2
+  if (bf < -1 && v < curr->right->value) {
+    curr->right = right_rotate(curr->right);
+    return left_rotate(curr);
+  }
+  return curr;
+}
+
+void bst_inorder_traversal(struct node *curr) {
+  if (curr != NULL) {
+    bst_inorder_traversal(curr->left);
+    printf("(%p, %d)\n", curr, curr->value);
+    bst_inorder_traversal(curr->right);
+  }
+}
+
+void bst_preorder_traversal(struct node *curr) {
+  if (curr != NULL) {
+    // printf("(%p, %d)\n", curr, curr->value);
+    printf("(%p, %d), (%p, %p)\n", curr, curr->value, curr->left, curr->right);
+    bst_preorder_traversal(curr->left);
+    bst_preorder_traversal(curr->right);
+  }
+}
+
+int main() {
+  int a[10] = {1, 450, 3, 4, 56, 12, 123, 45, 23, 6};
+  struct node *root = NULL;
+  for (int i = 0; i < 10; i++) {
+    root = insert(root, a[i]);
+  }
+
+  bst_inorder_traversal(root);
+  bst_preorder_traversal(root);
 }
 ```
 

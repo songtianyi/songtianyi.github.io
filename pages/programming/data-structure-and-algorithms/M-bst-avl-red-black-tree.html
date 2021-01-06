@@ -464,6 +464,166 @@ code {
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-3.png" alt="image"></p>
 <p>例2:</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-4.png" alt="image"></p>
+<h3 id="%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81">完整代码</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">/* C */</span>
+<span class="hljs-comment">/**
+ * 二叉排序树模板
+ * 插入函数 插入之前应先申请一个要插入的p节点 然后传进去
+ * 查找函数 root为根节点 parent等于root value为要查找的值
+ * ret_flag为0返回查找到的节点的父节点这样便于删除时使用  ret_flag
+ * 为1返回查找到的节点的指针
+ * 删除函数 传入要删除的节点的父节点和要删除的节点
+ * 如果待删节点为父节点的左孩子is_left=1 如果为右孩子 is_left=1 构造函数
+ * 将一个数组从start到end（不包括end）的范围构造为一个二叉排序树 root为根节点
+ */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> {</span>
+  <span class="hljs-keyword">int</span> value;
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">left</span>, *<span class="hljs-title">right</span>;</span>
+};
+<span class="hljs-function">struct node *<span class="hljs-title">bst_insert</span><span class="hljs-params">(struct node *curr, struct node *p)</span> </span>{
+  <span class="hljs-keyword">if</span> (curr == <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-keyword">return</span> p;  <span class="hljs-comment">//插入的节点的左右孩子的初始值一定要为NULL</span>
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (p-&gt;value &lt; curr-&gt;value) {
+    curr-&gt;left = bst_insert(curr-&gt;left, p);
+  } <span class="hljs-keyword">else</span> {
+    curr-&gt;right = bst_insert(curr-&gt;right, p);
+  }
+  <span class="hljs-keyword">return</span> curr;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bst_inorder_traversal</span><span class="hljs-params">(struct node *curr)</span> </span>{
+  <span class="hljs-keyword">if</span> (curr != <span class="hljs-literal">NULL</span>) {
+    bst_inorder_traversal(curr-&gt;left);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"(%p, %d)\n"</span>, curr, curr-&gt;value);
+    bst_inorder_traversal(curr-&gt;right);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bst_preorder_traversal</span><span class="hljs-params">(struct node *curr)</span> </span>{
+  <span class="hljs-keyword">if</span> (curr != <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"(%p, %d)\n"</span>, curr, curr-&gt;value);
+    bst_preorder_traversal(curr-&gt;left);
+    bst_preorder_traversal(curr-&gt;right);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bst_postorder_traversal</span><span class="hljs-params">(struct node *curr)</span> </span>{
+  <span class="hljs-keyword">if</span> (curr != <span class="hljs-literal">NULL</span>) {
+    bst_postorder_traversal(curr-&gt;left);
+    bst_postorder_traversal(curr-&gt;right);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"(%p, %d)\n"</span>, curr, curr-&gt;value);
+  }
+}
+
+<span class="hljs-function">struct node *<span class="hljs-title">bst_search</span><span class="hljs-params">(struct node *curr, struct node *parent, <span class="hljs-keyword">int</span> value,
+                        <span class="hljs-keyword">int</span> ret_flag)</span> </span>{
+  <span class="hljs-keyword">if</span> (curr == <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-comment">// leaf node</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (curr-&gt;value == value) {
+    <span class="hljs-comment">// found, check ret flag</span>
+    <span class="hljs-comment">// 返回的是要查找节点的父节点或者是要查找的节点</span>
+    <span class="hljs-comment">// 使用父节点是因为这样便于删除的时候使用父节点进行删除</span>
+    <span class="hljs-keyword">if</span> (ret_flag == <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span> parent;
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> curr;
+    }
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (value &lt; curr-&gt;value) {
+    <span class="hljs-keyword">return</span> bst_search(curr-&gt;left, curr, value, ret_flag);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> bst_search(curr-&gt;right, curr, value, ret_flag);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bst_delete</span><span class="hljs-params">(struct node *parent, struct node *p, <span class="hljs-keyword">int</span> is_left)</span> </span>{
+  <span class="hljs-keyword">if</span> (p-&gt;left == <span class="hljs-literal">NULL</span> &amp;&amp; p-&gt;right == <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-comment">// leaft node</span>
+    <span class="hljs-keyword">if</span> (is_left) {
+      <span class="hljs-comment">// p 为parent的左子叶</span>
+      <span class="hljs-comment">// 将 parent的左指针置为空</span>
+      parent-&gt;left = <span class="hljs-literal">NULL</span>;
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-comment">// p 为parent的右子叶</span>
+      parent-&gt;right = <span class="hljs-literal">NULL</span>;
+    }
+    <span class="hljs-built_in">free</span>(p);
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (p-&gt;left == <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-comment">// 待删除节点无左子树，说明有右子树</span>
+    <span class="hljs-keyword">if</span> (is_left) {
+      <span class="hljs-comment">// 将待删除的节点的右子树 赋值给父节点的左子树</span>
+      parent-&gt;left = p-&gt;right;
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-comment">// 将待删除的节点的右子树 赋值给父节点的左子树</span>
+      parent-&gt;right = p-&gt;right;
+    }
+    <span class="hljs-built_in">free</span>(p);
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (p-&gt;right == <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-comment">// 待删除节点无右子树，说明有左子树</span>
+    <span class="hljs-keyword">if</span> (is_left) {
+      parent-&gt;left = p-&gt;left;
+    } <span class="hljs-keyword">else</span> {
+      parent-&gt;right = p-&gt;left;
+    }
+    <span class="hljs-built_in">free</span>(p);
+  } <span class="hljs-keyword">else</span> {
+    struct node *s = p-&gt;right;
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">sp</span> = <span class="hljs-title">p</span>;</span>
+    <span class="hljs-comment">//找右子树中最左的节点 或者找左子树中最右的节点</span>
+    <span class="hljs-comment">//然后和要删除的位置交换value</span>
+    <span class="hljs-comment">//这里选择前者</span>
+    <span class="hljs-keyword">while</span> (s-&gt;left != <span class="hljs-literal">NULL</span>) {
+      sp = s;
+      s = s-&gt;left;
+    }
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d --&gt; %d\n"</span>, p-&gt;value, s-&gt;value);
+    p-&gt;value = s-&gt;value;
+    <span class="hljs-keyword">if</span> (sp == p) {
+      <span class="hljs-comment">// p 的右子树没有左子树</span>
+      <span class="hljs-comment">// </span>
+      sp-&gt;right = s-&gt;right;
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-comment">//因为s肯定没有左子树 所以把右子树接在父节点的左指针上就行了</span>
+      sp-&gt;left = s-&gt;right;
+    }
+    <span class="hljs-built_in">free</span>(s);
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bst_build</span><span class="hljs-params">(struct node *root, <span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span>, <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> <span class="hljs-built_in">end</span>)</span> </span>{
+  <span class="hljs-comment">// [start, end)</span>
+  <span class="hljs-keyword">while</span> (start &lt; <span class="hljs-built_in">end</span>) {
+    <span class="hljs-comment">// create node</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">p</span> = <span class="hljs-title">malloc</span>(<span class="hljs-title">sizeof</span>(<span class="hljs-title">struct</span> <span class="hljs-title">node</span>));</span>
+    p-&gt;value = <span class="hljs-built_in">array</span>[start];
+    p-&gt;left = p-&gt;right = <span class="hljs-literal">NULL</span>;  <span class="hljs-comment">// init</span>
+    bst_insert(root, p);
+    start++;
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>] = {<span class="hljs-number">1</span>, <span class="hljs-number">450</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">56</span>, <span class="hljs-number">12</span>, <span class="hljs-number">123</span>, <span class="hljs-number">45</span>, <span class="hljs-number">23</span>, <span class="hljs-number">6</span>};
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">root</span> = <span class="hljs-title">malloc</span>(<span class="hljs-title">sizeof</span>(<span class="hljs-title">struct</span> <span class="hljs-title">node</span>));</span>
+  root-&gt;left = root-&gt;right = <span class="hljs-literal">NULL</span>;
+  root-&gt;value = a[<span class="hljs-number">0</span>];
+  bst_build(root, a, <span class="hljs-number">1</span>, <span class="hljs-number">10</span>);
+  bst_inorder_traversal(root);
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"root %p %d\n"</span>, root, root-&gt;value);
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">ans</span> = <span class="hljs-title">bst_search</span>(<span class="hljs-title">root</span>, <span class="hljs-title">root</span>, 56, 0);</span>
+  <span class="hljs-keyword">if</span> (ans != <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"ans value %d\n"</span>, ans-&gt;value);
+    bst_delete(ans, ans-&gt;right, <span class="hljs-number">1</span>);
+    bst_preorder_traversal(root);
+    bst_inorder_traversal(root);
+    bst_postorder_traversal(root);
+  }
+}
+
+</div></code></pre>
 <h3 id="%E4%BC%98%E5%8C%96">优化</h3>
 <p>前面我们提到，我们构造的这棵树的高度为为 7 ，和数组长度相差无几，且大部分数据的高度超过 4，查找的效率相对来说，是比较低的，存在优化的空间。要优化构造出来的结构，只能从构造下手。<br>
 我们构造 BST 的过程是从数组的第一个元素开始的，那么从第 2 个元素开始构造呢？构造的结果会不一样。数组中，值的大小顺序决定着最终的结构，那么是否存在一个最佳的构造顺序呢？</p>
@@ -496,7 +656,7 @@ code {
 <h3 id="%E5%A4%9A%E6%AC%A1%E6%97%8B%E8%BD%AC">多次旋转</h3>
 <p>对于一直向左，或者一直向右延伸的情况，我们比较容易能够知道应该怎么旋转。接着我们来看一下较复杂的情况。</p>
 <blockquote>
-<p>图中的数字 A/B 的含义，该节点的值为 A，该节点的左子树深度 - 该节点的左子树深度 = B</p>
+<p>图中的数字 A/B 表示，该节点的值为 A，(该节点的左子树深度 - 该节点的左子树深度) = B</p>
 </blockquote>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-complicate-rotate-question-mark.png" alt="image"></p>
 <p>如上图，当我们插入 3 这个节点后，导致了不平衡，如果 3 是插入在了 450 的右边，那么左旋就可以了，我们从物理学的角度来直观感受，插在右边会很明显地导致右边重左边轻，但现在插入了左边，那么到底是左边重一点，还是右边重一点，我们是不是很难靠直觉来判断了？<br>
@@ -514,12 +674,155 @@ code {
 <li>旋转的方式</li>
 </ol>
 <p>阐述一下:</p>
+<blockquote>
+<p>深度差 = 左子树深度 - 右子树深度</p>
+</blockquote>
 <ol>
-<li>当插入节点 w，导致深度差为 2  时，如果 w 是作为右子树插入，那么左旋就可以了</li>
-<li>当插入节点 w, 导致深度差为 -2 时，如果 w 是作为左子树插入，那么右旋就可以了</li>
-<li>当插入节点 w, 导致深度差为 2  时，如果 w 是作为左子树插入，先右旋，让它变成情况 1，然后再左旋就可以了</li>
-<li>当插入节点 w, 导致深度差为 -2 时，如果 w 是作为右子树插入，先左旋，让它变成情况 2，然后再右旋就可以了</li>
+<li>当插入节点 w，导致深度差为 -2 时，如果 w 是作为右子树插入，那么左旋就可以了</li>
+<li>当插入节点 w, 导致深度差为 -2 时，如果 w 是作为左子树插入，先右旋，让它变成情况 1，然后再左旋就可以了</li>
+<li>当插入节点 w, 导致深度差为 2 时，如果 w 是作为左子树插入，那么右旋就可以了</li>
+<li>当插入节点 w, 导致深度差为 2 时，如果 w 是作为右子树插入，先左旋，让它变成情况 2，然后再右旋就可以了</li>
 </ol>
+<h3 id="avl-%E5%AE%9E%E7%8E%B0">AVL 实现</h3>
+<p>现在来考虑如何实现。根据前面的内容，可以得出以下结论:</p>
+<ol>
+<li>旋转是自底向上的，所以可以用递归</li>
+<li>需要知道左右子树的深度差，由于我们使用的是递归，高度的计算相对深度来说要简单，所以实现的时候用高度代替深度，结果不变。插入的叶子结点的高度为 1. 深度差或者高度差称为 balance factor, BF.</li>
+<li>左旋右旋可以复用</li>
+<li>旋转需要一个枢纽，枢纽是根据高度差的值为 2 或者 -2 来确定的, 称为 pivot.</li>
+<li>旋转的时候根会变化，连接关系需要调整</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> {</span>
+  <span class="hljs-keyword">int</span> value;
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">left</span>, *<span class="hljs-title">right</span>;</span>
+  <span class="hljs-keyword">int</span> <span class="hljs-built_in">height</span>;
+};
+
+<span class="hljs-comment">// A utility function to get the height of the tree</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">height</span><span class="hljs-params">(struct node *N)</span> </span>{
+  <span class="hljs-keyword">if</span> (N == <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">return</span> N-&gt;<span class="hljs-built_in">height</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">max</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{ <span class="hljs-keyword">return</span> a &gt; b ? a : b; }
+
+<span class="hljs-comment">// left rotate</span>
+<span class="hljs-comment">// pivot x</span>
+<span class="hljs-function">struct node *<span class="hljs-title">left_rotate</span><span class="hljs-params">(struct node *x)</span> </span>{
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"left rotate %d\n"</span>, x-&gt;value);
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">pivot</span> = <span class="hljs-title">x</span>-&gt;<span class="hljs-title">right</span>;</span>  <span class="hljs-comment">// x 是旧的枢纽, pivot 是新的枢纽</span>
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">influenced</span> = <span class="hljs-title">pivot</span>-&gt;<span class="hljs-title">left</span>;</span>  <span class="hljs-comment">// 左子树要跟随调整</span>
+
+  pivot-&gt;left = x;  <span class="hljs-comment">// rotate</span>
+  <span class="hljs-comment">// 因为被影响的左子树是新的枢纽的左子树，是必然大于旧枢纽的，所以放在旧枢纽的右边</span>
+  x-&gt;right = influenced;
+  <span class="hljs-comment">// 新的高度为 左子树高度 右子树高度之间的最大值再加自身</span>
+  x-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(x-&gt;left), <span class="hljs-built_in">height</span>(x-&gt;right)) + <span class="hljs-number">1</span>;
+  <span class="hljs-comment">// 同理</span>
+  pivot-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(pivot-&gt;left), <span class="hljs-built_in">height</span>(pivot-&gt;right)) + <span class="hljs-number">1</span>;
+  <span class="hljs-comment">// 返回新的枢纽，既新的根</span>
+  <span class="hljs-keyword">return</span> pivot;
+}
+
+<span class="hljs-comment">// right rotate</span>
+<span class="hljs-comment">// pivot x</span>
+<span class="hljs-function">struct node *<span class="hljs-title">right_rotate</span><span class="hljs-params">(struct node *x)</span> </span>{
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"right rotate %d\n"</span>, x-&gt;value);
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">pivot</span> = <span class="hljs-title">x</span>-&gt;<span class="hljs-title">left</span>;</span>  <span class="hljs-comment">// new pivot</span>
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">influenced</span> = <span class="hljs-title">pivot</span>-&gt;<span class="hljs-title">right</span>;</span>
+
+  pivot-&gt;right = x;
+  x-&gt;left = influenced;
+  <span class="hljs-comment">// 新的高度为 左子树高度 右子树高度之间的最大值再加自身</span>
+  x-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(x-&gt;left), <span class="hljs-built_in">height</span>(x-&gt;right)) + <span class="hljs-number">1</span>;
+  <span class="hljs-comment">// 同理</span>
+  pivot-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(pivot-&gt;left), <span class="hljs-built_in">height</span>(pivot-&gt;right)) + <span class="hljs-number">1</span>;
+  <span class="hljs-comment">// 返回新的枢纽，即新的根</span>
+  <span class="hljs-keyword">return</span> pivot;
+}
+
+<span class="hljs-comment">// calc balance factor</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">BF</span><span class="hljs-params">(struct node *x)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-built_in">height</span>(x-&gt;left) - <span class="hljs-built_in">height</span>(x-&gt;right); }
+
+<span class="hljs-function">struct node *<span class="hljs-title">newN</span><span class="hljs-params">(<span class="hljs-keyword">int</span> v)</span> </span>{
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">n</span> = <span class="hljs-title">malloc</span>(<span class="hljs-title">sizeof</span>(<span class="hljs-title">struct</span> <span class="hljs-title">node</span>));</span>
+  n-&gt;value = v;
+  n-&gt;left = n-&gt;right = <span class="hljs-literal">NULL</span>;
+  n-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">return</span> n;
+}
+
+<span class="hljs-function">struct node *<span class="hljs-title">insert</span><span class="hljs-params">(struct node *curr, <span class="hljs-keyword">int</span> v)</span> </span>{
+  <span class="hljs-comment">// BST</span>
+  <span class="hljs-keyword">if</span> (curr == <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-keyword">return</span> newN(v);
+  }
+
+  <span class="hljs-keyword">if</span> (v &lt; curr-&gt;value) {
+    curr-&gt;left = insert(curr-&gt;left, v);
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (v &gt; curr-&gt;value) {
+    curr-&gt;right = insert(curr-&gt;right, v);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> curr;  <span class="hljs-comment">// NOT INSERT</span>
+  }
+  curr-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-number">1</span> + <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(curr-&gt;left), <span class="hljs-built_in">height</span>(curr-&gt;right));
+
+  <span class="hljs-keyword">int</span> bf = BF(curr);
+
+  <span class="hljs-comment">// CASE 3</span>
+  <span class="hljs-keyword">if</span> (bf &gt; <span class="hljs-number">1</span> &amp;&amp; v &lt; curr-&gt;left-&gt;value) {
+    <span class="hljs-keyword">return</span> right_rotate(curr);
+  }
+
+  <span class="hljs-comment">// CASE 1</span>
+  <span class="hljs-keyword">if</span> (bf &lt; <span class="hljs-number">-1</span> &amp;&amp; v &gt; curr-&gt;right-&gt;value) {
+    <span class="hljs-keyword">return</span> left_rotate(curr);
+  }
+
+  <span class="hljs-comment">// CASE 4</span>
+  <span class="hljs-keyword">if</span> (bf &gt; <span class="hljs-number">1</span> &amp;&amp; v &gt; curr-&gt;left-&gt;value) {
+    curr-&gt;left = left_rotate(curr-&gt;left);
+    <span class="hljs-keyword">return</span> right_rotate(curr);
+  }
+
+  <span class="hljs-comment">// CASE 2</span>
+  <span class="hljs-keyword">if</span> (bf &lt; <span class="hljs-number">-1</span> &amp;&amp; v &lt; curr-&gt;right-&gt;value) {
+    curr-&gt;right = right_rotate(curr-&gt;right);
+    <span class="hljs-keyword">return</span> left_rotate(curr);
+  }
+  <span class="hljs-keyword">return</span> curr;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bst_inorder_traversal</span><span class="hljs-params">(struct node *curr)</span> </span>{
+  <span class="hljs-keyword">if</span> (curr != <span class="hljs-literal">NULL</span>) {
+    bst_inorder_traversal(curr-&gt;left);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"(%p, %d)\n"</span>, curr, curr-&gt;value);
+    bst_inorder_traversal(curr-&gt;right);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bst_preorder_traversal</span><span class="hljs-params">(struct node *curr)</span> </span>{
+  <span class="hljs-keyword">if</span> (curr != <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-comment">// printf("(%p, %d)\n", curr, curr-&gt;value);</span>
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"(%p, %d), (%p, %p)\n"</span>, curr, curr-&gt;value, curr-&gt;left, curr-&gt;right);
+    bst_preorder_traversal(curr-&gt;left);
+    bst_preorder_traversal(curr-&gt;right);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>] = {<span class="hljs-number">1</span>, <span class="hljs-number">450</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">56</span>, <span class="hljs-number">12</span>, <span class="hljs-number">123</span>, <span class="hljs-number">45</span>, <span class="hljs-number">23</span>, <span class="hljs-number">6</span>};
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">root</span> = <span class="hljs-title">NULL</span>;</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
+    root = insert(root, a[i]);
+  }
+
+  bst_inorder_traversal(root);
+  bst_preorder_traversal(root);
+}
+</div></code></pre>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
 <ul>
 <li><a href="https://blog.csdn.net/qq_36667170/article/details/84142019">树的高度和深度</a></li>
