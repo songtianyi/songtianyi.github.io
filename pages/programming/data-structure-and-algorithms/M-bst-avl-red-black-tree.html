@@ -450,13 +450,13 @@ code {
 </ol>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-1.png" alt="image"></p>
 <ol start="2">
-<li>如果被删除的节点，有左子树，没有右子树，那么将父节点的右指针指向左子树即可, 如下图左。</li>
-<li>同理，如果被删除的节点，没有左子树，有右子树，那么将父节点的左指针指向右子树即可，如下图右。</li>
+<li>如果被删除的节点，有左子树，没有右子树，那么将父节点的右指针指向左子树即可, 如下图左。此时还要区分被删除的节点是在其父节点的左边还是右边。</li>
+<li>同理，如果被删除的节点，没有左子树，有右子树，那么将父节点的左指针指向右子树即可，如下图右。此时还要区分被删除的节点是在其父节点的左边还是右边。</li>
 </ol>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-2.png" alt="image"></p>
 <ol start="4">
 <li>
-<p>如果被删除节点既有左子树，又有左子树。此时没办法把两个子树直接和父节点连起来，只能采取交换值的方法。因为要保持二叉搜索树的特性，所以要找到待删除节点的右子树中的最小值和其交换，</p>
+<p>如果被删除节点既有左子树，又有右子树。此时没办法把两个子树直接和父节点连起来，只能采取交换值的方法。因为要保持二叉搜索树的特性，所以要找到待删除节点的右子树中的最小值和其交换，</p>
 <p>这样交换后，待删除节点的左子树都小于交换后的值，右子树都大于交换后的值. 之后再删除被交换的节点，被交换节点的删除和1，2，3的情况一致。<br>
 例1:</p>
 </li>
@@ -557,7 +557,7 @@ code {
       <span class="hljs-comment">// 将待删除的节点的右子树 赋值给父节点的左子树</span>
       parent-&gt;left = p-&gt;right;
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-comment">// 将待删除的节点的右子树 赋值给父节点的左子树</span>
+      <span class="hljs-comment">// 将待删除的节点的右子树 赋值给父节点的右子树</span>
       parent-&gt;right = p-&gt;right;
     }
     <span class="hljs-built_in">free</span>(p);
@@ -754,16 +754,16 @@ code {
   <span class="hljs-keyword">return</span> n;
 }
 
-<span class="hljs-function">struct node *<span class="hljs-title">insert</span><span class="hljs-params">(struct node *curr, <span class="hljs-keyword">int</span> v)</span> </span>{
+<span class="hljs-function">struct node *<span class="hljs-title">avl_insert</span><span class="hljs-params">(struct node *curr, <span class="hljs-keyword">int</span> v)</span> </span>{
   <span class="hljs-comment">// BST</span>
   <span class="hljs-keyword">if</span> (curr == <span class="hljs-literal">NULL</span>) {
     <span class="hljs-keyword">return</span> newN(v);
   }
 
   <span class="hljs-keyword">if</span> (v &lt; curr-&gt;value) {
-    curr-&gt;left = insert(curr-&gt;left, v);
+    curr-&gt;left = avl_insert(curr-&gt;left, v);
   } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (v &gt; curr-&gt;value) {
-    curr-&gt;right = insert(curr-&gt;right, v);
+    curr-&gt;right = avl_insert(curr-&gt;right, v);
   } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">return</span> curr;  <span class="hljs-comment">// NOT INSERT</span>
   }
@@ -816,11 +816,112 @@ code {
   <span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>] = {<span class="hljs-number">1</span>, <span class="hljs-number">450</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">56</span>, <span class="hljs-number">12</span>, <span class="hljs-number">123</span>, <span class="hljs-number">45</span>, <span class="hljs-number">23</span>, <span class="hljs-number">6</span>};
   <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">root</span> = <span class="hljs-title">NULL</span>;</span>
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
-    root = insert(root, a[i]);
+    root = avl_insert(root, a[i]);
   }
 
   bst_inorder_traversal(root);
   bst_preorder_traversal(root);
+}
+</div></code></pre>
+<h3 id="avl-%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C">AVL 删除操作</h3>
+<p>前面讲的都是关于插入时的旋转情况，那么删除呢？插入的时候，只要看插入节点的位置就可以了，因为在插入之前 avl 就已经是平衡的，但删除要稍麻烦一些，因为删除的情况就有多种。那我们就看删除的时候导致的变化。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-delete-1.png" alt="image"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-delete-2.png" alt="image"></p>
+<p>我们观察如上两张图，删除的是同一个节点，但是第二张图需要多一次旋转。这种差异需要观察右子树的的 bf 值，当然，要先检查到不平衡的情况。总结如下:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/* C */</span>
+<span class="hljs-keyword">if</span> (BF(curr) &lt; <span class="hljs-number">-1</span> &amp;&amp; BF(curr-&gt;right) &lt;= <span class="hljs-number">0</span>) {
+  left_rotate(curr);
+} 
+
+<span class="hljs-keyword">if</span>(BF(curr) &lt; <span class="hljs-number">-1</span> &amp;&amp; BF(curr-&gt;right) &gt; <span class="hljs-number">0</span>) {
+  curr-&gt;right = right_rotate(curr-&gt;right);
+  left_rotate(curr);
+}
+</div></code></pre>
+<p>同理可得:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/* C */</span>
+<span class="hljs-keyword">if</span>(BF(curr) &gt; <span class="hljs-number">1</span> &amp;&amp; BF(curr-&gt;left) &gt;= <span class="hljs-number">0</span>) {
+  right_rotate(curr);
+}
+
+<span class="hljs-keyword">if</span>(BF(curr) &gt; <span class="hljs-number">1</span> &amp;&amp; BF(curr-&gt;left) &lt; <span class="hljs-number">0</span>) {
+  curr-&gt;left = left_rotate(curr-&gt;left);
+  right_rotate(curr);
+}
+</div></code></pre>
+<p>完整的删除代码如下:</p>
+<blockquote>
+<p>注意只有一个节点的情况，被删除就没有节点了。</p>
+</blockquote>
+<pre class="hljs"><code><div><span class="hljs-function">struct node *<span class="hljs-title">minN</span><span class="hljs-params">(struct node *x)</span> </span>{
+  <span class="hljs-keyword">while</span> (x-&gt;left != <span class="hljs-literal">NULL</span>) {
+    x = x-&gt;left;
+  }
+  <span class="hljs-keyword">return</span> x;
+}
+
+<span class="hljs-function">struct node *<span class="hljs-title">avl_delete</span><span class="hljs-params">(struct node *curr, <span class="hljs-keyword">int</span> v)</span> </span>{
+  <span class="hljs-comment">// bst delete</span>
+  <span class="hljs-keyword">if</span> (curr == <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+  }
+
+  <span class="hljs-keyword">if</span> (v &lt; curr-&gt;value) {
+    curr-&gt;left = avl_delete(curr-&gt;left, v);
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (v &gt; curr-&gt;value) {
+    curr-&gt;right = avl_delete(curr-&gt;right, v);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// delete</span>
+    <span class="hljs-keyword">if</span> (curr-&gt;left == curr-&gt;right) {
+      <span class="hljs-comment">// both null</span>
+      <span class="hljs-built_in">free</span>(curr);
+      curr = <span class="hljs-literal">NULL</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (curr-&gt;left == <span class="hljs-literal">NULL</span>) {
+      <span class="hljs-comment">// has only right child</span>
+      struct node *t = curr;
+      *curr = *curr-&gt;right;  <span class="hljs-comment">// copy</span>
+      <span class="hljs-built_in">free</span>(t);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (curr-&gt;right == <span class="hljs-literal">NULL</span>) {
+      <span class="hljs-comment">// has only left child</span>
+      struct node *t = curr;
+      *curr = *curr-&gt;left;
+      <span class="hljs-built_in">free</span>(t);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-comment">// two childs</span>
+      struct node *t = minN(curr-&gt;right);
+      curr-&gt;value = t-&gt;value;
+      curr-&gt;right = avl_delete(curr-&gt;right, t-&gt;value);
+    }
+  }
+
+  <span class="hljs-keyword">if</span> (curr == <span class="hljs-literal">NULL</span>) {
+    <span class="hljs-comment">// zero node left</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+  }
+
+  curr-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(curr-&gt;left), <span class="hljs-built_in">height</span>(curr-&gt;right)) + <span class="hljs-number">1</span>;
+
+  <span class="hljs-keyword">int</span> bf = BF(curr);
+
+  <span class="hljs-keyword">if</span> (bf &gt; <span class="hljs-number">1</span> &amp;&amp; BF(curr-&gt;left) &gt;= <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">return</span> right_rotate(curr);
+  }
+
+  <span class="hljs-keyword">if</span> (bf &gt; <span class="hljs-number">1</span> &amp;&amp; BF(curr-&gt;left) &lt; <span class="hljs-number">0</span>) {
+    curr-&gt;left = left_rotate(curr-&gt;left);
+    <span class="hljs-keyword">return</span> right_rotate(curr);
+  }
+
+  <span class="hljs-keyword">if</span> (bf &lt; <span class="hljs-number">-1</span> &amp;&amp; BF(curr-&gt;right) &lt;= <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">return</span> left_rotate(curr);
+  }
+
+  <span class="hljs-keyword">if</span> (bf &lt; <span class="hljs-number">-1</span> &amp;&amp; BF(curr-&gt;right) &gt; <span class="hljs-number">0</span>) {
+    curr-&gt;right = right_rotate(curr-&gt;right);
+    <span class="hljs-keyword">return</span> left_rotate(curr);
+  }
+
+  <span class="hljs-keyword">return</span> curr;
 }
 </div></code></pre>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>

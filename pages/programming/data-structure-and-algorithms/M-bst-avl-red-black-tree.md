@@ -72,12 +72,12 @@ struct node *bst_search(struct node *curr, struct node *parent, int value,
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-1.png)
 
-2. 如果被删除的节点，有左子树，没有右子树，那么将父节点的右指针指向左子树即可, 如下图左。
-3. 同理，如果被删除的节点，没有左子树，有右子树，那么将父节点的左指针指向右子树即可，如下图右。
+2. 如果被删除的节点，有左子树，没有右子树，那么将父节点的右指针指向左子树即可, 如下图左。此时还要区分被删除的节点是在其父节点的左边还是右边。
+3. 同理，如果被删除的节点，没有左子树，有右子树，那么将父节点的左指针指向右子树即可，如下图右。此时还要区分被删除的节点是在其父节点的左边还是右边。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-2.png)
 
-4. 如果被删除节点既有左子树，又有左子树。此时没办法把两个子树直接和父节点连起来，只能采取交换值的方法。因为要保持二叉搜索树的特性，所以要找到待删除节点的右子树中的最小值和其交换，
+4. 如果被删除节点既有左子树，又有右子树。此时没办法把两个子树直接和父节点连起来，只能采取交换值的方法。因为要保持二叉搜索树的特性，所以要找到待删除节点的右子树中的最小值和其交换，
 
    这样交换后，待删除节点的左子树都小于交换后的值，右子树都大于交换后的值. 之后再删除被交换的节点，被交换节点的删除和1，2，3的情况一致。
 例1:
@@ -183,7 +183,7 @@ int bst_delete(struct node *parent, struct node *p, int is_left) {
       // 将待删除的节点的右子树 赋值给父节点的左子树
       parent->left = p->right;
     } else {
-      // 将待删除的节点的右子树 赋值给父节点的左子树
+      // 将待删除的节点的右子树 赋值给父节点的右子树
       parent->right = p->right;
     }
     free(p);
@@ -473,7 +473,120 @@ int main() {
 
 ### AVL 删除操作
 
-前面讲了那么多都是关于
+前面讲的都是关于插入时的旋转情况，那么删除呢？插入的时候，只要看插入节点的位置就可以了，因为在插入之前 avl 就已经是平衡的，但删除要稍麻烦一些，因为删除的情况就有多种。那我们就看删除的时候导致的变化。
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-delete-1.png)
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-delete-2.png)
+
+我们观察如上两张图，删除的是同一个节点，但是第二张图需要多一次旋转。这种差异需要观察右子树的的 bf 值，当然，要先检查到不平衡的情况。总结如下:
+
+``` C
+/* C */
+if (BF(curr) < -1 && BF(curr->right) <= 0) {
+  left_rotate(curr);
+} 
+
+if(BF(curr) < -1 && BF(curr->right) > 0) {
+  curr->right = right_rotate(curr->right);
+  left_rotate(curr);
+}
+```
+
+同理可得:
+
+``` C
+/* C */
+if(BF(curr) > 1 && BF(curr->left) >= 0) {
+  right_rotate(curr);
+}
+
+if(BF(curr) > 1 && BF(curr->left) < 0) {
+  curr->left = left_rotate(curr->left);
+  right_rotate(curr);
+}
+```
+
+完整的删除代码如下:
+
+> 注意只有一个节点的情况，被删除就没有节点了。
+
+``` C
+struct node *minN(struct node *x) {
+  while (x->left != NULL) {
+    x = x->left;
+  }
+  return x;
+}
+
+struct node *avl_delete(struct node *curr, int v) {
+  // bst delete
+  if (curr == NULL) {
+    return NULL;
+  }
+
+  if (v < curr->value) {
+    curr->left = avl_delete(curr->left, v);
+  } else if (v > curr->value) {
+    curr->right = avl_delete(curr->right, v);
+  } else {
+    // delete
+    if (curr->left == curr->right) {
+      // both null
+      free(curr);
+      curr = NULL;
+    } else if (curr->left == NULL) {
+      // has only right child
+      struct node *t = curr;
+      *curr = *curr->right;  // copy
+      free(t);
+    } else if (curr->right == NULL) {
+      // has only left child
+      struct node *t = curr;
+      *curr = *curr->left;
+      free(t);
+    } else {
+      // two childs
+      struct node *t = minN(curr->right);
+      curr->value = t->value;
+      curr->right = avl_delete(curr->right, t->value);
+    }
+  }
+
+  if (curr == NULL) {
+    // zero node left
+    return NULL;
+  }
+
+  curr->height = max(height(curr->left), height(curr->right)) + 1;
+
+  int bf = BF(curr);
+
+  if (bf > 1 && BF(curr->left) >= 0) {
+    return right_rotate(curr);
+  }
+
+  if (bf > 1 && BF(curr->left) < 0) {
+    curr->left = left_rotate(curr->left);
+    return right_rotate(curr);
+  }
+
+  if (bf < -1 && BF(curr->right) <= 0) {
+    return left_rotate(curr);
+  }
+
+  if (bf < -1 && BF(curr->right) > 0) {
+    curr->right = right_rotate(curr->right);
+    return left_rotate(curr);
+  }
+
+  return curr;
+}
+```
+
+## red-black tree
+
+AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AVL 需要频繁的旋转操作，红黑树应运而生。红黑树的处理思路也很直接，既然频繁的旋转操作不利于性能，那就减少旋转的次数，减少旋转那就必然要牺牲平衡性。
 
 ## 参考资料
 
