@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-A-method-for-firewall-policy-filtering-which-based-on-vector-compression.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* a11y-light theme */
+/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
+/* @author: ericwbailey */
+
+/* Comment */
+.hljs-comment,
+.hljs-quote {
+  color: #696969;
+}
+
+/* Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+  color: #d91e18;
+}
+
+/* Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+  color: #aa5d00;
+}
+
+/* Yellow */
+.hljs-attribute {
+  color: #aa5d00;
+}
+
+/* Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: #008000;
+}
+
+/* Blue */
+.hljs-title,
+.hljs-section {
+  color: #007faa;
+}
+
+/* Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #7928a1;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #fefefe;
+  color: #545454;
+  padding: 0.5em;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+@media screen and (-ms-high-contrast: active) {
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-bullet,
+  .hljs-comment,
+  .hljs-link,
+  .hljs-literal,
+  .hljs-meta,
+  .hljs-number,
+  .hljs-params,
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-type,
+  .hljs-quote {
+        color: highlight;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag {
+        font-weight: bold;
+    }
+}
+
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E5%9F%BA%E4%BA%8E%E5%90%91%E9%87%8F%E5%8E%8B%E7%BC%A9%E7%9A%84%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5%E8%BF%87%E6%BB%A4%E6%96%B9%E6%B3%95">基于向量压缩的防火墙策略过滤方法</h1>
+<p>作者: songtianyi@sky-cloud.net, 内部资料, 禁止分享。</p>
+<h2 id="%E8%83%8C%E6%99%AF">背景</h2>
+<p>防火墙策略管理里有合规管理的需求，即，要开通的需求是否满足一定的规范，比如，通常不允许开放的端口范围过大。所以，我们需要一些检查手段，来防止这类策略的开通。</p>
+<ol>
+<li>在需求输入阶段，检查输入的需求是否满足规范<sub>场景1</sub></li>
+<li>在策略下发后的阶段，检查已经下发的策略是否满足规范<sub>场景2</sub></li>
+</ol>
+<p>对于第 1 种情况，假设规范的数量为 X, 那么时间复杂度为 O(X)。在规范数量较少的时候，这个性能是可以接受的，但当 X &gt; 100 基本上就很慢了。</p>
+<pre class="hljs"><code><div>
+INPUT: A, X_array, X
+BEGIN:
+    
+    for(i = 0; i &lt; X;i++) {
+        if(A include X_array[i]) {
+            return true
+        }
+    }
+    return false
+END
+</div></code></pre>
+<p>对于第二种情况，假设规范的数量为 X, 所有墙上的策略的总数量为 Y, 那么时间复杂度为 O(XY)。我们按照每台墙 10000 条策略算，墙的数量为 30 台, 那么这个性能很明显是不能接受的</p>
+<pre class="hljs"><code><div>
+INPUT: A, Y_array, Y, X_array, X
+BEGIN:
+    for(i = 0; i &lt; X;i++) {
+        for(j = 0;j &lt; Y;j++) {
+            if(Y_array[j] include X_array[i]) {
+                APPEND (Y_array[j], X_array[i]) to res
+            }
+        }
+    }
+    return res
+END
+</div></code></pre>
+<h2 id="%E5%90%91%E9%87%8F%E5%8E%8B%E7%BC%A9">向量压缩</h2>
+<p>防火墙策略是一个五元组, (src_addr, dst_addr, src_port, dst_port, protocol), 策略之间的比较不是像数字一样是或大或小或等于的关系，而是或包含或被包含或相等的关系。场景1和场景2本质上都是对策略的包含关系的检查。<br>
+对于场景1，如果需求 A, 包含任意一条规则 X<sub>i</sub> ，那么认为 A 是不符合规范的。对于场景2，如果已有策略 A，包含任意一条规则X<sub>i</sub> ，那么 A 是不符合规范的。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/A-method-for-firewall-policy-filtering-which-based-on-vector-compression-include.png" alt="image"></p>
+<blockquote>
+<p>需要注意的是，实际情况，我们可能在定义规则的时候指定计算关系，并不一定是 A 包含 X<sub>i</sub>, 而是 A.src_addr 包含 X<sub>i</sub>.src_addr 且 A.dst_addr 被 X<sub>i</sub>.src_addr 包含，等等。</p>
+</blockquote>
+<p>五元组中的 ip 和端口都属于范围类型，(192.168.1.1~192.168.1.20, 192.168.34.0/24, null, 80-90, tcp), 不能直接套用常规的索引数据结构, 而且存在多个地址的情况，会更复杂，([192.168.1.1~192.168.1.20, 192.168.2.0/24], [192.168.34.0/24, 192.122.1.1], null, [80-90, 1000], tcp).</p>
+<p>向量压缩指的是将范围 A-&gt;B 这个向量，看作是一个点 即, B-A+1, 向量的长度。进行这样的压缩后，可以用向量的大小关系代替向量的包含关系，因为如果策略 A 包含策略 B, 那么必然有:</p>
+<pre class="hljs"><code><div>
+Compress(A.src_addr) &gt; Compress(B.src_addr)
+</div></code></pre>
+<p>同理, 如果策略 A 等于策略 B, 那么必然存在:</p>
+<pre class="hljs"><code><div>
+Compress(A.src_addr) == Compress(B.dst_addr)
+</div></code></pre>
+<p>如此以来，我们可以先用压缩后的策略来进行比对筛选，对筛选之后策略再进行更精确的比较。</p>
+<p>进行向量压缩后就可以顺利降维了，因为如果策略 A 包含策略 B, 那么必然有:</p>
+<pre class="hljs"><code><div>
+Compress(A.src_addr) + Compress(A.dst_addr) + Compress(Asrc_port) + Compress(A.dst_port) &gt; Compress(B.src_addr)+ Compress(B.dst_addr) + Compress(B.src_port) + Compress(B.dst_port)  
+</div></code></pre>
+<p>简写为:</p>
+<pre class="hljs"><code><div>
+Compress(A) &gt; Compress(B)
+</div></code></pre>
+<p>以此类推。然后，得到基于向量压缩后的伪代码:</p>
+<pre class="hljs"><code><div>
+INPUT: policy A, X_array, X
+BEGIN:
+
+    for(int i  = 0;i &lt; X;i++) {
+        avl_insert((compress(X_array[i]), i))
+    }
+    available = avl_search(compress(A))
+    for(int i = 0;i &lt; available.size();i++) {
+        if(A include X_array[available[i].index]) {
+            return true
+        }
+    }
+    return false
+</div></code></pre>
+<p>当筛选后的策略数, 即 <code>available.size()</code> 远比 X 小的时候，这个方法会比较有效. 所以关键要看压缩后的策略的每个维度的数字的分布情况。压缩后的数字非重复值越多，说明越平均，效果越好。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/A-method-for-firewall-policy-filtering-which-based-on-vector-compression-compressed-distribution.png" alt="image"></p>
+<p>如上图，第一种情况的效果会变差，因为压缩后的数值集中在一个区域，无法起到较强的过滤效果，第二种情况的效果最好，压缩后的数值均匀分布，每个值对应的压缩前的策略数较少，过滤效果强。</p>
+<h2 id="%E7%AD%96%E7%95%A5%E6%AF%94%E5%AF%B9%E7%AE%97%E6%B3%95">策略比对算法</h2>
+<p>在对策略进行向量压缩后，可以先对压缩后的数字建立树形索引，可以使用 AVL 或者 红黑树。然后将输入的待对比策略压缩后，查询树形索引，得到过滤后的策略列表的下标值。遍历过滤后的策略列表，进行精准比对。</p>
+<h2 id="%E6%B5%8B%E8%AF%95%E9%AA%8C%E8%AF%81">测试验证</h2>
+<h3 id="%E5%AE%9E%E6%96%BD%E5%89%8D%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87">实施前的性能指标</h3>
+<ul>
+<li>不断增加 X, 一直增加到 100, 计算每条规则所需要的时间消耗</li>
+<li>准备 N 台墙, 每台墙上的策略数增加到 M, 直到 N*M &gt; 100000, 记录场景2的时间消耗</li>
+</ul>
+
+</body>
+</html>
