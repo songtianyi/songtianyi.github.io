@@ -393,7 +393,7 @@ code {
     });
   </script>
 <h1 id="%E5%9F%BA%E4%BA%8E%E5%90%91%E9%87%8F%E5%8E%8B%E7%BC%A9%E7%9A%84%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5%E8%BF%87%E6%BB%A4%E6%96%B9%E6%B3%95">基于向量压缩的防火墙策略过滤方法</h1>
-<p>作者: songtianyi@sky-cloud.net, 内部资料, 禁止分享。</p>
+<p>作者: songtianyi@sky-cloud.net</p>
 <h2 id="%E8%83%8C%E6%99%AF">背景</h2>
 <p>防火墙策略管理里有合规管理的需求，即，要开通的需求是否满足一定的规范，比如，通常不允许开放的端口范围过大。所以，我们需要一些检查手段，来防止这类策略的开通。</p>
 <ol>
@@ -443,7 +443,7 @@ Compress(A.src_addr) &gt; Compress(B.src_addr)
 <pre class="hljs"><code><div>
 Compress(A.src_addr) == Compress(B.dst_addr)
 </div></code></pre>
-<p>如此以来，我们可以先用压缩后的策略来进行比对筛选，对筛选之后策略再进行更精确的比较。</p>
+<p>如此以来，我们可以先用压缩后的策略来进行比对筛选，对筛选之后的策略再进行更精确的比较。</p>
 <p>进行向量压缩后就可以顺利降维了，因为如果策略 A 包含策略 B, 那么必然有:</p>
 <pre class="hljs"><code><div>
 Compress(A.src_addr) + Compress(A.dst_addr) + Compress(Asrc_port) + Compress(A.dst_port) &gt; Compress(B.src_addr)+ Compress(B.dst_addr) + Compress(B.src_port) + Compress(B.dst_port)  
@@ -478,6 +478,12 @@ BEGIN:
 <ul>
 <li>不断增加 X, 一直增加到 100, 计算每条规则所需要的时间消耗</li>
 <li>准备 N 台墙, 每台墙上的策略数增加到 M, 直到 N*M &gt; 100000, 记录场景2的时间消耗</li>
+</ul>
+<h3 id="%E7%AD%96%E7%95%A5%E5%8E%8B%E7%BC%A9%E5%90%8E%E7%9A%84%E5%88%86%E5%B8%83%E6%83%85%E5%86%B5">策略压缩后的分布情况</h3>
+<p>对防火墙上已有策略进行向量压缩处理，绘制分布情况，根据分布情况，预判最终效果。</p>
+<ul>
+<li>策略压缩后的每个维度的分布情况</li>
+<li>策略压缩后各个维度之和的分布情况</li>
 </ul>
 
 </body>

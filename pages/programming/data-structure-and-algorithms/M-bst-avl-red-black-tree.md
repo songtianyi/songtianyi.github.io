@@ -584,23 +584,75 @@ struct node *avl_delete(struct node *curr, int v) {
 }
 ```
 
-## red-black tree
+## Red-Black Tree
 
-AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AVL 需要频繁的旋转操作，红黑树应运而生。红黑树的处理思路也很直接，既然频繁的旋转操作不利于性能，那就减少旋转的次数，减少旋转那就必然要牺牲平衡性。
+AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AVL 需要频繁的旋转操作，红黑树应运而生。红黑树的处理思路也很直接，既然频繁的旋转操作不利于性能，那就减少旋转的次数.
 红黑树巧妙地改变了高度的定义:
 
 ``` 
 
-从根节点到叶子节点的路径中的黑色节点的数量视为高度
+从叶子节点到根结点的路径中的黑色节点的数量视为高度
 ```
 
 且:
 
-* 每个节点要么是红色，要么是黑色
-* 根节点始终是黑色
-* 相邻的节点不能都为红色
+1. 每个节点要么是红色，要么是黑色
+2. 根节点始终是黑色, 空叶子节点(NULL Leaf)始终是黑色
+3. 相邻的节点不能都为红色
+4. 从叶子节点到根节点的高度相同
+5. 叶子结点必须为空叶子节点(NULL Leaf)
+
+如此，我们可以通过改变节点颜色来改变子树的高度，高度会影响平衡性的判断，这种做法有助于减少子树被判断为不平衡的次数。当然，旋转在需要的时候还是会有的，但总的旋转次数和 AVL 相比要低很多。
+
+> 有的文章里写的是每次的旋转次数比 AVL 小，有点不准确，应该是，每次旋转的操作是类似的，但是，红黑树在某些时候是不需要旋转的，而 AVL 需要，所以，是总的旋转次数少了，而不是每次旋转的时候，旋转次数少了。
+
+我们先用一个具体的例子来说明 AVL 和红黑树之间的差异。
+
+假设插入序列为:
+
+``` 
+
+[1, 450, 3, 4, 56, 12, 123, 45, 23, 6]
+```
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-1.jpg)
+
+依次插入 1, 450, 3, 4, 56 之后得到如上图的 AVL
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-2.jpg)
+
+然后插入 12, 得到不平衡的 AVL
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-3.jpg)
+
+之后按照我们之前讲的方式，经过两次旋转得到平衡的 AVL.
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-11.jpg)
+
+依次插入 1, 450, 3, 4, 56 之后得到如上图的红黑树
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-12.jpg)
+
+然后插入 12, 新插入的节点的颜色为红色, 此时违背红黑树的性质 3，相邻的节点不能都为红色, 所以需要调整.
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-13.jpg)
+
+回顾 AVL, 需要两次旋转来达到平衡，而红黑树只需要改变4和450这两个节点的颜色，将红色改变为黑色，红黑树就又平衡了，因为性质4也是满足的，所有性质都是满足的, 如上图。
+
+同时，观察一下我们能发现，红黑树的平衡性并没有 AVL 好，所以大家要根据具体的业务需要来选择不同的结构。
+
+为了描述的更加清晰易懂，我们先对红黑树中的节点关系进行一个定义, 如下:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/red-black-tree-def.png)
+
+### 红黑树插入
+
+我们回顾插入 12 的时候的情况，12 是黑色，然后补充了两个黑色的空叶子节点，这样高度仍然是不变的，这种情况不需要调整。那么，什么情况下高度会改变？
 
 ## 参考资料
 
 * [树的高度和深度](https://blog.csdn.net/qq_36667170/article/details/84142019)
 * [平衡二叉树（AVL树）及C语言实现](http://data.biancheng.net/view/59.html)
+* [Algorithm Visualizations-red/black-tree](https://www.cs.usfca.edu/~galles/visualization/RedBlack.html)
+* [Algorithm Visualizations-AVLTree](https://www.cs.usfca.edu/~galles/visualization/AVLtree.html)
+* [Red-Black Tree | Set 2 (Insert)](https://www.geeksforgeeks.org/red-black-tree-set-2-insert/)

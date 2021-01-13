@@ -924,10 +924,48 @@ code {
   <span class="hljs-keyword">return</span> curr;
 }
 </div></code></pre>
+<h2 id="red-black-tree">Red-Black Tree</h2>
+<p>AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AVL 需要频繁的旋转操作，红黑树应运而生。红黑树的处理思路也很直接，既然频繁的旋转操作不利于性能，那就减少旋转的次数.<br>
+红黑树巧妙地改变了高度的定义:</p>
+<pre class="hljs"><code><div>
+从叶子节点到根结点的路径中的黑色节点的数量视为高度
+</div></code></pre>
+<p>且:</p>
+<ol>
+<li>每个节点要么是红色，要么是黑色</li>
+<li>根节点始终是黑色</li>
+<li>相邻的节点不能都为红色</li>
+<li>从叶子节点到根节点的高度相同</li>
+<li>叶子结点必须为空叶子节点(NULL Leaf)</li>
+</ol>
+<p>如此，我们可以通过改变节点颜色来改变子树的高度，高度会影响平衡性的判断，这种做法有助于减少子树被判断为不平衡的次数。当然，旋转在需要的时候还是会有的，但总的旋转次数和 AVL 相比要低很多。</p>
+<blockquote>
+<p>有的文章里写的是每次的旋转次数比 AVL 小，有点不准确，应该是，每次旋转的操作是类似的，但是，红黑树在某些时候是不需要旋转的，而 AVL 需要，所以，是总的旋转次数少了，而不是每次旋转的时候，旋转次数少了。</p>
+</blockquote>
+<p>我们先用一个具体的例子来说明 AVL 和红黑树之间的差异。</p>
+<p>假设插入序列为:</p>
+<pre class="hljs"><code><div>
+[1, 450, 3, 4, 56, 12, 123, 45, 23, 6]
+</div></code></pre>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-1.jpg" alt="image"></p>
+<p>依次插入 1, 450, 3, 4, 56 之后得到如上图的 AVL</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-2.jpg" alt="image"></p>
+<p>然后插入 12, 得到不平衡的 AVL</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-3.jpg" alt="image"></p>
+<p>之后按照我们之前讲的方式，经过两次旋转得到平衡的 AVL.</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-11.jpg" alt="image"></p>
+<p>依次插入 1, 450, 3, 4, 56 之后得到如上图的红黑树</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-12.jpg" alt="image"></p>
+<p>然后插入 12, 新插入的节点的颜色为红色, 此时红黑树的性质 3，相邻的节点不能都为红色, 所以需要调整.</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-13.jpg" alt="image"></p>
+<p>回顾 AVL, 需要两次旋转来达到平衡，而红黑树只需要改变4和450这两个节点的颜色，将红色改变为黑色，红黑树就又平衡了，因为性质4也是满足的，所有性质都是满足的。</p>
+<p>同时，观察一下我们能发现，红黑树的平衡性并没有 AVL 好，所以大家要根据具体的业务需要来选择不同的结构。</p>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
 <ul>
 <li><a href="https://blog.csdn.net/qq_36667170/article/details/84142019">树的高度和深度</a></li>
 <li><a href="http://data.biancheng.net/view/59.html">平衡二叉树（AVL树）及C语言实现</a></li>
+<li><a href="https://www.cs.usfca.edu/~galles/visualization/RedBlack.html">Algorithm Visualizations-red/black-tree</a></li>
+<li><a href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html">Algorithm Visualizations-AVLTree</a></li>
 </ul>
 
 </body>

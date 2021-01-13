@@ -1,6 +1,6 @@
-<mxfile host="65bd71144e" modified="2021-01-07T09:22:27.971Z" agent="5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.46.0 Chrome/78.0.3904.130 Electron/7.3.1 Safari/537.36" etag="G5ShYOYHMkHqZKCZZzqU" version="13.10.0" type="embed">
+<mxfile host="65bd71144e" modified="2021-01-13T08:05:37.160Z" agent="5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.46.0 Chrome/78.0.3904.130 Electron/7.3.1 Safari/537.36" etag="Ji_GFdAeyy9RPxF7NsAA" version="13.10.0" type="embed">
     <diagram id="aa8UdqtfkiOayn3rqtdB" name="第 1 页">
-        <mxGraphModel dx="1068" dy="-427" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1068" dy="742" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <object label="bst-build" id="1">
@@ -1464,7 +1464,7 @@
                     <mxGeometry x="720" y="1289" width="66" height="20" as="geometry"/>
                 </mxCell>
                 <object label="avl-delete-2" id="534">
-                    <mxCell parent="0"/>
+                    <mxCell visible="0" parent="0"/>
                 </object>
                 <mxCell id="535" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;shadow=1;fillColor=#60a917;" edge="1" parent="534" source="537" target="538">
                     <mxGeometry relative="1" as="geometry"/>
