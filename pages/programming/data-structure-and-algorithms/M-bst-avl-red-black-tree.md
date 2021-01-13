@@ -647,7 +647,58 @@ AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AV
 
 ### 红黑树插入
 
-我们回顾插入 12 的时候的情况，12 是黑色，然后补充了两个黑色的空叶子节点，这样高度仍然是不变的，这种情况不需要调整。那么，什么情况下高度会改变？
+我们回顾插入 12 的时候的情况，12 是红色，然后补充了两个黑色的空叶子节点，这样高度仍然是不变的，这种情况不需要调整。那么，什么情况下高度会改变？
+新插入进去的节点并不会导致高度的变化，因为插入进去的节点总是在末端，而且是红色。那么需要调整的情况只能是，两个相邻节点都为红色。
+
+> 为什么相邻节点不能都为红色呢？大家可以在纸上画一画，如果不做这个要求，平衡性是没法儿保证的，树的高度会恶化。
+
+我们还像分析 BST 和 AVL 一样来分析红色相邻的情况，由于新插入的节点是红色，那么既然相邻是红色，Father 就必然是红色，因此, GrandFather 必定是黑色，因为在插入之前红黑树的性质是满足的。最终，我们实际要分析的是 Uncle 的颜色的各种情况:
+
+1. Uncle 是红色。这种情况的调整比较容易，把黑色的 GrandFather 往下移动，即 Father 和 Uncle 都变为红色，然后 GrandFather 变为红色，高度不会变化，红黑树仍然是平衡的。
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-red.png)
+
+如上图，新插入的节点导致相邻节点为红色。
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-red-1.png)
+
+如上图，Uncle 节点是红色的时候，直接变色即可。
+
+2. Uncle 是黑色。此时，要改变相邻的节点都是红色的情况，就要将其中一个节点置为黑色，直接这样做必然会导致不平衡，既然直接变色后会有一边会变"重"，那就先旋转，再根据情况变色。
+
+旋转的情况和 AVL 差不多，要分析新插入的节点是在 Father 节点的左边还是右边，是属于 GrandFather 的左子树还是右子树。我们先分析右子树，右孩子的情况，如下:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-right-of-p-and-p-right-of-g.png)
+
+新插入的节点为 45，我们预判直接变色会导致右边变重，所以要先左旋。
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-right-of-p-and-p-right-of-g-1.png)
+
+左旋之后，可以交换 Fathe 和 GrandFather 的颜色来保持高度一致。
+
+3. Uncle 是黑色，新插入的节点 23 属于右子树，左孩子, 如下图:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g.png)
+
+此时由于 Uncle 4 是红色，属于 CASE 1, 直接变色，得到下图:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-1.png)
+
+此时12和56的颜色又不满足了，同样属于 CASE 3，我们预判直接变色会导致左边变重，于是先右旋，得到下图:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-2.png)
+
+是不是又回到 CASE 2了？那么按照 CASE 2 来处理，先左旋，然后交换 Father 和 GrandFather 的颜色, 得到下图:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-3.png)
+
+综上，我们可以重新阐述下这些规律:
+
+1. Uncle 是红色，将 Uncle 和 Father 变为黑色，GrandFather 变为红色。
+2. Uncle 是黑色，新插入的节点在 GrandFather 的右边，且在 Father 的右边，先左旋，再交换 Father 和 GrandFather 的颜色
+3. Uncle 是黑色，新插入的节点在 GrandFather 的右边，且在 Father 的左边，先右旋，回到 CASE 2
+4. Uncle 是黑色，新插入的节点在 GrandFather 的左边，且在 Father 的左边，先右旋，再交换 Father 和 GrandFather 的颜色
+5. Uncle 是黑色，新插入的节点在 GrandFather 的左边，且在 Father 的右边，先左旋，回到 CASE 4
 
 ## 参考资料
 
