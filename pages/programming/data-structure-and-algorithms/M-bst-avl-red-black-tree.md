@@ -700,6 +700,670 @@ AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AV
 4. Uncle 是黑色，新插入的节点在 GrandFather 的左边，且在 Father 的左边，先右旋，再交换 Father 和 GrandFather 的颜色
 5. Uncle 是黑色，新插入的节点在 GrandFather 的左边，且在 Father 的右边，先左旋，回到 CASE 4
 
+### 红黑树删除
+
+红黑树的删除比插入要麻烦，因为插入的时候，不会改变高度，需要调整的是相邻都为红色的情况，而删除需要考虑高度的变化，以及可能相邻为红色的情况。
+通过简单的观察，以及参考 BST 和 AVL 的删除时的操作，我们能发现一些比较明显的删除规则:
+ 
+
+1. 如果被删除的节点是红色，且该节点的左右孩子都是 NULL Leaf, 那么直接删除它即可
+2. 如果被删除的节点是红色，且左右子树只有其中一个，且为黑色，那么删除之后高度是不变的，不需要变色。
+3. 如果被删除的节点是黑色，且左右子树只有其中一个，且为红色，那么删除之后高度发生了变化，但只要把子树的颜色变成黑色就可以了。因为黑色被删除之后又被补充了，而且发生变色的是子树的根，不改变下面的高度差。
+
+那，如果是下面这种情况呢？如下图:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-black.png)
+
+删除黑色节点必然会导致高度的变化，Father 以及 Father 以上的节点属于公共路径，调整公共路径并不会改变高度差，所以，此时我们要考虑的是 sibling 以及 sibling 的左右子树的各种情况。
+
+上图中的情况比较容易调整，将 Father 和 sibling 的颜色交换一下即可。
+
+4. 如果被删除的节点是黑色，且左右子树都是黑色，此时查看 sibling 的颜色情况，如果为黑色，且 sibling 的左右孩子都为黑色。由于被删除节点为黑色，导致 sibling 这边的高度变高，所以将 sibling 的颜色置为红色。
+
+   同时，查看 Father 节点的颜色，如果 Father 是红色，将 Father 置为黑色，由于 Father 是公共的，不会改变子树的高度差，但会影响 GrandFather 的子树的平衡性，这种情况递归处理就好了。
+
+我们始终需要牢记一点，在删除节点之前，树是平衡的。在 AVL 里，不平衡可以通过旋转来恢复平衡，红黑树是先考虑变色。
+
+但是，先考虑变色并不意味着先执行变色，在插入的时候我们就强调过这种思路，如果直接变色是可以的，那就直接变色，如果直接变色会导致相邻节点为红色，那就先旋转再变色。
+
+其他的需要旋转的情况其实本质上和 AVL 是一致的，AVL 是根据 sibling 的 balance factor 确定旋转方式，红黑树是根据 sibling 的颜色，以及 sibling 子树的颜色来决定旋转方式。
+讲到这里，可能你的脑子可能会比较懵，如果你想一时半儿吃透它，我觉得难。如果你觉得理解起来有困难，你就不停地从 BST, AVL 重新来过, 吃透 BST 才能吃透 AVL, 继而才能吃透红黑树, 直接看红黑树就是扯淡，死记硬背它的特性意义不大。或者，看下具体的代码实现（如下），来换换脑。
+
+```C++
+#include <iostream> 
+#include <queue> 
+using namespace std; 
+  
+enum COLOR { RED, BLACK }; 
+  
+class Node { 
+public: 
+  int val; 
+  COLOR color; 
+  Node *left, *right, *parent; 
+  
+  Node(int val) : val(val) { 
+
+    parent = left = right = NULL; 
+
+  
+
+    // Node is created during insertion 
+    // Node is red at insertion 
+    color = RED; 
+
+  } 
+  
+  // returns pointer to uncle 
+  Node *uncle() { 
+
+    // If no parent or grandparent, then no uncle 
+    if (parent == NULL or parent->parent == NULL) 
+      return NULL; 
+
+  
+
+    if (parent->isOnLeft()) 
+      // uncle on right 
+      return parent->parent->right; 
+    else
+      // uncle on left 
+      return parent->parent->left; 
+
+  } 
+  
+  // check if node is left child of parent 
+  bool isOnLeft() { return this == parent->left; } 
+  
+  // returns pointer to sibling 
+  Node *sibling() { 
+
+    // sibling null if no parent 
+    if (parent == NULL) 
+      return NULL; 
+
+  
+
+    if (isOnLeft()) 
+      return parent->right; 
+
+  
+
+    return parent->left; 
+
+  } 
+  
+  // moves node down and moves given node in its place 
+  void moveDown(Node *nParent) { 
+
+    if (parent != NULL) { 
+      if (isOnLeft()) { 
+        parent->left = nParent; 
+      } else { 
+        parent->right = nParent; 
+      } 
+    } 
+    nParent->parent = parent; 
+    parent = nParent; 
+
+  } 
+  
+  bool hasRedChild() { 
+
+    return (left != NULL and left->color == RED) or 
+           (right != NULL and right->color == RED); 
+
+  } 
+}; 
+  
+class RBTree { 
+  Node *root; 
+  
+  // left rotates the given node 
+  void leftRotate(Node *x) { 
+
+    // new parent will be node's right child 
+    Node *nParent = x->right; 
+
+  
+
+    // update root if current node is root 
+    if (x == root) 
+      root = nParent; 
+
+  
+
+    x->moveDown(nParent); 
+
+  
+
+    // connect x with new parent's left element 
+    x->right = nParent->left; 
+    // connect new parent's left element with node 
+    // if it is not null 
+    if (nParent->left != NULL) 
+      nParent->left->parent = x; 
+
+  
+
+    // connect new parent with x 
+    nParent->left = x; 
+
+  } 
+  
+  void rightRotate(Node *x) { 
+
+    // new parent will be node's left child 
+    Node *nParent = x->left; 
+
+  
+
+    // update root if current node is root 
+    if (x == root) 
+      root = nParent; 
+
+  
+
+    x->moveDown(nParent); 
+
+  
+
+    // connect x with new parent's right element 
+    x->left = nParent->right; 
+    // connect new parent's right element with node 
+    // if it is not null 
+    if (nParent->right != NULL) 
+      nParent->right->parent = x; 
+
+  
+
+    // connect new parent with x 
+    nParent->right = x; 
+
+  } 
+  
+  void swapColors(Node *x1, Node *x2) { 
+
+    COLOR temp; 
+    temp = x1->color; 
+    x1->color = x2->color; 
+    x2->color = temp; 
+
+  } 
+  
+  void swapValues(Node *u, Node *v) { 
+
+    int temp; 
+    temp = u->val; 
+    u->val = v->val; 
+    v->val = temp; 
+
+  } 
+  
+  // fix red red at given node 
+  void fixRedRed(Node *x) { 
+
+    // if x is root color it black and return 
+    if (x == root) { 
+      x->color = BLACK; 
+      return; 
+    } 
+
+  
+
+    // initialize parent, grandparent, uncle 
+    Node *parent = x->parent, *grandparent = parent->parent, 
+         *uncle = x->uncle(); 
+
+  
+
+    if (parent->color != BLACK) { 
+      if (uncle != NULL && uncle->color == RED) { 
+        // uncle red, perform recoloring and recurse 
+        parent->color = BLACK; 
+        uncle->color = BLACK; 
+        grandparent->color = RED; 
+        fixRedRed(grandparent); 
+      } else { 
+        // Else perform LR, LL, RL, RR 
+        if (parent->isOnLeft()) { 
+          if (x->isOnLeft()) { 
+            // for left right 
+            swapColors(parent, grandparent); 
+          } else { 
+            leftRotate(parent); 
+            swapColors(x, grandparent); 
+          } 
+          // for left left and left right 
+          rightRotate(grandparent); 
+        } else { 
+          if (x->isOnLeft()) { 
+            // for right left 
+            rightRotate(parent); 
+            swapColors(x, grandparent); 
+          } else { 
+            swapColors(parent, grandparent); 
+          } 
+
+  
+
+          // for right right and right left 
+          leftRotate(grandparent); 
+        } 
+      } 
+    } 
+
+  } 
+  
+  // find node that do not have a left child 
+  // in the subtree of the given node 
+  Node *successor(Node *x) { 
+
+    Node *temp = x; 
+
+  
+
+    while (temp->left != NULL) 
+      temp = temp->left; 
+
+  
+
+    return temp; 
+
+  } 
+  
+  // find node that replaces a deleted node in BST 
+  Node *BSTreplace(Node *x) { 
+
+    // when node have 2 children 
+    if (x->left != NULL and x->right != NULL) 
+      return successor(x->right); 
+
+  
+
+    // when leaf 
+    if (x->left == NULL and x->right == NULL) 
+      return NULL; 
+
+  
+
+    // when single child 
+    if (x->left != NULL) 
+      return x->left; 
+    else
+      return x->right; 
+
+  } 
+  
+  // deletes the given node 
+  void deleteNode(Node *v) { 
+
+    Node *u = BSTreplace(v); 
+
+  
+
+    // True when u and v are both black 
+    bool uvBlack = ((u == NULL or u->color == BLACK) and (v->color == BLACK)); 
+    Node *parent = v->parent; 
+
+  
+
+    if (u == NULL) { 
+      // u is NULL therefore v is leaf 
+      if (v == root) { 
+        // v is root, making root null 
+        root = NULL; 
+      } else { 
+        if (uvBlack) { 
+          // u and v both black 
+          // v is leaf, fix double black at v 
+          fixDoubleBlack(v); 
+        } else { 
+          // u or v is red 
+          if (v->sibling() != NULL) 
+            // sibling is not null, make it red" 
+            v->sibling()->color = RED; 
+        } 
+
+  
+
+        // delete v from the tree 
+        if (v->isOnLeft()) { 
+          parent->left = NULL; 
+        } else { 
+          parent->right = NULL; 
+        } 
+      } 
+      delete v; 
+      return; 
+    } 
+
+  
+
+    if (v->left == NULL or v->right == NULL) { 
+      // v has 1 child 
+      if (v == root) { 
+        // v is root, assign the value of u to v, and delete u 
+        v->val = u->val; 
+        v->left = v->right = NULL; 
+        delete u; 
+      } else { 
+        // Detach v from tree and move u up 
+        if (v->isOnLeft()) { 
+          parent->left = u; 
+        } else { 
+          parent->right = u; 
+        } 
+        delete v; 
+        u->parent = parent; 
+        if (uvBlack) { 
+          // u and v both black, fix double black at u 
+          fixDoubleBlack(u); 
+        } else { 
+          // u or v red, color u black 
+          u->color = BLACK; 
+        } 
+      } 
+      return; 
+    } 
+
+  
+
+    // v has 2 children, swap values with successor and recurse 
+    swapValues(u, v); 
+    deleteNode(u); 
+
+  } 
+  
+  void fixDoubleBlack(Node *x) { 
+
+    if (x == root) 
+      // Reached root 
+      return; 
+
+  
+
+    Node *sibling = x->sibling(), *parent = x->parent; 
+    if (sibling == NULL) { 
+      // No sibiling, double black pushed up 
+      fixDoubleBlack(parent); 
+    } else { 
+      if (sibling->color == RED) { 
+        // Sibling red 
+        parent->color = RED; 
+        sibling->color = BLACK; 
+        if (sibling->isOnLeft()) { 
+          // left case 
+          rightRotate(parent); 
+        } else { 
+          // right case 
+          leftRotate(parent); 
+        } 
+        fixDoubleBlack(x); 
+      } else { 
+        // Sibling black 
+        if (sibling->hasRedChild()) { 
+          // at least 1 red children 
+          if (sibling->left != NULL and sibling->left->color == RED) { 
+            if (sibling->isOnLeft()) { 
+              // left left 
+              sibling->left->color = sibling->color; 
+              sibling->color = parent->color; 
+              rightRotate(parent); 
+            } else { 
+              // right left 
+              sibling->left->color = parent->color; 
+              rightRotate(sibling); 
+              leftRotate(parent); 
+            } 
+          } else { 
+            if (sibling->isOnLeft()) { 
+              // left right 
+              sibling->right->color = parent->color; 
+              leftRotate(sibling); 
+              rightRotate(parent); 
+            } else { 
+              // right right 
+              sibling->right->color = sibling->color; 
+              sibling->color = parent->color; 
+              leftRotate(parent); 
+            } 
+          } 
+          parent->color = BLACK; 
+        } else { 
+          // 2 black children 
+          sibling->color = RED; 
+          if (parent->color == BLACK) 
+            fixDoubleBlack(parent); 
+          else
+            parent->color = BLACK; 
+        } 
+      } 
+    } 
+
+  } 
+  
+  // prints level order for given node 
+  void levelOrder(Node *x) { 
+
+    if (x == NULL) 
+      // return if node is null 
+      return; 
+
+  
+
+    // queue for level order 
+    queue<Node *> q; 
+    Node *curr; 
+
+  
+
+    // push x 
+    q.push(x); 
+
+  
+
+    while (!q.empty()) { 
+      // while q is not empty 
+      // dequeue 
+      curr = q.front(); 
+      q.pop(); 
+
+  
+
+      // print node value 
+      cout << curr->val << " "; 
+
+  
+
+      // push children to queue 
+      if (curr->left != NULL) 
+        q.push(curr->left); 
+      if (curr->right != NULL) 
+        q.push(curr->right); 
+    } 
+
+  } 
+  
+  // prints inorder recursively 
+  void inorder(Node *x) { 
+
+    if (x == NULL) 
+      return; 
+    inorder(x->left); 
+    cout << x->val << " "; 
+    inorder(x->right); 
+
+  } 
+  
+public: 
+  // constructor 
+  // initialize root 
+  RBTree() { root = NULL; } 
+  
+  Node *getRoot() { return root; } 
+  
+  // searches for given value 
+  // if found returns the node (used for delete) 
+  // else returns the last node while traversing (used in insert) 
+  Node *search(int n) { 
+
+    Node *temp = root; 
+    while (temp != NULL) { 
+      if (n < temp->val) { 
+        if (temp->left == NULL) 
+          break; 
+        else
+          temp = temp->left; 
+      } else if (n == temp->val) { 
+        break; 
+      } else { 
+        if (temp->right == NULL) 
+          break; 
+        else
+          temp = temp->right; 
+      } 
+    } 
+
+  
+
+    return temp; 
+
+  } 
+  
+  // inserts the given value to tree 
+  void insert(int n) { 
+
+    Node *newNode = new Node(n); 
+    if (root == NULL) { 
+      // when root is null 
+      // simply insert value at root 
+      newNode->color = BLACK; 
+      root = newNode; 
+    } else { 
+      Node *temp = search(n); 
+
+  
+
+      if (temp->val == n) { 
+        // return if value already exists 
+        return; 
+      } 
+
+  
+
+      // if value is not found, search returns the node 
+      // where the value is to be inserted 
+
+  
+
+      // connect new node to correct node 
+      newNode->parent = temp; 
+
+  
+
+      if (n < temp->val) 
+        temp->left = newNode; 
+      else
+        temp->right = newNode; 
+
+  
+
+      // fix red red voilaton if exists 
+      fixRedRed(newNode); 
+    } 
+
+  } 
+  
+  // utility function that deletes the node with given value 
+  void deleteByVal(int n) { 
+
+    if (root == NULL) 
+      // Tree is empty 
+      return; 
+
+  
+
+    Node *v = search(n), *u; 
+
+  
+
+    if (v->val != n) { 
+      cout << "No node found to delete with value:" << n << endl; 
+      return; 
+    } 
+
+  
+
+    deleteNode(v); 
+
+  } 
+  
+  // prints inorder of the tree 
+  void printInOrder() { 
+
+    cout << "Inorder: " << endl; 
+    if (root == NULL) 
+      cout << "Tree is empty" << endl; 
+    else
+      inorder(root); 
+    cout << endl; 
+
+  } 
+  
+  // prints level order of the tree 
+  void printLevelOrder() { 
+
+    cout << "Level order: " << endl; 
+    if (root == NULL) 
+      cout << "Tree is empty" << endl; 
+    else
+      levelOrder(root); 
+    cout << endl; 
+
+  } 
+}; 
+  
+int main() { 
+  RBTree tree; 
+  
+  tree.insert(7); 
+  tree.insert(3); 
+  tree.insert(18); 
+  tree.insert(10); 
+  tree.insert(22); 
+  tree.insert(8); 
+  tree.insert(11); 
+  tree.insert(26); 
+  tree.insert(2); 
+  tree.insert(6); 
+  tree.insert(13); 
+  
+  tree.printInOrder(); 
+  tree.printLevelOrder(); 
+  
+  cout<<endl<<"Deleting 18, 11, 3, 10, 22"<<endl; 
+  
+  tree.deleteByVal(18); 
+  tree.deleteByVal(11); 
+  tree.deleteByVal(3); 
+  tree.deleteByVal(10); 
+  tree.deleteByVal(22); 
+  
+  tree.printInOrder(); 
+  tree.printLevelOrder(); 
+  return 0; 
+} 
+```
+
+OK! 我们换完脑子，再来啃这块骨头！如下图，我们要删除节点 11:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11.png)
+
+如上图，节点 11 为黑色，且 节点 11 的 sibling 为黑色，且 sibling 节点有一个孩子为红色。如果直接将 sibling 节点，即节点 22 的颜色改为红色，则会导致红色相邻的情况，根据我们之前的原则，先左旋，再尝试变色。
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11-left-rotate.png)
+
 ## 参考资料
 
 * [树的高度和深度](https://blog.csdn.net/qq_36667170/article/details/84142019)
