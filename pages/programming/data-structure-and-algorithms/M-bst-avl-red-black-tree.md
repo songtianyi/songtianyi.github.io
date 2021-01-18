@@ -727,7 +727,7 @@ AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AV
 但是，先考虑变色并不意味着先执行变色，在插入的时候我们就强调过这种思路，如果直接变色是可以的，那就直接变色，如果直接变色会导致相邻节点为红色，那就先旋转再变色。
 
 其他的需要旋转的情况其实本质上和 AVL 是一致的，AVL 是根据 sibling 的 balance factor 确定旋转方式，红黑树是根据 sibling 的颜色，以及 sibling 子树的颜色来决定旋转方式。
-讲到这里，可能你的脑子可能会比较懵，如果你想一时半儿吃透它，我觉得难。如果你觉得理解起来有困难，你就不停地从 BST, AVL 重新来过, 吃透 BST 才能吃透 AVL, 继而才能吃透红黑树, 直接看红黑树就是扯淡，死记硬背它的特性意义不大。或者，看下具体的代码实现（如下），来换换脑。
+讲到这里，可能你的脑子可能会比较懵，如果你想一时半儿吃透它，我觉得难。如果你觉得理解起来有困难，你就不停地从 BST, AVL 重新来过, 吃透 BST 才能吃透 AVL, 继而才能吃透红黑树，死记硬背它的特性意义不大。或者，看下具体的代码实现（如下），来换换脑。
 
 ```C++
 #include <iostream> 
@@ -745,9 +745,6 @@ public:
   Node(int val) : val(val) { 
 
     parent = left = right = NULL; 
-
-  
-
     // Node is created during insertion 
     // Node is red at insertion 
     color = RED; 
@@ -760,9 +757,6 @@ public:
     // If no parent or grandparent, then no uncle 
     if (parent == NULL or parent->parent == NULL) 
       return NULL; 
-
-  
-
     if (parent->isOnLeft()) 
       // uncle on right 
       return parent->parent->right; 
@@ -781,14 +775,8 @@ public:
     // sibling null if no parent 
     if (parent == NULL) 
       return NULL; 
-
-  
-
     if (isOnLeft()) 
       return parent->right; 
-
-  
-
     return parent->left; 
 
   } 
@@ -825,17 +813,11 @@ class RBTree {
     // new parent will be node's right child 
     Node *nParent = x->right; 
 
-  
-
     // update root if current node is root 
     if (x == root) 
       root = nParent; 
 
-  
-
     x->moveDown(nParent); 
-
-  
 
     // connect x with new parent's left element 
     x->right = nParent->left; 
@@ -843,8 +825,6 @@ class RBTree {
     // if it is not null 
     if (nParent->left != NULL) 
       nParent->left->parent = x; 
-
-  
 
     // connect new parent with x 
     nParent->left = x; 
@@ -856,17 +836,11 @@ class RBTree {
     // new parent will be node's left child 
     Node *nParent = x->left; 
 
-  
-
     // update root if current node is root 
     if (x == root) 
       root = nParent; 
 
-  
-
     x->moveDown(nParent); 
-
-  
 
     // connect x with new parent's right element 
     x->left = nParent->right; 
@@ -874,8 +848,6 @@ class RBTree {
     // if it is not null 
     if (nParent->right != NULL) 
       nParent->right->parent = x; 
-
-  
 
     // connect new parent with x 
     nParent->right = x; 
@@ -909,13 +881,9 @@ class RBTree {
       return; 
     } 
 
-  
-
     // initialize parent, grandparent, uncle 
     Node *parent = x->parent, *grandparent = parent->parent, 
          *uncle = x->uncle(); 
-
-  
 
     if (parent->color != BLACK) { 
       if (uncle != NULL && uncle->color == RED) { 
@@ -945,8 +913,6 @@ class RBTree {
             swapColors(parent, grandparent); 
           } 
 
-  
-
           // for right right and right left 
           leftRotate(grandparent); 
         } 
@@ -960,14 +926,8 @@ class RBTree {
   Node *successor(Node *x) { 
 
     Node *temp = x; 
-
-  
-
     while (temp->left != NULL) 
       temp = temp->left; 
-
-  
-
     return temp; 
 
   } 
@@ -979,13 +939,9 @@ class RBTree {
     if (x->left != NULL and x->right != NULL) 
       return successor(x->right); 
 
-  
-
     // when leaf 
     if (x->left == NULL and x->right == NULL) 
       return NULL; 
-
-  
 
     // when single child 
     if (x->left != NULL) 
@@ -999,14 +955,9 @@ class RBTree {
   void deleteNode(Node *v) { 
 
     Node *u = BSTreplace(v); 
-
-  
-
     // True when u and v are both black 
     bool uvBlack = ((u == NULL or u->color == BLACK) and (v->color == BLACK)); 
     Node *parent = v->parent; 
-
-  
 
     if (u == NULL) { 
       // u is NULL therefore v is leaf 
@@ -1025,8 +976,6 @@ class RBTree {
             v->sibling()->color = RED; 
         } 
 
-  
-
         // delete v from the tree 
         if (v->isOnLeft()) { 
           parent->left = NULL; 
@@ -1037,8 +986,6 @@ class RBTree {
       delete v; 
       return; 
     } 
-
-  
 
     if (v->left == NULL or v->right == NULL) { 
       // v has 1 child 
@@ -1067,8 +1014,6 @@ class RBTree {
       return; 
     } 
 
-  
-
     // v has 2 children, swap values with successor and recurse 
     swapValues(u, v); 
     deleteNode(u); 
@@ -1080,9 +1025,6 @@ class RBTree {
     if (x == root) 
       // Reached root 
       return; 
-
-  
-
     Node *sibling = x->sibling(), *parent = x->parent; 
     if (sibling == NULL) { 
       // No sibiling, double black pushed up 
@@ -1149,19 +1091,12 @@ class RBTree {
     if (x == NULL) 
       // return if node is null 
       return; 
-
-  
-
     // queue for level order 
     queue<Node *> q; 
     Node *curr; 
 
-  
-
     // push x 
     q.push(x); 
-
-  
 
     while (!q.empty()) { 
       // while q is not empty 
@@ -1169,12 +1104,8 @@ class RBTree {
       curr = q.front(); 
       q.pop(); 
 
-  
-
       // print node value 
       cout << curr->val << " "; 
-
-  
 
       // push children to queue 
       if (curr->left != NULL) 
@@ -1224,9 +1155,6 @@ public:
           temp = temp->right; 
       } 
     } 
-
-  
-
     return temp; 
 
   } 
@@ -1242,33 +1170,18 @@ public:
       root = newNode; 
     } else { 
       Node *temp = search(n); 
-
-  
-
       if (temp->val == n) { 
         // return if value already exists 
         return; 
       } 
-
-  
-
       // if value is not found, search returns the node 
       // where the value is to be inserted 
-
-  
-
       // connect new node to correct node 
       newNode->parent = temp; 
-
-  
-
       if (n < temp->val) 
         temp->left = newNode; 
       else
         temp->right = newNode; 
-
-  
-
       // fix red red voilaton if exists 
       fixRedRed(newNode); 
     } 
@@ -1281,20 +1194,12 @@ public:
     if (root == NULL) 
       // Tree is empty 
       return; 
-
-  
-
     Node *v = search(n), *u; 
-
-  
 
     if (v->val != n) { 
       cout << "No node found to delete with value:" << n << endl; 
       return; 
     } 
-
-  
-
     deleteNode(v); 
 
   } 
@@ -1363,6 +1268,30 @@ OK! 我们换完脑子，再来啃这块骨头！如下图，我们要删除节�
 如上图，节点 11 为黑色，且节点 11 的 sibling 为黑色，且 sibling 节点有一个孩子为红色。如果直接将 sibling 节点，即节点 22 的颜色改为红色，则会导致红色相邻的情况，根据我们之前的原则，先左旋，再尝试变色。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11-left-rotate.png)
+
+接着来看一个 sibling 的两个孩子都为红色的情况:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate.png)
+
+如上图，我们要删除节点 10, 根据 BST 的删除规则，实际删除的节点的位置是 8，那我们做旋转和染色的依据是节点 8 这个位置，即，要考察的是 8 的 sibling 和 sibling 的左右孩子的颜色情况。节点 8 的 sibling 为黑色，左右孩子都为红色。
+由于节点 8 是黑色，删除后会导致高度变低，如下图:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-1.png)
+
+此时，无法通过变色来完成平衡(如果要变色，7必须为黑色，那 3 必须为红色，这样会违背红色不能相邻的性质). 很明显，左重右轻，需要右旋, 结果如下图:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-2.png)
+
+然后变色即可, 如下图:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-3.png)
+
+综上，其实我们已经没有必要再取详细地一个个把所有的旋转情况列出来了，而是总结为一条原则，即:
+
+1. 执行 BST 删除
+2. 如果仍然平衡，什么都不做(这是红黑树相对于 AVL 最主要的差异点，由于红色节点的删除不会导致高度差的变化，所以红黑树需要调整平衡的次数要比 AVL少)
+3. 不平衡先尝试变色，无法通过变色达到平衡则先旋转再变色(由于旋转和变色是有固定规律的，所以，我们能略过尝试变色的步骤，而是直接根据条件进行旋转和变色操作)
+4. 递归处理
 
 ## 参考资料
 
