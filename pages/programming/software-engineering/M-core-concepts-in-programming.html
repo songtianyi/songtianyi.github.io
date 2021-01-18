@@ -449,6 +449,7 @@ Hash functions are used alongside encryption for their integrity capabilities.
 <h3 id="data-structure-and-algorithm"><strong>data-structure and algorithm</strong></h3>
 <p>程序设计 = 数据结构 + 算法， 在 C 语言的第一堂课里，老师应该会给你们讲这个公式，它们的重要性不言而喻。数据结构用来组织数据，堆栈、数组、链表、图、树，等等，我们需要掌握很多种数据结构，并关注它们的使用场景。算法和数据结构是相辅相成的，合在一起构成解决问题的方案，也可以认为是解耦的，同一个算法可以使用不同的数据结构来实现。</p>
 <p>从我个人理解的角度以及实用的角度讲，数据结构要比算法重要的多，首先数据结构是我们解决问题的第一步，即如何表达数据，表达数据不是单纯地存取它，而是发掘数据的内在结构，以一种较贴切的数据结构去表达数据的特性，当我们很好的完成第一步，接下来就能比较容易地去套用成熟算法了。</p>
+<p>数据结构和算法里又包含非常多的精妙思想，比如分治，动态规划, 贪心</p>
 <p>heap/stack/queue/linked-list/array/tree/graph/sort/search/indexing</p>
 <h3 id="time-sharing-and-asynchronous"><strong>time-sharing and asynchronous</strong></h3>
 <p>我们熟知的操作系统都属于分时操作系统，这种分时机制可以让多个进程&quot;同时&quot;跑，cpu 资源按时间分片，分配给不同的进程/线程，以达到多任务的效果, 它是并发的基础。而我们熟知的异步, 和并发的概念是不同的，异步是一种编程模型，是相对于同步来讲的。在同步的情况下，函数完成任务之后返回，那相对应的，异步的情况是，函数没有完成就直接返回了，之后函数继续完成这个任务，那调用者如何得知被调用者是否完成了呢？可以通过轮询，事件通知，回调的方式。与同步异步相伴的是阻塞和非阻塞，区别是，同步异步是相对于被调用者而言的，阻塞和非阻塞是相对于调用者而言的。</p>
@@ -490,7 +491,7 @@ CPU 的性能相对主存(main memory, 即我们熟知的内存)要快很多，�
 <p>Disk cache 有时候也被称为 disk buffer, 可见它们之间的渊源。</p>
 </blockquote>
 <p>当一些数据不能马上被拿走或消费掉的时候(生产者生产的速度大于消费者消费的速度)，就需要用 buffer，比如消息队列，它可以提高业务处理不过来的时候的响应速度，再比如 tcp 连接的 buffer，传输过来的数据会先被放进 buffer，这样传输就不用受限于业务程序的处理效率。 再如，数据库里使用的 WAL 技术，也可以认为是一种基于文件的 buffer, 提供持久性的同时，用顺序 io 代替随机 io 以提高写入速度。</p>
-<p>redis/message-queue</p>
+<p>redis/message-queue/LRU</p>
 <h3 id="resuing-and-multiplexing"><strong>Resuing and Multiplexing</strong></h3>
 <p>代码复用(code resue)，连接池(connection pool)，线程池(thread pool) 这些都是复用(resuing)里的经典案例。我们要思考的是，它们的共性是什么。<br>
 当我们创建, 维持或销毁一个对象，需要付出较高的代价时，我们就可以考虑复用它，现实生活中的垃圾回收再利用，也是同样的道理。<br>

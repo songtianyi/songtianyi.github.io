@@ -84,7 +84,7 @@ qemu/automation-system/simulation-system/games/man-in-the-middle-attack/mock
 
 从我个人理解的角度以及实用的角度讲，数据结构要比算法重要的多，首先数据结构是我们解决问题的第一步，即如何表达数据，表达数据不是单纯地存取它，而是发掘数据的内在结构，以一种较贴切的数据结构去表达数据的特性，当我们很好的完成第一步，接下来就能比较容易地去套用成熟算法了。
 
-数据结构和算法里又包含非常多的精妙思想，比如分治，动态规划
+数据结构和算法里又包含非常多的精妙思想，比如分治，动态规划, 贪心
 
 heap/stack/queue/linked-list/array/tree/graph/sort/search/indexing
 
