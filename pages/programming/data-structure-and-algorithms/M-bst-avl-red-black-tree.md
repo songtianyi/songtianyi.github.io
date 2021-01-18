@@ -1360,7 +1360,7 @@ OK! 我们换完脑子，再来啃这块骨头！如下图，我们要删除节�
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11.png)
 
-如上图，节点 11 为黑色，且 节点 11 的 sibling 为黑色，且 sibling 节点有一个孩子为红色。如果直接将 sibling 节点，即节点 22 的颜色改为红色，则会导致红色相邻的情况，根据我们之前的原则，先左旋，再尝试变色。
+如上图，节点 11 为黑色，且节点 11 的 sibling 为黑色，且 sibling 节点有一个孩子为红色。如果直接将 sibling 节点，即节点 22 的颜色改为红色，则会导致红色相邻的情况，根据我们之前的原则，先左旋，再尝试变色。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11-left-rotate.png)
 

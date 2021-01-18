@@ -1649,6 +1649,10 @@ code {
   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; 
 } 
 </div></code></pre>
+<p>OK! 我们换完脑子，再来啃这块骨头！如下图，我们要删除节点 11:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11.png" alt="image"></p>
+<p>如上图，节点 11 为黑色，且 节点 11 的 sibling 为黑色，且 sibling 节点有一个孩子为红色。如果直接将 sibling 节点，即节点 22 的颜色改为红色，则会导致红色相邻的情况，根据我们之前的原则，先左旋，再尝试变色。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11-left-rotate.png" alt="image"></p>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
 <ul>
 <li><a href="https://blog.csdn.net/qq_36667170/article/details/84142019">树的高度和深度</a></li>
