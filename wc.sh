@@ -1,8 +1,59 @@
 #/bin/bash
 # 字数统计
 
+echo "Word count summary"
+TOTAL=0
+
+# 统计命令
+CMD="wc -w"
+
 # 旧文章是用html写的
 
-find . -name "*-acm.html,"
-for h in `find . -name pages/
+wc_files() {
+	files=`ls $1`
+	WC=0
+	for f in ${files[*]}
+	do
+		x=`cat $f | $CMD`
+		WC=`expr $WC  + $x`
+	done
+	echo $WC
+}
+
+# acm
+acm=$(wc_files 'pages/acm/*-acm.html')
+echo "ACM: $acm"
+
+# career
+career=$(wc_files 'pages/career/get-trapped.html pages/career/*.md')
+echo "Career: $career"
+
+# data-compression
+dc=$(wc_files 'pages/data-compression/*-comp.html')
+echo "Data compression: $dc"
+
+# life
+life=$(wc_files 'pages/life/*-life.html pages/life/master-of-sex.html pages/life/*.md')
+echo "Life: $life"
+
+# pieces
+pieces=$(wc_files 'pages/pieces/*-other.html pages/pieces/songtianyi.dump.html pages/pieces/*.md')
+echo "Pieces: $pieces"
+
+# programming
+programming=$(wc_files 'pages/programming/*/*.md')
+echo "Programming: $programming"
+
+# secure
+secure=$(wc_files 'pages/secure/*-secure.html pages/secure/*.md')
+echo "Secure: $secure"
+
+# VDI
+vdi=$(wc_files 'pages/vdi/*-vdi.html')
+echo "VDI: $vdi"
+
+# mdk
+mdk=$(wc_files 'mdks/*.mdk')
+
+echo "Total: " `expr $acm + $career + $life + $pieces + $programming + $secure + $vdi + $mdk`
 
