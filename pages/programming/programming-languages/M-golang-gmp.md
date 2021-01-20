@@ -27,7 +27,7 @@ CPU 是比其他硬件快得多的资源，我们不希望在进行 io 操作的
 ## GMP
 
 那么 G(Goroutine)M(Thread)P(Processor) 是如何调度的呢？
-在高并发的场景，G 是 远大于 M 的，如果你看过[编程核心概念](http://songtianyi.info/pages/programming/software-engineering/M-core-concepts-in-programming.html)中的 `cache and buffer` 这一小节，应该很容易想到，这种情况可以使用 buffer，因为这里存在性能差距，生产者生产的速度远大于消费者的消费速度。
+在高并发的场景，G 是 远大于 M 的，如果你看过 [编程核心概念](http://songtianyi.info/pages/programming/software-engineering/M-core-concepts-in-programming.html)中的 `cache and buffer` 这一小节，应该很容易想到，这种情况可以使用 buffer，因为这里存在性能差距，生产者生产的速度远大于消费者的消费速度。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/GMP-G-global-queue.png)
 
