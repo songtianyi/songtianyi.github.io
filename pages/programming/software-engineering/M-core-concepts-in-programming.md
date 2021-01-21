@@ -19,14 +19,19 @@
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/core-concepts-in-programming-simple-cs-protocol-demo.png)
 
-programming-languages/network-protocols/RFCs/encoding-decoding-protocols
+关联技术:
+
+* 编程语言
+* tcp/ip
+* 各类 RFC 标准
+* 各类编解码标准
 
 ### **encoding/decoding**
 
 编码与解码无处不在，在我的概念里，编码/解码是协议的实现，比如 utf-8 的编解码实现了 utf-8 这个标准。
 编解码处理的是数据，而且一般成对出现，是可逆的，比如软件工程里的逆向工程；有些是不可逆的，比如有损压缩，你需要借助一些插值算法，才能把数据补回去，补回去的数据也并非原数据；再比如 hash，只有编码过程，没有解码过程。
 
-之前面试的时候，有面试者说 SHA1 hash 是加密算法，虽然加密算法也是 encoding 的过程，但区别是，加密必然伴随着解密，即 decoding，所以 hash 只能算编码算法。这里引用一段英文的解释<sup>[1]</sup>，因为大部分中文教程里，都有 ~~`md5是加密算法`~~ 这样的错误描述，导致很多人对此深信不疑。
+之前面试的时候，有面试者说 SHA1 hash 是加密算法，虽然加密算法也是 encoding 的过程，但区别是，加密必然伴随着解密，即 decoding，所以 hash 只能算编码算法。这里引用一段英文的解释<sup>[1]</sup>，因为大部分中文教程里，都有 ~~md5是加密算法~~ 这样的错误描述，导致很多人对此深信不疑。
 
 ``` 
 
@@ -46,7 +51,11 @@ Hash functions are used alongside encryption for their integrity capabilities.
 我们在阅读代码或者 debug 代码的时候，多去寻找编解码的函数，如此，数据的边界、变化过程会比较清晰，便于我们快速定位出错的位置。
 举个乱码的例子，很多人都遇到过乱码，有些情况比较简单，有些则看起来复杂。比如，同样的代码，在虚拟机上的输出是乱码，在本地 PC 上的输出却是正常的。如果我们只关注到代码是一样的，你会觉得这问题出的很是莫名其妙对不对，但如果你注意到，我们从程序里输出到 terminal 的内容，是会被 terminal 解码的，这时你应该会想到，是不是本地 terminal 设置的编码和远程虚拟机设置的编码不一致导致了这种差异。
 
-ffmpeg/open-ssl/compiler-decompiler/compression-decompression
+关联技术:
+
+* ffmpeg
+* 编译/反编译
+* 压缩/解压缩
 
 ### **binary**
 
@@ -69,13 +78,19 @@ void FPC::__32To16(const float x, unsigned short &res)
 
 ```
 
-binary-arithmetic
+关联技术:
+
+* 位运算
 
 ### **input/output**
 
 i/o 无处不在，但我们不一定会特别注意到它。比如磁盘 io，键盘(input)+显示器(output)，网络 io 等。io 一般发生在软件与软件或者软件与硬件的边界处，对我们理解软件／系统架构至关重要。io 能够让我们比较容易地找到函数的边界，业务模块的边界，我们可以统称为逻辑的边界。
 
-network-io/disk-io/function-input-output
+关联技术
+
+* 网络 io
+* 磁盘 io
+* 函数入参出参
 
 ### **emulation**
 
@@ -90,7 +105,14 @@ network-io/disk-io/function-input-output
 
 人也可以被看作是硬件，只是人这种精密硬件，我们尚未完全掌握。
 
-qemu/automation-system/simulation-system/games/man-in-the-middle-attack/mock
+关联技术:
+
+* qemu
+* 自动化系统
+* 仿真系统
+* 游戏
+* 中间人攻击
+* mock
 
 ### **data-structure and algorithm**
 
@@ -102,7 +124,16 @@ qemu/automation-system/simulation-system/games/man-in-the-middle-attack/mock
 
 当然，数据结构和算法是一个比较大的体系，这里仅仅只是做了入门级的介绍，确实单薄。对于本文来说，数据结构和算法是作为一个基本的原子性概念而存在，是属于整个原子概念体系里的一员，但也是在我们后续的学习成长过程中，需要重点拓展的内容。
 
-stack/queue/linked-list/array/tree/graph/sorting/searching/indexing
+关联技术:
+
+* 栈
+* 队列
+* 链表
+* 数据
+* 树
+* 图
+* 排序
+* 搜索/索引
 
 ### **time-sharing and asynchronous**
 
@@ -116,6 +147,12 @@ stack/queue/linked-list/array/tree/graph/sorting/searching/indexing
 
 可以看出，第 4 种是无意义的，而第 1 种在计算密集的应用里较常用，第 2 种和第 3 种在 io 密集型的应用里比较常用。
 
+关联技术:
+
+* 并发
+* 异步
+* 网络 io 模型
+
 ### **lock**
 
 对于cpu资源，操作系统会把它按时间分片，然后分配给所有线程，不存在竞争，因为时间是不可能重叠的，不可复用的，但像内存，文件这类资源，是没办法按时间分片的，在并发的时候就有可能产生数据竞争（data race）。
@@ -128,13 +165,29 @@ stack/queue/linked-list/array/tree/graph/sorting/searching/indexing
 
 MYSQL 数据库在处理事物并发的时候，会使用 MVCC. MVCC 用一种多版本的方式来消除数据竞争，可以理解为它通过创造多个时间线来达到数据并行。
 
-spinlock/semaphore/mutex/concurrency/parallel/shared lock/exclusive lock/MVCC
+关联技术:
+
+* 自旋锁
+* 并发/并行
+* 共享锁
+* 排它锁
+* MVCC
 
 ### **centralized/decentralized and distributed system**
 
 我们经常会听到分布式架构, 但分布式（distribution）和去中心化（decentralize，也可以称非集中式）不是一个概念。分布式是指整个系统被分散到不同的位置，用来提升性能或者提高可靠性（比如 git），而去中心化指的是不存在一个单一的管理实体去管理整个系统，去中心化依赖多个相互独立的管理实体共同管理整个系统。SDN 是中心化（也称集中式）的，区块链是去中心化的，也是分布式的。
 
-CAP/BASE/Paxos/Raft/ZAB/Gossip/distributed-lock/distributed-id/consistent-hash
+关联技术:
+
+* CAP
+* BASE
+* Paxos
+* Raft
+* ZAB
+* Gossip
+* 分布式锁
+* 分布式 ID
+* 一致性 Hash
 
 ### **cache and buffer**
 
@@ -149,11 +202,11 @@ CAP/BASE/Paxos/Raft/ZAB/Gossip/distributed-lock/distributed-id/consistent-hash
 
 在此类有性能差的软硬件之间，就可以设置 cache 层，来达到一个不错的效果。比如:
 
-*CPU cache*
+***CPU cache***
 CPU 的性能相对主存(main memory, 即我们熟知的内存)要快很多，如果 CPU 直接访问主存，会浪费 CPU 的性能，而 CPU 所使用的 cache （Static RAM）是比主存快的多的硬件(Dynamic RAM), 而且有多级的 cache。当然，这种高速 cache 的容量是有限的，如果未命中(miss) ，cpu 会直接访问主存。
-*GPU cache*
+***GPU cache***
 和 CPU cache 的架构类似，但是是针对3维数据，纹理数据等做了优化的。
-*Dsik cache*
+***Disk cache***
 磁盘也有 cache ，也是为了弥补内存和磁盘之间性能差距的，能够大幅提高磁盘的读写速度。
 
 buffer 又是是什么？和 cache 有什么区别？ 
@@ -164,7 +217,11 @@ buffer 又是是什么？和 cache 有什么区别？
 
 当一些数据不能马上被拿走或消费掉的时候(生产者生产的速度大于消费者消费的速度)，就需要用 buffer，比如消息队列，它可以提高业务处理不过来的时候的响应速度。再如，数据库里使用的 WAL 技术，也可以认为是一种基于文件的 buffer, 提供持久性的同时，用顺序 io 代替随机 io 以提高写入速度。
 
-redis/message-queue/LRU
+关联技术:
+
+* redis
+* 消息队列
+* LRU
 
 ### **Reusing and Multiplexing**
 
@@ -178,7 +235,10 @@ Multiplexing 的字面意思也是复用，但多指 `多路复用` 。我们可
 
 上图是 io 多路复用的模型图，可以看出，多个活动被汇聚到了一个管道去处理。
 
-io multiplexing/tcp multiplexing
+关联技术:
+
+* io 多路复用
+* tcp 多路复用
 
 ### **Replication and backups**
 
