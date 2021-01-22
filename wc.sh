@@ -5,7 +5,7 @@ echo "Word count summary"
 TOTAL=0
 
 # 统计命令
-CMD="wc -w"
+CMD="./wc_macox"
 
 # 旧文章是用html写的
 
@@ -37,7 +37,7 @@ life=$(wc_files 'pages/life/*-life.html pages/life/master-of-sex.html pages/life
 echo "Life: $life"
 
 # pieces
-pieces=$(wc_files 'pages/pieces/*-other.html pages/pieces/songtianyi.dump.html pages/pieces/*.md')
+pieces=$(wc_files 'pages/pieces/*-other.html pages/pieces/songtianyi.dump.html pages/pieces/*.md pages/pieces/blog-stats.html')
 echo "Pieces: $pieces"
 
 # programming
@@ -55,5 +55,8 @@ echo "VDI: $vdi"
 # mdk
 mdk=$(wc_files 'mdks/*.mdk')
 
-echo "Total: " `expr $acm + $career + $life + $pieces + $programming + $secure + $vdi + $mdk`
+# index
+index=$(wc_files 'index.html')
+
+echo "Total: " `expr $acm + $career + $life + $pieces + $programming + $secure + $vdi + $mdk + $index`
 

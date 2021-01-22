@@ -125,3 +125,15 @@ BEGIN:
 
 * 策略压缩后的每个维度的分布情况
 * 策略压缩后各个维度之和的分布情况
+
+压缩后的数据出现的频次，排序后的分布情况如下:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/compress-distribution.jpg)
+
+压缩后的数据出现的频次，排序后的分布情况如下(只选取了部分频次高的数据):
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/compress-distribution-1.jpg)
+
+压缩后的数据出现的频次，将频次归类后的分布比例:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/compress-distribution-2.jpg)
