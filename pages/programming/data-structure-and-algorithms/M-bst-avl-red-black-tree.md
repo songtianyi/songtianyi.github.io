@@ -20,7 +20,11 @@ int a[10] = {1, 450, 3, 4, 56, 12, 123, 45, 23, 6};
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-build.png)
 
-可以看出，二叉搜索树中的子树也是满足二叉搜素树的定义的；中序遍历是升序的；这棵树的高度为为 7 ，和数组长度相差无几，且大部分数据的高度超过 4，说明一定存在优化的空间。
+可以看出:
+
+* 二叉搜索树中的子树也是满足二叉搜索树的定义的
+* 中序遍历是升序的
+* 这棵树的高度为为 7 (假如从0开始)，和数组长度相差无几，且大部分数据的高度超过 4，说明一定存在优化的空间。
 
 ### 插入和搜索
 
@@ -29,7 +33,7 @@ int a[10] = {1, 450, 3, 4, 56, 12, 123, 45, 23, 6};
 ``` C
 struct node *bst_insert(struct node *curr, struct node *p) {
   if (curr == NULL) {
-    return p;  //插入的节点的左右孩子的初始值一定要为NULL
+    return p;  // 插入的节点的左右孩子的初始值一定要为NULL
   } else if (p->value < curr->value) {
     curr->left = bst_insert(curr->left, p);
   } else {
@@ -253,7 +257,7 @@ int main() {
 
 ### 优化
 
-前面我们提到，我们构造的这棵树的高度为为 7 ，和数组长度相差无几，且大部分数据的高度超过 4，查找的效率相对来说，是比较低的，存在优化的空间。要优化构造出来的结构，只能从构造下手。
+前面提到，我们构造的这棵树的高度为为 7 ，和数组长度相差无几，且大部分数据的高度超过 4，查找的效率相对来说，是比较低的，存在优化的空间。要优化构造出来的结构，只能从构造下手。
 我们构造 BST 的过程是从数组的第一个元素开始的，那么从第 2 个元素开始构造呢？构造的结果会不一样。数组中，值的大小顺序决定着最终的结构，那么是否存在一个最佳的构造顺序呢？
 
 ## AVL
@@ -275,7 +279,9 @@ int main() {
 
 ### 左旋
 
-如图，当插入节点 14 知乎，以 1 为根的子树的左子树的深度为1，右子树的深度为 3，相差 2，不满足 AVL 的特性。此时，可以将 1 逆时针旋转（左旋），同时改变连接关系，将节点 10 作为子树的根结点，1 从父节点变为 10 的左子树，14 仍然作为 10 的右子树。
+> 以下所讲的内容，深度从 1 开始
+
+如图，当插入节点 14 之后，以 1 为根的子树的左子树的深度为1(因为根的深度已经为1，左子树虽然没节点，但是深度是从2开始的)，右子树的深度为 3，相差 2，不满足 AVL 的特性。此时，可以将 1 逆时针旋转（左旋），同时改变连接关系，将节点 10 作为子树的根结点，1 从父节点变为 10 的左子树，14 仍然作为 10 的右子树。
 我们可以观察出，所谓的旋转是以子树的根为圆心，顺时针或者逆时针旋转，旋转之后，连接关系会被改变。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-left-rotate-1.png)
@@ -302,7 +308,7 @@ int main() {
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-right-left-rotate.png)
 
-如上图，经过两次旋转(先右旋，后左旋)达到平衡, 写到这里我发现，可以把节点以及节点之间的联系想象成一个链条，左旋是逆时针**拉动链条**, 右旋是顺时针拉动链条，这和我们的生活常识是相通的。另外， 我们可以看出，第一次拉动是为第二次拉动做准备的，第一次拉动让链条变得更加平整，有序，这样第二次拉动就比较简单了。
+如上图，经过两次旋转(先右旋，后左旋)达到平衡, 写到这里我发现，可以把节点以及节点之间的联系想象成一个链条，左旋是逆时针**拉动链条**, 右旋是顺时针**拉动链条**，这和我们的生活常识是相通的。在做第一次旋转之前，我们不知道左边重还是右边重，但将 3 右旋之后，很明显右边会变重，我们可以认为，第一次拉动是为第二次拉动做准备的，第一次拉动让链条变得更加平整，有序，这样第二次拉动就比较简单了。
 
 再来看一个新的例子:
 
@@ -473,17 +479,20 @@ int main() {
 
 ### AVL 删除操作
 
-前面讲的都是关于插入时的旋转情况，那么删除呢？插入的时候，只要看插入节点的位置就可以了，因为在插入之前 avl 就已经是平衡的，但删除要稍麻烦一些，因为删除的情况就有多种。那我们就看删除的时候导致的变化。
+前面讲的都是关于插入时的旋转情况，那么删除呢？插入的时候，只要看插入节点的位置就可以了，因为在插入之前 avl 就已经是平衡的，但删除要稍麻烦一些，因为单单 BST 的删除的情况就有多种。那我们就看删除的时候导致的变化。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-delete-1.png)
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-delete-2.png)
 
-我们观察如上两张图，删除的是同一个节点，但是第二张图需要多一次旋转。这种差异需要观察右子树的的 bf 值，当然，要先检查到不平衡的情况。总结如下:
+我们观察如上两张图，删除的是同一个节点，但是第二张图需要多一次旋转。这种差异是右子树的不同所导致的，需要观察右子树的的 bf 值，当然，要先检查到不平衡的情况。总结如下:
+
+> 注意: 如果被删除的节点是右边的，那就要观察左边，即，观察的是待删除节点的 兄弟(sibling)节点
 
 ``` C
 /* C */
 if (BF(curr) < -1 && BF(curr->right) <= 0) {
+  // 检测到了不平衡，且右子树的的高度差小于等于 0
   left_rotate(curr);
 } 
 
@@ -586,7 +595,7 @@ struct node *avl_delete(struct node *curr, int v) {
 
 ## Red-Black Tree
 
-AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AVL 需要频繁的旋转操作，红黑树应运而生。红黑树的处理思路也很直接，既然频繁的旋转操作不利于性能，那就减少旋转的次数.
+AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AVL 需要频繁的旋转操作，红黑树应运而生。
 红黑树巧妙地改变了高度的定义:
 
 ``` 
@@ -604,8 +613,6 @@ AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AV
 
 如此，我们可以通过改变节点颜色来改变子树的高度，高度会影响平衡性的判断，这种做法有助于减少子树被判断为不平衡的次数。当然，旋转在需要的时候还是会有的，但总的旋转次数和 AVL 相比要低很多。
 
-> 有的文章里写的是每次的旋转次数比 AVL 小，有点不准确，应该是，每次旋转的操作是类似的，但是，红黑树在某些时候是不需要旋转的，而 AVL 需要，所以，是总的旋转次数少了，而不是每次旋转的时候，旋转次数少了。
-
 我们先用一个具体的例子来说明 AVL 和红黑树之间的差异。
 
 假设插入序列为:
@@ -615,29 +622,29 @@ AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AV
 [1, 450, 3, 4, 56, 12, 123, 45, 23, 6]
 ```
 
+依次插入 1, 450, 3, 4, 56 之后得到如下图的 AVL
+
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-1.jpg)
 
-依次插入 1, 450, 3, 4, 56 之后得到如上图的 AVL
+然后插入 12, 得到不平衡的 AVL, 如下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-2.jpg)
 
-然后插入 12, 得到不平衡的 AVL
+之后按照我们之前讲的方式，经过两次旋转得到平衡的 AVL, 如下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-3.jpg)
 
-之后按照我们之前讲的方式，经过两次旋转得到平衡的 AVL.
+依次插入 1, 450, 3, 4, 56 之后得到如下图的红黑树:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-11.jpg)
 
-依次插入 1, 450, 3, 4, 56 之后得到如上图的红黑树
+然后插入 12, 新插入的节点的颜色为红色, 此时违背红黑树的性质 3，相邻的节点不能都为红色, 所以需要调整. 如下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-12.jpg)
 
-然后插入 12, 新插入的节点的颜色为红色, 此时违背红黑树的性质 3，相邻的节点不能都为红色, 所以需要调整.
+回顾 AVL, 需要两次旋转来达到平衡，而红黑树只需要改变 4 和 450 这两个节点的颜色，将红色改变为黑色，然后将节点 12 的颜色变为红色，红黑树就又平衡了，因为性质 4 也是满足的，所有性质都是满足的, 如下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-13.jpg)
-
-回顾 AVL, 需要两次旋转来达到平衡，而红黑树只需要改变4和450这两个节点的颜色，将红色改变为黑色，红黑树就又平衡了，因为性质4也是满足的，所有性质都是满足的, 如上图。
 
 同时，观察一下我们能发现，红黑树的平衡性并没有 AVL 好，所以大家要根据具体的业务需要来选择不同的结构。
 
@@ -645,24 +652,24 @@ AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AV
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/red-black-tree-def.png)
 
-### 红黑树插入
+### 红黑树的插入
 
-我们回顾插入 12 的时候的情况，12 是红色，然后补充了两个黑色的空叶子节点，这样高度仍然是不变的，这种情况不需要调整。那么，什么情况下高度会改变？
-新插入进去的节点并不会导致高度的变化，因为插入进去的节点总是在末端，而且是红色。那么需要调整的情况只能是，两个相邻节点都为红色。
+我们回顾插入 12 的时候的情况，12 是红色，去掉了一个黑色的 Null Leaf，然后补充了两个黑色的空叶子节点，这样高度仍然是不变的，这种情况不需要调整。那么，什么情况下高度会改变？
+新插入进去的节点并不会导致高度的变化，因为插入进去的节点总是在末端，而且是红色。那么需要调整的情况只能是，**两个相邻节点都为红色**。
 
 > 为什么相邻节点不能都为红色呢？大家可以在纸上画一画，如果不做这个要求，平衡性是没法儿保证的，树的高度会恶化。
 
 我们还像分析 BST 和 AVL 一样来分析红色相邻的情况，由于新插入的节点是红色，那么既然相邻是红色，Father 就必然是红色，因此, GrandFather 必定是黑色，因为在插入之前红黑树的性质是满足的。最终，我们实际要分析的是 Uncle 的颜色的各种情况:
 
-1. Uncle 是红色。这种情况的调整比较容易，把黑色的 GrandFather 往下移动，即 Father 和 Uncle 都变为红色，然后 GrandFather 变为红色，高度不会变化，红黑树仍然是平衡的。
+1. Uncle 是红色。这种情况的调整比较容易，把黑色的 GrandFather 往下移动，即 Father 和 Uncle 都变为黑色，然后 GrandFather 变为红色，高度不会变化，红黑树仍然是平衡的。
+
+如下图，新插入的节点 12 导致相邻节点为红色。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-red.png)
 
-如上图，新插入的节点导致相邻节点为红色。
+Uncle 节点是红色的时候，直接变色即可, 得到下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-red-1.png)
-
-如上图，Uncle 节点是红色的时候，直接变色即可。
 
 2. Uncle 是黑色。此时，要改变相邻的节点都是红色的情况，就要将其中一个节点置为黑色，直接这样做必然会导致不平衡，既然直接变色后会有一边会变"重"，那就先旋转，再根据情况变色。
 
@@ -670,21 +677,19 @@ AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AV
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-right-of-p-and-p-right-of-g.png)
 
-新插入的节点为 45，我们预判直接变色会导致右边变重，所以要先左旋。
+新插入的节点为 45，我们预判直接变色会导致右边变重，所以要先左旋。 左旋之后，可以交换 Father 和 GrandFather 的颜色来保持高度一致。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-right-of-p-and-p-right-of-g-1.png)
-
-左旋之后，可以交换 Fathe 和 GrandFather 的颜色来保持高度一致。
 
 3. Uncle 是黑色，新插入的节点 23 属于右子树，左孩子, 如下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g.png)
 
-此时由于 Uncle 4 是红色，属于 CASE 1, 直接变色，得到下图:
+此时由于 Uncle 4 是红色，属于 CASE 1(注意，这个例子并不是一开始就是 CASE3), 直接变色，得到下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-1.png)
 
-此时12和56的颜色又不满足了，同样属于 CASE 3，我们预判直接变色会导致左边变重，于是先右旋，得到下图:
+此时 12 和 56 的颜色又不满足了，且 Uncle 是黑色，属于 CASE 3，我们预判直接变色会导致左边变重，于是先右旋，得到下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-2.png)
 
@@ -714,7 +719,7 @@ AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AV
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-black.png)
 
-删除黑色节点必然会导致高度的变化，Father 以及 Father 以上的节点属于公共路径，调整公共路径并不会改变高度差，所以，此时我们要考虑的是 sibling 以及 sibling 的左右子树的各种情况。
+删除黑色节点 1 必然会导致高度的变化，Father 以及 Father 以上的节点属于公共路径，调整公共路径并不会改变高度差，所以，此时我们要考虑的是 sibling 以及 sibling 的左右子树的各种情况。
 
 上图中的情况比较容易调整，将 Father 和 sibling 的颜色交换一下即可。
 
@@ -1265,15 +1270,15 @@ OK! 我们换完脑子，再来啃这块骨头！如下图，我们要删除节�
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11.png)
 
-如上图，节点 11 为黑色，且节点 11 的 sibling 为黑色，且 sibling 节点有一个孩子为红色。如果直接将 sibling 节点，即节点 22 的颜色改为红色，则会导致红色相邻的情况，根据我们之前的原则，先左旋，再尝试变色。
+节点 11 为黑色，且节点 11 的 sibling 为黑色，且 sibling 节点有一个孩子为红色。如果直接将 sibling 节点，即节点 22 的颜色改为红色，则会导致红色相邻的情况，根据我们之前的原则，先左旋，再尝试变色, 如下图。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11-left-rotate.png)
 
-接着来看一个 sibling 的两个孩子都为红色的情况:
+接着来看一个 sibling 的两个孩子都为红色的情况，如下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate.png)
 
-如上图，我们要删除节点 10, 根据 BST 的删除规则，实际删除的节点的位置是 8，那我们做旋转和染色的依据是节点 8 这个位置，即，要考察的是 8 的 sibling 和 sibling 的左右孩子的颜色情况。节点 8 的 sibling 为黑色，左右孩子都为红色。
+如上图，我们要删除节点 10, 根据 BST 的删除规则，实际删除的节点的位置是 8，那我们做旋转和染色的依据是节点 8 这个位置，即，要考察的是 8 的 sibling 和 sibling 的左右孩子的颜色情况。节点 8 的 sibling 为黑色，左右孩子都为黑色。
 由于节点 8 是黑色，删除后会导致高度变低，如下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-1.png)
@@ -1286,7 +1291,7 @@ OK! 我们换完脑子，再来啃这块骨头！如下图，我们要删除节�
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-3.png)
 
-综上，其实我们已经没有必要再取详细地一个个把所有的旋转情况列出来了，而是总结为一条原则，即:
+综上，其实我们已经没有必要再去详细地一个个把所有的旋转情况列出来了，而是总结为一条原则，即:
 
 1. 执行 BST 删除
 2. 如果仍然平衡，什么都不做(这是红黑树相对于 AVL 最主要的差异点，由于红色节点的删除不会导致高度差的变化，所以红黑树需要调整平衡的次数要比 AVL少)
