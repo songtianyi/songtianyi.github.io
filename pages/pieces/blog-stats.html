@@ -7,7 +7,9 @@
 </head>
 
 <body>
-    <canvas id="myChart"></canvas>
+    <div id="container" style="width: 25%;">
+        <canvas id="myChart"></canvas>
+    </div>
     <script>
         var ctx = document.getElementById('myChart');
         var myChart = new Chart(ctx, {
@@ -15,8 +17,32 @@
             data: {
                 labels: ['20210122', '20210125'],
                 datasets: [{
-                    label: '博客字数统计',
+                    label: '博客字数趋势',
                     data: [259746, 260891],
+                    type: 'line',
+                    yAxisID: 'word-count',
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }, {
+                    label: '博客文章数量趋势',
+                    data: [119, 120],
+                    type: 'bar',
+                    yAxisID: 'article-count',
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -37,12 +63,34 @@
                 }]
             },
             options: {
+                title: {
+                    display: true
+                },
                 scales: {
                     yAxes: [{
+                        id: 'word-count',
+                        position: 'left',
+                        gridLines: {
+                            display: false,
+                        },
                         ticks: {
                             beginAtZero: false
                         }
-                    }]
+                    }, {
+                        id: 'article-count',
+                        position: 'right',
+                        gridLines: {
+                            display: false,
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        }
+                    }],
                 }
             }
         });
