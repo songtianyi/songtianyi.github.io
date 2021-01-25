@@ -130,6 +130,18 @@ BEGIN:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/compress-distribution.jpg)
 
+可以看出，压缩后的数据的分布比较集中，其中压缩后的大小为 3 的策略接近 6w 条。
+
+``` 
+
+access-list trust line 2 extended permit object TCP-2345 object Net-192.168.243.1_32 object Net-192.168.145.2_32
+
+```
+
+如上，这是一条源，目，端口都为 1 个的情况，防火墙中存在超过一般的这种策略，这种策略被作为输入的概率与这种策略占策略总数的比例是一致的。我们可以简单得出一个结论:
+
+> 大多数时候，我们使用向量压缩的过滤方法，只能过滤掉 30% 左右的策略，剩下的 70% 左右的策略是需要遍历的
+
 压缩后的数据出现的频次，排序后的分布情况如下(只选取了部分频次高的数据):
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/compress-distribution-1.jpg)
@@ -137,3 +149,7 @@ BEGIN:
 压缩后的数据出现的频次，将频次归类后的分布比例:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/compress-distribution-2.jpg)
+
+前面两张图的数据稍微有些问题，做了修正并归类后，得到上图。同时也能说明前面讲述的内容，用户某次搜索，可能很快，也可能不快，这种感受应该挺明显的，毕竟一种是只需要遍历 1000 条以内的策略，另一种是遍历超过 5w 条策略。
+
+另外，压缩后的分布情况因客户的策略使用习惯而异，使用习惯导致压缩后的数据分布不同，那自然过滤效果会不同。
