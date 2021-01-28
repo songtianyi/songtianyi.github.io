@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-lock-free-queue.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* a11y-light theme */
+/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
+/* @author: ericwbailey */
+
+/* Comment */
+.hljs-comment,
+.hljs-quote {
+  color: #696969;
+}
+
+/* Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+  color: #d91e18;
+}
+
+/* Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+  color: #aa5d00;
+}
+
+/* Yellow */
+.hljs-attribute {
+  color: #aa5d00;
+}
+
+/* Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: #008000;
+}
+
+/* Blue */
+.hljs-title,
+.hljs-section {
+  color: #007faa;
+}
+
+/* Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #7928a1;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #fefefe;
+  color: #545454;
+  padding: 0.5em;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+@media screen and (-ms-high-contrast: active) {
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-bullet,
+  .hljs-comment,
+  .hljs-link,
+  .hljs-literal,
+  .hljs-meta,
+  .hljs-number,
+  .hljs-params,
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-type,
+  .hljs-quote {
+        color: highlight;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag {
+        font-weight: bold;
+    }
+}
+
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97">无锁队列</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a> create@2021-01-28</p>
+<h2 id="%E5%89%8D%E8%A8%80">前言</h2>
+<p>这篇文章源于一个实际案例，文件的并发读写，比如如何提高日志文件的并发写效率。在这种有性能差的场景里，我们可以使用内存 buffer （队列)来做写入缓冲，先将内容写到内存，再将内存整个刷到磁盘。<br>
+那么队列的并发写入，自然需要加锁，问题是如何做到无锁？</p>
+<h2 id="cas">CAS</h2>
+<p>CAS 全称 compare and swap, 它是一个原子操作, 伪代码如下:</p>
+<pre class="hljs"><code><div><span class="hljs-function">function <span class="hljs-title">cas</span><span class="hljs-params">(p: pointer to <span class="hljs-keyword">int</span>, old: <span class="hljs-keyword">int</span>, <span class="hljs-keyword">new</span>: <span class="hljs-keyword">int</span>)</span> is
+    <span class="hljs-keyword">if</span> *p ≠ old
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+
+    *p ← <span class="hljs-keyword">new</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+</span></div></code></pre>
+<p>大致意思是，当我们要修改一个值当时候（将 old 修改为 new）先检查它的值是否等于 old, 如果相等就赋值为 new, 否则返回 false, 因为不相等说明该值已经被（其它线程）修改，这个时候就不能再贸然修改它。<br>
+CAS 是一个原子操作，CPU 只使用一条指令来表达和执行它，因此 CAS 是 lock free 的, 不需要加锁。</p>
+<p>基于 CAS 我们可以实现无锁的并发写逻辑。</p>
+<p>先看一个 Go 没有加锁的例子, 如下:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> (
+	<span class="hljs-string">"fmt"</span>
+	<span class="hljs-string">"sync"</span>
+)
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
+	i := <span class="hljs-number">0</span>
+	wg := sync.WaitGroup{}
+	wg.Add(<span class="hljs-number">10</span>)
+	<span class="hljs-keyword">for</span> j := <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">10</span>; j++ {
+		<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> {
+			i++
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+	fmt.Println(i)
+}
+</div></code></pre>
+<p>并发修改 i, 多次执行的结果是不一致的，如下:</p>
+<pre class="hljs"><code><div>
+songtianyi-mb$ go run concurrency.go
+10
+songtianyi-mb$ go run concurrency.go
+9
+songtianyi-mb$ go run concurrency.go
+10
+songtianyi-mb$ go run concurrency.go
+10
+songtianyi-mb$ go run concurrency.go
+10
+songtianyi-mb$ go run concurrency.go
+10
+songtianyi-mb$ go run concurrency.go
+9
+songtianyi-mb$ go run concurrency.go
+10
+</div></code></pre>
+<p>加上基于 CAS 的 atomic 再试试:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> (
+	<span class="hljs-string">"fmt"</span>
+	<span class="hljs-string">"sync"</span>
+	<span class="hljs-string">"sync/atomic"</span>
+)
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
+	i := <span class="hljs-keyword">uint32</span>(<span class="hljs-number">0</span>)
+	wg := sync.WaitGroup{}
+	wg.Add(<span class="hljs-number">10</span>)
+	<span class="hljs-keyword">for</span> j := <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">10</span>; j++ {
+		<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> {
+			atomic.AddUint32(&amp;i, <span class="hljs-number">1</span>)
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+	fmt.Println(i)
+}
+</div></code></pre>
+<p>执行多次结果是稳定且正确的。</p>
+<h2 id="kfifo">kfifo</h2>
+<p>linux kernel 里就有队列的实现 kfifo, 不过使用的是自旋锁(spinlock). 感兴趣的可以读一读<a href="https://elixir.bootlin.com/linux/v2.6.24.4/source/kernel/kfifo.c#L165">源码</a></p>
+<h4 id="spinlock">spinlock</h4>
+<p>自旋锁特点是，当线程试图获得锁但没拿到的时候，线程会忙等(一直循环执行一段 test-and-set 的原子逻辑)，不会释放 CPU。所以，使用自旋锁的前提是，等待锁的时间足够短，否则会空耗 CPU，它的优点是不会休眠和唤醒的过程，避免了上下文切换的开销。</p>
+<h2 id="lock-free-queue">lock-free queue</h2>
+<p>先用 C 实现一个简单的队列，</p>
+<pre class="hljs"><code><div>
+``` C
+/* C */
+#include &lt;stdbool.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Queue {
+  char *buf;
+  int size;
+  int out;
+  int in;
+};
+
+struct Queue *newQ(int size) {
+  struct Queue *q = malloc(sizeof(struct Queue));
+  q-&gt;size = size;
+  q-&gt;buf = malloc(sizeof(char) * size);
+  q-&gt;out = q-&gt;in = 0;
+  return q;
+}
+
+void enQ(struct Queue *q, char v) {
+  q-&gt;buf[q-&gt;in % q-&gt;size] = v;
+  q-&gt;in++;
+}
+
+char deQ(struct Queue *q) {
+  char x = q-&gt;buf[q-&gt;out % q-&gt;size];
+  q-&gt;out++;
+  return x;
+}
+
+bool emptyQ(struct Queue *q) {
+  if (q-&gt;out == q-&gt;in) {
+    q-&gt;out = q-&gt;in = 0;
+    return true;
+  }
+  return false;
+}
+
+void freeQ(struct Queue *q) {
+  free(q-&gt;buf);
+  free(q);
+}
+
+int main() {
+  struct Queue *q = newQ(3);
+  enQ(q, 'c');
+  enQ(q, 'b');
+  enQ(q, 'a');
+  printf(&quot;%c\n&quot;, deQ(q));
+  printf(&quot;%c\n&quot;, deQ(q));
+  printf(&quot;%c\n&quot;, deQ(q));
+  enQ(q, 'a');
+  enQ(q, 'b');
+  enQ(q, 'c');
+  printf(&quot;%c\n&quot;, deQ(q));
+  printf(&quot;%c\n&quot;, deQ(q));
+  printf(&quot;%c\n&quot;, deQ(q));
+  freeQ(q);
+  return 0;
+}
+</div></code></pre>
+<p>当并发入队出队的时候必然会有问题，我们尝试使用 CAS 来对修改的操作加锁</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdbool.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Queue</span> {</span>
+  <span class="hljs-keyword">char</span> *buf;
+  <span class="hljs-keyword">int</span> <span class="hljs-built_in">size</span>;
+  <span class="hljs-keyword">int</span> out;
+  <span class="hljs-keyword">int</span> in;
+};
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">CAS</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *addr, <span class="hljs-keyword">int</span> oldval, <span class="hljs-keyword">int</span> newval)</span> </span>{
+  <span class="hljs-keyword">if</span> (*addr != oldval) {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  }
+  *addr = newval;
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+
+<span class="hljs-function">struct Queue *<span class="hljs-title">newQ</span><span class="hljs-params">(<span class="hljs-keyword">int</span> <span class="hljs-built_in">size</span>)</span> </span>{
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Queue</span> *<span class="hljs-title">q</span> = <span class="hljs-title">malloc</span>(<span class="hljs-title">sizeof</span>(<span class="hljs-title">struct</span> <span class="hljs-title">Queue</span>));</span>
+  q-&gt;<span class="hljs-built_in">size</span> = <span class="hljs-built_in">size</span>;
+  q-&gt;buf = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">char</span>) * <span class="hljs-built_in">size</span>);
+  q-&gt;out = q-&gt;in = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">return</span> q;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">enQ</span><span class="hljs-params">(struct Queue *q, <span class="hljs-keyword">char</span> v)</span> </span>{
+  <span class="hljs-keyword">int</span> i;
+  <span class="hljs-keyword">do</span> {
+    i = q-&gt;in;
+    q-&gt;buf[i % q-&gt;<span class="hljs-built_in">size</span>] = v;
+  } <span class="hljs-keyword">while</span> (CAS(&amp;q-&gt;in, i, i + <span class="hljs-number">1</span>) == <span class="hljs-literal">false</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">char</span> <span class="hljs-title">deQ</span><span class="hljs-params">(struct Queue *q)</span> </span>{
+  <span class="hljs-keyword">char</span> x;
+  <span class="hljs-keyword">int</span> i;
+  <span class="hljs-keyword">do</span> {
+    x = q-&gt;buf[q-&gt;out % q-&gt;<span class="hljs-built_in">size</span>];
+    i = q-&gt;out;
+  } <span class="hljs-keyword">while</span> (CAS(&amp;q-&gt;out, i, i + <span class="hljs-number">1</span>) == <span class="hljs-literal">false</span>);
+  <span class="hljs-keyword">return</span> x;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">emptyQ</span><span class="hljs-params">(struct Queue *q)</span> </span>{
+  <span class="hljs-keyword">if</span> (q-&gt;out == q-&gt;in) {
+    q-&gt;out = q-&gt;in = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">freeQ</span><span class="hljs-params">(struct Queue *q)</span> </span>{
+  <span class="hljs-built_in">free</span>(q-&gt;buf);
+  <span class="hljs-built_in">free</span>(q);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Queue</span> *<span class="hljs-title">q</span> = <span class="hljs-title">newQ</span>(3);</span>
+  enQ(q, <span class="hljs-string">'c'</span>);
+  enQ(q, <span class="hljs-string">'b'</span>);
+  enQ(q, <span class="hljs-string">'a'</span>);
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%c\n"</span>, deQ(q));
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%c\n"</span>, deQ(q));
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%c\n"</span>, deQ(q));
+  enQ(q, <span class="hljs-string">'a'</span>);
+  enQ(q, <span class="hljs-string">'b'</span>);
+  enQ(q, <span class="hljs-string">'c'</span>);
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%c\n"</span>, deQ(q));
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%c\n"</span>, deQ(q));
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%c\n"</span>, deQ(q));
+  freeQ(q);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p>上述代码并没有严格测试和论证，只为了说明无锁队列的大致实现思路，感兴趣的可以阅读参考资料。</p>
+<h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
+<ul>
+<li><a href="https://www.fatalerrors.org/a/atomic-operation-of-go-language.html">atomic operation of Go language</a></li>
+<li><a href="https://coolshell.cn/articles/8239.html">无锁队列的实现</a></li>
+</ul>
+
+</body>
+</html>
