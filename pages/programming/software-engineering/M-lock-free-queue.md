@@ -214,7 +214,7 @@ void enQ(struct Queue *q, char v) {
   do {
     i = q->in;
     q->buf[i % q->size] = v;
-  } while (CAS(&q->in, i, i + 1) == false);
+  } while (__sync_bool_compare_and_swap(&q->in, i, i + 1) == false);
 }
 
 char deQ(struct Queue *q) {
@@ -223,7 +223,7 @@ char deQ(struct Queue *q) {
   do {
     x = q->buf[q->out % q->size];
     i = q->out;
-  } while (CAS(&q->out, i, i + 1) == false);
+  } while (__sync_bool_compare_and_swap(&q->out, i, i + 1) == false);
   return x;
 }
 

@@ -578,7 +578,7 @@ int main() {
   <span class="hljs-keyword">do</span> {
     i = q-&gt;in;
     q-&gt;buf[i % q-&gt;<span class="hljs-built_in">size</span>] = v;
-  } <span class="hljs-keyword">while</span> (CAS(&amp;q-&gt;in, i, i + <span class="hljs-number">1</span>) == <span class="hljs-literal">false</span>);
+  } <span class="hljs-keyword">while</span> (__sync_bool_compare_and_swap(&amp;q-&gt;in, i, i + <span class="hljs-number">1</span>) == <span class="hljs-literal">false</span>);
 }
 
 <span class="hljs-function"><span class="hljs-keyword">char</span> <span class="hljs-title">deQ</span><span class="hljs-params">(struct Queue *q)</span> </span>{
@@ -587,7 +587,7 @@ int main() {
   <span class="hljs-keyword">do</span> {
     x = q-&gt;buf[q-&gt;out % q-&gt;<span class="hljs-built_in">size</span>];
     i = q-&gt;out;
-  } <span class="hljs-keyword">while</span> (CAS(&amp;q-&gt;out, i, i + <span class="hljs-number">1</span>) == <span class="hljs-literal">false</span>);
+  } <span class="hljs-keyword">while</span> (__sync_bool_compare_and_swap(&amp;q-&gt;out, i, i + <span class="hljs-number">1</span>) == <span class="hljs-literal">false</span>);
   <span class="hljs-keyword">return</span> x;
 }
 
