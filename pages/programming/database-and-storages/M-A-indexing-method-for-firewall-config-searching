@@ -1,0 +1,4 @@
+# 一种用于防火墙配置搜索的索引方法
+
+参考资料
+- [RANGETYPES-INDEXING](https://www.postgresql.org/docs/12/rangetypes.html#RANGETYPES-INDEXING)
