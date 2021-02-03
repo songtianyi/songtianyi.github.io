@@ -79,21 +79,23 @@ macro_rules! println {
 
 ```
 
-我们可以把它简单看做是 empty。
+我们可以把 `()` 简单看做是 empty。
 那么下面这段代码就比较容易理解了
 
 ``` rust
 () => ($crate::print!("\n"))
 ```
 
-我们使用 `println` 宏的时候不写参数，就会匹配到这条语句，这条语句只会打印换行。
+我们使用 `println!` 宏的时候不写参数，就会匹配到这条语句，这条语句只会打印换行。
 所以 `=>` 之前的 `()` 内的内容就是匹配模式，称为 `Matcher` , `=>` 之后的内容就是匹配到入参之后，待展开的逻辑，称为 `Transcriber` , 编译器利用入参和 `Transcriber` 来生成展开后的 Rust 代码。
 
-![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/matcher-transcriber.png)
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/matcher-transcriber.png" alt="matcher-transcriber" style="width:800px; height:500px"/>
 
-![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/matcher.png)
+`Matcher` 里的内容又可以分为两部分，name 和 designator:
 
-`Matcher` 的类型分为以下几种:
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/matcher.png" alt="matcher-transcriber" style="width:800px; height:500px"/>
+
+name 相当于变量名，用 `$` 符号标记，designator 可以理解为是预定义的正则表达式, 书写的时候直接用简写名称代替，有以下几种:
 
 * item: an item, such as a function, a struct, a module, etc.
 * block: a block (i.e. a block of statements and/or an expression, surrounded by braces)
@@ -130,9 +132,11 @@ fn main() {
 
 它所使用的 `Matcher` 是 `$($key:expr => $value:expr), *)` , 看起来有些复杂
 
-`=>` 不能被替换成其他符号，如 `:` , `->` 等
+`=>` 不能被替换成其他符号，如 `:` , `->` 等, 没有特殊意义，就是用来匹配文本中的 `=>` 符号, `$key:expr => $value:expr` 可以看待为 `expr => expr` , 相当于正则。之后，将这个正则包裹起来，加上 `*` 来表示这个正则可以被匹配多次，相当于 `(expr => expr)*`
 
-![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/repeat.png)
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/repeat.png" alt="matcher-transcriber" style="width:800px; height:500px"/>
+
+下面是一个更复杂的实际案例，用来简化 Field 的取值方法的编写:
 
 ``` rust
 pub enum Field {
@@ -180,5 +184,7 @@ impl Field {
     }
 }
 ```
+
+上述的宏 `impl_as_fields` 会根据入参数展开成返回不同类型的函数定义(类似 as_string), 用到了多个 designator.
 
 ## 参考资料

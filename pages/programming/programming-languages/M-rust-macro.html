@@ -452,12 +452,16 @@ C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
   |     ^^ expected `i32`, found `()`
 
 </div></code></pre>
-<p>我们可以把它简单看做是 empty。<br>
-那么这段代码就比较容易理解了</p>
+<p>我们可以把 <code>()</code> 简单看做是 empty。<br>
+那么下面这段代码就比较容易理解了</p>
 <pre class="hljs"><code><div>() =&gt; ($crate::<span class="hljs-built_in">print!</span>(<span class="hljs-string">"\n"</span>))
 </div></code></pre>
-<p>，我们使用 <code>println</code> 宏的时候不写参数，就会匹配到这条语句，这条语句只会打印换行。<br>
-所以 <code>=&gt;</code> 之前 <code>()</code> 内的内容就是匹配模式，称为 <code>Matcher</code> , 之后的内容就是匹配到入参之后，待展开的逻辑，称为 <code>Transcriber</code> , 编译器利用入参和 <code>Transcriber</code> 来生成展开后的 Rust 代码。</p>
+<p>我们使用 <code>println!</code> 宏的时候不写参数，就会匹配到这条语句，这条语句只会打印换行。<br>
+所以 <code>=&gt;</code> 之前的 <code>()</code> 内的内容就是匹配模式，称为 <code>Matcher</code> , <code>=&gt;</code> 之后的内容就是匹配到入参之后，待展开的逻辑，称为 <code>Transcriber</code> , 编译器利用入参和 <code>Transcriber</code> 来生成展开后的 Rust 代码。</p>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/matcher-transcriber.png" alt="matcher-transcriber" style="width:800px; height:500px"/>
+<p><code>Matcher</code> 里的内容又可以分为两部分，name 和 designator:</p>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/matcher.png" alt="matcher-transcriber" style="width:800px; height:500px"/>
+<p>name 相当于变量名，用 <code>$</code> 符号标记，designator 可以理解为是预定义的正则表达式, 书写的时候直接用简写名称代替，有以下几种:</p>
 <ul>
 <li>item: an item, such as a function, a struct, a module, etc.</li>
 <li>block: a block (i.e. a block of statements and/or an expression, surrounded by braces)</li>
@@ -470,6 +474,7 @@ C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
 <li>meta: a meta item; the things that go inside #[...] and #![...] attributes</li>
 <li>tt: a single token tree</li>
 </ul>
+<p>以 <code>map!</code> 宏为例来看下 HashMap 的初始化方式， 如下:</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">use</span> std::collections::HashMap;
 <span class="hljs-built_in">macro_rules!</span> map {
     ($($key:expr =&gt; $value:expr), *) =&gt; {
@@ -488,7 +493,10 @@ C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
 	));
 }
 </div></code></pre>
-<p><code>=&gt;</code> 不能被替换成其他符号，如 <code>:</code> , <code>-&gt;</code> 等</p>
+<p>它所使用的 <code>Matcher</code> 是 <code>$($key:expr =&gt; $value:expr), *)</code> , 看起来有些复杂</p>
+<p><code>=&gt;</code> 不能被替换成其他符号，如 <code>:</code> , <code>-&gt;</code> 等, 没有特殊意义，就是用来匹配文本中的 <code>=&gt;</code> 符号, <code>$key:expr =&gt; $value:expr</code> 可以看待为 <code>expr =&gt; expr</code> , 相当于正则。之后，将这个正则包裹起来，加上 <code>*</code> 来表示这个正则可以被匹配多次，相当于 <code>(expr =&gt; expr)*</code></p>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/repeat.png" alt="matcher-transcriber" style="width:800px; height:500px"/>
+<p>下面是一个更复杂的实际案例，用来简化 Field 的取值方法的编写:</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Field</span></span> {
     tinyInt(<span class="hljs-built_in">i8</span>),
     smallInt(<span class="hljs-built_in">i16</span>),
@@ -534,6 +542,7 @@ C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
     }
 }
 </div></code></pre>
+<p>上述的宏 <code>impl_as_fields</code> 会根据入参数展开成返回不同类型的函数定义(类似 as_string), 用到了多个 designator.</p>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
 
 </body>
