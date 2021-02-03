@@ -951,15 +951,15 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="qu-kuai-lian-ji-shu-gai-lan" id="%E5%8C%BA%E5%9D%97%E9%93%BE%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88" data-line="0" class="code-line">区块链技术概览</h1>
+        <h1 id="qu-kuai-lian-ji-shu-gai-lan" id="e58cbae59d97e993bee68a80e69cafe6a682e8a788-2" data-line="0" class="code-line">区块链技术概览</h1>
 <p data-line="2" class="code-line">作者: <a href="http://songtianyi.info" data-href="http://songtianyi.info">songtianyi</a> create@2020-01-31</p>
 <blockquote data-line="4" class="code-line">
 <p data-line="4" class="code-line">版权声明: 部分内容复制自网络，如有侵权，请联系本人删除</p>
 </blockquote>
-<h2 id="qian-yan" id="%E5%89%8D%E8%A8%80" data-line="6" class="code-line">前言</h2>
+<h2 id="qian-yan" id="e5898de8a880-2" data-line="6" class="code-line">前言</h2>
 <p data-line="8" class="code-line">这篇文章是我学习区块链的过程中边学边写所形成的。</p>
-<h2 id="ji-ben-gai-nian" id="%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5" data-line="10" class="code-line">基本概念</h2>
-<h3 id="shi-me-shi-qu-kuai-lian" id="%E4%BB%80%E4%B9%88%E6%98%AF%E5%8C%BA%E5%9D%97%E9%93%BE" data-line="12" class="code-line">什么是区块链？</h3>
+<h2 id="ji-ben-gai-nian" id="e59fbae69cace6a682e5bfb5-2" data-line="10" class="code-line">基本概念</h2>
+<h3 id="shi-me-shi-qu-kuai-lian" id="e4bb80e4b988e698afe58cbae59d97e993be-2" data-line="12" class="code-line">什么是区块链？</h3>
 <ul>
 <li data-line="14" class="code-line">狭义上，区块链是一种以区块为基本单位的链式数据结构，区块中利用数字摘要对之前的交易历史进行校验，适合分布式记账场景下防篡改和可扩展性的需求。</li>
 <li data-line="15" class="code-line">广义上，区块链还指代基于区块链结构实现的分布式记账技术，包括分布式共识、隐私与安全保护、点对点通信技术、网络协议、智能合约等。</li>
@@ -968,7 +968,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 <p data-line="19" class="code-line">1990 年 8 月，Bellcore（1984 年由 AT&amp;T 拆分而来的研究机构）的 Stuart Haber 和 W. Scott Stornetta 在论文《How to Time-Stamp a Digital Document》中就提出利用链式结构来解决防篡改问题，其中新生成的时间证明需要包括之前证明的 Hash 值。这可以被认为是区块链结构的最早雏形。
 后来，2005 年 7 月，在 Git 等开源软件中，也使用了类似区块链结构的机制来记录提交历史。
 区块链结构最早的大规模应用出现在 2009 年初上线的比特币项目中。在无集中式管理的情况下，比特币网络持续稳定，支持了海量的交易记录，并且从未出现严重的漏洞，引发了广泛关注。这些都与区块链结构自身强校验的特性密切相关。</p>
-<h3 id="qu-kuai-lian-de-zu-cheng" id="%E5%8C%BA%E5%9D%97%E9%93%BE%E7%9A%84%E7%BB%84%E6%88%90" data-line="23" class="code-line">区块链的组成</h3>
+<h3 id="qu-kuai-lian-de-zu-cheng" id="e58cbae59d97e993bee79a84e7bb84e68890-2" data-line="23" class="code-line">区块链的组成</h3>
 <ul>
 <li data-line="25" class="code-line">交易(Transaction) 一次对账本的操作，导致账本状态的一次改变，如添加一条转账记录</li>
 <li data-line="26" class="code-line">区块(Block) 记录一段时间内发生的所有交易和状态结果等，是对当前账本状态的一次共识</li>
@@ -976,78 +976,79 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 </ul>
 <p data-line="29" class="code-line">区块链的目标是实现一个分布式的数据记录账本，这个账本只允许添加、不允许删除。账本底层的基本结构是一个线性的链表。链表由一个个“区块”串联组成（如下图所示），后继区块中记录前导区块的哈希（Hash）值。某个区块（以及块里的交易）是否合法，可通过计算哈希值的方式进行快速检验。网络中节点可以提议添加一个新的区块，但必须经过共识机制来对区块达成确认。</p>
 <p data-line="31" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/block-chain-techniques-review-block-hash-chain.png" alt="image" class="loading" id="image-hash--1407003047"></p>
-<h4 id="bi-te-bi-jiao-yi" id="%E6%AF%94%E7%89%B9%E5%B8%81%E4%BA%A4%E6%98%93" data-line="33" class="code-line">比特币交易</h4>
+<h4 id="bi-te-bi-jiao-yi" id="e6af94e789b9e5b881e4baa4e69893-2" data-line="33" class="code-line">比特币交易</h4>
 <p data-line="35" class="code-line">我们知道，区块链是比特币的技术实现的基础，那么一个交易过程是如何运用到区块链的呢？</p>
 <p data-line="37" class="code-line">在上图的基础上，我们发起一笔交易，这笔交易将账户 A 的余额减少 3, 账户 B 的余额增加 3, 将交易信息放进 block 的 transaction 结构里，并添加上一个 block 的 hash 值到当前的 block 里，构造好这个 block 结构之后，广播出去，这样整个网络中的节点都会收到该交易请求，然后将这个记录添加到这个链式结构里。</p>
-<p data-line="39" class="code-line">问题是，如何判断这个交易是否合法？</p>
-<h2 id="fen-bu-shi-xi-tong" id="%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F" data-line="41" class="code-line">分布式系统</h2>
-<p data-line="43" class="code-line">区块链的另一个核心特性是，账本是存在分布式的节点里的，这些节点相当于一个数据库，那么就会遇到分布式所带来的经典问题，比如一致性怎么保证？</p>
-<h3 id="yi-zhi-xing-wen-ti" id="%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98" data-line="45" class="code-line">一致性问题</h3>
-<p data-line="47" class="code-line">一致性指的是，某个节点的数据发生了变更，在其它节点也能立即看到这个变更，但这是不可能的，数据的同步需要一个过程，假如又不部分节点宕机了呢？有些节点不承认这个变更呢？所以，大部分情况下我们实现的都是最终一致性。比如，这个变更在某几个节点完成了，就认为这个变更成功了，剩下的节点会逐步同步这个变更，在这个期间，如果还未同步的节点基于旧的数据进行有冲突的变更，最终会失败。</p>
-<p data-line="49" class="code-line">以 12306 购票来举例，我们在刷票的时候看到了余票，当我们选中并提交的时候，系统可能会提示无票，因为在我们看到余票和提交购票请求的这个短暂的时间内，已经有人把票锁定了。</p>
-<p data-line="51" class="code-line">从某个节点的变更(更通用的说法是 Proposal)到节点达成一致的过程是由共识(Consensus)算法来完成的。</p>
-<p data-line="53" class="code-line">理论上，如果分布式系统中各节点都能以十分“理想”的性能（瞬间响应、超高吞吐）稳定运行，节点之间通信瞬时送达（如量子纠缠），则实现共识过程并不十分困难，简单地通过广播进行瞬时投票和应答即可。
+<p data-line="39" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/blockchain-techniques-review-new-block.png" alt="image" class="loading" id="image-hash-1992984508"></p>
+<p data-line="41" class="code-line">问题是，如何判断这个交易是否合法？</p>
+<h2 id="fen-bu-shi-xi-tong" id="e58886e5b883e5bc8fe7b3bbe7bb9f-2" data-line="43" class="code-line">分布式系统</h2>
+<p data-line="45" class="code-line">区块链的另一个核心特性是，账本是存在分布式的节点里的，这些节点相当于一个数据库，那么就会遇到分布式所带来的经典问题，比如一致性怎么保证？</p>
+<h3 id="yi-zhi-xing-wen-ti" id="e4b880e887b4e680a7e997aee9a298-2" data-line="47" class="code-line">一致性问题</h3>
+<p data-line="49" class="code-line">一致性指的是，某个节点的数据发生了变更，在其它节点也能立即看到这个变更，但这是不可能的，数据的同步需要一个过程，假如又不部分节点宕机了呢？有些节点不承认这个变更呢？所以，大部分情况下我们实现的都是最终一致性。比如，这个变更在某几个节点完成了，就认为这个变更成功了，剩下的节点会逐步同步这个变更，在这个期间，如果还未同步的节点基于旧的数据进行有冲突的变更，最终会失败。</p>
+<p data-line="51" class="code-line">以 12306 购票来举例，我们在刷票的时候看到了余票，当我们选中并提交的时候，系统可能会提示无票，因为在我们看到余票和提交购票请求的这个短暂的时间内，已经有人把票锁定了。</p>
+<p data-line="53" class="code-line">从某个节点的变更(更通用的说法是 Proposal)到节点达成一致的过程是由共识(Consensus)算法来完成的。</p>
+<p data-line="55" class="code-line">理论上，如果分布式系统中各节点都能以十分“理想”的性能（瞬间响应、超高吞吐）稳定运行，节点之间通信瞬时送达（如量子纠缠），则实现共识过程并不十分困难，简单地通过广播进行瞬时投票和应答即可。
 可惜地是，现实中这样的“理想”系统并不存在。不同节点之间通信存在延迟（光速物理限制、通信处理延迟），并且任意环节都可能存在故障（系统规模越大，发生故障可能性越高）。如通信网络会发生中断、节点会发生故障、甚至存在被入侵的节点故意伪造消息，破坏正常的共识过程。</p>
-<p data-line="56" class="code-line">一般地，把出现故障（Crash 或 Fail-stop，即不响应）但不会伪造信息的情况称为“非拜占庭错误（Non-Byzantine Fault）”或“故障错误（Crash Fault）”；伪造信息恶意响应的情况称为“拜占庭错误”（Byzantine Fault），对应节点为拜占庭节点。显然，后者场景中因为存在“捣乱者”更难达成共识。</p>
-<p data-line="58" class="code-line">此外，任何处理都需要成本，共识也是如此。当存在一定信任前提（如接入节点都经过验证、节点性能稳定、安全保障很高）时，达成共识相对容易，共识性能也较高；反之在不可信的场景下，达成共识很难，需要付出较大成本（如时间、经济、安全等），而且性能往往较差（如工作量证明算法）。</p>
-<h3 id="gong-shi-suan-fa" id="%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95" data-line="60" class="code-line">共识算法</h3>
-<p data-line="62" class="code-line">根据解决的场景是否允许拜占庭错误情况，共识算法可以分为 Crash Fault Tolerance (CFT) 和 Byzantine Fault Tolerance（BFT）两类。</p>
-<p data-line="64" class="code-line">对于非拜占庭错误的情况，已经存在不少经典的算法，包括 Paxos（1990 年）、Raft（2014 年）及其变种等。这类容错算法往往性能比较好，处理较快，容忍不超过一半的故障节点。</p>
-<p data-line="66" class="code-line">对于要能容忍拜占庭错误的情况，包括 PBFT（Practical Byzantine Fault Tolerance，1999 年）为代表的确定性系列算法、PoW（1997 年）为代表的概率算法等。确定性算法一旦达成共识就不可逆转，即共识是最终结果；而概率类算法的共识结果则是临时的，随着时间推移或某种强化，共识结果被推翻的概率越来越小，最终成为事实上结果。拜占庭类容错算法往往性能较差，容忍不超过 1/3 的故障节点。</p>
-<p data-line="68" class="code-line">此外，XFT（Cross Fault Tolerance，2015 年）等最近提出的改进算法可以提供类似 CFT 的处理响应速度，并能在大多数节点正常工作时提供 BFT 保障。</p>
-<p data-line="70" class="code-line">Algorand 算法（2017 年）基于 PBFT 进行改进，通过引入可验证随机函数解决了提案选择的问题，理论上可以在容忍拜占庭错误的前提下实现更好的性能（1000+ TPS）。</p>
-<h3 id="flp-bu-ke-neng-yuan-li" id="flp-%E4%B8%8D%E5%8F%AF%E8%83%BD%E5%8E%9F%E7%90%86" data-line="72" class="code-line">FLP 不可能原理</h3>
-<p data-line="74" class="code-line">FLP 不可能原理：在网络可靠，但允许节点失效（即便只有一个）的最小化异步模型系统中，不存在一个可以解决一致性问题的确定性共识算法（No completely asynchronous consensus protocol can tolerate even a single unannounced process death）。</p>
-<p data-line="76" class="code-line">三个人在不同房间，进行投票（投票结果是 0 或者 1）。彼此可以通过电话进行沟通，但经常有人会时不时睡着。比如某个时候，A 投票 0，B 投票 1，C 收到了两人的投票，然后 C 睡着了。此时，A 和 B 将永远无法在有限时间内获知最终的结果，究竟是 C 没有应答还是应答的时间过长。如果可以重新投票，则类似情形可以在每次取得结果前发生，这将导致共识过程永远无法完成。</p>
-<p data-line="78" class="code-line">FLP 原理实际上说明对于允许节点失效情况下，纯粹异步系统无法确保共识在有限时间内完成。即便对于非拜占庭错误的前提下，包括 Paxos、Raft 等算法也都存在无法达成共识的极端情况，只是在工程实践中这种情况出现的概率很小。</p>
-<p data-line="80" class="code-line">这就是科学和工程不同的魅力。FLP 不可能原理告诉大家不必浪费时间去追求完美的共识方案，而要根据实际情况设计可行的工程方案。
+<p data-line="58" class="code-line">一般地，把出现故障（Crash 或 Fail-stop，即不响应）但不会伪造信息的情况称为“非拜占庭错误（Non-Byzantine Fault）”或“故障错误（Crash Fault）”；伪造信息恶意响应的情况称为“拜占庭错误”（Byzantine Fault），对应节点为拜占庭节点。显然，后者场景中因为存在“捣乱者”更难达成共识。</p>
+<p data-line="60" class="code-line">此外，任何处理都需要成本，共识也是如此。当存在一定信任前提（如接入节点都经过验证、节点性能稳定、安全保障很高）时，达成共识相对容易，共识性能也较高；反之在不可信的场景下，达成共识很难，需要付出较大成本（如时间、经济、安全等），而且性能往往较差（如工作量证明算法）。</p>
+<h3 id="gong-shi-suan-fa" id="e585b1e8af86e7ae97e6b395-2" data-line="62" class="code-line">共识算法</h3>
+<p data-line="64" class="code-line">根据解决的场景是否允许拜占庭错误情况，共识算法可以分为 Crash Fault Tolerance (CFT) 和 Byzantine Fault Tolerance（BFT）两类。</p>
+<p data-line="66" class="code-line">对于非拜占庭错误的情况，已经存在不少经典的算法，包括 Paxos（1990 年）、Raft（2014 年）及其变种等。这类容错算法往往性能比较好，处理较快，容忍不超过一半的故障节点。</p>
+<p data-line="68" class="code-line">对于要能容忍拜占庭错误的情况，包括 PBFT（Practical Byzantine Fault Tolerance，1999 年）为代表的确定性系列算法、PoW（1997 年）为代表的概率算法等。确定性算法一旦达成共识就不可逆转，即共识是最终结果；而概率类算法的共识结果则是临时的，随着时间推移或某种强化，共识结果被推翻的概率越来越小，最终成为事实上结果。拜占庭类容错算法往往性能较差，容忍不超过 1/3 的故障节点。</p>
+<p data-line="70" class="code-line">此外，XFT（Cross Fault Tolerance，2015 年）等最近提出的改进算法可以提供类似 CFT 的处理响应速度，并能在大多数节点正常工作时提供 BFT 保障。</p>
+<p data-line="72" class="code-line">Algorand 算法（2017 年）基于 PBFT 进行改进，通过引入可验证随机函数解决了提案选择的问题，理论上可以在容忍拜占庭错误的前提下实现更好的性能（1000+ TPS）。</p>
+<h3 id="flp-bu-ke-neng-yuan-li" id="flp-e4b88de58fafe883bde58e9fe79086-2" data-line="74" class="code-line">FLP 不可能原理</h3>
+<p data-line="76" class="code-line">FLP 不可能原理：在网络可靠，但允许节点失效（即便只有一个）的最小化异步模型系统中，不存在一个可以解决一致性问题的确定性共识算法（No completely asynchronous consensus protocol can tolerate even a single unannounced process death）。</p>
+<p data-line="78" class="code-line">三个人在不同房间，进行投票（投票结果是 0 或者 1）。彼此可以通过电话进行沟通，但经常有人会时不时睡着。比如某个时候，A 投票 0，B 投票 1，C 收到了两人的投票，然后 C 睡着了。此时，A 和 B 将永远无法在有限时间内获知最终的结果，究竟是 C 没有应答还是应答的时间过长。如果可以重新投票，则类似情形可以在每次取得结果前发生，这将导致共识过程永远无法完成。</p>
+<p data-line="80" class="code-line">FLP 原理实际上说明对于允许节点失效情况下，纯粹异步系统无法确保共识在有限时间内完成。即便对于非拜占庭错误的前提下，包括 Paxos、Raft 等算法也都存在无法达成共识的极端情况，只是在工程实践中这种情况出现的概率很小。</p>
+<p data-line="82" class="code-line">这就是科学和工程不同的魅力。FLP 不可能原理告诉大家不必浪费时间去追求完美的共识方案，而要根据实际情况设计可行的工程方案。
 那么，退一步讲，在付出一些代价的情况下，共识能做到多好？</p>
-<p data-line="83" class="code-line">回答这一问题的是另一个很出名的原理：CAP 原理。</p>
-<h3 id="cap-yuan-li" id="cap-%E5%8E%9F%E7%90%86" data-line="85" class="code-line">CAP 原理</h3>
-<p data-line="87" class="code-line">CAP 原理：分布式系统无法同时确保一致性（Consistency）、可用性（Availability）和分区容忍性（Partition），设计中往往需要弱化对某个特性的需求。</p>
-<p data-line="89" class="code-line">一致性、可用性和分区容忍性的具体含义如下：</p>
+<p data-line="85" class="code-line">回答这一问题的是另一个很出名的原理：CAP 原理。</p>
+<h3 id="cap-yuan-li" id="cap-e58e9fe79086-2" data-line="87" class="code-line">CAP 原理</h3>
+<p data-line="89" class="code-line">CAP 原理：分布式系统无法同时确保一致性（Consistency）、可用性（Availability）和分区容忍性（Partition），设计中往往需要弱化对某个特性的需求。</p>
+<p data-line="91" class="code-line">一致性、可用性和分区容忍性的具体含义如下：</p>
 <ul>
-<li data-line="91" class="code-line">一致性（Consistency）：任何事务应该都是原子的，所有副本上的状态都是事务成功提交后的结果，并保持强一致；</li>
-<li data-line="92" class="code-line">可用性（Availability）：系统（非失败节点）能在有限时间内完成对操作请求的应答；</li>
-<li data-line="93" class="code-line">分区容忍性（Partition）：系统中的网络可能发生分区故障（成为多个子网，甚至出现节点上线和下线），即节点之间的通信无法保障。而网络故障不应该影响到系统正常服务。</li>
+<li data-line="93" class="code-line">一致性（Consistency）：任何事务应该都是原子的，所有副本上的状态都是事务成功提交后的结果，并保持强一致；</li>
+<li data-line="94" class="code-line">可用性（Availability）：系统（非失败节点）能在有限时间内完成对操作请求的应答；</li>
+<li data-line="95" class="code-line">分区容忍性（Partition）：系统中的网络可能发生分区故障（成为多个子网，甚至出现节点上线和下线），即节点之间的通信无法保障。而网络故障不应该影响到系统正常服务。</li>
 </ul>
-<p data-line="95" class="code-line">CAP 原理认为，分布式系统最多只能保证三项特性中的两项特性。</p>
-<p data-line="97" class="code-line">比较直观地理解，当网络可能出现分区时候，系统是无法同时保证一致性和可用性的。要么，节点收到请求后因为没有得到其它节点的确认而不应答（牺牲可用性），要么节点只能应答非一致的结果（牺牲一致性）。</p>
-<h3 id="paxos-suan-fa-yu-raft-suan-fa" id="paxos-%E7%AE%97%E6%B3%95%E4%B8%8E-raft-%E7%AE%97%E6%B3%95" data-line="99" class="code-line">Paxos 算法与 Raft 算法</h3>
-<p data-line="101" class="code-line">既然在理论上我们无法达到完美，那么在工程上，我们要尽可能地达到平衡。</p>
-<p data-line="103" class="code-line">Paxos 共识算法在工程角度实现了一种最大化保障分布式系统一致性（存在极小的概率无法实现一致）的机制, 其基本原理是两段提交(Two-phase Commit)算法，即将提交过程分为预提交和正式提交两步。</p>
+<p data-line="97" class="code-line">CAP 原理认为，分布式系统最多只能保证三项特性中的两项特性。</p>
+<p data-line="99" class="code-line">比较直观地理解，当网络可能出现分区时候，系统是无法同时保证一致性和可用性的。要么，节点收到请求后因为没有得到其它节点的确认而不应答（牺牲可用性），要么节点只能应答非一致的结果（牺牲一致性）。</p>
+<h3 id="paxos-suan-fa-yu-raft-suan-fa" id="paxos-e7ae97e6b395e4b88e-raft-e7ae97e6b395-2" data-line="101" class="code-line">Paxos 算法与 Raft 算法</h3>
+<p data-line="103" class="code-line">既然在理论上我们无法达到完美，那么在工程上，我们要尽可能地达到平衡。</p>
+<p data-line="105" class="code-line">Paxos 共识算法在工程角度实现了一种最大化保障分布式系统一致性（存在极小的概率无法实现一致）的机制, 其基本原理是两段提交(Two-phase Commit)算法，即将提交过程分为预提交和正式提交两步。</p>
 <ul>
-<li data-line="105" class="code-line">预提交：协调者（Coordinator）发起提交某个事务的申请，各参与执行者（Participant）需要尝试进行提交并反馈是否能完成；</li>
-<li data-line="106" class="code-line">正式提交：协调者如果得到所有执行者的成功答复，则发出正式提交请求。如果成功完成，则算法执行成功。</li>
+<li data-line="107" class="code-line">预提交：协调者（Coordinator）发起提交某个事务的申请，各参与执行者（Participant）需要尝试进行提交并反馈是否能完成；</li>
+<li data-line="108" class="code-line">正式提交：协调者如果得到所有执行者的成功答复，则发出正式提交请求。如果成功完成，则算法执行成功。</li>
 </ul>
-<p data-line="108" class="code-line">Paxos 里面对这两个阶段分别命名为准备（Prepare）和提交（Commit）。准备阶段通过锁来解决对哪个提案内容进行确认的问题，提交阶段解决大多数确认最终值的问题。</p>
-<p data-line="110" class="code-line">Paxos 算法中存在三种逻辑角色的节点，在实现中同一节点可以担任多个角色</p>
+<p data-line="110" class="code-line">Paxos 里面对这两个阶段分别命名为准备（Prepare）和提交（Commit）。准备阶段通过锁来解决对哪个提案内容进行确认的问题，提交阶段解决大多数确认最终值的问题。</p>
+<p data-line="112" class="code-line">Paxos 算法中存在三种逻辑角色的节点，在实现中同一节点可以担任多个角色</p>
 <ul>
-<li data-line="112" class="code-line">提案者（Proposer）：提出一个提案，等待大家批准（Chosen）为结案（Value）。系统中提案都拥有一个自增的唯一提案号。往往由客户端担任该角色。</li>
-<li data-line="113" class="code-line">接受者（Acceptor）：负责对提案进行投票，接受（Accept）提案。往往由服务端担任该角色。</li>
-<li data-line="114" class="code-line">学习者（Learner）：获取批准结果，并帮忙传播，不参与投票过程。可为客户端或服务端。</li>
+<li data-line="114" class="code-line">提案者（Proposer）：提出一个提案，等待大家批准（Chosen）为结案（Value）。系统中提案都拥有一个自增的唯一提案号。往往由客户端担任该角色。</li>
+<li data-line="115" class="code-line">接受者（Acceptor）：负责对提案进行投票，接受（Accept）提案。往往由服务端担任该角色。</li>
+<li data-line="116" class="code-line">学习者（Learner）：获取批准结果，并帮忙传播，不参与投票过程。可为客户端或服务端。</li>
 </ul>
-<p data-line="116" class="code-line">准备阶段：</p>
+<p data-line="118" class="code-line">准备阶段：</p>
 <ol>
-<li data-line="118" class="code-line">提案者发送自己计划提交的提案的编号到多个接受者，试探是否可以锁定多数接受者的支持。</li>
-<li data-line="119" class="code-line">接受者时刻保留收到过提案的最大编号和接受的最大提案。如果收到提案号比目前保留的最大提案号还大，则返回自己已接受的提案值（如果还未接受过任何提案，则为空）给提案者，更新当前最大提案号，并说明不再接受小于最大提案号的提案。</li>
+<li data-line="120" class="code-line">提案者发送自己计划提交的提案的编号到多个接受者，试探是否可以锁定多数接受者的支持。</li>
+<li data-line="121" class="code-line">接受者时刻保留收到过提案的最大编号和接受的最大提案。如果收到提案号比目前保留的最大提案号还大，则返回自己已接受的提案值（如果还未接受过任何提案，则为空）给提案者，更新当前最大提案号，并说明不再接受小于最大提案号的提案。</li>
 </ol>
-<p data-line="121" class="code-line">提交阶段：</p>
+<p data-line="123" class="code-line">提交阶段：</p>
 <ol>
-<li data-line="123" class="code-line">提案者如果收到大多数的回复（表示大部分人听到它的请求），则可准备发出带有刚才提案号的接受消息。如果收到的回复中不带有新的提案，说明锁定成功。则使用自己的提案内容；如果返回中有提案内容，则替换提案值为返回中编号最大的提案值。如果没收到足够多的回复，则需要再次发出请求。</li>
+<li data-line="125" class="code-line">提案者如果收到大多数的回复（表示大部分人听到它的请求），则可准备发出带有刚才提案号的接受消息。如果收到的回复中不带有新的提案，说明锁定成功。则使用自己的提案内容；如果返回中有提案内容，则替换提案值为返回中编号最大的提案值。如果没收到足够多的回复，则需要再次发出请求。</li>
 </ol>
-<p data-line="125" class="code-line">2 接受者收到接受消息后，如果发现提案号不小于已接受的最大提案号，则接受该提案，并更新接受的最大提案。
+<p data-line="127" class="code-line">2 接受者收到接受消息后，如果发现提案号不小于已接受的最大提案号，则接受该提案，并更新接受的最大提案。
 一旦多数接受者接受了共同的提案值，则形成决议，成为最终确认。</p>
-<p data-line="128" class="code-line">Paxos 并不保证系统总处在一致的状态。但由于每次达成共识至少有超过一半的节点参与，这样最终整个系统都会获知共识结果。一个潜在的问题是提案者在提案过程中出现故障，这可以通过超时机制来缓解。极为凑巧的情况下，每次新一轮提案的提案者都恰好故障，又或者两个提案者恰好依次提出更新的提案，则导致活锁，系统会永远无法达成共识（实际发生概率很小）。</p>
-<h3 id="bai-zhan-ting-wen-ti-yu-suan-fa" id="%E6%8B%9C%E5%8D%A0%E5%BA%AD%E9%97%AE%E9%A2%98%E4%B8%8E%E7%AE%97%E6%B3%95" data-line="130" class="code-line">拜占庭问题与算法</h3>
-<p data-line="132" class="code-line">拜占庭问题（Byzantine Problem）又叫拜占庭将军（Byzantine Generals Problem）问题，讨论的是允许存在少数节点作恶（消息可能被伪造）场景下的如何达成共识问题。拜占庭容错（Byzantine Fault Tolerant，BFT）讨论的是容忍拜占庭错误的共识算法。</p>
-<p data-line="134" class="code-line">在大多数的分布式系统中，拜占庭的场景并不多见。然而在特定场景下存在意义，例如允许匿名参与的系统（如比特币），或是出现欺诈可能造成巨大损失的情况。</p>
-<p data-line="136" class="code-line">对于拜占庭问题来说，假如节点总数为 N，故障节点数为 F，则当 N &gt;= 3F + 1 时，问题才能有解。</p>
-<p data-line="138" class="code-line">拜占庭容错算法（Byzantine Fault Tolerant）是面向拜占庭问题的容错算法，解决的是在网络通信可靠，但节点可能故障和作恶情况下如何达成共识。</p>
-<p data-line="140" class="code-line">拜占庭容错算法最早的讨论可以追溯到 Leslie Lamport 等人 1982 年 发表的论文《The Byzantine Generals Problem》，之后出现了大量的改进工作，代表性成果包括《Optimal Asynchronous Byzantine Agreement》（1992 年）、《Fully Polynomial Byzantine Agreement for n&gt;3t Processors in t+1 Rounds》（1998 年）等。长期以来，拜占庭问题的解决方案都存在运行过慢，或复杂度过高的问题，直到“实用拜占庭容错算法”（Practical Byzantine Fault Tolerance，PBFT） 算法的提出。
+<p data-line="130" class="code-line">Paxos 并不保证系统总处在一致的状态。但由于每次达成共识至少有超过一半的节点参与，这样最终整个系统都会获知共识结果。一个潜在的问题是提案者在提案过程中出现故障，这可以通过超时机制来缓解。极为凑巧的情况下，每次新一轮提案的提案者都恰好故障，又或者两个提案者恰好依次提出更新的提案，则导致活锁，系统会永远无法达成共识（实际发生概率很小）。</p>
+<h3 id="bai-zhan-ting-wen-ti-yu-suan-fa" id="e68b9ce58da0e5baade997aee9a298e4b88ee7ae97e6b395-2" data-line="132" class="code-line">拜占庭问题与算法</h3>
+<p data-line="134" class="code-line">拜占庭问题（Byzantine Problem）又叫拜占庭将军（Byzantine Generals Problem）问题，讨论的是允许存在少数节点作恶（消息可能被伪造）场景下的如何达成共识问题。拜占庭容错（Byzantine Fault Tolerant，BFT）讨论的是容忍拜占庭错误的共识算法。</p>
+<p data-line="136" class="code-line">在大多数的分布式系统中，拜占庭的场景并不多见。然而在特定场景下存在意义，例如允许匿名参与的系统（如比特币），或是出现欺诈可能造成巨大损失的情况。</p>
+<p data-line="138" class="code-line">对于拜占庭问题来说，假如节点总数为 N，故障节点数为 F，则当 N &gt;= 3F + 1 时，问题才能有解。</p>
+<p data-line="140" class="code-line">拜占庭容错算法（Byzantine Fault Tolerant）是面向拜占庭问题的容错算法，解决的是在网络通信可靠，但节点可能故障和作恶情况下如何达成共识。</p>
+<p data-line="142" class="code-line">拜占庭容错算法最早的讨论可以追溯到 Leslie Lamport 等人 1982 年 发表的论文《The Byzantine Generals Problem》，之后出现了大量的改进工作，代表性成果包括《Optimal Asynchronous Byzantine Agreement》（1992 年）、《Fully Polynomial Byzantine Agreement for n&gt;3t Processors in t+1 Rounds》（1998 年）等。长期以来，拜占庭问题的解决方案都存在运行过慢，或复杂度过高的问题，直到“实用拜占庭容错算法”（Practical Byzantine Fault Tolerance，PBFT） 算法的提出。
 1999 年，这一算法由 Castro 和 Liskov 于论文《Practical Byzantine Fault Tolerance and Proactive Recovery》中提出。该算法基于前人工作（特别是 Paxos 相关算法，因此也被称为 Byzantine Paxos）进行了优化，首次将拜占庭容错算法复杂度从指数级降低到了多项式级，目前已得到广泛应用。其可以在恶意节点不超过总数 1/3 的情况下同时保证 Safety 和 Liveness。
 PBFT 算法采用密码学相关技术（RSA 签名算法、消息验证编码和摘要）确保消息传递过程无法被篡改和破坏。</p>
-<p data-line="144" class="code-line">拜占庭问题之所以难解，在于任何时候系统中都可能存在多个提案（因为提案成本很低），并且在大规模场景下要完成最终确认的过程容易受干扰，难以达成共识。
+<p data-line="146" class="code-line">拜占庭问题之所以难解，在于任何时候系统中都可能存在多个提案（因为提案成本很低），并且在大规模场景下要完成最终确认的过程容易受干扰，难以达成共识。
 2014 年，斯坦福的 Christopher Copeland 和 Hongxia Zhong 在论文《Tangaroa: a byzantine fault tolerant raft》中提出在 Raft 算法基础上借鉴 PBFT 算法的一些特性（包括签名、恶意领导探测、选举校验等）来实现拜占庭容错性，兼顾可实现性和鲁棒性。该论文也启发了 Kadena 等项目的出现，实现更好性能的拜占庭算法。
 2017 年，MIT 计算机科学与人工智能实验室（CSAIL）的 Yossi Gilad 和 Silvio Micali 等人在论文《Algorand: Scaling Byzantine Agreements for Cryptocurrencies》中针对 PBFT 算法在很多节点情况下性能不佳的问题，提出先选出少量记账节点，然后再利用可验证随机函数（Verifiable Random Function，VRF）来随机选取领导节点，避免全网直接做共识，将拜占庭算法扩展到了支持较大规模的应用场景，同时保持较好的性能（1000+ tps）。
 此外，康奈尔大学的 Rafael Pass 和 Elaine Shi 在论文《The Sleepy Model of Consensus》中还探讨了在动态场景（大量节点离线情况）下如何保障共识的安全性，所提出的 Sleepy Consensus 算法可以在活跃诚实节点达到一半以上时确保完成拜占庭共识。
@@ -1055,13 +1056,17 @@ PBFT 算法采用密码学相关技术（RSA 签名算法、消息验证编码�
 比特币网络在设计时使用了 PoW（Proof of Work）的概率型算法思路，从如下两个角度解决大规模场景下的拜占庭容错问题。
 首先，限制一段时间内整个网络中出现提案的个数（通过工作量证明来增加提案成本）；其次是丢掉最终确认的约束，约定好始终沿着已知最长的链进行拓展。共识的最终确认是概率意义上的存在。这样，即便有人试图恶意破坏，也会付出相应的经济代价（超过整体系统一半的工作量）。
 后来的各种 PoX 系列算法，也都是沿着这个思路进行改进，采用经济博弈来制约攻击者。</p>
-<h2 id="an-quan-wen-ti" id="%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98" data-line="153" class="code-line">安全问题</h2>
-<p data-line="155" class="code-line">前面我们介绍和讨论了分布式环境下的一致性问题，对于区块链的应用场景来说，安全性也是一个十分大的挑战。</p>
-<p data-line="157" class="code-line">Hash, RSA, 证书 这些在我以前的文章里有详细的介绍，这里略过。这里重点介绍以前还未触及的内容。</p>
-<h3 id="merkle-tree" id="merkle-tree" data-line="159" class="code-line">Merkle tree</h3>
-<h2 id="can-kao-zi-liao" id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99" data-line="161" class="code-line">参考资料</h2>
+<h2 id="an-quan-wen-ti" id="e5ae89e585a8e997aee9a298-2" data-line="155" class="code-line">安全问题</h2>
+<p data-line="157" class="code-line">前面介绍和讨论了分布式环境下的一致性问题，对于区块链的应用场景来说，安全性也是一个十分大的挑战。</p>
+<p data-line="159" class="code-line">Hash, RSA, 证书这些概念在我以前的文章里有详细的介绍，可以略过。这里重点介绍以前还未触及的内容。</p>
+<h3 id="merkle-tree" id="merkle-tree-2" data-line="161" class="code-line">Merkle tree</h3>
+<p data-line="163" class="code-line">默克尔树(Merkle tree) 是一种典型的二叉树，看图就能明白, 如下:</p>
+<p data-line="165" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/blockchain-techniques-review-merkle-tree.png" alt="image" class="loading" id="image-hash-1737328989"></p>
+<p data-line="167" class="code-line">简单来说，我们可以将一个文件，拆分成 Data<sub>0</sub>... Data<sub>n-1</sub> 的 n 份小数据块，每一块分别做 hash, 计算其 hash 值, 然后相邻两块数据的 hash 值拼接（不一定是字符串拼接）在一起再做 hash 值，以此类推直到根节点，根节点被称为 Merkle root。</p>
+<p data-line="169" class="code-line">比较典型的应用是在 p2p 网络中，我们可以在可信源获得整个待下载文件的 Merkle root, 得到 root 的hash 只之后，我们就可以从多个不同的数据源（可能是不可信的源）去获取数据并验证，Merkel tree 可以让我们对任意大小的数据块(任意子树)做验证。</p>
+<h2 id="can-kao-zi-liao" id="e58f82e88083e8b584e69699-2" data-line="171" class="code-line">参考资料</h2>
 <ul>
-<li data-line="163" class="code-line"><a href="https://yeasy.gitbook.io/blockchain_guide/" data-href="https://yeasy.gitbook.io/blockchain_guide/">《区块链技术指南》</a></li>
+<li data-line="173" class="code-line"><a href="https://yeasy.gitbook.io/blockchain_guide/" data-href="https://yeasy.gitbook.io/blockchain_guide/">《区块链技术指南》</a></li>
 </ul>
 
         <script>!function(e){var t={};function n(o){if(t[o])return t[o].exports;var i=t[o]={i:o,l:!1,exports:{}};return e[o].call(i.exports,i,i.exports,n),i.l=!0,i.exports}n.m=e,n.c=t,n.d=function(e,t,o){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:o})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)n.d(o,i,function(t){return e[t]}.bind(null,i));return o},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=3)}([function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});let o=void 0;function i(e){const t=document.getElementById("vscode-markdown-preview-data");if(t){const n=t.getAttribute(e);if(n)return JSON.parse(n)}throw new Error(`Could not load data for ${e}`)}t.getData=i,t.getSettings=function(){if(o)return o;if(o=i("data-settings"))return o;throw new Error("Could not load settings")}},function(e,t){var n;n=function(){return this}();try{n=n||new Function("return this")()}catch(e){"object"==typeof window&&(n=window)}e.exports=n},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(0),i="code-line";function r(e){return t=0,n=o.getSettings().lineCount-1,i=e,Math.min(n,Math.max(t,i));var t,n,i}const c=(()=>{let e;return()=>{if(!e){e=[{element:document.body,line:0}];for(const t of document.getElementsByClassName(i)){const n=+t.getAttribute("data-line");isNaN(n)||("CODE"===t.tagName&&t.parentElement&&"PRE"===t.parentElement.tagName?e.push({element:t.parentElement,line:n}):e.push({element:t,line:n}))}}return e}})();function s(e){const t=Math.floor(e),n=c();let o=n[0]||null;for(const e of n){if(e.line===t)return{previous:e,next:void 0};if(e.line>t)return{previous:o,next:e};o=e}return{previous:o}}function a(e){const t=c(),n=e-window.scrollY;let o=-1,i=t.length-1;for(;o+1<i;){const e=Math.floor((o+i)/2),r=u(t[e]);r.top+r.height>=n?i=e:o=e}const r=t[i],s=u(r);if(i>=1&&s.top>n){return{previous:t[o],next:r}}return i>1&&i<t.length&&s.top+s.height>n?{previous:r,next:t[i+1]}:{previous:r}}function u({element:e}){const t=e.getBoundingClientRect(),n=e.querySelector(`.${i}`);if(n){const e=n.getBoundingClientRect(),o=Math.max(1,e.top-t.top);return{top:t.top,height:o}}return t}t.getElementsForSourceLine=s,t.getLineElementsAtPageOffset=a,t.scrollToRevealSourceLine=function(e){if(!o.getSettings().scrollPreviewWithEditor)return;if(e<=0)return void window.scroll(window.scrollX,0);const{previous:t,next:n}=s(e);if(!t)return;let i=0;const r=u(t),c=r.top;if(n&&n.line!==t.line){i=c+(e-t.line)/(n.line-t.line)*(n.element.getBoundingClientRect().top-c)}else{const t=e-Math.floor(e);i=c+r.height*t}window.scroll(window.scrollX,Math.max(1,window.scrollY+i))},t.getEditorLineNumberForPageOffset=function(e){const{previous:t,next:n}=a(e);if(t){const o=u(t),i=e-window.scrollY-o.top;if(n){const e=i/(u(n).top-o.top);return r(t.line+e*(n.line-t.line))}{const e=i/o.height;return r(t.line+e)}}return null},t.getLineElementForFragment=function(e){return c().find(t=>t.element.id===e)}},function(e,t,n){"use strict";(function(e){Object.defineProperty(t,"__esModule",{value:!0});const o=n(7),i=n(8),r=n(9),c=n(2),s=n(0),a=n(10);let u=!0;const l=new o.ActiveLineMarker,f=s.getSettings(),d=acquireVsCodeApi(),m=d.getState(),p={..."object"==typeof m?m:{},...s.getData("data-state")};d.setState(p);const g=r.createPosterForVsCode(d);window.cspAlerter.setPoster(g),window.styleLoadingMonitor.setPoster(g),window.onload=()=>{v()},i.onceDocumentLoaded(()=>{const t=p.scrollProgress;"number"!=typeof t||f.fragment?f.scrollPreviewWithEditor&&e(()=>{if(f.fragment){p.fragment=void 0,d.setState(p);const e=c.getLineElementForFragment(f.fragment);e&&(u=!0,c.scrollToRevealSourceLine(e.line))}else isNaN(f.line)||(u=!0,c.scrollToRevealSourceLine(f.line))}):e(()=>{u=!0,window.scrollTo(0,t*document.body.clientHeight)})});const h=(()=>{const e=a(e=>{u=!0,c.scrollToRevealSourceLine(e)},50);return t=>{isNaN(t)||(p.line=t,e(t))}})();let v=a(()=>{const e=[];let t=document.getElementsByTagName("img");if(t){let n;for(n=0;n<t.length;n++){const o=t[n];o.classList.contains("loading")&&o.classList.remove("loading"),e.push({id:o.id,height:o.height,width:o.width})}g.postMessage("cacheImageSizes",e)}},50);window.addEventListener("resize",()=>{u=!0,w(),v()},!0),window.addEventListener("message",e=>{if(e.data.source===f.source)switch(e.data.type){case"onDidChangeTextEditorSelection":l.onDidChangeTextEditorSelection(e.data.line);break;case"updateView":h(e.data.line)}},!1),document.addEventListener("dblclick",e=>{if(!f.doubleClickToSwitchToEditor)return;for(let t=e.target;t;t=t.parentNode)if("A"===t.tagName)return;const t=e.pageY,n=c.getEditorLineNumberForPageOffset(t);"number"!=typeof n||isNaN(n)||g.postMessage("didClick",{line:Math.floor(n)})});const y=["http:","https:","mailto:","vscode:","vscode-insiders:"];function w(){p.scrollProgress=window.scrollY/document.body.clientHeight,d.setState(p)}document.addEventListener("click",e=>{if(!e)return;let t=e.target;for(;t;){if(t.tagName&&"A"===t.tagName&&t.href){if(t.getAttribute("href").startsWith("#"))return;let n=t.getAttribute("data-href");if(!n){if(y.some(e=>t.href.startsWith(e)))return;n=t.getAttribute("href")}return/^[a-z\-]+:/i.test(n)?void 0:(g.postMessage("openLink",{href:n}),e.preventDefault(),void e.stopPropagation())}t=t.parentNode}},!0),window.addEventListener("scroll",a(()=>{if(w(),u)u=!1;else{const e=c.getEditorLineNumberForPageOffset(window.scrollY);"number"!=typeof e||isNaN(e)||g.postMessage("revealLine",{line:e})}},50))}).call(this,n(4).setImmediate)},function(e,t,n){(function(e){var o=Function.prototype.apply;function i(e,t){this._id=e,this._clearFn=t}t.setTimeout=function(){return new i(o.call(setTimeout,window,arguments),clearTimeout)},t.setInterval=function(){return new i(o.call(setInterval,window,arguments),clearInterval)},t.clearTimeout=t.clearInterval=function(e){e&&e.close()},i.prototype.unref=i.prototype.ref=function(){},i.prototype.close=function(){this._clearFn.call(window,this._id)},t.enroll=function(e,t){clearTimeout(e._idleTimeoutId),e._idleTimeout=t},t.unenroll=function(e){clearTimeout(e._idleTimeoutId),e._idleTimeout=-1},t._unrefActive=t.active=function(e){clearTimeout(e._idleTimeoutId);var t=e._idleTimeout;t>=0&&(e._idleTimeoutId=setTimeout((function(){e._onTimeout&&e._onTimeout()}),t))},n(5),t.setImmediate="undefined"!=typeof self&&self.setImmediate||void 0!==e&&e.setImmediate||this&&this.setImmediate,t.clearImmediate="undefined"!=typeof self&&self.clearImmediate||void 0!==e&&e.clearImmediate||this&&this.clearImmediate}).call(this,n(1))},function(e,t,n){(function(e,t){!function(e,n){"use strict";if(!e.setImmediate){var o,i,r,c,s,a=1,u={},l=!1,f=e.document,d=Object.getPrototypeOf&&Object.getPrototypeOf(e);d=d&&d.setTimeout?d:e,"[object process]"==={}.toString.call(e.process)?o=function(e){t.nextTick((function(){p(e)}))}:!function(){if(e.postMessage&&!e.importScripts){var t=!0,n=e.onmessage;return e.onmessage=function(){t=!1},e.postMessage("","*"),e.onmessage=n,t}}()?e.MessageChannel?((r=new MessageChannel).port1.onmessage=function(e){p(e.data)},o=function(e){r.port2.postMessage(e)}):f&&"onreadystatechange"in f.createElement("script")?(i=f.documentElement,o=function(e){var t=f.createElement("script");t.onreadystatechange=function(){p(e),t.onreadystatechange=null,i.removeChild(t),t=null},i.appendChild(t)}):o=function(e){setTimeout(p,0,e)}:(c="setImmediate$"+Math.random()+"$",s=function(t){t.source===e&&"string"==typeof t.data&&0===t.data.indexOf(c)&&p(+t.data.slice(c.length))},e.addEventListener?e.addEventListener("message",s,!1):e.attachEvent("onmessage",s),o=function(t){e.postMessage(c+t,"*")}),d.setImmediate=function(e){"function"!=typeof e&&(e=new Function(""+e));for(var t=new Array(arguments.length-1),n=0;n<t.length;n++)t[n]=arguments[n+1];var i={callback:e,args:t};return u[a]=i,o(a),a++},d.clearImmediate=m}function m(e){delete u[e]}function p(e){if(l)setTimeout(p,0,e);else{var t=u[e];if(t){l=!0;try{!function(e){var t=e.callback,o=e.args;switch(o.length){case 0:t();break;case 1:t(o[0]);break;case 2:t(o[0],o[1]);break;case 3:t(o[0],o[1],o[2]);break;default:t.apply(n,o)}}(t)}finally{m(e),l=!1}}}}}("undefined"==typeof self?void 0===e?this:e:self)}).call(this,n(1),n(6))},function(e,t){var n,o,i=e.exports={};function r(){throw new Error("setTimeout has not been defined")}function c(){throw new Error("clearTimeout has not been defined")}function s(e){if(n===setTimeout)return setTimeout(e,0);if((n===r||!n)&&setTimeout)return n=setTimeout,setTimeout(e,0);try{return n(e,0)}catch(t){try{return n.call(null,e,0)}catch(t){return n.call(this,e,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:r}catch(e){n=r}try{o="function"==typeof clearTimeout?clearTimeout:c}catch(e){o=c}}();var a,u=[],l=!1,f=-1;function d(){l&&a&&(l=!1,a.length?u=a.concat(u):f=-1,u.length&&m())}function m(){if(!l){var e=s(d);l=!0;for(var t=u.length;t;){for(a=u,u=[];++f<t;)a&&a[f].run();f=-1,t=u.length}a=null,l=!1,function(e){if(o===clearTimeout)return clearTimeout(e);if((o===c||!o)&&clearTimeout)return o=clearTimeout,clearTimeout(e);try{o(e)}catch(t){try{return o.call(null,e)}catch(t){return o.call(this,e)}}}(e)}}function p(e,t){this.fun=e,this.array=t}function g(){}i.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];u.push(new p(e,t)),1!==u.length||l||s(m)},p.prototype.run=function(){this.fun.apply(null,this.array)},i.title="browser",i.browser=!0,i.env={},i.argv=[],i.version="",i.versions={},i.on=g,i.addListener=g,i.once=g,i.off=g,i.removeListener=g,i.removeAllListeners=g,i.emit=g,i.prependListener=g,i.prependOnceListener=g,i.listeners=function(e){return[]},i.binding=function(e){throw new Error("process.binding is not supported")},i.cwd=function(){return"/"},i.chdir=function(e){throw new Error("process.chdir is not supported")},i.umask=function(){return 0}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(2);t.ActiveLineMarker=class{onDidChangeTextEditorSelection(e){const{previous:t}=o.getElementsForSourceLine(e);this._update(t&&t.element)}_update(e){this._unmarkActiveElement(this._current),this._markActiveElement(e),this._current=e}_unmarkActiveElement(e){e&&(e.className=e.className.replace(/\bcode-active-line\b/g,""))}_markActiveElement(e){e&&(e.className+=" code-active-line")}}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.onceDocumentLoaded=function(e){"loading"===document.readyState||"uninitialized"===document.readyState?document.addEventListener("DOMContentLoaded",e):e()}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(0);t.createPosterForVsCode=e=>new class{postMessage(t,n){e.postMessage({type:t,source:o.getSettings().source,body:n})}}},function(e,t,n){(function(t){var n="Expected a function",o=NaN,i="[object Symbol]",r=/^\s+|\s+$/g,c=/^[-+]0x[0-9a-f]+$/i,s=/^0b[01]+$/i,a=/^0o[0-7]+$/i,u=parseInt,l="object"==typeof t&&t&&t.Object===Object&&t,f="object"==typeof self&&self&&self.Object===Object&&self,d=l||f||Function("return this")(),m=Object.prototype.toString,p=Math.max,g=Math.min,h=function(){return d.Date.now()};function v(e,t,o){var i,r,c,s,a,u,l=0,f=!1,d=!1,m=!0;if("function"!=typeof e)throw new TypeError(n);function v(t){var n=i,o=r;return i=r=void 0,l=t,s=e.apply(o,n)}function b(e){var n=e-u;return void 0===u||n>=t||n<0||d&&e-l>=c}function T(){var e=h();if(b(e))return E(e);a=setTimeout(T,function(e){var n=t-(e-u);return d?g(n,c-(e-l)):n}(e))}function E(e){return a=void 0,m&&i?v(e):(i=r=void 0,s)}function _(){var e=h(),n=b(e);if(i=arguments,r=this,u=e,n){if(void 0===a)return function(e){return l=e,a=setTimeout(T,t),f?v(e):s}(u);if(d)return a=setTimeout(T,t),v(u)}return void 0===a&&(a=setTimeout(T,t)),s}return t=w(t)||0,y(o)&&(f=!!o.leading,c=(d="maxWait"in o)?p(w(o.maxWait)||0,t):c,m="trailing"in o?!!o.trailing:m),_.cancel=function(){void 0!==a&&clearTimeout(a),l=0,i=u=r=a=void 0},_.flush=function(){return void 0===a?s:E(h())},_}function y(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function w(e){if("number"==typeof e)return e;if(function(e){return"symbol"==typeof e||function(e){return!!e&&"object"==typeof e}(e)&&m.call(e)==i}(e))return o;if(y(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=y(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(r,"");var n=s.test(e);return n||a.test(e)?u(e.slice(2),n?2:8):c.test(e)?o:+e}e.exports=function(e,t,o){var i=!0,r=!0;if("function"!=typeof e)throw new TypeError(n);return y(o)&&(i="leading"in o?!!o.leading:i,r="trailing"in o?!!o.trailing:r),v(e,t,{leading:i,maxWait:t,trailing:r})}}).call(this,n(1))}]);</script>

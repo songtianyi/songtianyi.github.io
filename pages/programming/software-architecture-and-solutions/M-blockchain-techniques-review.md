@@ -1,6 +1,6 @@
 # 区块链技术概览
 
-作者: [songtianyi](http://songtianyi.info) create@2020-01-31 
+作者: [songtianyi](http://songtianyi.info) create@2020-01-31
 
 > 版权声明: 部分内容复制自网络，如有侵权，请联系本人删除
 
@@ -36,6 +36,8 @@
 我们知道，区块链是比特币的技术实现的基础，那么一个交易过程是如何运用到区块链的呢？
 
 在上图的基础上，我们发起一笔交易，这笔交易将账户 A 的余额减少 3, 账户 B 的余额增加 3, 将交易信息放进 block 的 transaction 结构里，并添加上一个 block 的 hash 值到当前的 block 里，构造好这个 block 结构之后，广播出去，这样整个网络中的节点都会收到该交易请求，然后将这个记录添加到这个链式结构里。
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/blockchain-techniques-review-new-block.png)
 
 问题是，如何判断这个交易是否合法？
 
@@ -153,11 +155,19 @@ PBFT 算法采用密码学相关技术（RSA 签名算法、消息验证编码�
 
 ## 安全问题
 
-前面我们介绍和讨论了分布式环境下的一致性问题，对于区块链的应用场景来说，安全性也是一个十分大的挑战。
+前面介绍和讨论了分布式环境下的一致性问题，对于区块链的应用场景来说，安全性也是一个十分大的挑战。
 
-Hash, RSA, 证书 这些在我以前的文章里有详细的介绍，这里略过。这里重点介绍以前还未触及的内容。
+Hash, RSA, 证书这些概念在我以前的文章里有详细的介绍，可以略过。这里重点介绍以前还未触及的内容。
 
 ### Merkle tree
+
+默克尔树(Merkle tree) 是一种典型的二叉树，看图就能明白, 如下:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/blockchain-techniques-review-merkle-tree.png)
+
+简单来说，我们可以将一个文件，拆分成 Data<sub>0</sub>... Data<sub>n-1</sub> 的 n 份小数据块，每一块分别做 hash, 计算其 hash 值, 然后相邻两块数据的 hash 值拼接（不一定是字符串拼接）在一起再做 hash 值，以此类推直到根节点，根节点被称为 Merkle root。
+
+比较典型的应用是在 p2p 网络中，我们可以在可信源获得整个待下载文件的 Merkle root, 得到 root 的hash 只之后，我们就可以从多个不同的数据源（可能是不可信的源）去获取数据并验证，Merkel tree 可以让我们对任意大小的数据块(任意子树)做验证。
 
 ## 参考资料
 
