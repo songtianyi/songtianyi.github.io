@@ -49,5 +49,9 @@ mdk=$(wc_files 'mdks/*.mdk')
 # index
 index=$(wc_files 'index.html')
 
-echo "Total: " `expr $acm + $career + $life + $pieces + $programming + $secure + $vdi + $mdk + $index`
+# drawio
+drawio=$(wc_files 'pages/*/*/*.drawio')
+echo "Drawio: $drawio"
+
+echo "Total: " `expr $acm + $career + $life + $pieces + $programming + $secure + $vdi + $mdk + $index + $drawio`
 
