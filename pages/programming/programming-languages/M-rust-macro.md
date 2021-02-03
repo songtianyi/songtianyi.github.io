@@ -80,14 +80,20 @@ macro_rules! println {
 ```
 
 我们可以把它简单看做是 empty。
-那么这段代码就比较容易理解了
+那么下面这段代码就比较容易理解了
 
 ``` rust
 () => ($crate::print!("\n"))
 ```
 
-，我们使用 `println` 宏的时候不写参数，就会匹配到这条语句，这条语句只会打印换行。
-所以 `=>` 之前 `()` 内的内容就是匹配模式，称为 `Matcher` , 之后的内容就是匹配到入参之后，待展开的逻辑，称为 `Transcriber` , 编译器利用入参和 `Transcriber` 来生成展开后的 Rust 代码。
+我们使用 `println` 宏的时候不写参数，就会匹配到这条语句，这条语句只会打印换行。
+所以 `=>` 之前的 `()` 内的内容就是匹配模式，称为 `Matcher` , `=>` 之后的内容就是匹配到入参之后，待展开的逻辑，称为 `Transcriber` , 编译器利用入参和 `Transcriber` 来生成展开后的 Rust 代码。
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/matcher-transcriber.png)
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/matcher.png)
+
+`Matcher` 的类型分为以下几种:
 
 * item: an item, such as a function, a struct, a module, etc.
 * block: a block (i.e. a block of statements and/or an expression, surrounded by braces)
@@ -99,6 +105,8 @@ macro_rules! println {
 * path: a path (e.g. foo, ::std::mem::replace, transmute::<_, int>, ...)
 * meta: a meta item; the things that go inside #[...] and #![...] attributes
 * tt: a single token tree
+
+以 `map!` 宏为例来看下 HashMap 的初始化方式， 如下:
 
 ``` rust
 use std::collections::HashMap;
@@ -120,7 +128,11 @@ fn main() {
 }
 ```
 
+它所使用的 `Matcher` 是 `$($key:expr => $value:expr), *)` , 看起来有些复杂
+
 `=>` 不能被替换成其他符号，如 `:` , `->` 等
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/repeat.png)
 
 ``` rust
 pub enum Field {

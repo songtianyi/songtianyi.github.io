@@ -19,5 +19,13 @@
   },
   "markdownConverter.ConversionType": [
     "HTML"
-  ]
+  ],
+  "diffEditor.ignoreTrimWhitespace": false,
+  "workbench.editor.limit.enabled": true,
+  "files.trimTrailingWhitespace": true,
+  "go.buildOnSave": "off",
+  "go.lintOnSave": "file",
+  "rust-client.autoStartRls": false,
+  "rust.rustfmt_path": "",
+  "rust.build_bin": ""
 }
