@@ -404,7 +404,7 @@ code {
 <pre class="hljs"><code><div>
 INPUT: A, X_array, X
 BEGIN:
-    
+
     for(i = 0; i &lt; X;i++) {
         if(A include X_array[i]) {
             return true
@@ -446,7 +446,7 @@ Compress(A.src_addr) == Compress(B.dst_addr)
 <p>如此以来，我们可以先用压缩后的策略来进行比对筛选，对筛选之后的策略再进行更精确的比较。</p>
 <p>进行向量压缩后就可以顺利降维了，因为如果策略 A 包含策略 B, 那么必然有:</p>
 <pre class="hljs"><code><div>
-Compress(A.src_addr) + Compress(A.dst_addr) + Compress(Asrc_port) + Compress(A.dst_port) &gt; Compress(B.src_addr)+ Compress(B.dst_addr) + Compress(B.src_port) + Compress(B.dst_port)  
+Compress(A.src_addr) + Compress(A.dst_addr) + Compress(Asrc_port) + Compress(A.dst_port) &gt; Compress(B.src_addr)+ Compress(B.dst_addr) + Compress(B.src_port) + Compress(B.dst_port)
 </div></code></pre>
 <p>简写为:</p>
 <pre class="hljs"><code><div>
@@ -468,6 +468,8 @@ BEGIN:
     }
     return false
 </div></code></pre>
+<p>流程图如下:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/A-method-for-firewall-policy-filtering-which-based-on-vector-compression-process.png" alt="image"></p>
 <p>当筛选后的策略数, 即 <code>available.size()</code> 远比 X 小的时候，这个方法会比较有效. 所以关键要看压缩后的策略的每个维度的数字的分布情况。压缩后的数字非重复值越多，说明越平均，效果越好。</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/A-method-for-firewall-policy-filtering-which-based-on-vector-compression-compressed-distribution.png" alt="image"></p>
 <p>如上图，第一种情况的效果会变差，因为压缩后的数值集中在一个区域，无法起到较强的过滤效果，第二种情况的效果最好，压缩后的数值均匀分布，每个值对应的压缩前的策略数较少，过滤效果强。</p>

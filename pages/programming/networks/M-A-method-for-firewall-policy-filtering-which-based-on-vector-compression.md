@@ -15,7 +15,7 @@
 
 INPUT: A, X_array, X
 BEGIN:
-    
+
     for(i = 0; i < X;i++) {
         if(A include X_array[i]) {
             return true
@@ -51,7 +51,7 @@ END
 
 > 需要注意的是，实际情况，我们可能在定义规则的时候指定计算关系，并不一定是 A 包含 X<sub>i</sub>, 而是 A.src_addr 包含 X<sub>i</sub>.src_addr 且 A.dst_addr 被 X<sub>i</sub>.src_addr 包含，等等。
 
-五元组中的 ip 和端口都属于范围类型，(192.168.1.1~192.168.1.20, 192.168.34.0/24, null, 80-90, tcp), 不能直接套用常规的索引数据结构, 而且存在多个地址的情况，会更复杂，([192.168.1.1~192.168.1.20, 192.168.2.0/24], [192.168.34.0/24, 192.122.1.1], null, [80-90, 1000], tcp). 
+五元组中的 ip 和端口都属于范围类型，(192.168.1.1~192.168.1.20, 192.168.34.0/24, null, 80-90, tcp), 不能直接套用常规的索引数据结构, 而且存在多个地址的情况，会更复杂，([192.168.1.1~192.168.1.20, 192.168.2.0/24], [192.168.34.0/24, 192.122.1.1], null, [80-90, 1000], tcp).
 
 向量压缩指的是将范围，比如 [80, 90] 这个向量，看作是一个点 即, 90-80+1, 向量的长度。进行这样的压缩后，可以用**向量的大小关系代替向量的包含关系**，因为如果策略 A 包含策略 B, 那么必然有:
 
@@ -73,7 +73,7 @@ Compress(A.src_addr) == Compress(B.dst_addr)
 
 ``` 
 
-Compress(A.src_addr) + Compress(A.dst_addr) + Compress(Asrc_port) + Compress(A.dst_port) > Compress(B.src_addr)+ Compress(B.dst_addr) + Compress(B.src_port) + Compress(B.dst_port)  
+Compress(A.src_addr) + Compress(A.dst_addr) + Compress(Asrc_port) + Compress(A.dst_port) > Compress(B.src_addr)+ Compress(B.dst_addr) + Compress(B.src_port) + Compress(B.dst_port)
 ```
 
 简写为:
@@ -101,6 +101,10 @@ BEGIN:
     }
     return false
 ```
+
+流程图如下:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/A-method-for-firewall-policy-filtering-which-based-on-vector-compression-process.png)
 
 当筛选后的策略数, 即 `available.size()` 远比 X 小的时候，这个方法会比较有效. 所以关键要看压缩后的策略的每个维度的数字的分布情况。压缩后的数字非重复值越多，说明越平均，效果越好。
 
