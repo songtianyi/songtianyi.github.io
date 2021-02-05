@@ -102,10 +102,6 @@ BEGIN:
     return false
 ```
 
-流程图如下:
-
-![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/A-method-for-firewall-policy-filtering-which-based-on-vector-compression-process.png)
-
 当筛选后的策略数, 即 `available.size()` 远比 X 小的时候，这个方法会比较有效. 所以关键要看压缩后的策略的每个维度的数字的分布情况。压缩后的数字非重复值越多，说明越平均，效果越好。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/A-method-for-firewall-policy-filtering-which-based-on-vector-compression-compressed-distribution.png)
@@ -157,3 +153,9 @@ access-list trust line 2 extended permit object TCP-2345 object Net-192.168.243.
 前面两张图的数据稍微有些问题，做了修正并归类后，得到上图。同时也能说明前面讲述的内容，用户某次搜索，可能很快，也可能不快，这种感受应该挺明显的，毕竟一种是只需要遍历 1000 条以内的策略，另一种是遍历超过 5w 条策略。
 
 另外，压缩后的分布情况因客户的策略使用习惯而异，使用习惯导致压缩后的数据分布不同，那自然过滤效果会不同。
+
+## 附录
+
+流程图如下:
+
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/A-method-for-firewall-policy-filtering-which-based-on-vector-compression-process.png)
