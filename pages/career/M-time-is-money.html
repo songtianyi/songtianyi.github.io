@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-time-is-money.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E6%AF%95%E4%B8%9A%E7%94%9F%E7%9A%84%E7%A7%9F%E6%88%BF%E9%97%AE%E9%A2%98">毕业生的租房问题</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a> create@2021/02/13</p>
+<p>这个事情因人而异，所以这篇文章主要是分享一下自己的经历。</p>
+<h2 id="%E7%A7%9F%E6%88%BF%E7%BB%8F%E5%8E%86">租房经历</h2>
+<ul>
+<li>青旅</li>
+</ul>
+<p>刚毕业那会儿，找了个类似青旅的地方落脚，住了一两周。这个青旅在在复旦大学老宿舍附近，周边环境还不错，平时下了班，以及周末可以去复旦著名的 3109 去听听讲座，离公司所在的创新工场步行距离 1.8 公里。</p>
+<ul>
+<li>合租-10m<sup>2</sup></li>
+</ul>
+<p>青旅基本没法儿住，所以找了个小单间，距离公司步行 5 分钟。</p>
+<ul>
+<li>合租-主卧</li>
+</ul>
+<p>后来公司从创新工场搬到一个新开的创业园的独立办公楼了，我也重新找了房子，这次离公司远一点，在上财附近的政立路上。并不是租金更便宜，而是喜欢那边周围的环境，而且房东人还可以，相对来说性价比不错。那里离地铁远，要走 8 分钟才有公交，所以大部分时候我是骑车上下班的，花几百块买了辆二手的山地车，也是从那时候起喜欢上骑车的。距离公司 6 公里左右，一般骑车的均速在 20 km/h 左右， 加上红绿灯，大概半小时能到公司，有时候骑嗨了只要 15 分钟。后来合租的室友搬走了，我就整租了下来和一个学弟合租。</p>
+<ul>
+<li>合租-次卧</li>
+</ul>
+<p>17 年来了深圳，和一个前同事合租, 在腾讯大厦背后，当时着急找房子，所以也没考虑太多。地铁通勤的话在 40 分钟左右，如果骑车去地铁口，要快一点。</p>
+<ul>
+<li>整租</li>
+</ul>
+<p>前同事又换了工作，所以就没继续合租，我也就退了重新找，这次换了一个整租的公寓，在西丽地铁站，地铁通勤的话 40 分钟左右，时间没什么变化，但租金成本和居住条件都有上升。</p>
+<ul>
+<li>合租-主卧</li>
+</ul>
+<p>公司弄的公租房，居住环境不错，说是合租，但就我一个人住，主卧空间也很大，但我知道自己住不长，所以就没置办什么东西，拿之前整租时自己买的床，桌椅就凑合住了。通勤时间在 1 个小时左右，附近没地铁，直达的只有公交，开车会堵车，所以通勤条件一般。</p>
+<ul>
+<li>整租</li>
+</ul>
+<p>10分钟步行 + 地铁, 共计 30分钟，开车不堵的话只要 10 分钟，租金自然相对高很多。</p>
+<p>以上就是我的租房经历。</p>
+<p>租金和居住面积成正比，但和舒适度并不一定成正比，舒适度是和自身的心态和你自己的经营能力挂钩的，小空间也能打造一个舒适的居家环境。我就是一个反面教材，整租对我来说空间是足够的，但是客厅还是堆满了东西，以前我周末一般都是不居家的，平时回来就是睡个觉，所以家里的舒适度并没有本质上的提升。</p>
+<p>如果单纯地对比时间和租金，肯定选时间，哪怕居住面积小一点，舒适度是需要你自己去经营提升的，但具体到个人还要考虑到男女朋友的工作地点和其它因素，好在深圳并不大。</p>
+<p>对于毕业生来讲，在深圳不要指望着一毕业就能存到钱，用钱来换时间是划算的，你要考虑的是两三年后你能成长成什么样子，达到什么样的薪资水平。不要想着在地铁上学习什么的，工作就是你的学习和成长的最佳平台，如果不是，就换工作，三心二意，只会捡了芝麻，丢了西瓜。在 UCloud 的时候，有一次跟朋友约了吃饭，所以就按正常时间下班了，吃饭的时候客户遇到了问题，我就马上走路回去处理了，进去一年就拿到了期权，薪资也调整的很快，这里并不一定存在因果关系，但假如存在呢？</p>
+<p>看完这些，你可能觉得，说了这么多，不就是想让你住近一点给公司加班？是也不是，省下来的时间你可以贡献给公司，你的贡献也会换来公司给你的奖励，也可以只贡献给你自己，去探索工作以外的其它可能性，都可以的。但如果你并不是一个想法和行动力都超强的人，我的建议还是跟着公司一起成长会更有效。</p>
+<p>在写这篇文章之前我也查了下知乎，上面的回答也基本是选择住近一些，如果你觉得现在的公司靠谱，就果断选择住近一点，反之，就早点换工作，不要把时间浪费在通勤上。</p>
+
+</body>
+</html>
