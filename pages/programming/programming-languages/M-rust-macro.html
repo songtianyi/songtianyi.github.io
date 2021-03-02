@@ -227,17 +227,17 @@ pre code {
 </style>
 
 <style>
-/* a11y-light theme */
-/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
-/* @author: ericwbailey */
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
 
-/* Comment */
+/* Tomorrow Comment */
 .hljs-comment,
 .hljs-quote {
-  color: #696969;
+	color: #8e908c;
 }
 
-/* Red */
+/* Tomorrow Red */
 .hljs-variable,
 .hljs-template-variable,
 .hljs-tag,
@@ -246,10 +246,10 @@ pre code {
 .hljs-selector-class,
 .hljs-regexp,
 .hljs-deletion {
-  color: #d91e18;
+	color: #c82829;
 }
 
-/* Orange */
+/* Tomorrow Orange */
 .hljs-number,
 .hljs-built_in,
 .hljs-builtin-name,
@@ -258,75 +258,48 @@ pre code {
 .hljs-params,
 .hljs-meta,
 .hljs-link {
-  color: #aa5d00;
+	color: #f5871f;
 }
 
-/* Yellow */
+/* Tomorrow Yellow */
 .hljs-attribute {
-  color: #aa5d00;
+	color: #eab700;
 }
 
-/* Green */
+/* Tomorrow Green */
 .hljs-string,
 .hljs-symbol,
 .hljs-bullet,
 .hljs-addition {
-  color: #008000;
+	color: #718c00;
 }
 
-/* Blue */
+/* Tomorrow Blue */
 .hljs-title,
 .hljs-section {
-  color: #007faa;
+	color: #4271ae;
 }
 
-/* Purple */
+/* Tomorrow Purple */
 .hljs-keyword,
 .hljs-selector-tag {
-  color: #7928a1;
+	color: #8959a8;
 }
 
 .hljs {
-  display: block;
-  overflow-x: auto;
-  background: #fefefe;
-  color: #545454;
-  padding: 0.5em;
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
 }
 
 .hljs-emphasis {
-  font-style: italic;
+	font-style: italic;
 }
 
 .hljs-strong {
-  font-weight: bold;
+	font-weight: bold;
 }
-
-@media screen and (-ms-high-contrast: active) {
-  .hljs-addition,
-  .hljs-attribute,
-  .hljs-built_in,
-  .hljs-builtin-name,
-  .hljs-bullet,
-  .hljs-comment,
-  .hljs-link,
-  .hljs-literal,
-  .hljs-meta,
-  .hljs-number,
-  .hljs-params,
-  .hljs-string,
-  .hljs-symbol,
-  .hljs-type,
-  .hljs-quote {
-        color: highlight;
-    }
-
-    .hljs-keyword,
-    .hljs-selector-tag {
-        font-weight: bold;
-    }
-}
-
 </style>
 
 <style>
@@ -394,7 +367,7 @@ code {
   </script>
 <h1 id="rust-%E5%AE%8F">Rust 宏</h1>
 <h2 id="%E5%89%8D%E8%A8%80">前言</h2>
-<p>18年系统学习编程语言理论的时候，快速学过 Rust，两年过去了还没实际使用过它做开发，最近在使用 TDengine 的时候，发现 TDengine 的 Go binding 没有实现订阅的接口，C++ 又没多大兴趣，于是在前人的基础上把 TDengine 的 Rust binding 写了一遍，然后使用 Rust 写了 业务逻辑的 API 接口。在做错误处理的时候，认识到了 Rust 宏的强大，所以想着重新学下 Rust 宏，做个笔记。</p>
+<p>18年系统学习编程语言理论的时候快速学过 Rust，两年过去了还没实际使用过它做开发，最近在使用 TDengine 的时候，发现 TDengine 的 Go binding 没有实现订阅的接口，C++ 又没多大兴趣，于是在前人的基础上把 TDengine 的 Rust binding 写了一遍，然后使用 Rust 写了 业务逻辑的 API 接口。在做错误处理的时候，认识到了 Rust 宏的强大，所以想着重新学下 Rust 宏，做个笔记。</p>
 <h2 id="c-macro">C Macro</h2>
 <p>宏的概念我们在刚学计算的时候就接触过，C 语言里的 <code>#define xxx</code> 就是宏。</p>
 <pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> LENGTH_OF_ARRAY 5 <span class="hljs-comment">// this is a define macro</span></span>
@@ -419,7 +392,7 @@ code {
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </div></code></pre>
-<p>只有能驾驭好它的程序员才能随心使用它。<br>
+<p>只有能驾驭好它的程序员才能随心使用它。
 C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
 <pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ADD(X, Y) (X + Y)</span>
 
@@ -431,7 +404,7 @@ C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
     <span class="hljs-keyword">return</span> (a + b);
 }
 </div></code></pre>
-<h2 id="rust-macro">Rust macro</h2>
+<h2 id="rust-declarative-macros">Rust declarative macros</h2>
 <p>Rust 宏相对 C 来说要复杂很多，自然也强大很多。我们最先接触到的宏应该是 <code>println!</code> . 它的定义是这样的:</p>
 <pre class="hljs"><code><div><span class="hljs-built_in">macro_rules!</span> println {
     () =&gt; ($crate::<span class="hljs-built_in">print!</span>(<span class="hljs-string">"\n"</span>));
@@ -440,7 +413,7 @@ C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
     })
 }
 </div></code></pre>
-<p>很难看懂对不对？<br>
+<p>很难看懂对不对？
 <code>macro_rules!</code> 相当于 <code>#define</code> , 用来标记这是一段宏定义， <code>println</code> 是宏的名称，括号里的内容是 <code>println</code> 这个宏具体的定义。</p>
 <p><code>()</code> 在我们忘记写函数的返回语句的时候会看到的提示:</p>
 <pre class="hljs"><code><div>
@@ -452,11 +425,11 @@ C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
   |     ^^ expected `i32`, found `()`
 
 </div></code></pre>
-<p>我们可以把 <code>()</code> 简单看做是 empty。<br>
+<p>我们可以把 <code>()</code> 简单看做是 empty。
 那么下面这段代码就比较容易理解了</p>
 <pre class="hljs"><code><div>() =&gt; ($crate::<span class="hljs-built_in">print!</span>(<span class="hljs-string">"\n"</span>))
 </div></code></pre>
-<p>我们使用 <code>println!</code> 宏的时候不写参数，就会匹配到这条语句，这条语句只会打印换行。<br>
+<p>我们使用 <code>println!</code> 宏的时候不写参数，就会匹配到这条语句，这条语句只会打印换行。
 所以 <code>=&gt;</code> 之前的 <code>()</code> 内的内容就是匹配模式，称为 <code>Matcher</code> , <code>=&gt;</code> 之后的内容就是匹配到入参之后，待展开的逻辑，称为 <code>Transcriber</code> , 编译器利用入参和 <code>Transcriber</code> 来生成展开后的 Rust 代码。</p>
 <img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/matcher-transcriber.png" alt="matcher-transcriber" style="width:800px; height:500px"/>
 <p><code>Matcher</code> 里的内容又可以分为两部分，name 和 designator:</p>
@@ -543,7 +516,170 @@ C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
 }
 </div></code></pre>
 <p>上述的宏 <code>impl_as_fields</code> 会根据入参数展开成返回不同类型的函数定义(类似 as_string), 用到了多个 designator.</p>
+<h2 id="rust-procedural-macros">Rust procedural macros</h2>
+<p>上一节所讲的 rust macro 属于 <code>declarative macro</code>, rust 还有一类宏, 叫 <code>procedural macro</code>.</p>
+<h4 id="derive">#[derive]</h4>
+<p>一种是我们经常见到的 <code>derive</code> 属性, 需要打印一个结构体而又不想自己实现的时候，可以在结构体上运用 <code>#[derive(Debug)]</code> 来帮我们实现 <code>Debug</code> Trait.</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Student</span></span> {
+    name: <span class="hljs-built_in">String</span>,
+    age: <span class="hljs-built_in">i32</span>,
+}
+
+<span class="hljs-keyword">impl</span> Student {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">new</span></span>() -&gt; <span class="hljs-keyword">Self</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">Self</span> {
+            name: <span class="hljs-string">""</span>.to_string(),
+            age: -<span class="hljs-number">1</span>,
+        };
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{:?}"</span>, Student::new());
+}
+</div></code></pre>
+<p>如果去除 <code>derive(Debug)</code> 则会遇到以下常见编译错误:</p>
+<blockquote>
+<p>--&gt; derive.rs:17:22</p>
+<p>|</p>
+<p>17 |     println!(&quot;{:?}&quot;, Student::new());</p>
+<p>|                      ^^^^^^^^^^^^^^ <code>Student</code> cannot be formatted using <code>{:?}</code></p>
+<p>|</p>
+<p>= help: the trait <code>Debug</code> is not implemented for <code>Student</code></p>
+<p>= note: add <code>#[derive(Debug)]</code> or manually implement <code>Debug</code></p>
+<p>= note: required by <code>std::fmt::Debug::fmt</code></p>
+</blockquote>
+<p><code>derive(Debug)</code> '神奇地'帮我们实现了一个自定义结构体的 <code>Debug</code> trait. 这实际上是编译器在编译的时候帮我们生成了实现代码，而不是在运行时，rust 是不支持反射的。</p>
+<p>我们可以自己实现一个 <code>derive</code> 宏.</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#</span><span class="bash"> 创建一个 status crate</span>
+cargo new status  --lib
+</div></code></pre>
+<p>在 <code>status/src/lib.rs</code> 里定义 <code>Status</code> trait, 其功能为打印结构体的状态。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Status</span></span> {
+    <span class="hljs-comment">/// Return the status of `self`</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">status</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">String</span>;
+}
+</div></code></pre>
+<p>接着实现 <code>Status</code> macro.</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#</span><span class="bash"> 创建一个 status_derive crate</span>
+cargo new status_derive  --lib
+</div></code></pre>
+<blockquote>
+<p><code>declarative macro</code> 类似于字符串替换，只不过加了匹配规则和变量，让我们可以写更复杂的逻辑，而 <code>procedural macro</code> 提供了源码的 token 输入，即 <code>TokenStream</code>, 并提供了语法树工具，让我们有能力直接处理源码。</p>
+</blockquote>
+<pre class="hljs"><code><div><span class="hljs-comment">// status_derive/src/lib.rs</span>
+<span class="hljs-keyword">use</span> proc_macro2::TokenStream;
+<span class="hljs-keyword">use</span> quote::{quote, quote_spanned};
+<span class="hljs-keyword">use</span> syn::spanned::Spanned;
+<span class="hljs-keyword">use</span> syn::{parse_macro_input, parse_quote, Data, DeriveInput, Fields, GenericParam, Generics, Index};
+
+<span class="hljs-meta">#[proc_macro_derive(Status)]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">derive_status</span></span>(input: proc_macro::TokenStream) -&gt; proc_macro::TokenStream {
+    <span class="hljs-comment">// 暂时留空</span>
+}
+</div></code></pre>
+<p>修改 <code>status/Cargo.toml</code>, 添加 status_derive crate 依赖.</p>
+<pre class="hljs"><code><div><span class="hljs-section">[dependencies]</span>
+<span class="hljs-attr">status_derive</span> = { path = <span class="hljs-string">"../status_derive"</span> }
+</div></code></pre>
+<p>创建一个测试程序</p>
+<pre class="hljs"><code><div>cargo new status_derive_test  --bin
+</div></code></pre>
+<p>并添加依赖:</p>
+<pre class="hljs"><code><div><span class="hljs-section">[dependencies]</span>
+<span class="hljs-attr">status</span> = { path = <span class="hljs-string">"../status"</span> }
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// status_derive_test/src/lib.rs</span>
+<span class="hljs-keyword">use</span> status::Status;
+
+<span class="hljs-meta">#[derive(Status)]</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Student</span></span> {
+    name: <span class="hljs-built_in">String</span>,
+    age: <span class="hljs-built_in">i32</span>,
+    status: <span class="hljs-built_in">String</span>,
+}
+
+<span class="hljs-keyword">impl</span> Student {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">new</span></span>() -&gt; <span class="hljs-keyword">Self</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">Self</span> {
+            name: <span class="hljs-string">""</span>.to_string(),
+            age: -<span class="hljs-number">1</span>,
+            status: <span class="hljs-string">"OK"</span>,
+        };
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{:?}"</span>, Student::new().status());
+}
+</div></code></pre>
+<p>目前代码还未完成，编译会失败，我们从目标出发，将 <code>derive_status</code> 函数填充完整。
+我们的目标是生成一个函数， 如下:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">impl</span> Status <span class="hljs-keyword">for</span> Student {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">status</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">String</span> {
+        <span class="hljs-built_in">format!</span>(<span class="hljs-string">"{}'s status is {}"</span>, <span class="hljs-keyword">self</span>.name, <span class="hljs-keyword">self</span>.status)
+    }
+}
+</div></code></pre>
+<p>先考虑的简单点，直接用 <code>quote!</code> 将字符串转成 <code>TokenStram</code> 返回</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> c = quote!(
+    <span class="hljs-keyword">impl</span> Status <span class="hljs-keyword">for</span> Student {
+        <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">status</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">String</span> {
+            <span class="hljs-built_in">format!</span>(<span class="hljs-string">"{}'s status is {}"</span>, <span class="hljs-keyword">self</span>.name, <span class="hljs-keyword">self</span>.status)
+        }
+    }
+)
+proc_macro::TokenStream::from(c)
+</div></code></pre>
+<p>这样是能成功的，但是不够通用，Student 被 hardcode 了，换个结构体名字就不适用了。这个时候要利用 <code>inupt</code> 参数:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 将输入做些处理以便使用</span>
+<span class="hljs-keyword">let</span> input = parse_macro_input!(input <span class="hljs-keyword">as</span> DeriveInput);
+<span class="hljs-comment">// 将结构体的名称取出来, 在 quote! 中以变量的形式引用</span>
+<span class="hljs-keyword">let</span> name = input.ident;
+<span class="hljs-keyword">let</span> c = quote!(
+    <span class="hljs-keyword">impl</span> Status <span class="hljs-keyword">for</span> #name {
+        <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">status</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">String</span> {
+            <span class="hljs-built_in">format!</span>(<span class="hljs-string">"{}'s status is {}"</span>, <span class="hljs-keyword">self</span>.name, <span class="hljs-keyword">self</span>.status)
+        }
+    }
+)
+proc_macro::TokenStream::from(c)
+</div></code></pre>
+<p>如此，我们完成了一个名为 <code>Status</code> 的 <code>derive</code> macro, 可以运用在任意带有 <code>status</code> 字段的结构体上。</p>
+<blockquote>
+<p>input 的结构应该可以打印出来, 但我还没找到打印方法。知晓结构之后我们就能完成更复杂的代码生成逻辑</p>
+</blockquote>
+<h4 id="attribute-like-macros">Attribute-like macros</h4>
+<p>和 <code>derive</code> macro 是类似的，可以理解为是将 <code>derive</code> 换成了更一般的名字，<code>derive</code> macro 是 <code>attribute-like macro</code> 的一种特例。
+<code>derive</code> macro 只能用于 <code>struct</code> 和 <code>enum</code>, 而 <code>attribute-like macro</code> 可以运用在其它的对象上，比如函数。如果你用过 rust 的 web 框架，可能会见到下面的代码片段:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[route(GET, <span class="hljs-meta-string">"/"</span>)]</span>
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">index</span></span>() {
+}
+</div></code></pre>
+<p><code>route</code> 宏的实现和 <code>derive</code> 有些区别:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[proc_macro_attribute]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">route</span></span>(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
+}
+</div></code></pre>
+<p>它接受两个参数，<code>attr</code> 是 <code>GET, &quot;/&quot;</code> 这部分，<code>item</code> 存的是对应的函数，即:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">index</span></span>() {}
+</div></code></pre>
+<p>其余的部分和 <code>derive</code> macro 的实现是一致的。</p>
+<h4 id="function-like-macros">Function-like macros</h4>
+<p>顾名思义，<code>Function-like</code> macro 在使用上比较像函数，或者说像 <code>declarative</code> macro, 但相对函数和 <code>macro_rules!</code> 来说，<code>Function-like</code> macro 更加灵活，参数可以不固定。比较典型的例子是 <code>sql!</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> sql = sql!(SELECT * FROM posts WHERE id=<span class="hljs-number">1</span>);
+</div></code></pre>
+<p>它的实现方式和前两种 <code>procedural</code> macro 是类似的:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[proc_macro]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">sql</span></span>(input: TokenStream) -&gt; TokenStream {
+}
+</div></code></pre>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch19-06-macros.html">Macros</a></li>
+<li><a href="https://github.com/dtolnay/syn/tree/master/examples/heapsize">HeapSize derive example</a></li>
+</ul>
 
 </body>
 </html>
