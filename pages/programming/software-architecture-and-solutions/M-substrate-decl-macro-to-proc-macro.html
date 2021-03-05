@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-substrate-decl-macro-to-proc-macro.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="substrate-pallet-%E7%BC%96%E5%86%99%E6%96%B9%E5%BC%8F%E7%9A%84%E5%8F%98%E5%8C%96">Substrate pallet 编写方式的变化</h1>
+<h2 id="%E5%89%8D%E8%A8%80">前言</h2>
+<p>Substrate pallet 的编写方式从 declarative macro 变成了 procedural macro. substrate 整体的迁移进度可以参考<a href="https://github.com/paritytech/substrate/issues/7882">这里</a>. 本文属于现学现卖，简单介绍这个变化。在此之前，需要了解 <code>declarative</code> macro 和 <code>procedural</code> macro  是如何实现的，可以参考<a href="http://songtianyi.info/pages/programming/programming-languages/M-rust-macro.html">这里</a>。</p>
+<h2 id="%E5%8F%98%E5%8C%96%E7%9A%84%E5%86%85%E5%AE%B9">变化的内容</h2>
+<p>可以打开一个 pr, 比如<a href="https://github.com/paritytech/substrate/pull/7984/files">Migrate assets pallet to new macros
+</a>, 来快速看下具体的变化内容。比较明显的几点变化:</p>
+<p>少了这几个 <code>declarative</code> macro</p>
+<pre class="hljs"><code><div>decl_storage! {}
+decl_error! {}
+decl_module! {}
+decl_event! {}
+</div></code></pre>
+<p>这些内容被包裹到了, 名为 pallet <code>attribute-like</code> macro 里，</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[frame_support::pallet]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">mod</span> pallet {
+    <span class="hljs-comment">//</span>
+}
+</div></code></pre>
+<p>pallet <code>attribute-like</code> macro 的实现在 <code>frame/support/procedural/src/lib.rs</code> 文件里。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/// Macro to define a pallet. Docs are at `frame_support::pallet`.</span>
+<span class="hljs-meta">#[proc_macro_attribute]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">pallet</span></span>(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
+	pallet::pallet(attr, item)
+}
+</div></code></pre>
+<p>调用的 pallet 函数在 <code>frame/support/procedural/src/mod.rs</code> 文件里</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">pallet</span></span>(
+	attr: proc_macro::TokenStream,
+	item: proc_macro::TokenStream
+) -&gt; proc_macro::TokenStream {
+	<span class="hljs-keyword">if</span> !attr.is_empty() {
+		<span class="hljs-keyword">let</span> msg = <span class="hljs-string">"Invalid pallet macro call: expected no attributes, e.g. macro call must be just \
+			`#[frame_support::pallet]` or `#[pallet]`"</span>;
+		<span class="hljs-keyword">let</span> span = proc_macro2::TokenStream::from(attr).span();
+		<span class="hljs-keyword">return</span> syn::Error::new(span, msg).to_compile_error().into();
+	}
+
+	<span class="hljs-keyword">let</span> item = syn::parse_macro_input!(item <span class="hljs-keyword">as</span> syn::ItemMod);
+	<span class="hljs-keyword">match</span> parse::Def::try_from(item) {
+		<span class="hljs-literal">Ok</span>(def) =&gt; expand::expand(def).into(),
+		<span class="hljs-literal">Err</span>(e) =&gt; e.to_compile_error().into(),
+	}
+}
+</div></code></pre>
+<p>此函数会判断使用 pallet 宏的时候有没有属性，然后调用 expand 函数</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/// Expand definition, in particular:</span>
+<span class="hljs-comment">/// * add some bounds and variants to type defined,</span>
+<span class="hljs-comment">/// * create some new types,</span>
+<span class="hljs-comment">/// * impl stuff on them.</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">expand</span></span>(<span class="hljs-keyword">mut</span> def: Def) -&gt; proc_macro2::TokenStream {
+	<span class="hljs-keyword">let</span> constants = constants::expand_constants(&amp;<span class="hljs-keyword">mut</span> def);
+	`<span class="hljs-keyword">let</span> pallet_struct = pallet_struct::expand_pallet_struct(&amp;<span class="hljs-keyword">mut</span> def);`
+	<span class="hljs-keyword">let</span> call = call::expand_call(&amp;<span class="hljs-keyword">mut</span> def);
+	<span class="hljs-keyword">let</span> error = error::expand_error(&amp;<span class="hljs-keyword">mut</span> def);
+	<span class="hljs-keyword">let</span> event = event::expand_event(&amp;<span class="hljs-keyword">mut</span> def);
+	<span class="hljs-keyword">let</span> storages = storage::expand_storages(&amp;<span class="hljs-keyword">mut</span> def);
+	<span class="hljs-keyword">let</span> instances = instances::expand_instances(&amp;<span class="hljs-keyword">mut</span> def);
+	<span class="hljs-keyword">let</span> store_trait = store_trait::expand_store_trait(&amp;<span class="hljs-keyword">mut</span> def);
+	<span class="hljs-keyword">let</span> hooks = hooks::expand_hooks(&amp;<span class="hljs-keyword">mut</span> def);
+	<span class="hljs-keyword">let</span> genesis_build = genesis_build::expand_genesis_build(&amp;<span class="hljs-keyword">mut</span> def);
+	<span class="hljs-keyword">let</span> genesis_config = genesis_config::expand_genesis_config(&amp;<span class="hljs-keyword">mut</span> def);
+	<span class="hljs-keyword">let</span> type_values = type_value::expand_type_values(&amp;<span class="hljs-keyword">mut</span> def);
+
+	<span class="hljs-keyword">let</span> new_items = quote::quote!(
+		#constants
+		#pallet_struct
+		#call
+		#error
+		#event
+		#storages
+		#instances
+		#store_trait
+		#hooks
+		#genesis_build
+		#genesis_config
+		#type_values
+	);
+
+	def.item.content.as_mut().expect(<span class="hljs-string">"This is checked by parsing"</span>).<span class="hljs-number">1</span>
+		.push(syn::Item::Verbatim(new_items));
+
+	def.item.into_token_stream()
+}
+</div></code></pre>
+<p>主要的代码生成逻辑在各个 module 的 expand_xxx 函数里，逻辑分的比较开。相较于 <code>declarative</code> macro(如下)</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[macro_export]</span>
+<span class="hljs-built_in">macro_rules!</span> decl_error {
+	(
+		$(<span class="hljs-meta">#[$attr:meta]</span>)*
+		<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> $<span class="hljs-title">error</span></span>:ident
+			<span class="hljs-keyword">for</span> $module:ident&lt;
+				$generic:ident: $<span class="hljs-class"><span class="hljs-keyword">trait</span>:<span class="hljs-title">path</span></span>
+				$(, $inst_generic:ident: $instance:path)?
+			&gt;
+			$( <span class="hljs-keyword">where</span> $( $where_ty:ty: $where_bound:path ),* $(,)? )?
+		{
+			$(
+				$( <span class="hljs-meta">#[doc = $doc_attr:tt]</span> )*
+				$name:ident
+			),*
+			$(,)?
+		}
+	) =&gt; {
+    <span class="hljs-comment">// ...</span>
+</div></code></pre>
+<p>基于 <code>attribute-like</code> macro 的生成的逻辑的编写是非常简单的，而 <code>declarative</code> 犹如天书, 可读性很差。虽然底层逻辑我们不用太关心，但作为底层逻辑的调用者，使用 <code>attribute-like</code> macro 也可以让我们遇到更少的底层 bug</p>
+<h2 id="%E6%80%8E%E4%B9%88%E5%8D%87%E7%BA%A7">怎么升级</h2>
+<p>在了解怎么升级之前，先简单看下基于 <code>procedural</code> macro 的实现细节。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// syn::custom_keyword declarative macro 会将该这些词作为像 rust 关键字一样解析</span>
+<span class="hljs-keyword">mod</span> keyword {
+	syn::custom_keyword!(Block);
+	syn::custom_keyword!(NodeBlock);
+	syn::custom_keyword!(UncheckedExtrinsic);
+	syn::custom_keyword!(Module);
+	syn::custom_keyword!(Call);
+	syn::custom_keyword!(Storage);
+	syn::custom_keyword!(Event);
+	syn::custom_keyword!(Config);
+	syn::custom_keyword!(Origin);
+	syn::custom_keyword!(Inherent);
+	syn::custom_keyword!(ValidateUnsigned);
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// 这是一个 function-like macro</span>
+<span class="hljs-meta">#[proc_macro]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">construct_runtime</span></span>(input: TokenStream) -&gt; TokenStream {
+	construct_runtime::construct_runtime(input)
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// storage 看起来比较特殊，单独定义了一个 function-like macro</span>
+<span class="hljs-meta">#[proc_macro]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">decl_storage</span></span>(input: TokenStream) -&gt; TokenStream {
+	storage::decl_storage_impl(input)
+}
+</div></code></pre>
+<p>以 error 的生成为例 <code>frame/support/procedural/src/pallet/expand/error.rs</code></p>
+<p>expand_error 函数为 pub enum Error<T> 迭代生成了 <code>Debug</code> trait, <code>as_u8</code> , <code>as_str</code> , <code>from</code> , <code>metadata</code> 等函数。</p>
+<p>再比如 event</p>
+<pre class="hljs"><code><div>	event_item.attrs.push(syn::parse_quote!(
+		<span class="hljs-meta">#[derive(
+			#frame_support::CloneNoBound,
+			#frame_support::EqNoBound,
+			#frame_support::PartialEqNoBound,
+			#frame_support::RuntimeDebugNoBound,
+			#frame_support::codec::Encode,
+			#frame_support::codec::Decode,
+		)]</span>
+	));
+
+</div></code></pre>
+<p>expand_event 为我们自动添加了很多 <code>derive</code> 宏</p>
+<p>其实在整个过程里，pallet 函数里的这句比较关键</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> item = syn::parse_macro_input!(item <span class="hljs-keyword">as</span> syn::ItemMod);
+</div></code></pre>
+<p>在 parse 目录下有各种经过 parsing 后的结构，这些结构实现了 <code>syn:parse</code></p>
+<p><code>pallet::Def</code> -&gt; <code>event::EventDef</code> -&gt; <code>PalletEventAttr</code> 是这样一层层 parse 出来的，然后存在结构体里，再经过各种 exapnd 函数生成最终的代码。</p>
+<h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
+<ul>
+<li><a href="https://substrate.dev/rustdocs/v3.0.0/frame_support/attr.pallet.html">Attribute Macro frame_support::pallet</a></li>
+<li><a href="https://crates.parity.io/frame_support/attr.pallet.html#upgrade-guidelines">attr.pallet-upgrade-guidelines</a></li>
+</ul>
+
+</body>
+</html>

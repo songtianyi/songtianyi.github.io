@@ -517,7 +517,7 @@ C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
 </div></code></pre>
 <p>上述的宏 <code>impl_as_fields</code> 会根据入参数展开成返回不同类型的函数定义(类似 as_string), 用到了多个 designator.</p>
 <h2 id="rust-procedural-macros">Rust procedural macros</h2>
-<p>上一节所讲的 rust macro 属于 <code>declarative macro</code>, rust 还有一类宏, 叫 <code>procedural macro</code>.</p>
+<p>上一节所讲的 rust macro 属于 <code>declarative macro</code> , rust 还有一类宏, 叫 <code>procedural macro</code> .</p>
 <h4 id="derive">#[derive]</h4>
 <p>一种是我们经常见到的 <code>derive</code> 属性, 需要打印一个结构体而又不想自己实现的时候，可以在结构体上运用 <code>#[derive(Debug)]</code> 来帮我们实现 <code>Debug</code> Trait.</p>
 <pre class="hljs"><code><div><span class="hljs-meta">#[derive(Debug)]</span>
@@ -545,11 +545,18 @@ C 语言的宏不仅是简单的字符串替换，它还支持参数:</p>
 <p>|</p>
 <p>17 |     println!(&quot;{:?}&quot;, Student::new());</p>
 <p>|                      ^^^^^^^^^^^^^^ <code>Student</code> cannot be formatted using <code>{:?}</code></p>
+</blockquote>
+<blockquote>
 <p>|</p>
 <p>= help: the trait <code>Debug</code> is not implemented for <code>Student</code></p>
+</blockquote>
+<blockquote>
 <p>= note: add <code>#[derive(Debug)]</code> or manually implement <code>Debug</code></p>
+</blockquote>
+<blockquote>
 <p>= note: required by <code>std::fmt::Debug::fmt</code></p>
 </blockquote>
+<blockquote></blockquote>
 <p><code>derive(Debug)</code> '神奇地'帮我们实现了一个自定义结构体的 <code>Debug</code> trait. 这实际上是编译器在编译的时候帮我们生成了实现代码，而不是在运行时，rust 是不支持反射的。</p>
 <p>我们可以自己实现一个 <code>derive</code> 宏.</p>
 <pre class="hljs"><code><div><span class="hljs-meta">#</span><span class="bash"> 创建一个 status crate</span>
@@ -566,7 +573,7 @@ cargo new status  --lib
 cargo new status_derive  --lib
 </div></code></pre>
 <blockquote>
-<p><code>declarative macro</code> 类似于字符串替换，只不过加了匹配规则和变量，让我们可以写更复杂的逻辑，而 <code>procedural macro</code> 提供了源码的 token 输入，即 <code>TokenStream</code>, 并提供了语法树工具，让我们有能力直接处理源码。</p>
+<p><code>declarative macro</code> 类似于字符串替换，只不过加了匹配规则和变量，让我们可以写更复杂的逻辑，而 <code>procedural macro</code> 提供了源码的 token 输入，即 <code>TokenStream</code> , 并提供了语法树工具，让我们有能力直接处理源码。</p>
 </blockquote>
 <pre class="hljs"><code><div><span class="hljs-comment">// status_derive/src/lib.rs</span>
 <span class="hljs-keyword">use</span> proc_macro2::TokenStream;
@@ -579,7 +586,7 @@ cargo new status_derive  --lib
     <span class="hljs-comment">// 暂时留空</span>
 }
 </div></code></pre>
-<p>修改 <code>status/Cargo.toml</code>, 添加 status_derive crate 依赖.</p>
+<p>修改 <code>status/Cargo.toml</code> , 添加 status_derive crate 依赖.</p>
 <pre class="hljs"><code><div><span class="hljs-section">[dependencies]</span>
 <span class="hljs-attr">status_derive</span> = { path = <span class="hljs-string">"../status_derive"</span> }
 </div></code></pre>
@@ -651,8 +658,8 @@ proc_macro::TokenStream::from(c)
 <p>input 的结构应该可以打印出来, 但我还没找到打印方法。知晓结构之后我们就能完成更复杂的代码生成逻辑</p>
 </blockquote>
 <h4 id="attribute-like-macros">Attribute-like macros</h4>
-<p>和 <code>derive</code> macro 是类似的，可以理解为是将 <code>derive</code> 换成了更一般的名字，<code>derive</code> macro 是 <code>attribute-like macro</code> 的一种特例。
-<code>derive</code> macro 只能用于 <code>struct</code> 和 <code>enum</code>, 而 <code>attribute-like macro</code> 可以运用在其它的对象上，比如函数。如果你用过 rust 的 web 框架，可能会见到下面的代码片段:</p>
+<p>和 <code>derive</code> macro 是类似的，可以理解为是将 <code>derive</code> 换成了更一般的名字， <code>derive</code> macro 是 <code>attribute-like macro</code> 的一种特例。
+<code>derive</code> macro 只能用于 <code>struct</code> 和 <code>enum</code> , 而 <code>attribute-like macro</code> 可以运用在其它的对象上，比如函数。如果你用过 rust 的 web 框架，可能会见到下面的代码片段:</p>
 <pre class="hljs"><code><div><span class="hljs-meta">#[route(GET, <span class="hljs-meta-string">"/"</span>)]</span>
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">index</span></span>() {
 }
@@ -662,12 +669,15 @@ proc_macro::TokenStream::from(c)
 <span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">route</span></span>(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
 }
 </div></code></pre>
-<p>它接受两个参数，<code>attr</code> 是 <code>GET, &quot;/&quot;</code> 这部分，<code>item</code> 存的是对应的函数，即:</p>
+<ul>
+<li>使用的 <code>attribute</code> 是 <code>proc_macro_attribute</code></li>
+<li>它接受两个参数，<code>attr</code> 是 <code>GET, &quot;/&quot;</code> 这部分，<code>item</code> 存的是对应的函数，即:</li>
+</ul>
 <pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">index</span></span>() {}
 </div></code></pre>
 <p>其余的部分和 <code>derive</code> macro 的实现是一致的。</p>
 <h4 id="function-like-macros">Function-like macros</h4>
-<p>顾名思义，<code>Function-like</code> macro 在使用上比较像函数，或者说像 <code>declarative</code> macro, 但相对函数和 <code>macro_rules!</code> 来说，<code>Function-like</code> macro 更加灵活，参数可以不固定。比较典型的例子是 <code>sql!</code>.</p>
+<p>顾名思义， <code>Function-like</code> macro 在使用上比较像函数，或者说像 <code>declarative</code> macro, 但相对函数和 <code>macro_rules!</code> 来说， <code>Function-like</code> macro 更加灵活，参数可以不固定。比较典型的例子是 <code>sql!</code> .</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">let</span> sql = sql!(SELECT * FROM posts WHERE id=<span class="hljs-number">1</span>);
 </div></code></pre>
 <p>它的实现方式和前两种 <code>procedural</code> macro 是类似的:</p>
