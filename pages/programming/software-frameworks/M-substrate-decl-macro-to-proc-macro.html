@@ -369,7 +369,7 @@ code {
 <h2 id="%E5%89%8D%E8%A8%80">前言</h2>
 <p>Substrate pallet 的编写方式从 declarative macro 变成了 procedural macro. substrate 整体的迁移进度可以参考<a href="https://github.com/paritytech/substrate/issues/7882">这里</a>. 本文属于现学现卖，简单介绍这个变化。在此之前，需要了解 <code>declarative</code> macro 和 <code>procedural</code> macro  是如何实现的，可以参考<a href="http://songtianyi.info/pages/programming/programming-languages/M-rust-macro.html">这里</a>。</p>
 <h2 id="%E5%8F%98%E5%8C%96%E7%9A%84%E5%86%85%E5%AE%B9">变化的内容</h2>
-<p>可以打开一个 pr, 比如<a href="https://github.com/paritytech/substrate/pull/7984/files">Migrate assets pallet to new macros
+<p>可以打开一个 pr, 比如 <a href="https://github.com/paritytech/substrate/pull/7984/files">Migrate assets pallet to new macros
 </a>, 来快速看下具体的变化内容。比较明显的几点变化:</p>
 <p>少了这几个 <code>declarative</code> macro</p>
 <pre class="hljs"><code><div>decl_storage! {}
@@ -377,7 +377,7 @@ decl_error! {}
 decl_module! {}
 decl_event! {}
 </div></code></pre>
-<p>这些内容被包裹到了, 名为 pallet <code>attribute-like</code> macro 里，</p>
+<p>这些内容被包裹到了, 名为 pallet 的 <code>attribute-like</code> macro 里，</p>
 <pre class="hljs"><code><div><span class="hljs-meta">#[frame_support::pallet]</span>
 <span class="hljs-keyword">pub</span> <span class="hljs-keyword">mod</span> pallet {
     <span class="hljs-comment">//</span>

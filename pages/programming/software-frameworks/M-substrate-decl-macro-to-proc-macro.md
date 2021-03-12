@@ -6,7 +6,7 @@ Substrate pallet 的编写方式从 declarative macro 变成了 procedural macro
 
 ## 变化的内容
 
-可以打开一个 pr, 比如[Migrate assets pallet to new macros
+可以打开一个 pr, 比如 [Migrate assets pallet to new macros
 ](https://github.com/paritytech/substrate/pull/7984/files), 来快速看下具体的变化内容。比较明显的几点变化:
 
 少了这几个 `declarative` macro
@@ -18,7 +18,7 @@ decl_module! {}
 decl_event! {}
 ```
 
-这些内容被包裹到了, 名为 pallet `attribute-like` macro 里，
+这些内容被包裹到了, 名为 pallet 的 `attribute-like` macro 里，
 
 ``` rust
 #[frame_support::pallet]
