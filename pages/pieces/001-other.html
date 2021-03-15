@@ -5,7 +5,7 @@
 </ul>
 </header>
 
-<style type="text/css"> 
+<style type="text/css">
 	div{
 		font-size:11pt;
 	}
@@ -35,7 +35,7 @@
 	<img  src="">
 	<p>图 </p>
 </div>
-	
+
 <sup>sup>
 
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
@@ -83,6 +83,7 @@
 					<li><a style="text-decoration:none" href="#mac3">intellij 启动时端口被占用</a></li>
 					<li><a style="text-decoration:none" href="#mac4">删除git仓库远程分支</a></li>
 					<li><a style="text-decoration:none" href="#mac5">git merge时报编辑器错误</a></li>
+					<li><a style="text-decoration:none" href="#mac6">磁盘无法正常挂载</a></li>
 				</ul>
 		</ol>
 	</div>
@@ -122,7 +123,7 @@
 	在做windows镜像的时候为了给用户留下一个比较干净的环境，这些东西能删就删。开始-运行-输入regedit-找到 HKEY_CURRENT_USER \Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU 这一项，删除对应的记录就可以了。
 	</p>
 
-	
+
 
 
 	<h2 id="linux">2 LINUX</h2>
@@ -137,7 +138,7 @@
 	</p>
 	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 		<pre>
-#yum install cdrecord 
+#yum install cdrecord
 #cdrecord dev=/dev/cdrom /your/iso/path/filename.iso </pre>
 	</div>
 
@@ -154,7 +155,7 @@
 
 	<blockquote id="linux3"><p>2.3 vim打开文件行尾出现^M</p></blockquote>
 	<p>当用vim编辑器,打开一个文件时,可能会出现每行的末尾都有"^M"符号.这很可能是由于源文件不是用vim编辑的.直接在vim下输入:%s/^M//g 即可完成^M的删除工作，需要注意的是^是用Ctrl+v输入的，M是用Ctrl+M输入的。</p>
-	
+
 	<blockquote id="linux4"><p>2.4 文件读写权限</p></blockquote>
 	<ul>
 		<li>-rw------- (600) 只有所有者才有读和写的权限</li>
@@ -252,6 +253,15 @@ git branch -r  |grep -E -v "181|203|199|196|develop|master|release|115|118|138|1
 	<pre>git config --global core.editor /usr/bin/vim
 	</pre>
 	</div>
+
+
+	<blockquote id="mac6"><p>3.6 磁盘无法挂载<p></blockquote>
+		解决方法
+		<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
+		<pre>diskutil unmountDisk /dev/disk2
+diskutil eject /dev/disk2
+		</pre>
+		</div>
 
 
 </div>
