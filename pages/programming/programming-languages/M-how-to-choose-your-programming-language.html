@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-how-to-choose-your-programming-language.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E9%80%89%E5%9E%8B-%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E4%BA%8C%E4%B8%89%E4%BA%8B">编程语言选型-你需要了解的二三事</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a>, 2018-07-09</p>
+<h3 id="%E5%89%8D%E8%A8%80">前言</h3>
+<p>毕业之后一直混迹在创业公司，经历过很多次产品从 0 到 1 的过程。产品在开发之前都会面临一个常见问题，即技术选型，首当其冲的是采用哪门编程语言来开发我们的产品。我的第一家公司是 UCloud，三位老板都来自于腾讯，所以第一批员工不少都是腾讯兵，腾讯的主要开发语言是<em>C++</em>，有很多现成的轮子可以用，自然 UCloud 的产品都是用<em>C++<em>开发的，前端则采用的是当时流行的</em>PHP</em>。2014 年<em>Node</em>大火，<em>nodejs</em>的非阻塞 IO 在非计算密集的高并发业务场景效果出众，开发起来也会比较快；nodejs 让前端程序员也能参与到后端开发中来，在人力分配上面自由度会高一些；运行时有 gc, 心智负担比<em>C++<em>小。<em>UCloud</em>也顺势采用了</em>node</em>, 先是前端部门用它重写了自己的产品逻辑，之后后端也陆续采用，包括我自己也用<em>node</em>重写了整个 uhost 产品的后端。2016 年<em>golang</em>热度很高，当时正好有个新产品要基于 docker 来开发，我们就开始尝试用<em>golang</em>来写后端服务, <em>golang</em>虽然类型特性不多，也不支持函数式编程，但是其极佳的工程实践和强劲的并发性能还是深得大家喜爱。现在这家公司，因为规模尚小，考虑到招人的难度就采用了主流的<em>Java</em>, 用<em>golang</em>来做 ssh client。在做编程语言选型的时候，除了技术本身还有很多其他因素，这些因素要针对具体场景来分析，所以本文从通用性的角度考虑，只讲技术层面的内容。</p>
+<h3 id="%E7%9C%8B%E5%AE%8C%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E8%83%BD%E6%94%B6%E8%8E%B7%E4%BB%80%E4%B9%88">看完这篇文章能收获什么?</h3>
+<ul>
+<li>对于开发人员，可以系统地了解各种类型特性，语法特性和编程范式</li>
+<li>对于架构师或者技术 leader，可以为编程语言的选型提供理论依据</li>
+</ul>
+<p>编程语言往大了讲是很复杂的，语法，类型系统，编译原理，编译器，解释器，内存模型，并发模型，工具链等等，单拿一点出来都能写一本书。限于篇幅，本文要介绍的内容限定在类型系统(type systems)，语法(syntax)和编程范式(programming paradigms)上。</p>
+<h3 id="%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F">类型系统</h3>
+<p>什么是类型？在软件执行的过程中，变量可以为很多值，<strong>定义变量的边界的描述即类型</strong>。变量可以被赋予类型(即变量有边界)的语言称为类型语言(<strong>typed language</strong>)，无类型语言(<strong>untyped language</strong>)没有类型，或者说只有一个全局类型，能够存储所有的值。 类型语言我们见得多了，无类型的呢？lambda 演算(pure  λ-calculus)是无类型的，汇编和 LISP 也是无类型的.</p>
+<p>变量类型的指定可以是显式的</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+<span class="hljs-keyword">var</span> foo <span class="hljs-keyword">int</span>
+</div></code></pre>
+<p>也可以是隐式的</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- haskell</span>
+<span class="hljs-title">fac</span> :: <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Int</span> <span class="hljs-comment">-- 这一行可以省略</span>
+<span class="hljs-title">fac</span> <span class="hljs-number">0</span> = <span class="hljs-number">1</span>
+<span class="hljs-title">fac</span> n = n * fac (n - <span class="hljs-number">1</span>)
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-title">fac</span> <span class="hljs-number">0</span> = <span class="hljs-number">1</span>
+<span class="hljs-title">fac</span> n = n * fac (n - <span class="hljs-number">1</span>)
+</div></code></pre>
+<p>类型系统会自动赋予变量类型，这种行为称为类型推断(type inference)。</p>
+<h5 id="%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5">类型检查</h5>
+<p>类型系统是类型语言的首要组成部分。类型系统的职责之一是跟踪变量的类型，判断代码是否满足类型约束，这种行为称为类型检查(<strong>typechecking</strong>), 类型检查是保证程序稳定运行的手段，同时又分为运行时检查(runtime checks)和静态检查(static checks), 运行时检查也叫动态检查(<strong>dynamic checking</strong>).</p>
+<p>类型系统做了静态检查，还有必要做动态检查嘛？有，比如数组的边界检查，就必须在运行时做。运行时的类型检查会导致程序运行终止(fail-stop)，那为什么还要检查呢？让它运行到无法继续执行为止不就好了？类型检查虽然会出错，但是阻止了更恶劣的错误(untrapped errors)的发生，比如保证 gc 等机制能够正常运转，让程序能够更平滑地退出。动态检查的缺点是会导致 fail-stop，也会消耗资源，影响性能，所以通常我们认为拥有静态检查的类型系统的语言会更稳定高效。但是静态检查就足够安全了吗？不一定，因为某些语言在静态检查时没有检查一些危险操作，比如<em>C</em>语言中指针的运算和转换，这类语言称为<strong>weakly checked</strong>, 反之, 程序在编译期间能够尽可能发现所有的类型错误, 称为<strong>strongly checked</strong>.</p>
+<p>那么延伸一下，怎么区分一门语言是<em>weakly checked</em>, 还是<em>strongly checked</em>? 以下几点可以作为判断的依据。</p>
+<h6 id="implicit-type-conversions">Implicit type conversions</h6>
+<p>可以进行隐式类型转换的语言属于<em>weakly checked</em>, 如 c++</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">int</span> a = <span class="hljs-number">3</span>;
+<span class="hljs-keyword">double</span> b = <span class="hljs-number">4.5</span>;
+a + b; <span class="hljs-comment">// a 将会被自动转换为 double 类型，转换的结果和 b 进行加法操作</span>
+</div></code></pre>
+<h6 id="pointers">Pointers</h6>
+<p>允许指针运算的语言属于<em>weakly checked</em>, 比如 c</p>
+<pre class="hljs"><code><div> <span class="hljs-keyword">int</span> num [] = {<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">6</span>,<span class="hljs-number">8</span>,<span class="hljs-number">10</span>,<span class="hljs-number">15</span>,<span class="hljs-number">22</span>};
+ <span class="hljs-keyword">int</span> *pointer = num;
+ <span class="hljs-built_in">printf</span>(<span class="hljs-string">"*pointer:%d\n"</span>,*pointer);
+ pointer++;
+ <span class="hljs-built_in">printf</span>(<span class="hljs-string">"*pointer(p++):%d\n"</span>,*pointer);
+</div></code></pre>
+<h6 id="untagged-unions">Untagged unions</h6>
+<p><em>union type</em>即联合类型，之后的内容会介绍。联合类型中的不同类型的值会被存储在同一地址，这也是不稳定因素之一，所以拥有<em>untagged unions</em>的语言属于<em>weakly checked</em>. 和<em>untagged</em>相对的是<em>tagged union type</em>, <em>tagged union</em>会用 tag 字段显式地标记当前正在使用的类型，因此要相对安全一些。</p>
+<h6 id="weakly-typed">Weakly typed</h6>
+<p>一般弱类型语言属于<em>weakly checked</em></p>
+<p>除此之外，往往是通过语言之间的比较来进行判断，并没有明显的界限。类型系统除了提供类型检查，保证程序的安全性之外，还可以提供信息给编译器，以优化执行效率。同时，类型系统是对现实世界的抽象，可读性高，也是更高级别抽象(如泛型，<strong>OOP</strong>s)的基础。所以，无类型的语言在选型时基本会被排除掉。</p>
+<h5 id="%E5%BC%BA%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%B1%E7%B1%BB%E5%9E%8B">强类型和弱类型</h5>
+<p>在语言的抉择上，<code>静态检查</code>，<code>动态检查</code>和<code>检查范围</code>这几个角度影响的是程序的稳定性和执行效率，那么开发效率呢？此时要引入另外一个维度，<code>强类型</code>和<code>弱类型</code>，强类型是指一旦被指定类型，不可变，弱类型则可变，可变也分为隐式和显式两种。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// js 弱类型，隐式可变</span>
+x = <span class="hljs-number">1</span>
+y = <span class="hljs-string">"2"</span>
+z = x + y
+</div></code></pre>
+<p>弱类型提升了我们的开发效率。</p>
+<p>总结，在语言的抉择上，我们可以从类型系统的静态检查，动态检查，检查范围及类型是否可变这几个维度来考虑，<strong>在开发效率，执行效率及安全性之间做权衡</strong>。无类型的语言可以很安全，但是可维护性差，基本被排除在系统开发之外。</p>
+<p>看到这里，你会发现文中并没有讲什么是动态类型语言，静态类型语言。因为这个维度并不是影响我们抉择的本质因素。动态类型语言其实指的就是只有动态检查的语言，静态类型语言指拥有静态检查的语言，此类型非彼类型，个人觉得是翻译的锅。</p>
+<h5 id="%E7%B1%BB%E5%9E%8B%E6%8E%A8%E6%96%AD">类型推断</h5>
+<p>类型推断(type inference)是类型系统中推测一段代码(声明，表达式等)的类型的过程。类型推断让我们在编写代码时能够略去类型的声明，并且不会影响到类型检查。如果值的类型仅在运行时才能被确定，这类语言被称为动态语言(dynamically typed), 同样的，如果值的类型仅在编译时被确定，这类语言被称为静态语言(statically typed).</p>
+<h3 id="%E7%B1%BB%E5%9E%8B%E7%90%86%E8%AE%BA">类型理论</h3>
+<p>类型理论涉及到的内容和类型系统会有部分重叠，你可以理解为，类型理论是服务于类型系统的，即，我们使用了哪些理论来构建我们的类型系统，或者说该语言的类型系统实现了哪些特性。一门语言的类型系统一般只会实现其中的某几种特性，这也是语言之争的根源。</p>
+<h5 id="polymorphism-type">Polymorphism type</h5>
+<p>polymorphism 翻译为多态性，但不单单指面向对象里的多态，而是指类型系统里的多态性质。编译时多态，是在编译时就能推导出类型或调用关系，宏也是一种编译时多态。运行时多态的实现依赖于虚函数机制(virtual function), 是在运行时确定调用关系。多态性质的引入可以提高代码的复用率。</p>
+<ol>
+<li>
+<p><em>Ad hoc polymorphism</em>: 一个函数会根据有限的类型组合而拥有不同的实现，函数重载(function overloading)和操作符重载(operator overloading)依赖于此. 从 polymorphism 性质实现的角度讲，属于编译时多态(static polymorphism).</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// java</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
+    <span class="hljs-keyword">return</span> a + b;
+}
+<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">Add</span><span class="hljs-params">(String a, String b, String c)</span> </span>{
+    <span class="hljs-keyword">return</span> a + b +c;
+}
+</div></code></pre>
+</li>
+<li>
+<p><em>Parametric polymorphism</em>: 声明的类型未被指定为某一类型，而在实现时可以指定为任意类型，即通常我们所说的泛型，在 C++里称为模板(template). 从 polymorphism 性质实现的角度讲，属于编译时多态(static polymorphism).</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// java    </span>
+...
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ObjectsServiceFactory</span>&lt;<span class="hljs-title">T</span>&gt; </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">save</span><span class="hljs-params">(T o)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">return</span> repository.save(o);
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DatabaseOperationException(String.format(<span class="hljs-string">"save object %s failed, %s"</span>, o.toString(), e.getMessage()));
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(T o)</span> </span>{
+        repository.delete(o);
+    }
+}
+
+...
+
+ObjectsServiceFactory s = <span class="hljs-keyword">new</span> ObjectsServiceFactory&lt;String&gt;();
+ObjectsServiceFactory i = <span class="hljs-keyword">new</span> ObjectsServiceFactory&lt;Integer&gt;();
+s.save(<span class="hljs-string">"demo"</span>);
+i.save(<span class="hljs-number">100</span>)
+</div></code></pre>
+</li>
+<li>
+<p><em>Subtype polymorphism</em>: 也叫 subtyping(子类型多态)或者 inclusion polymorphism(包含多态)。如果 S 是 T 的子类型，记作<code>S &lt;: T</code>, 意味着在任何需要使用 T 类型的环境中，都可以安全地使用 S 类型的对象。但要区分的是，这里说的子类型并不是面向对象继承概念里的子类，子类型和父类型(super type)描述的是类型之间的关系，而继承反应的是一类对象可以从另一类对象创造出来，是语言特性的实现，主要目的是重用代码。之所以混淆是因为在 C++等语言中，通常将两者结合起来以实现 OOP。子类型也称为接口(interface)继承，对象继承则称作实现继承，在 Java 中，这两者在语法上是有明显的区分的(interface 和 class)。从多态性质实现的角度讲，subtyping 属于运行时多态(dynamic polymorphism).</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// c++</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> {</span>
+<span class="hljs-keyword">public</span> :
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">shout</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">virtual</span> ~Animal(){}
+};
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dog</span> :</span><span class="hljs-keyword">public</span> Animal {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">shout</span><span class="hljs-params">()</span></span>{ <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"dog"</span>&lt;&lt;<span class="hljs-built_in">endl</span>; }
+};
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cat</span> :</span><span class="hljs-keyword">public</span> Animal {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">shout</span><span class="hljs-params">()</span></span>{ <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"cat"</span>&lt;&lt;<span class="hljs-built_in">endl</span>; }
+};
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bird</span> :</span> <span class="hljs-keyword">public</span> Animal {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">shout</span><span class="hljs-params">()</span></span>{ <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"bird"</span>&lt;&lt;<span class="hljs-built_in">endl</span>; }
+};
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    Animal * animal1 = <span class="hljs-keyword">new</span> Dog;
+    Animal * animal2 = <span class="hljs-keyword">new</span> Cat;
+    Animal * animal3 = <span class="hljs-keyword">new</span> Bird;
+
+    animal1-&gt;shout();
+    animal2-&gt;shout();
+    animal3-&gt;shout();
+
+    <span class="hljs-keyword">delete</span>(animal1);
+    <span class="hljs-keyword">delete</span>(animal2);
+    <span class="hljs-keyword">delete</span>(animal3);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p>关于 subtyping 还有更细致的划分，从类型系统的技术实现角度分为<em>nominal subtyping</em>和<em>structural subtyping</em>, 在阐述这两个概念之前，我们先理解类型系统是如何区分两个不同类型的。</p>
+<p>一种方式是通过类型名称来区分，即，当且仅当两个类型的命名相同时，它们属于同一类型。例如:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// c</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">A</span> {</span> <span class="hljs-keyword">int</span> a;}
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">B</span> {</span> <span class="hljs-keyword">int</span> a;}
+</div></code></pre>
+<p>在上面的 C 代码中，类型名称显然不同，类型 A 和类型 B 属于不同类型，尽管它们的成员(property/field/member)是完全相同的, 使用这种区分规则的类型系统属于<em>nominal type system</em>。至于，当我们为类型定义一个别名的时候，类型系统是否认为这是一个新的类型要看类型系统的具体实现，如果别名仅仅是语法糖的话，此时不同的名称仍然代表同一个类型。</p>
+<p>与<em>nominal type system</em>相对的是<em>structural type system(property-based type system)</em>, 从字面的意思我们大概能猜出，类型的区分是通过类型的定义即类型的结构来区分的:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// pseudo</span>
+<span class="hljs-keyword">class</span> Foo {
+  method(input: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">number</span> { ... }
+}
+<span class="hljs-keyword">class</span> Bar {
+  method(input: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">number</span> { ... }
+}
+<span class="hljs-keyword">let</span> foo: Foo = <span class="hljs-keyword">new</span> Bar(); <span class="hljs-comment">// OK</span>
+</div></code></pre>
+<p>上面的代码中，Foo 和 Bar 的类型是相同的，因为他们的结构相同。</p>
+<p>接着，我们来看这两种类型区分方式和 subtyping 的关系。</p>
+<ul>
+<li>
+<p><em>Nominal subtyping</em>: 参照<em>nominal typing</em>的规则，只有当类型 S 被显式地声明为 T 的子类型，才认为<code>S &lt;: T</code>，使用这种规则的 subtyping 属于<em>nominal subtyping</em>。比如 Julia:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Graph</span></span> &lt;: Any end
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Circle</span></span> &lt;: Graph
+    radius ::Float64
+    x ::Int64
+    y ::Int64
+end
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Rec</span></span> &lt;: Graph
+    width ::Float64
+    height ::Float64
+    x ::Int64
+    y ::Int64
+end
+
+function area(r ::Circle) ::Float64
+    <span class="hljs-keyword">return</span> pi * r.radius^<span class="hljs-number">2</span>
+end
+
+function area(g ::Rec)
+    <span class="hljs-keyword">return</span> g.x*g.y
+end
+
+println(area(Circle(<span class="hljs-number">1.0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)))
+println(area(Rec(<span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)))
+</div></code></pre>
+<p>上述代码通过<code>&lt;:</code>显式地声明了这种关系，<code>Circle &lt;: Graph</code> 。C++, Java 也是<em>nominal subtyping</em></p>
+</li>
+<li>
+<p><em>Structural subtyping</em>: 参照<em>structural typing</em>的规则，类型之间的子/父关系是通过类型的结构来区分的，使用这种规则的 subtyping 属于<em>structural subtyping</em>。Golang 的 interface 属于此类，interface 里声明的函数(feature)在它的子类型中都能找到对应的实现，至于匹配的规则，依赖于类型系统的具体实现。<em>structural subtyping</em>相对<em>nominal subtyping</em>要更加灵活。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+<span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span>
+
+<span class="hljs-keyword">type</span> A <span class="hljs-keyword">interface</span> {
+	Shout() 
+}
+
+<span class="hljs-keyword">type</span> Girl <span class="hljs-keyword">struct</span> {}
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(s *Girl)</span> <span class="hljs-title">Shout</span><span class="hljs-params">()</span></span> {
+	fmt.Println(<span class="hljs-string">"greetings!"</span>)
+}
+
+<span class="hljs-keyword">type</span> Boy <span class="hljs-keyword">struct</span> {}
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(s *Boy)</span> <span class="hljs-title">Shout</span><span class="hljs-params">()</span></span> {
+	fmt.Println(<span class="hljs-string">"66666"</span>)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">do</span><span class="hljs-params">(who A)</span></span> {
+	who.Shout()
+}
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
+	do(&amp;Girl{})
+	do(&amp;Boy{})
+}
+</div></code></pre>
+<p>上面的 Go 代码中，Girl 和 Boy 都没有被显式地声明为 A 的子类型，但它们都实现了<code>Shout()</code>, 从结构上对比，他们都属于 A 的子类型。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><em>Row polymorphism</em>: 也叫 duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定彼此之间的关系，比如 subtyping 中的父类/子类关系，而 duck typing 是通过函数，如果它们实现了相同的函数，就认为它们是同一类。</p>
+<blockquote>
+<p>If it walks like a duck and it quacks like a duck, then it must be a duck.</p>
+</blockquote>
+<p>如果它走路像鸭子(实现了 walk()函数)，也会像鸭子一样发出嘎嘎声(实现了 gaga())函数，那它就是一只鸭子(属于同一类型)。</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># python</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Duck</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fly</span><span class="hljs-params">(self)</span>:</span>
+        print(<span class="hljs-string">"Duck flying"</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Airplane</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fly</span><span class="hljs-params">(self)</span>:</span>
+        print(<span class="hljs-string">"Airplane flying"</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Whale</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">swim</span><span class="hljs-params">(self)</span>:</span>
+        print(<span class="hljs-string">"Whale swimming"</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">lift_off</span><span class="hljs-params">(entity)</span>:</span>
+    entity.fly()
+
+duck = Duck()
+airplane = Airplane()
+whale = Whale()
+
+lift_off(duck) <span class="hljs-comment"># prints `Duck flying`</span>
+lift_off(airplane) <span class="hljs-comment"># prints `Airplane flying`</span>
+lift_off(whale) <span class="hljs-comment"># Throws the error `'Whale' object has no attribute 'fly'`</span>
+</div></code></pre>
+<p>Golang 的 interface 和 duck typing 有点像，但是严格来说并不算，这里引用 Rob Pike 的在 Twitter 上的原话来佐证:</p>
+<blockquote>
+<p>Go has structural typing, not duck typing. Full interface satisfaction is checked and required.</p>
+</blockquote>
+<p>Golang interface 勉强算作编译时的 duck typing，因为传统定义的 duck typing 发生在运行时，且没有显式的<strong>interface</strong>声明，上面的 python 示例就是典型的 duck typing。区分的原则是，duck typing 不以类型来确定关系，而是通过函数来确定，和 subtyping 是截然不同的。</p>
+</li>
+<li>
+<p><em>Polytypism</em>: 函数式编程语言里的泛型特性。以 Haskell 为例，其函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在 Haskell 语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度。<sup>[2]</sup></p>
+</li>
+</ol>
+<h5 id="dependent-types">Dependent types</h5>
+<p>依赖类型（或依存类型，dependent type）是指依赖于值的类型, 此特性通过极其丰富的类型表达能力使得程序得以借助类型的形式被检查，从而有效减少程序错误。依赖类型的两个常见实例是依赖函数类型(又称<strong>依赖乘积类型</strong>, <strong>Π-类型</strong>)和依赖值对类型(又称<strong>依赖总和类型</strong>、<strong>Σ-类型</strong>)。<sup>[4]</sup></p>
+<p>一个依赖函数的返回值的类型可以依赖于某个参数的具体值，而非仅仅参数的类型，例如，一个输入参数为整型值 n 的函数可能返回一个长度为 n 的数组</p>
+<pre class="hljs"><code><div>// Idris
+// 连接两个列表
+// Vect n a 是依赖函数类型，a 是列表元素的类型，n 是输入参数，Vect n a 返回一个长度为 n 的列表
+app : Vect n a -&gt; Vect m a -&gt; Vect (n + m) a
+</div></code></pre>
+<p>一个依赖值对类型中的第二个值可以依赖于第一个值，例如，可表示一对这样的值：它由一对整数组成，其中的第二个数总是大于第一个数。</p>
+<pre class="hljs"><code><div>def do(i : {i:Int | i&lt;=j}, j : Int) :=
+  // do something
+</div></code></pre>
+<pre class="hljs"><code><div>do(10, 1) // compile error
+</div></code></pre>
+<pre class="hljs"><code><div>do(1, 10) // ok
+</div></code></pre>
+<p>以依赖类型系统为基础的编程语言大多同时也作为构造证明与可验证程序的辅助工具而存在，如 Coq 和 Agda（但并非所有证明辅助工具都以类型论为基础)。近年来，一些以通用和系统编程为目的的编程语言被设计出来，如 Idris。</p>
+<h5 id="linear-types">Linear types</h5>
+<p>Linear types 的思想来源于 Linear Logic, 它确保对象在程序运行期间有且仅有一个它的引用，这种类型用来描述不能被修改的值，比如文件描述符。linear 类型系统允许引用，但不允许别名(被多个变量引用), 类似于 C++的<em>unique_ptr</em>指针, 只能被移动，不能被复制。</p>
+<h5 id="intersection-types">Intersection types</h5>
+<p>一个 intersection type(交叉类型)是多个 type 的结合, 以此，你能够得到一个包含<strong>多个类型</strong>的所有成员(members)的新类型！比如，现有三个类 Person, Serializable 和 Loggable, 新的类型 T = Person &amp; Serializable &amp; Loggable, 那么类型 T 拥有 Person，Serializable 及 Loggable 的所有成员。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// TypeScript mixin example</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extend</span>&lt;<span class="hljs-title">T</span>, <span class="hljs-title">U</span>&gt;(<span class="hljs-params">first: T, second: U</span>): <span class="hljs-title">T</span> &amp; <span class="hljs-title">U</span> </span>{
+    <span class="hljs-keyword">let</span> result = &lt;T &amp; U&gt;{};
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> id <span class="hljs-keyword">in</span> first) {
+        (&lt;<span class="hljs-built_in">any</span>&gt;result)[id] = (&lt;<span class="hljs-built_in">any</span>&gt;first)[id];
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> id <span class="hljs-keyword">in</span> second) {
+        <span class="hljs-keyword">if</span> (!result.hasOwnProperty(id)) {
+            (&lt;<span class="hljs-built_in">any</span>&gt;result)[id] = (&lt;<span class="hljs-built_in">any</span>&gt;second)[id];
+        }
+    }
+    <span class="hljs-keyword">return</span> result;
+}
+
+<span class="hljs-keyword">class</span> Person {
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">public</span> name: <span class="hljs-built_in">string</span></span>) { }
+}
+<span class="hljs-keyword">interface</span> Loggable {
+    log(): <span class="hljs-built_in">void</span>;
+}
+<span class="hljs-keyword">class</span> ConsoleLogger <span class="hljs-keyword">implements</span> Loggable {
+    log() {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"papapa!"</span>);
+    }
+}
+<span class="hljs-keyword">var</span> jim = extend(<span class="hljs-keyword">new</span> Person(<span class="hljs-string">"Jim"</span>), <span class="hljs-keyword">new</span> ConsoleLogger());
+<span class="hljs-keyword">var</span> n = jim.name;
+jim.log();
+</div></code></pre>
+<h5 id="union-types">Union types</h5>
+<p>学过 C 语言的对此类型并不陌生，和 intersection type 类似，一个 union type 可以为多个类型，但是在任意时刻，它的值的类型只能是其中所有类型中的一种。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">//c</span>
+<span class="hljs-keyword">union</span> a_bc {  
+    <span class="hljs-keyword">int</span> i;  
+    <span class="hljs-keyword">char</span> mm;  
+};
+</div></code></pre>
+<p><em>TypeScript</em>里的联合类型用竖线<code>|</code>来分隔每个类型，所以 <code>value : number | string | boolean</code>表示一个值可以是 <code>number</code>，或<code>string</code>，或 <code>boolean</code>。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/**
+ * TypeScript
+ * Takes a string and adds "padding" to the left.
+ * If 'padding' is a string, then 'padding' is appended to the left side.
+ * If 'padding' is a number, then that number of spaces is added to the left side.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">padLeft</span>(<span class="hljs-params">value: <span class="hljs-built_in">string</span>, padding: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span></span>) </span>{
+     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> padding === <span class="hljs-string">"number"</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Array</span>(padding + <span class="hljs-number">1</span>).join(<span class="hljs-string">" "</span>) + value;
+    }
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> padding === <span class="hljs-string">"string"</span>) {
+        <span class="hljs-keyword">return</span> padding + value;
+    }
+}
+
+<span class="hljs-keyword">let</span> indentedString = padLeft(<span class="hljs-string">"Hello world"</span>, <span class="hljs-literal">true</span>); <span class="hljs-comment">// errors during compilation</span>
+<span class="hljs-keyword">let</span> ok = padLeft(<span class="hljs-string">"Hello world"</span>, <span class="hljs-number">0</span>) <span class="hljs-comment">// compile ok</span>
+</div></code></pre>
+<h5 id="existential-types">Existential types</h5>
+<p>在理解存在类型(existential type)之前，我们先看下 java 的类型通配符 <code>?</code> , 它代表一个未知类型.</p>
+<h6 id="upper-bounded-wildcards">Upper Bounded Wildcards</h6>
+<p>通过声明通配的上限(父类)来匹配，如果你的函数入参可能是 List&lt;Integer&gt;, List&lt;double&gt;或者 List&lt;number&gt; ，你可以使用<code>?</code>声明</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(List&lt;? extends Number&gt; list)</span>
+</span></div></code></pre>
+<p>Number 的所有子类都可以作为入参, 例如:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">//Java program to demonstrate Upper Bounded Wildcards</span>
+<span class="hljs-keyword">import</span> java.util.Arrays;
+<span class="hljs-keyword">import</span> java.util.List;
+ 
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WildcardDemo</span>
+</span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
+    </span>{
+         
+        <span class="hljs-comment">//Upper Bounded Integer List</span>
+        List&lt;Integer&gt; list1= Arrays.asList(<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>);
+         
+        <span class="hljs-comment">//printing the sum of elements in list</span>
+        System.out.println(<span class="hljs-string">"Total sum is:"</span>+sum(list1));
+ 
+        <span class="hljs-comment">//Double list</span>
+        List&lt;Double&gt; list2=Arrays.asList(<span class="hljs-number">4.1</span>,<span class="hljs-number">5.1</span>,<span class="hljs-number">6.1</span>);
+         
+        <span class="hljs-comment">//printing the sum of elements in list</span>
+        System.out.print(<span class="hljs-string">"Total sum is:"</span>+sum(list2));
+    }
+ 
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">sum</span><span class="hljs-params">(List&lt;? extends Number&gt; list)</span> 
+    </span>{
+        <span class="hljs-keyword">double</span> sum=<span class="hljs-number">0.0</span>;
+        <span class="hljs-keyword">for</span> (Number i: list)
+        {
+            sum+=i.doubleValue();
+        }
+ 
+        <span class="hljs-keyword">return</span> sum;
+    }
+}
+</div></code></pre>
+<p>省略写法也是<em>Upper Bounded</em></p>
+<pre class="hljs"><code><div>Collection&lt;?&gt; c = <span class="hljs-keyword">new</span> ArrayList&lt;String&gt;();
+c.add(<span class="hljs-keyword">new</span> Object()); <span class="hljs-comment">// compile error</span>
+</div></code></pre>
+<p>当类型不可推断时，上限是<em>Object</em> 即</p>
+<pre class="hljs"><code><div>List&lt;? extends Object&gt;
+</div></code></pre>
+<h6 id="lower-bounded-wildcards">Lower Bounded Wildcards</h6>
+<p>通过声明通配的下限(子类)来匹配, 比如函数的入参声明为:</p>
+<pre class="hljs"><code><div>List&lt;? <span class="hljs-keyword">super</span> Integer&gt;
+</div></code></pre>
+<p>那么，Integer 类型的所有父类都可以作为入参。例如:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">//Java program to demonstrate Lower Bounded Wildcards</span>
+<span class="hljs-keyword">import</span> java.util.Arrays;
+<span class="hljs-keyword">import</span> java.util.List;
+ 
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WildcardDemo</span>
+</span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
+    </span>{
+        <span class="hljs-comment">//Lower Bounded Integer List</span>
+        List&lt;Integer&gt; list1= Arrays.asList(<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>);
+         
+        <span class="hljs-comment">//Integer list object is being passed</span>
+        printOnlyIntegerClassorSuperClass(list1);
+ 
+        <span class="hljs-comment">//Number list</span>
+        List&lt;Number&gt; list2= Arrays.asList(<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>);
+         
+        <span class="hljs-comment">//Integer list object is being passed</span>
+        printOnlyIntegerClassorSuperClass(list2);
+    }
+ 
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printOnlyIntegerClassorSuperClass</span><span class="hljs-params">(List&lt;? <span class="hljs-keyword">super</span> Integer&gt; list)</span>
+    </span>{
+        System.out.println(list);
+    }
+</div></code></pre>
+<p>那 java 的类型通配符和存在类型有什么关系呢？先看看 scala 的缔造者<em>Martin Odersky</em> 对 scala 引入存在类型的回答</p>
+<blockquote>
+<p>Bill Venners: Existential types were added to Scala relatively recently. The justification I heard for existentential types was that they allow you to map all Java types, in particular Java's wildcard types, to Scala types. Are existential types larger than that? Are they a superset of Java's wildcard types? And is there any other reason for them that people should know about?</p>
+<p>Martin Odersky: It is hard to say because people don't really have a good conception of what wildcards are. The original wildcard design by Atsushi Igarashi and Mirko Viroli was inspired by existential types. In fact the original paper had an encoding in existential types. But then when the actual final design came out in Java, this connection got lost a little bit. So we don't really know the status of these wildcard types right now.</p>
+</blockquote>
+<p><em>Martin Odersky</em> 在 scala 邮件组里的回答</p>
+<blockquote>
+<p>The original Java wildcard types (as described in the ECOOP paper by
+Igarashi and Viroli) were indeed just shorthands for existential
+types. I am told and I have read in the FOOL ’05 paper on Wild FJ that
+the final version of wildcards has some subtle differences with
+existential types. I would not know exactly in what sense (their
+formalism is too far removed from classical existential types to be
+able to pinpoint the difference), but maybe a careful read of the Wild
+FJ paper would shed some light on it.</p>
+</blockquote>
+<p>可见，java 类型通配符的设计思想来源于存在类型，但有些不同。scala 引入存在类型是为了兼容 java 和 jvm，所以会比<code>?</code>更强大。那么既然区别不大，理解了类型通配即理解了存在类型。这是一个曲线救国的方式。</p>
+<p>接下来，我们从数学定义的角度来理解。</p>
+<p><em>existential type</em>里的 existential 来源于存在量词<code>∃</code>,  <code>∃</code>在谓词逻辑中的解释:</p>
+<pre class="hljs"><code><div>∃ x: <span class="hljs-type">P</span>(x) 表示存在至少一个 x 使得 <span class="hljs-type">P</span>(x) 为真。
+</div></code></pre>
+<p>存在类型的公式化表示:</p>
+<pre class="hljs"><code><div><span class="hljs-type">T</span> = ∃ <span class="hljs-type">X</span> { <span class="hljs-type">X</span> a; int f(<span class="hljs-type">X</span>); }
+</div></code></pre>
+<p>类型 X 是存在类型, 即存在一个类型 X，满足此表达式，在编程语言里我们称之为<strong>可实现</strong>。存在类型适合用来定义接口，不论是模块之间还是语言之间。</p>
+<p>这里要提下泛型(即前面讲到的<em>Parametric polymorphism</em>, 也叫<em>Universal type</em>), 以避免混淆。<em>Universal type</em>中的 universal 来源于全称量词<code>∀</code>, <code>∀</code>在谓词逻辑中的解释:</p>
+<pre class="hljs"><code><div>∀ x: <span class="hljs-type">P</span>(x) 表示 <span class="hljs-type">P</span>(x) 对于所有 x 为真。
+</div></code></pre>
+<p>泛型的公式化表示:</p>
+<pre class="hljs"><code><div><span class="hljs-type">T</span> = ∀ <span class="hljs-type">X</span> { <span class="hljs-type">X</span> a; int f(<span class="hljs-type">X</span>); }
+</div></code></pre>
+<p>即，对于所有类型 X，满足此表达式。</p>
+<h3 id="%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83">语言规范</h3>
+<p>在语言学里有三个基本概念(也是三个分支)，<strong>syntax</strong>, <strong>semantics</strong>, <strong>pragmatics</strong>.  即语法，语义(编译结果)和语用(最佳实践, 标准库, 生态)。这里主要讲语法层面。</p>
+<h5 id="types">Types</h5>
+<p>一门语言的规范，首先是类型(type), 声明(statements), 表达式(expressions)等， 然后是作用域(scoping)。前面的内容介绍了类型系统, 那么该类型系统定义了哪些类型，实现了哪些特性是我们首先要了解的。通常一门语言的语法规范会以 grammar<sup>[6]</sup>的形式来定义，例如 golang 中对于浮点数字的描述:</p>
+<pre class="hljs"><code><div>float_lit = decimals &quot;.&quot; [ decimals ] [ exponent ] |
+            decimals exponent |
+            &quot;.&quot; decimals [ exponent ] .
+decimals  = decimal_digit { decimal_digit } .
+exponent  = ( &quot;e&quot; | &quot;E&quot; ) [ &quot;+&quot; | &quot;-&quot; ] decimals .
+</div></code></pre>
+<p>这段文本描述了浮点数字的书写规则，也是一棵语法树。<em>grammar</em>对于没有学过的人来说有些难懂，所以本文中用类型实例的方式表示。</p>
+<h6 id="primitive-types">Primitive types</h6>
+<p>即基础类型, 或者叫内置(builtin)类型, 是程序以及<a href="https://zh.wikipedia.org/wiki/%E8%A4%87%E5%90%88%E9%A1%9E%E5%9E%8B">复合类型</a>的创建基础。</p>
+<table>
+<thead>
+<tr>
+<th>基础类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int, short, int8, uint8, byte, int16, uint16, int32, rune, uint32, int64, uint64, long</td>
+<td>整数, 包含不同进制的整数, 包含不同表示范围的整数, 包含有符号和无符号。<code>ex</code>. int a = 100; int b =  0xff; uint8 c = 34; PS. Rust 的 i8, u8 等写法不赘述.</td>
+</tr>
+<tr>
+<td>float, float32, float64, double, long double</td>
+<td>浮点数, 包含不同的计数方式, 不同的范围。ex. float a = 5.6; float64 f = .12345E+5</td>
+</tr>
+<tr>
+<td>bool, boolean</td>
+<td>布尔型, true or false. <code>ex</code>.  bool b = false</td>
+</tr>
+<tr>
+<td>char,  signed char,  unsigned char,  char16_t,  char32_t,  wchar_t, string, symbol</td>
+<td>字符/字符串，string 在某些语言里是复合类型. ex. char a = 'c'; string b = &quot;wango&quot;; symbol 是 ruby 里不可修改的字符串类型</td>
+</tr>
+<tr>
+<td>complex64, complex128</td>
+<td>复数，部分语言有. <code>ex</code>. var x complex128 = complex(1, 2)</td>
+</tr>
+<tr>
+<td>pointer, reference</td>
+<td>指针/引用. <code>ex</code>. int *p = 0x22ae4f; var p *int; *p= 1; q := &amp;p</td>
+</tr>
+<tr>
+<td>error</td>
+<td>错误信息，少部分语言有，比如 golang. <code>ex</code>: var e error</td>
+</tr>
+<tr>
+<td>null, nil, undefined, void</td>
+<td>空值, 在不同的语言里要做区分, 这里仅作归类</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h6 id="compound-types">Compound types</h6>
+<p>即复合类型， 也叫<em>Composite type</em>s. 复合类型可以由基础类型和复合类型所构成。</p>
+<table>
+<thead>
+<tr>
+<th>复合类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>array, slice, list, vector</td>
+<td>数组, <code>ex</code>. int *a = new array[3]</td>
+</tr>
+<tr>
+<td>struct, class</td>
+<td>结构体/类. <code>ex</code>. struct{a:b, c:d}</td>
+</tr>
+<tr>
+<td>map</td>
+<td>key-value, 包含不同的实现方式. <code>ex</code>. map[string]int</td>
+</tr>
+<tr>
+<td>interface</td>
+<td>接口. <code>ex</code>. interface a { f()}</td>
+</tr>
+<tr>
+<td>channel</td>
+<td>信道. <code>ex</code>. var a chan int</td>
+</tr>
+<tr>
+<td>function</td>
+<td>函数</td>
+</tr>
+<tr>
+<td>enum</td>
+<td>枚举, 在某些语言里是基础类型, 比如 TypeScript, 某些不是, 比如 Java</td>
+</tr>
+<tr>
+<td>union</td>
+<td>联合, let a : string | number = 10; a = '10'</td>
+</tr>
+<tr>
+<td>table</td>
+<td>hash, 在某些语言里是基础类型，比如 Lua，在某些语言里是复合类型, 比如 Java</td>
+</tr>
+<tr>
+<td>set</td>
+<td>集合. <code>ex</code>. const s = new Set([1, 2, 3, 4, 5]);</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>对象</td>
+</tr>
+<tr>
+<td>tuple</td>
+<td>元组,  let x: [string, number]; x 是个元组，包含不同类型的元素, scala, typescript 都有这种元组类型</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="statements">Statements</h5>
+<p>statement 的直译是声明，但在这里按照代码的逻辑单元来理解，一个 statement 是逻辑单元的开始或结束。在书籍中，通常描述为 xxx 语句，比如<strong>if</strong>语句。</p>
+<h6 id="empty-statement">Empty statement</h6>
+<p>空语句, 不做任何事情。grammar 规则:</p>
+<pre class="hljs"><code><div>EmptyStatement:
+ ;
+</div></code></pre>
+<h6 id="labeled-statement">Labeled statement</h6>
+<p>标签语句, 通常作为<strong>goto</strong>, <strong>break</strong>, <strong>continue</strong> 的目标，例如 c/c++里的<strong>goto</strong>语句，一个单词加上冒号即是<em>labeled statement</em>。下面代码中的标签语句*LOOP:*即是<strong>goto</strong>的目标。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/*c*/</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+ 
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span> </span>{
+
+   <span class="hljs-comment">/* local variable definition */</span>
+   <span class="hljs-keyword">int</span> a = <span class="hljs-number">10</span>;
+
+   <span class="hljs-comment">/* do loop execution */</span>
+   LOOP:<span class="hljs-keyword">do</span> {
+   
+      <span class="hljs-keyword">if</span>( a == <span class="hljs-number">15</span>) {
+         <span class="hljs-comment">/* skip the iteration */</span>
+         a = a + <span class="hljs-number">1</span>;
+         <span class="hljs-keyword">goto</span> LOOP;
+      }
+		
+      <span class="hljs-built_in">printf</span>(<span class="hljs-string">"value of a: %d\n"</span>, a);
+      a++;
+
+   }<span class="hljs-keyword">while</span>( a &lt; <span class="hljs-number">20</span> );
+ 
+   <span class="hljs-keyword">return</span>
+</div></code></pre>
+<p>它的 grammar 规则为:</p>
+<pre class="hljs"><code><div>LabeledStmt = Label &quot;:&quot; Statement .
+Label       = identifier .
+</div></code></pre>
+<p><em>labeled statement</em>作为<strong>goto</strong>的目标大家应该见的很多，这里再举一个作为<strong>continue</strong>的目标的例子，便于理解。</p>
+<pre class="hljs"><code><div> <span class="hljs-comment">// golang</span>
+ guestList := []<span class="hljs-keyword">string</span>{<span class="hljs-string">"bill"</span>, <span class="hljs-string">"jill"</span>, <span class="hljs-string">"joan"</span>}
+ arrived := []<span class="hljs-keyword">string</span>{<span class="hljs-string">"sally"</span>, <span class="hljs-string">"jill"</span>, <span class="hljs-string">"joan"</span>} 
+
+ CheckList:
+    <span class="hljs-keyword">for</span> _, guest := <span class="hljs-keyword">range</span> guestList {
+        <span class="hljs-keyword">for</span> _, person := <span class="hljs-keyword">range</span> arrived {
+            fmt.Printf(<span class="hljs-string">"Guest[%s] Person[%s]\n"</span>, guest, person)
+
+            <span class="hljs-keyword">if</span> person == guest {
+                fmt.Printf(<span class="hljs-string">"Let %s In\n"</span>, person)
+                <span class="hljs-keyword">continue</span> CheckList
+            }
+        }
+    }
+</div></code></pre>
+<h6 id="expression-statement">Expression statement</h6>
+<p>某些<em>expression</em>(表达式), 比如赋值，函数调用等，可以作为一个<em>statement</em>，称之为<em>expression statement</em></p>
+<h6 id="if-statement">If statement</h6>
+<p>我们常说的<strong>if</strong>条件语句，也叫<strong>If-then-else</strong>,  如果条件满足则执行此逻辑, 否则执行它的<strong>else</strong>(如果存在)逻辑.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+<span class="hljs-keyword">if</span> x &gt; max {
+	x = max
+}
+</div></code></pre>
+<h6 id="assert-statement">Assert statement</h6>
+<p>断言语句，<strong>assert</strong> 加真假值表达式, 如果表达式结果为<em>false</em>, 程序退出。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// c</span>
+assert( <span class="hljs-built_in">size</span> &lt;= LIMIT );
+</div></code></pre>
+<p>不是所有语言都有断言语句.</p>
+<h6 id="switch-statement">Switch statement</h6>
+<p><strong>switch</strong>条件语句，判断表达式的值，满足不同的条件执行时执行不同的逻辑, 当所有条件都不满足时，执行默认逻辑(如果存在).</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">switch</span>(expression) {
+    <span class="hljs-keyword">case</span> n:
+        code block
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> n:
+        code block
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">default</span>:
+        code block
+}
+</div></code></pre>
+<p>对于 golang, <em>switch statement</em>分成了两类, 一类是常规的<em>expression switch</em>(上面的例子), 一类是<em>type switch</em>(下面的例子)</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang type switch</span>
+<span class="hljs-keyword">switch</span> i := x.(<span class="hljs-keyword">type</span>) {
+<span class="hljs-keyword">case</span> <span class="hljs-literal">nil</span>:
+	printString(<span class="hljs-string">"x is nil"</span>)                <span class="hljs-comment">// type of i is type of x (interface{})</span>
+<span class="hljs-keyword">case</span> <span class="hljs-keyword">int</span>:
+	printInt(i)                            <span class="hljs-comment">// type of i is int</span>
+<span class="hljs-keyword">case</span> <span class="hljs-keyword">float64</span>:
+	printFloat64(i)                        <span class="hljs-comment">// type of i is float64</span>
+<span class="hljs-keyword">case</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span> <span class="hljs-title">float64</span>:</span>
+	printFunction(i)                       <span class="hljs-comment">// type of i is func(int) float64</span>
+<span class="hljs-keyword">case</span> <span class="hljs-keyword">bool</span>, <span class="hljs-keyword">string</span>:
+	printString(<span class="hljs-string">"type is bool or string"</span>)  <span class="hljs-comment">// type of i is type of x (interface{})</span>
+<span class="hljs-keyword">default</span>:
+	printString(<span class="hljs-string">"don't know the type"</span>)     <span class="hljs-comment">// type of i is type of x (interface{})</span>
+}
+</div></code></pre>
+<h6 id="while-statement">While statement</h6>
+<p><strong>while</strong>循环语句, 重复判断 bool 表达式的值，如果为真则执行，直到表达式的值为假</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// c</span>
+<span class="hljs-keyword">while</span>(condition)
+{
+   statement(s);
+}
+</div></code></pre>
+<p>tip: 在 golang 里，<strong>for</strong>语句加上 bool 表达式，可以实现<strong>while</strong>语句</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+<span class="hljs-keyword">for</span> {
+  <span class="hljs-comment">// code block</span>
+}
+<span class="hljs-keyword">for</span> a &lt; b {
+    f()
+}
+</div></code></pre>
+<h6 id="do-statement">Do statement</h6>
+<p><strong>do</strong>语句，和<strong>while</strong>配合使用，先执行一次逻辑，再判断条件</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// c</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>{
+    <span class="hljs-keyword">int</span> sum=<span class="hljs-number">0</span>,i;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>,&amp;i);
+    <span class="hljs-keyword">do</span>{
+       sum=sum+i;
+       i++;
+    }
+    <span class="hljs-keyword">while</span>(i&lt;=<span class="hljs-number">10</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"sum=%d"</span>,sum);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<h6 id="for-statement">For statement</h6>
+<p><strong>for</strong>语句, 一般由三部分组成，初始化表达式，条件表达式和一个末尾表达式(post statement)，初始化表达式只在开始时执行一次，条件表达式用来判断本次执行是否退出，末尾表达式在每次<strong>for</strong>语句的代码逻辑执行完后都会执行。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++ {
+	f(i)
+}
+</div></code></pre>
+<h6 id="for-in-statement">For-in statement</h6>
+<p><strong>for</strong>语句常用来迭代，于是出现了多个变种，<strong>for-in</strong>常见于脚本语言，如<em>TypeScipt</em>，<em>Groovy</em>, 用于迭代可枚举的(enumerable types)数据类型</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// JavaScript</span>
+<span class="hljs-keyword">var</span> person = {<span class="hljs-attr">fname</span>:<span class="hljs-string">"John"</span>, <span class="hljs-attr">lname</span>:<span class="hljs-string">"Doe"</span>, <span class="hljs-attr">age</span>:<span class="hljs-number">25</span>}; 
+
+<span class="hljs-keyword">var</span> text = <span class="hljs-string">""</span>;
+<span class="hljs-keyword">var</span> x;
+<span class="hljs-keyword">for</span> (x <span class="hljs-keyword">in</span> person) {
+    text += person[x] + <span class="hljs-string">" "</span>;
+}
+</div></code></pre>
+<p>这里，x 被赋值为 person 这个 map 的 key。当遍历的对象是 map 时，x 为 key，当遍历的对象是数组时，x 为索引下标</p>
+<h6 id="for-of-statement">For-of statement</h6>
+<p><strong>for</strong>语句变种,  类似于<strong>for-in</strong>, 用来迭代可迭代的(iterable)数据类型, 比如数组和字符串</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// JavaScript</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span>* <span class="hljs-title">foo</span>(<span class="hljs-params"></span>)</span>{
+  <span class="hljs-keyword">yield</span> <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">yield</span> <span class="hljs-number">2</span>;
+}
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> foo()) {
+  <span class="hljs-built_in">console</span>.log(v);
+  <span class="hljs-comment">// expected output: 1</span>
+
+  <span class="hljs-keyword">break</span>; <span class="hljs-comment">// closes iterator, triggers return</span>
+}
+</div></code></pre>
+<p>这里变量 v 被赋值为 foo 函数返回的对象。被赋值的变量总是可迭代类型里的元素。</p>
+<p><strong>For-in</strong> vs <strong>For-of</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>for..in</code></th>
+<th><code>for..of</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Applies to</td>
+<td>Enumerable Properties</td>
+<td>Iterable Collections</td>
+</tr>
+<tr>
+<td>Use with Objects?</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Use with Arrays?</td>
+<td>Yes, but not advised</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Use with Strings?</td>
+<td>Yes, but not advised</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h6 id="for-range-statement">For-range statement</h6>
+<p><strong>for</strong>语句变种，在 golang 中用来迭代数组, 或者 map</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+ nums := []<span class="hljs-keyword">int</span>{<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>}
+ sum := <span class="hljs-number">0</span>
+ <span class="hljs-keyword">for</span> _, num := <span class="hljs-keyword">range</span> nums {
+     sum += num
+ }
+ 
+ kvs := <span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]<span class="hljs-keyword">string</span>{<span class="hljs-string">"a"</span>: <span class="hljs-string">"apple"</span>, <span class="hljs-string">"b"</span>: <span class="hljs-string">"banana"</span>}
+ <span class="hljs-keyword">for</span> k, v := <span class="hljs-keyword">range</span> kvs {
+     fmt.Printf(<span class="hljs-string">"%s -&gt; %s\n"</span>, k, v)
+ }
+</div></code></pre>
+<h6 id="break-statement">Break statement</h6>
+<p>跳出语句，用于立即跳出一个逻辑单元，当不配合<em>labeled statement</em>使用时，立即(abruptly)跳出最里层的一个封闭(enclosing)逻辑单元, 如<strong>switch</strong>, <strong>do</strong>, <strong>while</strong>, <strong>for</strong>. 当配合<em>labeled statement</em>使用时，立即跳出 label 标定的层级的封闭逻辑单元。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// c</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span> 
+</span>{
+   <span class="hljs-comment">/* 局部变量定义 */</span>
+   <span class="hljs-keyword">int</span> a = <span class="hljs-number">10</span>;
+   <span class="hljs-comment">/* while 循环执行 */</span>
+   <span class="hljs-keyword">while</span>( a &lt; <span class="hljs-number">20</span> )
+   {
+      <span class="hljs-built_in">printf</span>(<span class="hljs-string">"a 的值： %d\n"</span>, a);
+      a++;
+      <span class="hljs-keyword">if</span>( a &gt; <span class="hljs-number">15</span>)
+      {
+         <span class="hljs-comment">/* 使用 break 语句终止循环 */</span>
+          <span class="hljs-keyword">break</span>;
+      }
+   }
+   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p><em>labeled break</em>已在<em>labeled statement</em>中说明，这里不再赘述.</p>
+<h6 id="continue-statement">Continue statement</h6>
+<p><strong>continue</strong>语句，立即结束当前层级的逻辑，跳转到<strong>for</strong>循环的末尾表达式，开始下一次循环.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+<span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
+	rows := []<span class="hljs-keyword">int</span>{<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>}
+	colunms := []<span class="hljs-keyword">int</span>{<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>}
+
+	<span class="hljs-keyword">for</span> _, row := <span class="hljs-keyword">range</span> rows {
+		<span class="hljs-keyword">for</span> _, column := <span class="hljs-keyword">range</span> colunms {
+			<span class="hljs-keyword">if</span> column == <span class="hljs-number">4</span> {
+				<span class="hljs-keyword">continue</span>
+			}
+			fmt.Printf(<span class="hljs-string">"%d-%d\n"</span>, row, column)
+		}
+	}
+}
+</div></code></pre>
+<p>上述代码的输出为:</p>
+<pre class="hljs"><code><div><span class="hljs-number">1</span><span class="hljs-number">-2</span>
+<span class="hljs-number">1</span><span class="hljs-number">-6</span>
+<span class="hljs-number">3</span><span class="hljs-number">-2</span>
+<span class="hljs-number">3</span><span class="hljs-number">-6</span>
+<span class="hljs-number">5</span><span class="hljs-number">-2</span>
+<span class="hljs-number">5</span><span class="hljs-number">-6</span>
+</div></code></pre>
+<p><strong>continue</strong>和<em>labeled statement</em>配合使用时，不仅会结束当前层级的逻辑，还会跳转到<em>label</em>标签指定的位置。我们看下下面的代码逻辑.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+<span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
+	rows := []<span class="hljs-keyword">int</span>{<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>}
+	colunms := []<span class="hljs-keyword">int</span>{<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>}
+
+RowLoop:
+	<span class="hljs-keyword">for</span> _, row := <span class="hljs-keyword">range</span> rows {
+		<span class="hljs-keyword">for</span> _, column := <span class="hljs-keyword">range</span> colunms {
+			<span class="hljs-keyword">if</span> column == <span class="hljs-number">4</span> {
+				<span class="hljs-keyword">continue</span> RowLoop
+			}
+			fmt.Printf(<span class="hljs-string">"%d-%d\n"</span>, row, column)
+		}
+	}
+}
+</div></code></pre>
+<p>当 column 等于 4 时，结束逻辑，此时不是跳转到当前层级的<em>post statement</em>, 而是跳转到 RawLoop, 所以输出结果应该为:</p>
+<pre class="hljs"><code><div>1-2
+3-2
+5-2
+</div></code></pre>
+<p>不仅 4 没有输出，6 也被<strong>continue</strong>掉了.</p>
+<h6 id="return-statement">Return statement</h6>
+<p><strong>return</strong>语句跳出当前函数，回到函数的调用方, 同时将一个或者多个返回值传给调用方。本应出现在最后一行的<strong>return</strong>语句，在没有返回值的情况下，可以省略。<em>Groovy</em>语言的<strong>return</strong>语句是可选的。</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// sum method</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-keyword">static</span> sum(n, closure) {
+      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i += <span class="hljs-number">2</span>) {
+        closure(i)
+      }
+      <span class="hljs-comment">// return 2, 可以简写成 2</span>
+      <span class="hljs-number">2</span>
+    }
+</div></code></pre>
+<h6 id="throw-statement">Throw statement</h6>
+<p>在一些语言中比如<em>Java</em>, <em>JavaScript</em>等使用<strong>throw</strong>语句来抛出错误，以便上层的调用方能够通过<strong>try-catch-throw</strong>的方式捕捉并处理。未捕捉的<strong>throw</strong>语句会导致线程/进程终止。对于<em>Java</em>, <strong>throw</strong>的的对象必须是<em>Exception</em>或者其子类，对于<em>JavaScript</em>, throw 的对象可以是任意类型.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// JavasScript</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRectArea</span>(<span class="hljs-params">width, height</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(width) || <span class="hljs-built_in">isNaN</span>(height)) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-string">"Parameter is not a number!"</span>;
+  }
+}
+
+<span class="hljs-keyword">try</span> {
+  getRectArea(<span class="hljs-number">3</span>, <span class="hljs-string">'A'</span>);
+}
+<span class="hljs-keyword">catch</span>(e) {
+  <span class="hljs-built_in">console</span>.log(e);
+  <span class="hljs-comment">// expected output: "Parameter is not a number!"</span>
+}
+</div></code></pre>
+<h6 id="goto-statement">Goto statement</h6>
+<p><strong>goto</strong>语句和<em>labeled statement</em>配合使用，用于逻辑跳转，程序执行流程会直接跳转到标签处.  <em>goto statement</em>只有部分语言提供，而且写法也有不同，比如对于<em>golang</em>, <em>labeled statement</em>必须在<em>goto statement</em>之前, 而<em>C</em>语言则无此限制。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// c</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+ 
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span>
+</span>{
+   <span class="hljs-comment">/* 局部变量定义 */</span>
+   <span class="hljs-keyword">int</span> a = <span class="hljs-number">10</span>;
+
+   <span class="hljs-comment">/* do 循环执行 */</span>
+   LOOP:<span class="hljs-keyword">do</span>
+   {
+      <span class="hljs-keyword">if</span>( a == <span class="hljs-number">15</span>)
+      {
+         <span class="hljs-comment">/* 跳过迭代 */</span>
+         a = a + <span class="hljs-number">1</span>;
+         <span class="hljs-keyword">goto</span> LOOP;
+      }
+      <span class="hljs-built_in">printf</span>(<span class="hljs-string">"a 的值： %d\n"</span>, a);
+      a++;
+     
+   }<span class="hljs-keyword">while</span>( a &lt; <span class="hljs-number">20</span> );
+ 
+   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p>以上都是常见的语句，除此之外，语言也会有实现一些非常规的语句，比如<em>golang</em>的<strong>defer</strong>语句。</p>
+<h5 id="operators">Operators</h5>
+<p>在介绍表达式之前，先介绍它的组成元素之一，操作符。其中，操作符分为一元(unary)操作符，二元(binary)操作符和三元操作符. 优先级决定了在多个操作符同时出现时，先使用哪个来求值。数字越大，优先级越高。</p>
+<h6 id="unary-operators">Unary operators</h6>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>加号, a := 1 + 4</td>
+</tr>
+<tr>
+<td>-</td>
+<td>减号, b := 1 - 4</td>
+</tr>
+<tr>
+<td>++</td>
+<td>累加 1, int b = 0; int a = b++;</td>
+</tr>
+<tr>
+<td>--</td>
+<td>累减 1, ini b = 0; int a = b—;</td>
+</tr>
+<tr>
+<td>~</td>
+<td>按位取反,  ~ 0111（十进制 7）  = 1000（十进制 8）</td>
+</tr>
+<tr>
+<td>!</td>
+<td>非, !isEmpty(o)</td>
+</tr>
+<tr>
+<td>^</td>
+<td>异或, 2 ^ 3</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>按位与,   0101  &amp; 0011  = 0001</td>
+</tr>
+<tr>
+<td>&lt;-</td>
+<td>赋值, a &lt;- 1, 在 golang 中用于操作 channel</td>
+</tr>
+<tr>
+<td>|</td>
+<td>按位或,    0101（十进制 5）      | 0011（十进制 3）       = 0111（十进制 7）</td>
+</tr>
+</tbody>
+</table>
+<h6 id="binary-operators">Binary operators</h6>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*</td>
+<td>乘法, c = 2 * 10 = 20</td>
+</tr>
+<tr>
+<td>/</td>
+<td>除法, c = 10 / 2 = 5</td>
+</tr>
+<tr>
+<td>%</td>
+<td>取模, c = 10 % 2 = 0</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>位运算左移, 在 c++中也用来操作输入流</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>位运算右移, 在 c++中也用来操作输出流</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>按位与</td>
+</tr>
+<tr>
+<td>&amp;^</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>==</td>
+<td>等于, 1 == 2</td>
+</tr>
+<tr>
+<td>!=</td>
+<td>不等于,  1 != 2</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小与</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>||</td>
+<td>或</td>
+</tr>
+<tr>
+<td>&amp;&amp;</td>
+<td>且</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>+</td>
+<td>加法</td>
+</tr>
+<tr>
+<td>-</td>
+<td>减法</td>
+</tr>
+<tr>
+<td>|</td>
+<td>按位或</td>
+</tr>
+<tr>
+<td>^</td>
+<td>按位异或</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h6 id="ternary-operators">Ternary operators</h6>
+<p>在计算机中也叫条件运算符(conditional operator)</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>? :</td>
+<td>a &gt; b ? a : b</td>
+</tr>
+</tbody>
+</table>
+<h5 id="expressions">Expressions</h5>
+<p>在编程语言里一个表达式(expression<sup>[7]</sup>)是由一个或多个常量，变量，操作符或函数组成。通过对表达式求值(evaluate)来得到一个新的值，这个新的值可以是基础类型，也可以是复合类型。表达式在运算时，会进行类型推断和类型检查。从之前讲的内容可以看出，<em>statements</em>的作用主要是控制代码逻辑的执行顺序，<em>expressions</em>则是具体的代码逻辑.</p>
+<h6 id="variable-expression">Variable expression</h6>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+c := a + b
+</div></code></pre>
+<h6 id="arithmetic-expression">Arithmetic expression</h6>
+<pre class="hljs"><code><div><span class="hljs-number">2</span> + <span class="hljs-number">3</span>
+</div></code></pre>
+<h6 id="relational-expression">Relational expression</h6>
+<pre class="hljs"><code><div><span class="hljs-number">3</span> != <span class="hljs-number">4</span>
+</div></code></pre>
+<h6 id="function-expression">Function expression</h6>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+v := f(<span class="hljs-number">1</span>)
+</div></code></pre>
+<h6 id="index-expression">Index expression</h6>
+<pre class="hljs"><code><div>a[x]
+</div></code></pre>
+<p>表达式并没有严格的分类，各个语言也不尽相同，这里仅列举了部分例子来说明。</p>
+<h5 id="scoping">Scoping</h5>
+<p>即作用域, 作用域是名称(比如变量的声明)和其实体(entity, 比如变量的定义)的绑定规则。作用域约束了实体的作用范围，保证程序是无歧义的。</p>
+<h6 id="expression-scope">Expression scope</h6>
+<p>实体仅在表达式内可用。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// c</span>
+({ <span class="hljs-keyword">int</span> x = f(); x * x; })
+</div></code></pre>
+<p>临时变量<em>x</em>接受函数的返回值并平方，这样避免两次调用函数<em>f</em>.</p>
+<h6 id="block-scope">Block scope</h6>
+<p>通常编程语言都会使用花括号<code>{}</code>来将代码包裹成块(block), 在 block 内声明的实体，仅在 block 内有效。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+{
+    <span class="hljs-keyword">var</span> a <span class="hljs-keyword">int</span>
+    b := a
+}
+b := a <span class="hljs-comment">// compile error</span>
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+{
+    <span class="hljs-keyword">var</span> a <span class="hljs-keyword">int</span>
+    b := a
+}
+b := <span class="hljs-number">1</span> <span class="hljs-comment">// ok</span>
+</div></code></pre>
+<h6 id="function-scope">Function scope</h6>
+<p>在函数内声明的实体，仅在函数内有效。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">square</span><span class="hljs-params">(n)</span>:</span>
+  <span class="hljs-keyword">return</span> n * n
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sum_of_squares</span><span class="hljs-params">(n)</span>:</span>
+  total = <span class="hljs-number">0</span> 
+  i = <span class="hljs-number">0</span>
+  <span class="hljs-keyword">while</span> i &lt;= n:
+    total += square(i)
+    i += <span class="hljs-number">1</span>
+  <span class="hljs-keyword">return</span> total
+</div></code></pre>
+<p>为了不和<em>block scope</em>混淆，这里用<em>python</em>的例子。</p>
+<h6 id="file-scope">File scope</h6>
+<p>在代码文件内声明的全局变量，仅在当前文件内有效。</p>
+<h6 id="module-scope">Module scope</h6>
+<p>在某些现代语言中，一个实体可以在一个模块内的各个文件内有效，比如<em>golang</em>.  部分语言，一个文件就是一个独立的 module，此时，也属于<em>file scope</em>.</p>
+<h6 id="global-scope">Global scope</h6>
+<p>在所有模块，所有文件内都有效的实体称为全局实体，此类作用域属于<em>global scope</em>. 在编程实践当中，应尽量避免使用。</p>
+<h5 id="packages">Packages</h5>
+<p>一个复杂程序一般会由多个包(或者叫模块)组成, 这种机制能让程序的结构和逻辑更加清晰可读，提高代码的复用能力，也可以借助<em>module scope</em>来避免同名之间的冲突。这里仅列举几种常见的包引入方式。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Java 包名是一个层级结构</span>
+<span class="hljs-keyword">import</span> org.apache.commons.net.util.SubnetUtils;
+<span class="hljs-keyword">import</span> org.slf4j.Logger;
+<span class="hljs-keyword">import</span> org.slf4j.LoggerFactory;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.security.core.context.SecurityContextHolder;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+<span class="hljs-keyword">import</span> org.springframework.util.StringUtils;
+
+Subnetutils sbt = <span class="hljs-keyword">new</span> Subnetutils(<span class="hljs-string">"xx"</span>)
+</div></code></pre>
+<pre class="hljs"><code><div>// python
+<span class="hljs-keyword">from</span> sys <span class="hljs-keyword">import</span> argv
+</div></code></pre>
+<p>顺便说下 python 里<em>from</em>和常规<em>import</em>之间，在包的的使用上会有差异。</p>
+<pre class="hljs"><code><div>&gt;&gt;&gt; from os import path
+&gt;&gt;&gt; path.
+  File &quot;&lt;stdin&gt;&quot;, line 1
+    path.
+        ^
+SyntaxError: invalid syntax
+&gt;&gt;&gt; path
+&lt;module 'posixpath' from '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/posixpath.pyc'&gt;
+&gt;&gt;&gt; os.path
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+NameError: name 'os' is not defined
+&gt;&gt;&gt; import os.path
+&gt;&gt;&gt; os.path
+&lt;module 'posixpath' from '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/posixpath.pyc'&gt;
+&gt;&gt;&gt;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// node</span>
+<span class="hljs-keyword">var</span> circle = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./circle.js'</span>);
+<span class="hljs-built_in">console</span>.log( <span class="hljs-string">'The area of a circle of radius 4 is '</span> + circle.area(<span class="hljs-number">4</span>));
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// golang</span>
+<span class="hljs-keyword">import</span> (
+    <span class="hljs-string">"fmt"</span>
+    <span class="hljs-string">"github.com/xx/xx"</span>
+)
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// TypeScript</span>
+<span class="hljs-keyword">import</span> { cube, foo } <span class="hljs-keyword">from</span> <span class="hljs-string">'./mylib'</span>;
+<span class="hljs-built_in">console</span>.log(cube(<span class="hljs-number">3</span>));
+<span class="hljs-built_in">console</span>.log(foo);
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// c/c++</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"my_header.h"</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">foo</span><span class="hljs-params">(<span class="hljs-keyword">char</span>* name)</span> </span>{
+   <span class="hljs-comment">//do stuff</span>
+   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<h3 id="%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F">编程范式</h3>
+<p>编程范式(programming paradigms)，是在编程的理论与实践当中提炼出的概念模型。</p>
+<blockquote>
+<p>Programming Paradigm: A conceptual model underlying the theories and practice of programming</p>
+</blockquote>
+<h5 id="ipimperative-programming">IP(Imperative Programming)</h5>
+<p>即指令式编程。程序由一系列指令和流程控制语句组成，运行过程中指令不断改变程序的状态，由此达到最终的编码意图。<strong>IP</strong>范式会显式地指定代码的执行流程，以及运算逻辑。汇编是典型的使用<strong>IP</strong>范式的编程语言。</p>
+<pre class="hljs"><code><div>    result = []
+    i = 0
+start:
+    numPeople = length(people)
+    if i &gt;= numPeople goto finished
+    p = people[i]
+    nameLength = length(p.name)
+    if nameLength &lt;= 5 goto nextOne
+    upperName = toUpper(p.name)
+    addToList(result, upperName)
+nextOne:
+    i = i + 1
+    goto start
+finished:
+    return sort(result)
+</div></code></pre>
+<h5 id="spstructured-programming">SP(Structured Programming)</h5>
+<p>即结构化编程，在<strong>IP</strong>的基础上，我们可以将用<strong>goto</strong>来控制流程的代码，以<strong>for</strong>语句，<strong>while</strong>语句等此类结构化的代码块(block structure)组织起来，使得代码的可读性更高，那么此种编码方式即为结构化范式。<strong>SP</strong>是现代语言都支持的一种基础范式。</p>
+<pre class="hljs"><code><div>result = [];
+for i = 0; i &lt; length(people); i++ {
+    p = people[i];
+    if length(p.name)) &gt; 5 {
+        addToList(result, toUpper(p.name));
+    }
+}
+return sort(result);
+</div></code></pre>
+<h5 id="ppprocedure-programming">PP(Procedure Programming)</h5>
+<p>即过程式编程，单看中文可能难以理解，<em>procedure</em>来源于<em>procedure call</em>, 即函数调用，主要是因为<strong>PP</strong>在<strong>IP</strong>的基础上引入了函数及函数调用, 将可提炼的逻辑用函数封装起来，以复用代码和提高可读性。</p>
+<p><strong>OOP(Object-oriented Programming)</strong></p>
+<p>即我们常说的面向对象编程。在<strong>SP</strong>和<strong>PP</strong>的范畴里，数据类型是松散的，数据结构和算法之间也是松散的，而<strong>OOP</strong>则提供了一种类似于人类对现实世界建模的方法，对二进制世界的类型和逻辑进行建模和封装，并在此基础上提供了更多的类型和语法特性。<strong>OOP</strong>的优点简列如下(封装，继承，多态):</p>
+<ul>
+<li>当我们对一组数据类型进行抽象，封装成类(class, 类是<strong>OOP</strong>的基本概念)时，我们可以定义该类的子类，来共享它的数据类型和逻辑，此方式称为继承(inheritance), 能够有效减少我们的开发时间。</li>
+<li>当类被定义后，通常它只需要关注它自身的数据和逻辑，通过语法特性，一般是<em>public</em>/<em>private</em>关键字，将这类数据和逻辑隐藏起来，避免被非法(或者说不合理的, 不应当的)访问，提升程序和系统的安全性。</li>
+<li>一个封装好的类，不仅能被它的创建者使用，也可以分发(在网络上)给其他人使用, 比如<em>Java</em>的 jar 包。</li>
+<li>一门语言不可能把开发者所需要的所有的类型都定义好，class 的概念则很好地解决了这个问题，开发者可以定义任意自己想要的数据类型。</li>
+<li><strong>OOP</strong>的多态性质可以让代码更加灵活。</li>
+</ul>
+<h5 id="dpdeclarative-programming">DP(Declarative Programming)</h5>
+<p>即，描述性范式。和<strong>IP</strong>相反，此类语言只描述最终的编码意图，不描述达到意图的过程。举个例子，如何用程序来回答你是怎么回家的？</p>
+<ul>
+<li>
+<p><em>IP</em>:</p>
+<blockquote>
+<p>Go out of the north exit of the parking lot and take a left. Get on I-15 south until you get to the Bangerter Highway exit. Take a right off the exit like you’re going to Ikea. Go straight and take a right at the first light. Continue through the next light then take your next left. My house is #298.</p>
+</blockquote>
+</li>
+<li>
+<p><em>DP</em>:</p>
+<blockquote>
+<p>My address is 298 West Immutable Alley, Draper Utah 84020</p>
+</blockquote>
+</li>
+</ul>
+<p>典型的<strong>DP</strong>范式语言如<em>SQL</em>, 仅描述目的，达到目的的逻辑被隐藏。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">Users</span> <span class="hljs-keyword">WHERE</span> Country=’Mexico’;
+</div></code></pre>
+<h5 id="lplogic-programming">LP(Logic Programming)</h5>
+<p>即逻辑编程，它属于<strong>DP</strong>的范畴。逻辑编程的要点是将数学中的逻辑风格带入计算机程序设计之中。它设置匹配规则来解决问题(rule-based)，而非设置步骤来解决问题, 即事实+规则=结果。<em>Prolog</em>是典型的<strong>LP</strong>范式语言，此类语言主要应用在人工智能，专家系统等领域。</p>
+<h5 id="fpfunctional-programming">FP(Functional Programming)</h5>
+<p>即函数式编程，<strong>FP</strong>属于<strong>DP</strong>的子集, 在函数式编程里，函数和其他数据类型一样，可以作为类型定义变量，可以作为入参和返回值，代码里的<strong>SP</strong>逻辑尤其是控制流逻辑，被隐藏了起来。 假设我们要编写一个函数，将一个数组的每个元素都乘以 2，<strong>PP</strong>风格的代码如下:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// TypeScript</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">double</span> (<span class="hljs-params">arr</span>) </span>{
+  <span class="hljs-keyword">let</span> results = []
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; i++){
+    results.push(arr[i] * <span class="hljs-number">2</span>)
+  }
+  <span class="hljs-keyword">return</span> results
+}
+</div></code></pre>
+<p>上述代码，详细地写明了整个计算过程，包括迭代过程和计算方法，所以<strong>IP</strong>范畴的范式会详细描述计算机是如何完成这件事的</p>
+<blockquote>
+<p>First do this, then do that.</p>
+</blockquote>
+<p><strong>FP</strong>则不会描述数组是如何迭代的，也不会显式地修改变量, 仅仅描述了我们想要什么，我们想要将元素乘以 2，<code>item * 2</code>就是核心逻辑，不需要开发者关心它是怎么迭代和修改变量的。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">double</span> (<span class="hljs-params">arr</span>) </span>{
+  <span class="hljs-keyword">return</span> arr.map(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> item * <span class="hljs-number">2</span>)
+}
+</div></code></pre>
+<p><strong>FP</strong>将开发者从机器的执行模型切换到了人的思维模型上，可读性会更高。需要注意的是，某些支持<strong>FP</strong>的语言本身是属于<strong>IP</strong>的，同时也可以认为其属于<strong>DP</strong>, 不必过于纠结。</p>
+<h5 id="mpmeta-programming">MP(Meta Programming)</h5>
+<p>即元编程, 也写做<em>Metaprogramming</em>。元编程是一种可以将程序当作数据来操作的技术，元编程能够读取，生成，分析或转换其他的程序代码，甚至可以在运行时修改自身. <em>C++<em>的 template 即属于</em>metaprogramming</em>的范畴，编译器在编译时生成具体的源代码。在 web 框架<em>Ruby on Rails</em>里，元编程被普遍使用。比如，在 SQL 数据库的表里，有一个表 users，在 ruby 中用类<em>User</em>表示，你需要根据 user 的 email 字段来获取相应的结果，通常的做法是写个 sql 查询语句去完成，但是<em>Ruby on Rails</em>在元编程的加持下，会让这件事变得异常简单。</p>
+<pre class="hljs"><code><div>User.find_by_email(<span class="hljs-string">'songtianyi630@163.com'</span>)
+</div></code></pre>
+<p><em>find_by_email</em>并不是我们自己的定义的函数，它是如何完成这件事的呢？框架会根据函数名<em>find_by_email</em>动态生成一个查询函数去查询数据库。除了这种黑魔法，元编程还能够动态修改一个类的成员函数，在运行时创建函数等等，这里不展开讲，在<em>Ruby</em>或者<em>Groovy</em>的相关书籍里会有详细介绍。语言的反射特性和对模板的支持是实现元编程的主要基础，虽然**c++<strong>并不支持反射，但</strong>c++**的模板提供了元编程的能力。</p>
+<p>编程范式还有很多细分项，比如<em>Event-driven programming</em>, <em>Distributed programming</em><sup>[10]</sup>等, 这里不再一一列举。</p>
+<h3 id="%E9%80%89%E5%9E%8B%E5%8F%82%E8%80%83">选型参考</h3>
+<h5 id="%E6%9C%AF%E8%AF%AD%E8%AF%B4%E6%98%8E">术语说明</h5>
+<ul>
+<li><em>static and dynamic checks</em>: 指该语言的类型系统会进行静态检查和动态检查，注意，所有语言都有动态检查。</li>
+<li><em>strongly checked</em>: 以检查范围的大小作为标准，意味着类型系统的类型检查(type checking)已经尽可能消除了类型错误, 有些地方会称为<em>strongly typing</em>, 有的地方甚至会称为<em>strongly typed</em>, 要注意区分.</li>
+<li><em>weakly typed</em>: 类型可变</li>
+<li><em>strongly typed</em>: 类型不可变</li>
+<li><em>dynamically typed</em>: 值的类型仅在运行时确定</li>
+<li><em>statically typed</em>: 值的类型仅在编译时确定</li>
+<li><em>duck</em>: duck typing, 也叫 row polymorphism</li>
+<li><em>generic</em>: parametric polymorphism</li>
+<li><em>subtype</em>: subtype polymorphism</li>
+<li><em>overloading</em>: Ad hoc polymorphism, 函数重载或操作符重载或两者都有</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Lang</th>
+<th style="text-align:center">Typed</th>
+<th style="text-align:center">Static and dynamic  checks</th>
+<th style="text-align:center">Strongly checked</th>
+<th style="text-align:center">Weakly or strongly  typed</th>
+<th style="text-align:center">Dynamically or statically typed</th>
+<th style="text-align:center">Type theories</th>
+<th>Paradigms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Assembly</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+<td>IP</td>
+</tr>
+<tr>
+<td style="text-align:center">Java</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">generic, subtype, overloading</td>
+<td>IP,SP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">C</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">-</td>
+<td>IP,SP,PP</td>
+</tr>
+<tr>
+<td style="text-align:center">C++</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">generic, subtype, overloading</td>
+<td>IP,SP,PP,OOP,FP,MP(template)</td>
+</tr>
+<tr>
+<td style="text-align:center">Python</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">dynamically</td>
+<td style="text-align:center">duck, subtype, overloading</td>
+<td>IP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">C#</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">generic, subtype, overloading</td>
+<td>IP,SP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">PHP</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">dynamically</td>
+<td style="text-align:center">duck, subtype</td>
+<td>IP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">JavaScript</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">dynamically</td>
+<td style="text-align:center">duck</td>
+<td>IP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">Ruby</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">dynamically</td>
+<td style="text-align:center">duck</td>
+<td>IP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">R</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">dynamically</td>
+<td style="text-align:center">generic, overloading, subtype</td>
+<td>IP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">Go</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">subtype</td>
+<td>IP,PP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">Objective-C</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">duck, generic, subtype</td>
+<td>IP,OOP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">Perl</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">dynamically</td>
+<td style="text-align:center">generic, duck, subtype, overloading</td>
+<td>IP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">Swift</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">duck, generic, subtype, overloading</td>
+<td>IP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">Scala</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">duck, generic, subtype, overloading</td>
+<td>IP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">Lisp</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+<td>FP</td>
+</tr>
+<tr>
+<td style="text-align:center">Prolog</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">-</td>
+<td>DP,LP</td>
+</tr>
+<tr>
+<td style="text-align:center">Erlang</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">dynamically</td>
+<td style="text-align:center">overloading</td>
+<td>FP</td>
+</tr>
+<tr>
+<td style="text-align:center">Lua</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">dynamically</td>
+<td style="text-align:center">duck, generic</td>
+<td>IP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">Haskell</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">generic, duck, overloading</td>
+<td>FP</td>
+</tr>
+<tr>
+<td style="text-align:center">Kotlin</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">generic, subtype, overloading</td>
+<td>IP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">TypeScript</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">generic, duck, overloading</td>
+<td>IP,SP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">Rust</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">generic, overloading, subtype</td>
+<td>IP,SP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center">Julia</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">dynamically</td>
+<td style="text-align:center">generic, overloading, subtype</td>
+<td>IP,SP,PP,OOP,FP,MP</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>Lang</strong></td>
+<td style="text-align:center"><strong>Typed</strong></td>
+<td style="text-align:center"><strong>Static and dynamic  checks</strong></td>
+<td style="text-align:center"><strong>Strongly checked</strong></td>
+<td style="text-align:center"><strong>Weakly or strongly  typed</strong></td>
+<td style="text-align:center"><strong>Dynamically or statically typed</strong></td>
+<td style="text-align:center"><strong>Type theories</strong></td>
+<td><strong>Paradigms</strong></td>
+</tr>
+</tbody>
+</table>
+<p>整理完这个对比表才发现一些有意思的事情:</p>
+<ul>
+<li>原来大部分语言都有<strong>OOP</strong>, <em>js</em>也是.</li>
+<li><em>Go</em>的优势并不在自己的类型系统和语法特性上, 它的设计充分体现了<em>less is more</em>的设计哲学, 上手十分简单, 工程实践效果很好。</li>
+</ul>
+<p>附:树形对比图
+http://on-img.com/chart_image/5b20fa53e4b06350d462d78b.png</p>
+<h3 id="%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE">参考文献</h3>
+<ol>
+<li><a href="http://www.cs.colorado.edu/~bec/courses/csci5535/reading/cardelli-typesystems.pdf">《Type Systems》, Luca Cardelli</a></li>
+<li><a href="http://cea.ceaj.org/CN/article/downloadArticleFile.do?attachType=PDF&amp;id=29391">《函数式语言泛型特性的研究与实现》, LI Yang, YU Shangchao, WANG Peng</a></li>
+<li><a href="https://www.asc.ohio-state.edu/pollard.4/type/books/pierce-tpl.pdf">《Types and Programming Languages》, Benjamin C. Pierce</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B">《依赖类型》, wikipedia</a></li>
+<li><a href="https://stackoverflow.com/questions/9338709/what-is-dependent-typing">《what is dependent type?》, StackOverflow</a></li>
+<li><a href="https://github.com/antlr/antlr4/blob/master/doc/lexicon.md">《Antlr Docs》, github</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Expression_(computer_science)">《Expression (computer science)》, wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/List_of_programming_languages_by_type#Metaprogramming_languages">《List of programming languages by type》, wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Comparison_of_programming_languages">《Comparison of programming languages》, wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Comparison_of_multi-paradigm_programming_languages">《Comparison of multi-paradigm programming language》, wikipedia</a></li>
+<li><a href="https://twitter.com/rob_pike/status/546973312543227904">Rob Pike tweet</a></li>
+</ol>
+
+</body>
+</html>

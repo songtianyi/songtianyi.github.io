@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>surfing.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E5%86%B2%E6%B5%AA">冲浪</h1>
+<h3 id="%E5%89%8D%E8%A8%80">前言</h3>
+<p>10.1 在家宅了几天呆不住了，就骑车去了东涌，为什么去东涌呢？我也不知道什么时候去东涌冲浪这个想法扎根在我脑海里了，而且很早(17 年)就加了 BLUE 俱乐部老板的微信，但一直只是关注他的朋友圈。晚上到的东涌，跟老板(代子)租了块板，第二天上午就下海了，自己折腾了两个小时，没入门。在水里扑通的时候遇到一个从重庆来这里冲浪的妹子，我说你教教我吧，她不肯:(  说让我报个体验课学一下，于是下午就找代子上课去了，陆地学了起乘之后，下水第一次推板就站起来了，在水上滑行的感觉太爽了，应该每个人都会爱上那种感觉，于是就这样开始啦。</p>
+<h3 id="%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B">新手教程</h3>
+<h5 id="%E5%AE%89%E5%85%A8">安全</h5>
+<p>冲浪是一项极限运动，所谓极限运动就是一直在作死的边缘试探，所以首先我们要认清自己的能力，不去做超越自己控制范围内的动作就不会有危险，就在东冲就有大大小小的事故，有人游泳溺水，有人冲浪撞瞎眼睛, 还有人骨折! 冲浪一项高强度的运动，运动前要热身和拉伸，运动后也要拉伸。尤其是肩部，我就出现过划水过多导致的肩部疼痛，根本原因是久坐导致的圆肩，划水的时候肩峰撞击引发疼痛。要注意此类问题。第一次玩务必请教练，水性不好的人请找人陪同或者请教练。不管你经验多丰富，去到新浪点务必请当地教练上一节课或者有熟悉此浪点的同伴陪同！</p>
+<ul>
+<li>下水前，热身，检查脚绳，观察浪和离岸流。</li>
+<li>板头朝向大海，双手抓板越浪。落水后，保证板不在浪和自己中间，左前方和右前方也不行，不然容易被板打到，哪怕它离你很远！！</li>
+<li>不要在浅滩区起乘或站板，落水的时候容易摔伤或者扭脚，也容易损坏尾鳍</li>
+<li>少玩浪壁高且马上要溃的浪，容易连人带板卷进去，如果水浅就要被沙子摩擦。落水时，注意保护头部，出水后让然要保护头部，观察四周，甚至头顶，直到确认安全，注意看浪。</li>
+</ul>
+<h5 id="%E8%B6%8A%E6%B5%AA">越浪</h5>
+<p>先带板到水深一点的地方再上板划水，节省一些体力，浪大可以等它溃掉再前进，小浪双手扶板，跳起来并施加向前的推力来破浪和越浪。上板划水时要结合自己的划水水平/体能和浪溃的方向/速度来采取相应的对策，能划就划，划不过去就考虑乌龟翻滚(turtle roll)或者潜越(duck dive)，浪大泡泡多可以考虑弃板，人扎进水里，扎深一点，不要让泡泡冲到你。这就要求你的脚绳质量要好，并且下水前要检查脚绳。还有一些越浪技巧可以从下面的视频里学。</p>
+<h5 id="%E5%88%92%E6%B0%B4">划水</h5>
+<p>划水是一项需要长期修炼的技能。挺胸，肚子贴板, 手臂伸直，尽量前伸(但要保证稳定)，沿板缘后旋手臂，当手臂与板垂直的时候大力向后拨水，左右交替重复这个动作，可以适当收紧核心肌肉，不让板左右晃动。板头离水面 5cm-10cm，双脚并拢。在一开始练习划水的时候不要过于追求划水频率，先放慢节奏，找到各块肌肉的发力感和协调性，动作熟练之后可以练习耐力和爆发力，追浪也是如此，注意板的稳定性和协调性会事半功倍。这里特别提一下双腿并拢，初学者大部分是做不到这一点的，有的人甚至分的很开，不仅难看，而且影响划水效率，腿并拢时试着收紧臀部肌肉，有点像提肛，多练可以预防痔疮等肛周疾病，女孩子臀部也会更翘</p>
+<h5 id="%E8%BF%BD%E6%B5%AA">追浪</h5>
+<p>追绿浪要看浪的坡度，一般浪越高坡度越大，有些不算高的浪也有不错的坡度，也是可以追的。当浪涌过来时可以掉头划水了，这个过程越不熟练越需要提前完成，保证自己在一个合适的重心位置，保证板有一定的初始速度，便于加速。此时，需要轻微扭头，目光斜视，观察后方的浪，根据浪的变化调整中心，如果浪太陡重心可以往后挪，另外要观察左右两边，是否有其他人在追浪或下浪。当浪靠近时，快速划水，在板进入浪壁的斜坡的过程中用力划水，和浪的速度保持同步，当感受到滑行速度之后可以立即起乘并斜跑。这个过程中你可以通过压低上半身，抬起小腿来调整重心，感觉板头要插水，可以抬高上半身，也可以朝着斜跑的方向划水。每道浪可能追的方式都不一样，这里写的是大概的过程，需要后续自己体会和练习。</p>
+<h5 id="%E8%B5%B7%E4%B9%98">起乘</h5>
+<p>比较简单。可以自己给自己推板来练习划水和起乘，这样在新手阶段不至于太枯燥。</p>
+<h5 id="%E6%96%9C%E8%B7%91">斜跑</h5>
+<p>不管是新手还是玩了一段时间的老手，都容易犯一个错误，眼睛没有看要去的方向，而是看板头或者一直盯着其他地方</p>
+<h5 id="%E8%B5%B0%E6%9D%BF">走板</h5>
+<h3 id="%E6%B5%AA%E7%82%B9">浪点</h3>
+<p>这里只列举我去过的浪点，而且信息不一定十分准确。</p>
+<h5 id="%E6%B7%B1%E5%9C%B3%E4%B8%9C%E5%86%B2%E6%B2%99%E6%BB%A9">深圳东冲沙滩</h5>
+<p>适合: 新手和中等，沙滩底</p>
+<p>浪季: 冬季，夏天台风浪</p>
+<p>规则: 起乘优先</p>
+<h3 id="%E7%94%B5%E5%BD%B1">电影</h3>
+<ul>
+<li>
+<p>《灵魂冲浪人》</p>
+</li>
+<li>
+<p>《冲浪男人》</p>
+</li>
+<li>
+<p>《极道者》</p>
+</li>
+</ul>
+<h3 id="%E8%A7%86%E9%A2%91">视频</h3>
+<ul>
+<li><a href="https://v.youku.com/v_show/id_XMzE2NzQzMzUzNg==.html?spm=a2h0k.11417342.soresults.dposter">极限运动之精彩冲浪: 4K 的高清视频!</a></li>
+<li><a href="https://v.youku.com/v_show/id_XMjUzMzM1NjYyNA==.html?spm=a2h0k.11417342.soresults.dposter">110%经典冲浪教程【双语字幕】</a></li>
+<li><a href="https://www.youtube.com/watch?v=k_Vd9SYg4wI">How to Catch an Unbroken Wave</a></li>
+<li><a href="https://www.youtube.com/watch?v=XCaiQYVEut4">Top 9 Surf Rules you need to know</a></li>
+<li><a href="https://www.youtube.com/watch?v=vNB-mpVBsM8">Full Volcom Pipe Pro 2018 final heat</a></li>
+<li><a href="https://www.youtube.com/watch?v=3M7Ko0ZxIh0">How to Paddle on a Surfboard | Simple Techniques for Beginners &amp; Intermediates</a></li>
+<li><a href="https://www.youtube.com/watch?v=SFySjst-TlA">4 Simple Ocean Observations to Improve Your Surfing</a></li>
+<li><a href="https://www.youtube.com/watch?v=j_I83dlNUWg">Top 3 Tricks to Get through Waves on a longboard Surfboard</a></li>
+<li><a href="https://www.youtube.com/watch?v=AMDvj9EwtKI">Surf Completely : How To Duck Dive</a></li>
+<li><a href="https://www.youtube.com/watch?v=1UBVcWzRdAE">How to Duck Dive a Longboard pt. II</a></li>
+<li><a href="https://www.youtube.com/watch?v=KLwYjrKhFBs">Surfing Lessons: How to Turtle Roll</a></li>
+<li><a href="https://www.youtube.com/watch?v=-uYm7uyXKec">Advanced Surfing Pop Up - The Angled Take-Off</a></li>
+<li><a href="https://www.youtube.com/watch?v=Yl14Dggru0o">Understanding Waves Size &amp; Surf Reports - Surfing Tutorials</a></li>
+<li><a href="https://www.youtube.com/watch?v=JkMWoHjnaRw">Surfing the 100ft swell at Nazare | 60 Minutes Australia</a></li>
+<li><a href="https://www.youtube.com/watch?v=kWVG25F8yi0">Close2Lombok - A surf travel guide about Lombok, Indonesia</a></li>
+</ul>
+<h3 id="%E6%B5%B7%E6%B5%AA">海浪</h3>
+<ul>
+<li><a href="http://www.hyyb.org.cn/Magazine/GetPDF.aspx?ID=1377">海浪预报技术及预报方法(4)——海浪经验统计预报方法(Ⅱ)</a></li>
+</ul>
+
+</body>
+</html>

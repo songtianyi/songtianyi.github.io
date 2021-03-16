@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>NETCONF-YANG-introduction.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E8%83%8C%E6%99%AF">背景</h1>
+<p>随着互联网的发展，网络日趋复杂且规模庞大。网络的稳定性／可预测的故障恢复时间如何保障？大量的新设备和服务如何安全快速地融入老的系统？不同的厂商接口如何统一管理？这些问题需要大量的优秀工程师去处理，但另一个事实是，相当一部分的网络故障是由人为操作不当引起的。通过自动化网络管理去减轻工程师的运维负担是大势所趋。在 2002 年 IAB（Internet Architecture Board ）就网络管理所面临的问题作了讨论（<a href="https://tools.ietf.org/pdf/rfc3535.pdf">RFC3535</a>)，确定了四个解决问题的关键方向，支持事物／可回滚／实现成本低／配置可存储和恢复。随即 NETCONF 工作小组成立，基于这几个方向制定了 NETCONF 标准(<a href="https://tools.ietf.org/pdf/rfc6241.pdf">RFC6241</a>). NETCONF 协议包含四层，数据层/操作层/调用层/传输层, 但是缺少一种定义数据模型的方式，2008 年 NETMOD 工作组成立，2009 年 NETMOD 发布了 YANG（<a href="https://tools.ietf.org/pdf/rfc7950.pdf">RFC7950</a>）, 一种为 NETCONF 定义数据模型的标准语言。</p>
+<h1 id="neconf">NECONF</h1>
+<h4 id="%E6%9C%AF%E8%AF%AD">术语</h4>
+<ul>
+<li>datastore 网络设备上配置的存储和分类方式，分为三种，startup/candidate/running
+<ul>
+<li>startup 设备启动时使用的配置</li>
+<li>candidate 可供修改但不会立即生效的配置，可以通过 commit 操作提交，成为 running 配置，不是所有的设备都有 candidate 配置</li>
+<li>running 设备当前使用的配置</li>
+</ul>
+</li>
+<li>capabilities NETCONF server 端向 client 端暴露自己所支持的功能，NETCONF 协议制定了一些基本功能，以 urn 开头</li>
+</ul>
+<pre class="hljs"><code><div>urn:ietf:params:netconf:capability:{name}:1.x
+</div></code></pre>
+<h4 id="%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6">工作机制</h4>
+<p>NETCONF 是 C/S 架构的模式，Client 和 Server 通过 RPC 以 xml 形式交换数据。Client 端作为网络管理服务的一部分，可以是脚本，也可以是应用等。Server 端一般是网络设备。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7361-52d2639e88f4f936.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240" alt="NETCONF 架构"></p>
+<h4 id="%E5%9B%9B%E4%B8%AA%E5%B1%82%E6%AC%A1">四个层次</h4>
+<p>NETCONF 包含了四个层次，数据层／操作层／RPC/传输层, 对于普通用户，只需关注数据层和操作层即可。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7361-74efe21cac088804.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240" alt="NETCONF 的四个层次"></p>
+<h6 id="content">Content</h6>
+<p>设备模型数据，YANG 数据建模语言正是用来描述这些模型数据的。</p>
+<h6 id="operations">Operations</h6>
+<p>操作层定义了一系列用于网络设备管理的操作。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7361-158b4b7be41227d6.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240" alt="NETCONF operations 列表"></p>
+<h6 id="rpc">RPC</h6>
+<p>定义了一种独立于协议之上( transport-protocol-independent)的数据组织和传输方式。</p>
+<h6 id="transport-protocol">Transport Protocol</h6>
+<p>定义了数据的传输方式， NETCONF 并没有指定协议实现者在 C/S 之间使用什么传输协议，只是规定了一些  传输协议必须满足的要求，比如面向连接／支持 kee-alive 等，具体的参见<a href="https://tools.ietf.org/pdf/rfc6241.pdf">RFC6241</a>.</p>
+<h4 id="%E5%AE%9E%E9%99%85%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8">实际环境中的使用</h4>
+<p>我们使用 juniper 的 vsrx 来做 NETCONF 的使用示例。</p>
+<h6 id="vsrx-%E5%AE%89%E8%A3%85">vsrx 安装</h6>
+<ol>
+<li>下载<a href="http://www.juniper.net/support/downloads/?p=vsrx">vsrx</a></li>
+<li>使用 vmware 等虚拟化软件安装并启动 vsrx</li>
+<li>配置 vsrx
+3.1 通过缺省用户名和密码登录(root/空)
+3.2 进入操作模式</li>
+</ol>
+<pre class="hljs"><code><div>cli
+</div></code></pre>
+<p>3.3 进入配置模式</p>
+<pre class="hljs"><code><div>configure
+</div></code></pre>
+<p>3.4 设置密码</p>
+<pre class="hljs"><code><div>set system root-authentication plain-text-password
+</div></code></pre>
+<p>3.5 设置远程登录管理用户</p>
+<pre class="hljs"><code><div>set system login user remote class super-user authentication plain-text-password
+</div></code></pre>
+<p>3.6 设置网络</p>
+<pre class="hljs"><code><div>set interfaces fxp0 unit 0 family inet address 172.16.240.189/24
+</div></code></pre>
+<p>3.7 设置 netconf ssh port</p>
+<pre class="hljs"><code><div>set system services  netconf ssh port 830
+</div></code></pre>
+<p>3.8 提交配置</p>
+<pre class="hljs"><code><div>commit check
+commit
+</div></code></pre>
+<h6 id="netconf-clients">NETCONF clients</h6>
+<p>client 列表</p>
+<ul>
+<li><a href="https://github.com/Juniper/go-netconf">go-netconf</a></li>
+<li><a href="https://github.com/ncclient/ncclient">ncclient</a></li>
+<li><a href="https://github.com/Juniper/netconf-java">netconf-java</a></li>
+<li><a href="https://github.com/tail-f-systems/JNC">JNC</a></li>
+</ul>
+<h6 id="%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA-session">创建一个 session</h6>
+<p>连接完成后，server 端会返回自己的 capabilities</p>
+<pre class="hljs"><code><div>package main
+
+import (
+	&quot;fmt&quot;
+	&quot;golang.org/x/crypto/ssh&quot;
+	&quot;log&quot;
+	&quot;github.com/Juniper/go-netconf/netconf&quot;
+)
+
+func main() {
+	sshConfig := &amp;ssh.ClientConfig{
+		User: &quot;root&quot;,
+		Auth: []ssh.AuthMethod{ssh.Password(&quot;r00ttest&quot;)},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+	}
+
+	s, err := netconf.DialSSH(&quot;172.16.240.189&quot;, sshConfig)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer s.Close()
+
+	fmt.Println(s.ServerCapabilities)
+	fmt.Println(s.SessionID)
+}
+</div></code></pre>
+<h6 id="%E8%8E%B7%E5%8F%96-running-%E9%85%8D%E7%BD%AE">获取 running 配置</h6>
+<p>你会看到 running 的所有配置</p>
+<pre class="hljs"><code><div>package main
+
+import (
+	&quot;fmt&quot;
+	&quot;golang.org/x/crypto/ssh&quot;
+	&quot;log&quot;
+
+	&quot;github.com/Juniper/go-netconf/netconf&quot;
+)
+
+func main() {
+	sshConfig := &amp;ssh.ClientConfig{
+		User: &quot;root&quot;,
+		Auth: []ssh.AuthMethod{ssh.Password(&quot;r00ttest&quot;)},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+	}
+
+	s, err := netconf.DialSSH(&quot;172.16.240.189&quot;, sshConfig)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer s.Close()
+
+	fmt.Println(s.ServerCapabilities)
+	fmt.Println(s.SessionID)
+
+	// Sends raw XML
+	reply, err := s.Exec(netconf.RawMethod(&quot;&lt;get-config&gt;&lt;source&gt;&lt;running/&gt;&lt;/source&gt;&lt;/get-config&gt;&quot;))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf(&quot;Reply: %+v&quot;, reply)
+}
+</div></code></pre>
+<h6 id="%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E5%B9%B6%E6%8F%90%E4%BA%A4">修改配置并提交</h6>
+<p>包括错误回滚</p>
+<pre class="hljs"><code><div>package main
+
+import (
+	&quot;fmt&quot;
+	&quot;golang.org/x/crypto/ssh&quot;
+	&quot;log&quot;
+
+	&quot;github.com/Juniper/go-netconf/netconf&quot;
+)
+
+func doRpc(s *netconf.Session, xml string) {
+	reply, err := s.Exec(netconf.RawMethod(xml))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf(&quot;Reply: %+v&quot;, reply)
+}
+
+func main() {
+	sshConfig := &amp;ssh.ClientConfig{
+		User: &quot;root&quot;,
+		Auth: []ssh.AuthMethod{ssh.Password(&quot;r00ttest&quot;)},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+	}
+
+	s, err := netconf.DialSSH(&quot;172.16.240.189&quot;, sshConfig)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer s.Close()
+
+	fmt.Println(s.ServerCapabilities)
+	fmt.Println(s.SessionID)
+	//xml := &quot;&lt;rpc&gt;&quot;
+	xml := &quot;&quot;
+	xml += &quot;&lt;edit-config&gt;&quot;
+	xml += &quot;  &lt;target&gt;&lt;candidate/&gt;&lt;/target&gt;&quot;
+	xml += &quot;  &lt;error-option&gt;stop-on-error&lt;/error-option&gt;&quot;
+	xml += &quot;		&lt;config&gt;&quot;
+	xml += &quot;		&lt;configuration&gt;&quot;
+	xml += &quot;			&lt;interface&gt;&quot;
+	xml += &quot;				&lt;name&gt;fxp0&lt;/name&gt;&quot;
+	xml += &quot;			&lt;unit&gt;&quot;
+	xml += &quot;				&lt;name&gt;0&lt;/name&gt;&quot;
+	xml += &quot;				&lt;family&gt;&quot;
+	xml += &quot;					&lt;inet&gt;&quot;
+	xml += &quot;						&lt;address&gt;172.16.240.189/24&lt;/address&gt;&quot;
+	xml += &quot;					&lt;/inet&gt;&quot;
+	xml += &quot;				&lt;/family&gt;&quot;
+	xml += &quot;			&lt;/unit&gt;&quot;
+	xml += &quot;			&lt;/interface&gt;&quot;
+	xml += &quot;		&lt;/configuration&gt;&quot;
+	xml += &quot;		&lt;/config&gt;&quot;
+	xml += &quot;&lt;/edit-config&gt;&quot;
+	//xml += &quot;&lt;/rpc&gt;
+
+	// Sends raw XML
+	doRpc(s, xml)
+	xml = &quot;&lt;rpc&gt;&lt;commit&gt;&lt;/commit&gt;&lt;/rpc&gt;&quot;
+	doRpc(s, xml)
+}
+</div></code></pre>
+<h4 id="distributied-transactions">Distributied transactions</h4>
+<p>当有多个设备需要修改配置时，为了保证操作的原子性，我们可以先锁定所有设备的配置，修改完成后，利用 confirmed-commit 特性，check 完之后再确认提交。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7361-0443c85b8bb0995e.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240" alt="distributed transactions"></p>
+<h2 id="yang">YANG</h2>
+<p>YANG 是为 NETCONF 而生的数据建模语言, 应用在 NETCONF 的 content 层和 operation 层。YANG 用层级的方式描述 NETCONF 的配置和状态数据,RPC 及通知，覆盖了 NETCONF C/S 的整个生命周期。YANG 模型可以转换成 JSON 和 XML。</p>
+<h4 id="statements">statements</h4>
+<p>YANG 定义了一系列的模型描述关键字。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7361-6467b5684e7fb270.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240" alt="statements"></p>
+<h4 id="types">types</h4>
+<p>YANG 定义了一系列的基础类型，同时可以用 typedef 描述自定义的类型, 一些通用的扩充类型可以参见<a href="https://tools.ietf.org/pdf/rfc6021.pdf">RFC6021</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7361-2d2937d611ec320d.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240" alt="基础类型"></p>
+<h4 id="%E4%BD%BF%E7%94%A8-yang-%E6%9D%A5%E6%8F%8F%E8%BF%B0%E4%B8%80%E4%B8%AA-dhcp-%E9%85%8D%E7%BD%AE">使用 YANG 来描述一个 DHCP 配置</h4>
+<h6 id="dhcp-%E9%85%8D%E7%BD%AE">DHCP 配置</h6>
+<pre class="hljs"><code><div># Sample configuration file for ISC dhcpd
+
+default-lease-time 600;
+max-lease-time 7200;
+
+subnet 10.254.239.0 netmask 255.255.255.224 {
+  range dynamic-bootp 10.254.239.10 10.254.239.20;
+  option routers rtr-239-0-1.example.org, rtr-239-0-2.example.org;
+  max-lease-time 1200;
+}
+
+shared-network 224-29 {
+  subnet 10.17.224.0 netmask 255.255.255.0 {
+    range 10.17.224.10 10.17.224.250;
+    option routers rtr-224.example.org;
+  }
+  subnet 10.0.29.0 netmask 255.255.255.0 {
+    range 10.0.29.10 10.0.29.230;
+    option routers rtr-29.example.org;
+  }
+}
+</div></code></pre>
+<h6 id="yang-%E6%A8%A1%E5%9E%8B">YANG 模型</h6>
+<pre class="hljs"><code><div>module dhcp { // dhcp module
+	namespace &quot;songtianyi:yang:dhcp&quot;;
+	prefix dhcp;
+	import ietf-yang-types { // 导入自定义类型
+		prefix yang;
+	}
+	import ietf-inet-types {
+		prefix inet;
+	}
+
+	organization &quot;TIANYUAN CLOUD TECH&quot;;
+	description &quot;Partial data model for DHCP, based on the config of the ISC DHCP reference implementation.&quot;;
+
+	container dhcp { // 根结点
+		description &quot;configuration and operational parameters for a DHCP server.&quot;;
+
+		leaf max-lease-time { // 描述最大租赁期
+			type uint32;
+			units seconds;	// 定义单位
+			default 7200;	// 最大租赁期默认值
+		}
+
+		leaf default-lease-time {
+			type uint32;
+			units seconds;
+			must 'current() &lt;= ../max-lease-time' { // 约束,  default-lease-time 必须小于等于 max-lease-time
+				error-message &quot;The default-lease-time must less or equal max-lease-time&quot;;
+			}
+			default 600; // 如果默认值大于 max-lease-time 也会报错
+		}
+
+		uses subnet-list;	// 引用 grouping 描述
+
+		container shared-networks {
+			list shared-network {
+				key name;
+				leaf name {
+					type string;
+				}
+
+				uses subnet-list;
+			}
+		}
+	}
+
+	grouping subnet-list {
+		description &quot;A reusable list of subnets&quot;;
+
+		list subnet {
+			key net;
+			leaf net {
+				type inet:ip-prefix;
+			}
+			container range {
+				presence &quot;enables dynamic address assignment&quot;; // presence 表明，range 作为子节点存在，即使 range 没有定义子节点
+				leaf dynamic-bootp {
+					type empty;
+					description &quot;Allows BOOTP clients to get addresses in this range&quot;;
+				}
+
+				leaf low {
+					type inet:ip-address;
+					mandatory true;
+				}
+
+				leaf high {
+					type inet:ip-address;
+					mandatory true;
+				}
+			}
+
+			container dhcp-options {
+				description &quot;Options in the DHCP protocol&quot;;
+
+				leaf-list router {
+					type inet:ip-address;
+					ordered-by user;
+				}
+
+				leaf domain-name {
+					type inet:domain-name;
+
+				}
+
+				leaf max-lease-time {
+					type uint32;
+					units seconds;
+					default 1200;
+				}
+			}
+		}
+	}
+}
+</div></code></pre>
+<h4 id="yang-tools">YANG tools</h4>
+<ul>
+<li><a href="https://github.com/mbj4668/pyang">pyang</a></li>
+<li><a href="https://github.com/CESNET/libyang">libyang</a></li>
+<li><a href="https://github.com/openconfig/goyang">goyang</a></li>
+</ul>
+<h2 id="netconfyang">NETCONF&amp;YANG</h2>
+<p>前边分别介绍了 NETCONF 和 YANG, 那么它们是如何结合起来的呢？</p>
+<pre class="hljs"><code><div>&lt;dhcp xmlns=&quot;http://yang-central.org/ns/example/dhcp&quot; xmlns:nc=&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;&gt;
+	&lt;default-lease-time nc:operation=&quot;merge&quot;&gt;10800&lt;/default-lease-time&gt;
+&lt;/dhcp&gt;
+</div></code></pre>
+<p>在 netconf client 发送 xml 给 netconf server 的时候将 YANG 模型加入 xml 即可，server 会根据模型来检验 xml 里的配置数据，因此 default-lease-time 的 10800 配置会返回 rpc-error。需要注意的是，这些特性依赖于 netconf server 的具体实现，因此需要通过 server 端返回的 capbilities 来检查是否支持该特性。</p>
+<h2 id="nso">NSO</h2>
+<p>在网络设备管理方面起步早且做的好的，应当是 tail -F systems, 该公司的 NSO(Network Service Orchestrator)产品已被 cisco 收购。</p>
+<h4 id="nso-%E6%9E%B6%E6%9E%84">NSO 架构</h4>
+<p><img src="http://upload-images.jianshu.io/upload_images/7361-47073a0ce292334e.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240" alt="NSO Logical Architecture"></p>
+<h4 id="web-user-interface">Web User Interface</h4>
+<p>参见视频</p>
+
+</body>
+</html>
