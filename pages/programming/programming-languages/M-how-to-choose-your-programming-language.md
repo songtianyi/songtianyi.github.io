@@ -4,18 +4,18 @@
 
 ### 前言
 
-毕业之后一直混迹在创业公司，经历过很多次产品从0到1的过程。产品在开发之前都会面临一个常见问题，即技术选型，首当其冲的是采用哪门编程语言来开发我们的产品。我的第一家公司是UCloud，三位老板都来自于腾讯，所以第一批员工不少都是腾讯兵，腾讯的主要开发语言是*C++*，有很多现成的轮子可以用，自然UCloud的产品都是用*C++*开发的，前端则采用的是当时流行的*PHP*。2014年*Node*大火，*nodejs*的非阻塞IO在非计算密集的高并发业务场景效果出众，开发起来也会比较快；nodejs让前端程序员也能参与到后端开发中来，在人力分配上面自由度会高一些；运行时有gc, 心智负担比*C++*小。*UCloud*也顺势采用了*node*, 先是前端部门用它重写了自己的产品逻辑，之后后端也陆续采用，包括我自己也用*node*重写了整个uhost产品的后端。2016年*golang*热度很高，当时正好有个新产品要基于docker来开发，我们就开始尝试用*golang*来写后端服务, *golang*虽然类型特性不多，也不支持函数式编程，但是其极佳的工程实践和强劲的并发性能还是深得大家喜爱。现在这家公司，因为规模尚小，考虑到招人的难度就采用了主流的*Java*, 用*golang*来做ssh client。在做编程语言选型的时候，除了技术本身还有很多其他因素，这些因素要针对具体场景来分析，所以本文从通用性的角度考虑，只讲技术层面的内容。
+毕业之后一直混迹在创业公司，经历过很多次产品从 0 到 1 的过程。产品在开发之前都会面临一个常见问题，即技术选型，首当其冲的是采用哪门编程语言来开发我们的产品。我的第一家公司是 UCloud，三位老板都来自于腾讯，所以第一批员工不少都是腾讯兵，腾讯的主要开发语言是*C++*，有很多现成的轮子可以用，自然 UCloud 的产品都是用*C++*开发的，前端则采用的是当时流行的*PHP*。2014 年*Node*大火，*nodejs*的非阻塞 IO 在非计算密集的高并发业务场景效果出众，开发起来也会比较快；nodejs 让前端程序员也能参与到后端开发中来，在人力分配上面自由度会高一些；运行时有 gc, 心智负担比*C++*小。*UCloud*也顺势采用了*node*, 先是前端部门用它重写了自己的产品逻辑，之后后端也陆续采用，包括我自己也用*node*重写了整个 uhost 产品的后端。2016 年*golang*热度很高，当时正好有个新产品要基于 docker 来开发，我们就开始尝试用*golang*来写后端服务, *golang*虽然类型特性不多，也不支持函数式编程，但是其极佳的工程实践和强劲的并发性能还是深得大家喜爱。现在这家公司，因为规模尚小，考虑到招人的难度就采用了主流的*Java*, 用*golang*来做 ssh client。在做编程语言选型的时候，除了技术本身还有很多其他因素，这些因素要针对具体场景来分析，所以本文从通用性的角度考虑，只讲技术层面的内容。
 
 ### 看完这篇文章能收获什么?
 
 * 对于开发人员，可以系统地了解各种类型特性，语法特性和编程范式
-* 对于架构师或者技术leader，可以为编程语言的选型提供理论依据
+* 对于架构师或者技术 leader，可以为编程语言的选型提供理论依据
 
 编程语言往大了讲是很复杂的，语法，类型系统，编译原理，编译器，解释器，内存模型，并发模型，工具链等等，单拿一点出来都能写一本书。限于篇幅，本文要介绍的内容限定在类型系统(type systems)，语法(syntax)和编程范式(programming paradigms)上。
 
 ### 类型系统
 
-什么是类型？在软件执行的过程中，变量可以为很多值，**定义变量的边界的描述即类型**。变量可以被赋予类型(即变量有边界)的语言称为类型语言(**typed language**)，无类型语言(**untyped language**)没有类型，或者说只有一个全局类型，能够存储所有的值。 类型语言我们见得多了，无类型的呢？lambda演算(pure  λ-calculus)是无类型的，汇编和LISP也是无类型的.  
+什么是类型？在软件执行的过程中，变量可以为很多值，**定义变量的边界的描述即类型**。变量可以被赋予类型(即变量有边界)的语言称为类型语言(**typed language**)，无类型语言(**untyped language**)没有类型，或者说只有一个全局类型，能够存储所有的值。 类型语言我们见得多了，无类型的呢？lambda 演算(pure  λ-calculus)是无类型的，汇编和 LISP 也是无类型的.  
 
 变量类型的指定可以是显式的
 
@@ -44,23 +44,23 @@ fac n = n * fac (n - 1)
 
 类型系统是类型语言的首要组成部分。类型系统的职责之一是跟踪变量的类型，判断代码是否满足类型约束，这种行为称为类型检查(**typechecking**), 类型检查是保证程序稳定运行的手段，同时又分为运行时检查(runtime checks)和静态检查(static checks), 运行时检查也叫动态检查(**dynamic checking**). 
 
-类型系统做了静态检查，还有必要做动态检查嘛？有，比如数组的边界检查，就必须在运行时做。运行时的类型检查会导致程序运行终止(fail-stop)，那为什么还要检查呢？让它运行到无法继续执行为止不就好了？类型检查虽然会出错，但是阻止了更恶劣的错误(untrapped errors)的发生，比如保证gc等机制能够正常运转，让程序能够更平滑地退出。动态检查的缺点是会导致fail-stop，也会消耗资源，影响性能，所以通常我们认为拥有静态检查的类型系统的语言会更稳定高效。但是静态检查就足够安全了吗？不一定，因为某些语言在静态检查时没有检查一些危险操作，比如*C*语言中指针的运算和转换，这类语言称为**weakly checked**, 反之, 程序在编译期间能够尽可能发现所有的类型错误, 称为**strongly checked**.
+类型系统做了静态检查，还有必要做动态检查嘛？有，比如数组的边界检查，就必须在运行时做。运行时的类型检查会导致程序运行终止(fail-stop)，那为什么还要检查呢？让它运行到无法继续执行为止不就好了？类型检查虽然会出错，但是阻止了更恶劣的错误(untrapped errors)的发生，比如保证 gc 等机制能够正常运转，让程序能够更平滑地退出。动态检查的缺点是会导致 fail-stop，也会消耗资源，影响性能，所以通常我们认为拥有静态检查的类型系统的语言会更稳定高效。但是静态检查就足够安全了吗？不一定，因为某些语言在静态检查时没有检查一些危险操作，比如*C*语言中指针的运算和转换，这类语言称为**weakly checked**, 反之, 程序在编译期间能够尽可能发现所有的类型错误, 称为**strongly checked**.
 
 那么延伸一下，怎么区分一门语言是*weakly checked*, 还是*strongly checked*? 以下几点可以作为判断的依据。
 
 ###### Implicit type conversions
 
-可以进行隐式类型转换的语言属于*weakly checked*, 如c++
+可以进行隐式类型转换的语言属于*weakly checked*, 如 c++
 
 ```c++
 int a = 3;
 double b = 4.5;
-a + b; // a将会被自动转换为double类型，转换的结果和b进行加法操作
+a + b; // a 将会被自动转换为 double 类型，转换的结果和 b 进行加法操作
 ```
 
 ###### Pointers
 
-允许指针运算的语言属于*weakly checked*, 比如c
+允许指针运算的语言属于*weakly checked*, 比如 c
 
 ```c
  int num [] = {1,3,6,8,10,15,22};
@@ -72,7 +72,7 @@ a + b; // a将会被自动转换为double类型，转换的结果和b进行加�
 
 ###### Untagged unions
 
-*union type*即联合类型，之后的内容会介绍。联合类型中的不同类型的值会被存储在同一地址，这也是不稳定因素之一，所以拥有*untagged unions*的语言属于*weakly checked*. 和*untagged*相对的是*tagged union type*, *tagged union*会用tag字段显式地标记当前正在使用的类型，因此要相对安全一些。
+*union type*即联合类型，之后的内容会介绍。联合类型中的不同类型的值会被存储在同一地址，这也是不稳定因素之一，所以拥有*untagged unions*的语言属于*weakly checked*. 和*untagged*相对的是*tagged union type*, *tagged union*会用 tag 字段显式地标记当前正在使用的类型，因此要相对安全一些。
 
 ###### Weakly typed
 
@@ -107,9 +107,9 @@ z = x + y
 
 ##### Polymorphism type
 
-polymorphism翻译为多态性，但不单单指面向对象里的多态，而是指类型系统里的多态性质。编译时多态，是在编译时就能推导出类型或调用关系，宏也是一种编译时多态。运行时多态的实现依赖于虚函数机制(virtual function), 是在运行时确定调用关系。多态性质的引入可以提高代码的复用率。
+polymorphism 翻译为多态性，但不单单指面向对象里的多态，而是指类型系统里的多态性质。编译时多态，是在编译时就能推导出类型或调用关系，宏也是一种编译时多态。运行时多态的实现依赖于虚函数机制(virtual function), 是在运行时确定调用关系。多态性质的引入可以提高代码的复用率。
 
-1. *Ad hoc polymorphism*: 一个函数会根据有限的类型组合而拥有不同的实现，函数重载(function overloading)和操作符重载(operator overloading)依赖于此. 从polymorphism性质实现的角度讲，属于编译时多态(static polymorphism).
+1. *Ad hoc polymorphism*: 一个函数会根据有限的类型组合而拥有不同的实现，函数重载(function overloading)和操作符重载(operator overloading)依赖于此. 从 polymorphism 性质实现的角度讲，属于编译时多态(static polymorphism).
 
    ```java
    // java
@@ -121,7 +121,7 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
    }
    ```
 
-2. *Parametric polymorphism*: 声明的类型未被指定为某一类型，而在实现时可以指定为任意类型，即通常我们所说的泛型，在C++里称为模板(template). 从polymorphism性质实现的角度讲，属于编译时多态(static polymorphism).
+2. *Parametric polymorphism*: 声明的类型未被指定为某一类型，而在实现时可以指定为任意类型，即通常我们所说的泛型，在 C++里称为模板(template). 从 polymorphism 性质实现的角度讲，属于编译时多态(static polymorphism).
 
    ```java
    // java    
@@ -150,7 +150,7 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
    i.save(100)
    ```
 
-3. *Subtype polymorphism*: 也叫subtyping(子类型多态)或者inclusion polymorphism(包含多态)。如果S是T的子类型，记作`S <: T`, 意味着在任何需要使用T类型的环境中，都可以安全地使用S类型的对象。但要区分的是，这里说的子类型并不是面向对象继承概念里的子类，子类型和父类型(super type)描述的是类型之间的关系，而继承反应的是一类对象可以从另一类对象创造出来，是语言特性的实现，主要目的是重用代码。之所以混淆是因为在C++等语言中，通常将两者结合起来以实现OOP。子类型也称为接口(interface)继承，对象继承则称作实现继承，在Java中，这两者在语法上是有明显的区分的(interface和class)。从多态性质实现的角度讲，subtyping属于运行时多态(dynamic polymorphism). 
+3. *Subtype polymorphism*: 也叫 subtyping(子类型多态)或者 inclusion polymorphism(包含多态)。如果 S 是 T 的子类型，记作`S <: T`, 意味着在任何需要使用 T 类型的环境中，都可以安全地使用 S 类型的对象。但要区分的是，这里说的子类型并不是面向对象继承概念里的子类，子类型和父类型(super type)描述的是类型之间的关系，而继承反应的是一类对象可以从另一类对象创造出来，是语言特性的实现，主要目的是重用代码。之所以混淆是因为在 C++等语言中，通常将两者结合起来以实现 OOP。子类型也称为接口(interface)继承，对象继承则称作实现继承，在 Java 中，这两者在语法上是有明显的区分的(interface 和 class)。从多态性质实现的角度讲，subtyping 属于运行时多态(dynamic polymorphism). 
 
    ```c++
    // c++
@@ -191,7 +191,7 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
        return 0;
    }
    ```
-   关于subtyping还有更细致的划分，从类型系统的技术实现角度分为*nominal subtyping*和*structural subtyping*, 在阐述这两个概念之前，我们先理解类型系统是如何区分两个不同类型的。
+   关于 subtyping 还有更细致的划分，从类型系统的技术实现角度分为*nominal subtyping*和*structural subtyping*, 在阐述这两个概念之前，我们先理解类型系统是如何区分两个不同类型的。
 
    一种方式是通过类型名称来区分，即，当且仅当两个类型的命名相同时，它们属于同一类型。例如:
 
@@ -201,7 +201,7 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
    struct B { int a;}
    ```
 
-   在上面的C代码中，类型名称显然不同，类型A和类型B属于不同类型，尽管它们的成员(property/field/member)是完全相同的, 使用这种区分规则的类型系统属于*nominal type system*。至于，当我们为类型定义一个别名的时候，类型系统是否认为这是一个新的类型要看类型系统的具体实现，如果别名仅仅是语法糖的话，此时不同的名称仍然代表同一个类型。
+   在上面的 C 代码中，类型名称显然不同，类型 A 和类型 B 属于不同类型，尽管它们的成员(property/field/member)是完全相同的, 使用这种区分规则的类型系统属于*nominal type system*。至于，当我们为类型定义一个别名的时候，类型系统是否认为这是一个新的类型要看类型系统的具体实现，如果别名仅仅是语法糖的话，此时不同的名称仍然代表同一个类型。
 
    与*nominal type system*相对的是*structural type system(property-based type system)*, 从字面的意思我们大概能猜出，类型的区分是通过类型的定义即类型的结构来区分的:
 
@@ -216,11 +216,11 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
    let foo: Foo = new Bar(); // OK
    ```
 
-   上面的代码中，Foo和Bar的类型是相同的，因为他们的结构相同。
+   上面的代码中，Foo 和 Bar 的类型是相同的，因为他们的结构相同。
 
-   接着，我们来看这两种类型区分方式和subtyping的关系。
+   接着，我们来看这两种类型区分方式和 subtyping 的关系。
 
-   * *Nominal subtyping*: 参照*nominal typing*的规则，只有当类型S被显式地声明为T的子类型，才认为`S <: T`，使用这种规则的subtyping属于*nominal subtyping*。比如Julia:
+   * *Nominal subtyping*: 参照*nominal typing*的规则，只有当类型 S 被显式地声明为 T 的子类型，才认为`S <: T`，使用这种规则的 subtyping 属于*nominal subtyping*。比如 Julia:
 
      ```rust
      abstract type Graph <: Any end
@@ -250,9 +250,9 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
      println(area(Rec(1.0, 1.0, 2, 2)))
      ```
 
-     上述代码通过`<:`显式地声明了这种关系，`Circle <: Graph` 。C++, Java也是*nominal subtyping*
+     上述代码通过`<:`显式地声明了这种关系，`Circle <: Graph` 。C++, Java 也是*nominal subtyping*
 
-   * *Structural subtyping*: 参照*structural typing*的规则，类型之间的子/父关系是通过类型的结构来区分的，使用这种规则的subtyping属于*structural subtyping*。Golang的interface属于此类，interface里声明的函数(feature)在它的子类型中都能找到对应的实现，至于匹配的规则，依赖于类型系统的具体实现。*structural subtyping*相对*nominal subtyping*要更加灵活。
+   * *Structural subtyping*: 参照*structural typing*的规则，类型之间的子/父关系是通过类型的结构来区分的，使用这种规则的 subtyping 属于*structural subtyping*。Golang 的 interface 属于此类，interface 里声明的函数(feature)在它的子类型中都能找到对应的实现，至于匹配的规则，依赖于类型系统的具体实现。*structural subtyping*相对*nominal subtyping*要更加灵活。
 
      ```go
      // golang
@@ -283,13 +283,13 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
      }
      ```
 
-     上面的Go代码中，Girl和Boy都没有被显式地声明为A的子类型，但它们都实现了`Shout()`, 从结构上对比，他们都属于A的子类型。
+     上面的 Go 代码中，Girl 和 Boy 都没有被显式地声明为 A 的子类型，但它们都实现了`Shout()`, 从结构上对比，他们都属于 A 的子类型。
 
-4. *Row polymorphism*: 也叫duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定彼此之间的关系，比如subtyping中的父类/子类关系，而duck typing是通过函数，如果它们实现了相同的函数，就认为它们是同一类。
+4. *Row polymorphism*: 也叫 duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定彼此之间的关系，比如 subtyping 中的父类/子类关系，而 duck typing 是通过函数，如果它们实现了相同的函数，就认为它们是同一类。
 
    > If it walks like a duck and it quacks like a duck, then it must be a duck.
 
-   如果它走路像鸭子(实现了walk()函数)，也会像鸭子一样发出嘎嘎声(实现了gaga())函数，那它就是一只鸭子(属于同一类型)。
+   如果它走路像鸭子(实现了 walk()函数)，也会像鸭子一样发出嘎嘎声(实现了 gaga())函数，那它就是一只鸭子(属于同一类型)。
 
    ```python
    # python
@@ -317,24 +317,24 @@ polymorphism翻译为多态性，但不单单指面向对象里的多态，而�
    lift_off(whale) # Throws the error `'Whale' object has no attribute 'fly'`
    ```
 
-   Golang的interface和duck typing有点像，但是严格来说并不算，这里引用Rob Pike的在Twitter上的原话来佐证:
+   Golang 的 interface 和 duck typing 有点像，但是严格来说并不算，这里引用 Rob Pike 的在 Twitter 上的原话来佐证:
 
    > Go has structural typing, not duck typing. Full interface satisfaction is checked and required.
 
-   Golang interface勉强算作编译时的duck typing，因为传统定义的duck typing发生在运行时，且没有显式的**interface**声明，上面的python示例就是典型的duck typing。区分的原则是，duck typing不以类型来确定关系，而是通过函数来确定，和subtyping是截然不同的。
+   Golang interface 勉强算作编译时的 duck typing，因为传统定义的 duck typing 发生在运行时，且没有显式的**interface**声明，上面的 python 示例就是典型的 duck typing。区分的原则是，duck typing 不以类型来确定关系，而是通过函数来确定，和 subtyping 是截然不同的。
 
-5. *Polytypism*: 函数式编程语言里的泛型特性。以Haskell为例，其函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在Haskell语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度。<sup>[2]</sup>
+5. *Polytypism*: 函数式编程语言里的泛型特性。以 Haskell 为例，其函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在 Haskell 语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度。<sup>[2]</sup>
 
 ##### Dependent types
 
 依赖类型（或依存类型，dependent type）是指依赖于值的类型, 此特性通过极其丰富的类型表达能力使得程序得以借助类型的形式被检查，从而有效减少程序错误。依赖类型的两个常见实例是依赖函数类型(又称**依赖乘积类型**, **Π-类型**)和依赖值对类型(又称**依赖总和类型**、**Σ-类型**)。<sup>[4]</sup>
 
-一个依赖函数的返回值的类型可以依赖于某个参数的具体值，而非仅仅参数的类型，例如，一个输入参数为整型值n的函数可能返回一个长度为n的数组
+一个依赖函数的返回值的类型可以依赖于某个参数的具体值，而非仅仅参数的类型，例如，一个输入参数为整型值 n 的函数可能返回一个长度为 n 的数组
 
 ```idris
 // Idris
 // 连接两个列表
-// Vect n a 是依赖函数类型，a是列表元素的类型，n是输入参数，Vect n a 返回一个长度为n的列表
+// Vect n a 是依赖函数类型，a 是列表元素的类型，n 是输入参数，Vect n a 返回一个长度为 n 的列表
 app : Vect n a -> Vect m a -> Vect (n + m) a
 ```
 
@@ -357,11 +357,11 @@ do(1, 10) // ok
 
 ##### Linear types
 
-Linear types的思想来源于Linear Logic, 它确保对象在程序运行期间有且仅有一个它的引用，这种类型用来描述不能被修改的值，比如文件描述符。linear 类型系统允许引用，但不允许别名(被多个变量引用), 类似于C++的*unique_ptr*指针, 只能被移动，不能被复制。
+Linear types 的思想来源于 Linear Logic, 它确保对象在程序运行期间有且仅有一个它的引用，这种类型用来描述不能被修改的值，比如文件描述符。linear 类型系统允许引用，但不允许别名(被多个变量引用), 类似于 C++的*unique_ptr*指针, 只能被移动，不能被复制。
 
 ##### Intersection types
 
-一个intersection type(交叉类型)是多个type的结合, 以此，你能够得到一个包含**多个类型**的所有成员(members)的新类型！比如，现有三个类Person, Serializable 和 Loggable, 新的类型 T = Person & Serializable & Loggable, 那么类型T拥有Person，Serializable及Loggable的所有成员。
+一个 intersection type(交叉类型)是多个 type 的结合, 以此，你能够得到一个包含**多个类型**的所有成员(members)的新类型！比如，现有三个类 Person, Serializable 和 Loggable, 新的类型 T = Person & Serializable & Loggable, 那么类型 T 拥有 Person，Serializable 及 Loggable 的所有成员。
 
 ```typescript
 // TypeScript mixin example
@@ -396,7 +396,7 @@ jim.log();
 
 ##### Union types
 
-学过C语言的对此类型并不陌生，和intersection type类似，一个union type可以为多个类型，但是在任意时刻，它的值的类型只能是其中所有类型中的一种。
+学过 C 语言的对此类型并不陌生，和 intersection type 类似，一个 union type 可以为多个类型，但是在任意时刻，它的值的类型只能是其中所有类型中的一种。
 
 ```c
 //c
@@ -430,17 +430,17 @@ let ok = padLeft("Hello world", 0) // compile ok
 
 ##### Existential types
 
-在理解存在类型(existential type)之前，我们先看下java的类型通配符 `?` , 它代表一个未知类型.
+在理解存在类型(existential type)之前，我们先看下 java 的类型通配符 `?` , 它代表一个未知类型.
 
 ###### Upper Bounded Wildcards
 
-通过声明通配的上限(父类)来匹配，如果你的函数入参可能是List\<Integer>, List\<double>或者 List\<number> ，你可以使用`?`声明
+通过声明通配的上限(父类)来匹配，如果你的函数入参可能是 List\<Integer>, List\<double>或者 List\<number> ，你可以使用`?`声明
 
 ```java
 public static void add(List<? extends Number> list)
 ```
 
-Number的所有子类都可以作为入参, 例如:
+Number 的所有子类都可以作为入参, 例如:
 
 ```java
 //Java program to demonstrate Upper Bounded Wildcards
@@ -499,7 +499,7 @@ List<? extends Object>
 List<? super Integer>
 ```
 
-那么，Integer类型的所有父类都可以作为入参。例如:
+那么，Integer 类型的所有父类都可以作为入参。例如:
 
 ```java
 //Java program to demonstrate Lower Bounded Wildcards
@@ -529,13 +529,13 @@ class WildcardDemo
     }
 ```
 
-那java的类型通配符和存在类型有什么关系呢？先看看scala的缔造者*Martin Odersky* 对scala引入存在类型的回答
+那 java 的类型通配符和存在类型有什么关系呢？先看看 scala 的缔造者*Martin Odersky* 对 scala 引入存在类型的回答
 
 > Bill Venners: Existential types were added to Scala relatively recently. The justification I heard for existentential types was that they allow you to map all Java types, in particular Java's wildcard types, to Scala types. Are existential types larger than that? Are they a superset of Java's wildcard types? And is there any other reason for them that people should know about?
 >
 > Martin Odersky: It is hard to say because people don't really have a good conception of what wildcards are. The original wildcard design by Atsushi Igarashi and Mirko Viroli was inspired by existential types. In fact the original paper had an encoding in existential types. But then when the actual final design came out in Java, this connection got lost a little bit. So we don't really know the status of these wildcard types right now.
 
-*Martin Odersky* 在scala邮件组里的回答
+*Martin Odersky* 在 scala 邮件组里的回答
 
 > The original Java wildcard types (as described in the ECOOP paper by
 > Igarashi and Viroli) were indeed just shorthands for existential
@@ -546,11 +546,11 @@ class WildcardDemo
 > able to pinpoint the difference), but maybe a careful read of the Wild
 > FJ paper would shed some light on it.
 
-可见，java类型通配符的设计思想来源于存在类型，但有些不同。scala引入存在类型是为了兼容java和jvm，所以会比`?`更强大。那么既然区别不大，理解了类型通配即理解了存在类型。这是一个曲线救国的方式。
+可见，java 类型通配符的设计思想来源于存在类型，但有些不同。scala 引入存在类型是为了兼容 java 和 jvm，所以会比`?`更强大。那么既然区别不大，理解了类型通配即理解了存在类型。这是一个曲线救国的方式。
 
 接下来，我们从数学定义的角度来理解。
 
-*existential type*里的existential来源于存在量词`∃`,  `∃`在谓词逻辑中的解释:
+*existential type*里的 existential 来源于存在量词`∃`,  `∃`在谓词逻辑中的解释:
 
 ```haskell
 ∃ x: P(x) 表示存在至少一个 x 使得 P(x) 为真。
@@ -559,12 +559,12 @@ class WildcardDemo
 存在类型的公式化表示:
 
 ```haskell
-T = ∃X { X a; int f(X); }
+T = ∃ X { X a; int f(X); }
 ```
 
-类型X是存在类型, 即存在一个类型X，满足此表达式，在编程语言里我们称之为**可实现**。存在类型适合用来定义接口，不论是模块之间还是语言之间。
+类型 X 是存在类型, 即存在一个类型 X，满足此表达式，在编程语言里我们称之为**可实现**。存在类型适合用来定义接口，不论是模块之间还是语言之间。
 
-这里要提下泛型(即前面讲到的*Parametric polymorphism*, 也叫*Universal type*), 以避免混淆。*Universal type*中的universal来源于全称量词`∀`, `∀`在谓词逻辑中的解释:
+这里要提下泛型(即前面讲到的*Parametric polymorphism*, 也叫*Universal type*), 以避免混淆。*Universal type*中的 universal 来源于全称量词`∀`, `∀`在谓词逻辑中的解释:
 
 ```haskell
 ∀ x: P(x) 表示 P(x) 对于所有 x 为真。
@@ -573,10 +573,10 @@ T = ∃X { X a; int f(X); }
 泛型的公式化表示:
 
 ```haskell
-T = ∀X { X a; int f(X); }
+T = ∀ X { X a; int f(X); }
 ```
 
-即，对于所有类型X，满足此表达式。
+即，对于所有类型 X，满足此表达式。
 
 ### 语言规范
 
@@ -584,7 +584,7 @@ T = ∀X { X a; int f(X); }
 
 ##### Types
 
-一门语言的规范，首先是类型(type), 声明(statements), 表达式(expressions)等， 然后是作用域(scoping)。前面的内容介绍了类型系统, 那么该类型系统定义了哪些类型，实现了哪些特性是我们首先要了解的。通常一门语言的语法规范会以grammar<sup>[6]</sup>的形式来定义，例如golang中对于浮点数字的描述:
+一门语言的规范，首先是类型(type), 声明(statements), 表达式(expressions)等， 然后是作用域(scoping)。前面的内容介绍了类型系统, 那么该类型系统定义了哪些类型，实现了哪些特性是我们首先要了解的。通常一门语言的语法规范会以 grammar<sup>[6]</sup>的形式来定义，例如 golang 中对于浮点数字的描述:
 
 ```
 float_lit = decimals "." [ decimals ] [ exponent ] |
@@ -602,13 +602,13 @@ exponent  = ( "e" | "E" ) [ "+" | "-" ] decimals .
 
 | 基础类型                                     | 解释                                       |
 | ---------------------------------------- | ---------------------------------------- |
-| int, short, int8, uint8, byte, int16, uint16, int32, rune, uint32, int64, uint64, long | 整数, 包含不同进制的整数, 包含不同表示范围的整数, 包含有符号和无符号。`ex`. int a = 100; int b =  0xff; uint8 c = 34; PS. Rust的i8, u8等写法不赘述. |
+| int, short, int8, uint8, byte, int16, uint16, int32, rune, uint32, int64, uint64, long | 整数, 包含不同进制的整数, 包含不同表示范围的整数, 包含有符号和无符号。`ex`. int a = 100; int b =  0xff; uint8 c = 34; PS. Rust 的 i8, u8 等写法不赘述. |
 | float, float32, float64, double, long double | 浮点数, 包含不同的计数方式, 不同的范围。ex. float a = 5.6; float64 f = .12345E+5 |
 | bool, boolean                            | 布尔型, true or false. `ex`.  bool b = false |
-| char,  signed char,  unsigned char,  char16_t,  char32_t,  wchar_t, string, symbol | 字符/字符串，string在某些语言里是复合类型. ex. char a = 'c'; string b = "wango"; symbol是ruby里不可修改的字符串类型 |
+| char,  signed char,  unsigned char,  char16_t,  char32_t,  wchar_t, string, symbol | 字符/字符串，string 在某些语言里是复合类型. ex. char a = 'c'; string b = "wango"; symbol 是 ruby 里不可修改的字符串类型 |
 | complex64, complex128                    | 复数，部分语言有. `ex`. var x complex128 = complex(1, 2) |
 | pointer, reference                       | 指针/引用. `ex`. int *p = 0x22ae4f; var p *int; *p= 1; q := &p |
-| error                                    | 错误信息，少部分语言有，比如golang. `ex`: var e error  |
+| error                                    | 错误信息，少部分语言有，比如 golang. `ex`: var e error  |
 | null, nil, undefined, void               | 空值, 在不同的语言里要做区分, 这里仅作归类                  |
 |                                          |                                          |
 
@@ -624,21 +624,21 @@ exponent  = ( "e" | "E" ) [ "+" | "-" ] decimals .
 | interface                  | 接口. `ex`. interface a { f()}             |
 | channel                    | 信道. `ex`. var a chan int                 |
 | function                   | 函数                                       |
-| enum                       | 枚举, 在某些语言里是基础类型, 比如TypeScript, 某些不是, 比如Java |
+| enum                       | 枚举, 在某些语言里是基础类型, 比如 TypeScript, 某些不是, 比如 Java |
 | union                      | 联合, let a : string \| number = 10; a = '10' |
-| table                      | hash, 在某些语言里是基础类型，比如Lua，在某些语言里是复合类型, 比如Java |
+| table                      | hash, 在某些语言里是基础类型，比如 Lua，在某些语言里是复合类型, 比如 Java |
 | set                        | 集合. `ex`. const s = new Set([1, 2, 3, 4, 5]); |
 | Object                     | 对象                                       |
-| tuple                      | 元组,  let x: [string, number]; x是个元组，包含不同类型的元素, scala, typescript都有这种元组类型 |
+| tuple                      | 元组,  let x: [string, number]; x 是个元组，包含不同类型的元素, scala, typescript 都有这种元组类型 |
 |                            |                                          |
 
 ##### Statements
 
-statement的直译是声明，但在这里按照代码的逻辑单元来理解，一个statement是逻辑单元的开始或结束。在书籍中，通常描述为xxx语句，比如**if**语句。
+statement 的直译是声明，但在这里按照代码的逻辑单元来理解，一个 statement 是逻辑单元的开始或结束。在书籍中，通常描述为 xxx 语句，比如**if**语句。
 
 ###### Empty statement
 
-空语句, 不做任何事情。grammar规则:
+空语句, 不做任何事情。grammar 规则:
 
 ```antlr
 EmptyStatement:
@@ -647,7 +647,7 @@ EmptyStatement:
 
 ###### Labeled statement
 
-标签语句, 通常作为**goto**, **break**, **continue** 的目标，例如c/c++里的**goto**语句，一个单词加上冒号即是*labeled statement*。下面代码中的标签语句*LOOP:*即是**goto**的目标。
+标签语句, 通常作为**goto**, **break**, **continue** 的目标，例如 c/c++里的**goto**语句，一个单词加上冒号即是*labeled statement*。下面代码中的标签语句*LOOP:*即是**goto**的目标。
 
 ````c
 /*c*/
@@ -675,7 +675,7 @@ int main () {
    return
 ````
 
-它的grammar规则为:
+它的 grammar 规则为:
 
 ```
 LabeledStmt = Label ":" Statement .
@@ -745,7 +745,7 @@ switch(expression) {
 }
 ```
 
-对于golang, *switch statement*分成了两类, 一类是常规的*expression switch*(上面的例子), 一类是*type switch*(下面的例子)
+对于 golang, *switch statement*分成了两类, 一类是常规的*expression switch*(上面的例子), 一类是*type switch*(下面的例子)
 
 ```go
 // golang type switch
@@ -767,7 +767,7 @@ default:
 
 ###### While statement
 
-**while**循环语句, 重复判断bool表达式的值，如果为真则执行，直到表达式的值为假
+**while**循环语句, 重复判断 bool 表达式的值，如果为真则执行，直到表达式的值为假
 
 ```c
 // c
@@ -777,7 +777,7 @@ while(condition)
 }
 ```
 
-tip: 在golang里，**for**语句加上bool表达式，可以实现**while**语句
+tip: 在 golang 里，**for**语句加上 bool 表达式，可以实现**while**语句
 
 ```go
 // golang
@@ -835,7 +835,7 @@ for (x in person) {
 }
 ```
 
-这里，x被赋值为person这个map的key。当遍历的对象是map时，x为key，当遍历的对象是数组时，x为索引下标
+这里，x 被赋值为 person 这个 map 的 key。当遍历的对象是 map 时，x 为 key，当遍历的对象是数组时，x 为索引下标
 
 ###### For-of statement
 
@@ -856,7 +856,7 @@ for (let v of foo()) {
 }
 ```
 
-这里变量v被赋值为foo函数返回的对象。被赋值的变量总是可迭代类型里的元素。
+这里变量 v 被赋值为 foo 函数返回的对象。被赋值的变量总是可迭代类型里的元素。
 
 **For-in** vs **For-of**
 
@@ -869,7 +869,7 @@ for (let v of foo()) {
 
 ###### For-range statement
 
-**for**语句变种，在golang中用来迭代数组, 或者map
+**for**语句变种，在 golang 中用来迭代数组, 或者 map
 
 ```go
 // golang
@@ -887,7 +887,7 @@ for (let v of foo()) {
 
 ###### Break statement
 
-跳出语句，用于立即跳出一个逻辑单元，当不配合*labeled statement*使用时，立即(abruptly)跳出最里层的一个封闭(enclosing)逻辑单元, 如**switch**, **do**, **while**, **for**. 当配合*labeled statement*使用时，立即跳出label标定的层级的封闭逻辑单元。
+跳出语句，用于立即跳出一个逻辑单元，当不配合*labeled statement*使用时，立即(abruptly)跳出最里层的一个封闭(enclosing)逻辑单元, 如**switch**, **do**, **while**, **for**. 当配合*labeled statement*使用时，立即跳出 label 标定的层级的封闭逻辑单元。
 
 ```c
 // c
@@ -973,7 +973,7 @@ RowLoop:
 }
 ```
 
-当column等于4时，结束逻辑，此时不是跳转到当前层级的*post statement*, 而是跳转到RawLoop, 所以输出结果应该为:
+当 column 等于 4 时，结束逻辑，此时不是跳转到当前层级的*post statement*, 而是跳转到 RawLoop, 所以输出结果应该为:
 
 ```
 1-2
@@ -981,7 +981,7 @@ RowLoop:
 5-2
 ```
 
-不仅4没有输出，6也被**continue**掉了.
+不仅 4 没有输出，6 也被**continue**掉了.
 
 ###### Return statement
 
@@ -993,14 +993,14 @@ RowLoop:
       for(int i = 2; i <= n; i += 2) {
         closure(i)
       }
-      // return 2, 可以简写成2
+      // return 2, 可以简写成 2
       2
     }
 ```
 
 ###### Throw statement
 
-在一些语言中比如*Java*, *JavaScript*等使用**throw**语句来抛出错误，以便上层的调用方能够通过**try-catch-throw**的方式捕捉并处理。未捕捉的**throw**语句会导致线程/进程终止。对于*Java*, **throw**的的对象必须是*Exception*或者其子类，对于*JavaScript*, throw的对象可以是任意类型.
+在一些语言中比如*Java*, *JavaScript*等使用**throw**语句来抛出错误，以便上层的调用方能够通过**try-catch-throw**的方式捕捉并处理。未捕捉的**throw**语句会导致线程/进程终止。对于*Java*, **throw**的的对象必须是*Exception*或者其子类，对于*JavaScript*, throw 的对象可以是任意类型.
 
 ```javascript
 // JavasScript
@@ -1062,14 +1062,14 @@ int main ()
 | ---- | ---------------------------------------- |
 | +    | 加号, a := 1 + 4                           |
 | -    | 减号, b := 1 - 4                           |
-| ++   | 累加1, int b = 0; int a = b++;             |
-| --   | 累减1, ini b = 0; int a = b—;              |
-| ~    | 按位取反,  ~ 0111（十进制7）  = 1000（十进制8）        |
+| ++   | 累加 1, int b = 0; int a = b++;             |
+| --   | 累减 1, ini b = 0; int a = b—;              |
+| ~    | 按位取反,  ~ 0111（十进制 7）  = 1000（十进制 8）        |
 | !    | 非, !isEmpty(o)                           |
 | ^    | 异或, 2 ^ 3                                |
 | &    | 按位与,   0101  & 0011  = 0001              |
-| <-   | 赋值, a <- 1, 在golang中用于操作channel          |
-| \|   | 按位或,    0101（十进制5）      \| 0011（十进制3）       = 0111（十进制7） |
+| <-   | 赋值, a <- 1, 在 golang 中用于操作 channel          |
+| \|   | 按位或,    0101（十进制 5）      \| 0011（十进制 3）       = 0111（十进制 7） |
 
 ###### Binary operators
 
@@ -1078,8 +1078,8 @@ int main ()
 | *    | 乘法, c = 2 * 10 = 20  |
 | /    | 除法, c = 10 / 2 = 5   |
 | %    | 取模, c = 10 % 2 = 0   |
-| <<   | 位运算左移, 在c++中也用来操作输入流 |
-| >>   | 位运算右移, 在c++中也用来操作输出流 |
+| <<   | 位运算左移, 在 c++中也用来操作输入流 |
+| >>   | 位运算右移, 在 c++中也用来操作输出流 |
 | &    | 按位与                  |
 | &^   |                      |
 |      |                      |
@@ -1163,7 +1163,7 @@ a[x]
 
 ###### Block scope
 
-通常编程语言都会使用花括号`{}`来将代码包裹成块(block), 在block内声明的实体，仅在block内有效。
+通常编程语言都会使用花括号`{}`来将代码包裹成块(block), 在 block 内声明的实体，仅在 block 内有效。
 
 ```go
 // golang
@@ -1208,7 +1208,7 @@ def sum_of_squares(n):
 
 ###### Module scope
 
-在某些现代语言中，一个实体可以在一个模块内的各个文件内有效，比如*golang*.  部分语言，一个文件就是一个独立的module，此时，也属于*file scope*.
+在某些现代语言中，一个实体可以在一个模块内的各个文件内有效，比如*golang*.  部分语言，一个文件就是一个独立的 module，此时，也属于*file scope*.
 
 ###### Global scope
 
@@ -1236,7 +1236,7 @@ Subnetutils sbt = new Subnetutils("xx")
 from sys import argv
 ```
 
-顺便说下python里*from*和常规*import*之间，在包的的使用上会有差异。
+顺便说下 python 里*from*和常规*import*之间，在包的的使用上会有差异。
 
 ```
 >>> from os import path
@@ -1344,8 +1344,8 @@ return sort(result);
 
 * 当我们对一组数据类型进行抽象，封装成类(class, 类是**OOP**的基本概念)时，我们可以定义该类的子类，来共享它的数据类型和逻辑，此方式称为继承(inheritance), 能够有效减少我们的开发时间。
 * 当类被定义后，通常它只需要关注它自身的数据和逻辑，通过语法特性，一般是*public*/*private*关键字，将这类数据和逻辑隐藏起来，避免被非法(或者说不合理的, 不应当的)访问，提升程序和系统的安全性。
-* 一个封装好的类，不仅能被它的创建者使用，也可以分发(在网络上)给其他人使用, 比如*Java*的jar包。
-* 一门语言不可能把开发者所需要的所有的类型都定义好，class的概念则很好地解决了这个问题，开发者可以定义任意自己想要的数据类型。
+* 一个封装好的类，不仅能被它的创建者使用，也可以分发(在网络上)给其他人使用, 比如*Java*的 jar 包。
+* 一门语言不可能把开发者所需要的所有的类型都定义好，class 的概念则很好地解决了这个问题，开发者可以定义任意自己想要的数据类型。
 * **OOP**的多态性质可以让代码更加灵活。
 
 ##### DP(Declarative Programming)
@@ -1372,7 +1372,7 @@ SELECT * FROM Users WHERE Country=’Mexico’;
 
 ##### FP(Functional Programming)
 
-即函数式编程，**FP**属于**DP**的子集, 在函数式编程里，函数和其他数据类型一样，可以作为类型定义变量，可以作为入参和返回值，代码里的**SP**逻辑尤其是控制流逻辑，被隐藏了起来。 假设我们要编写一个函数，将一个数组的每个元素都乘以2，**PP**风格的代码如下:
+即函数式编程，**FP**属于**DP**的子集, 在函数式编程里，函数和其他数据类型一样，可以作为类型定义变量，可以作为入参和返回值，代码里的**SP**逻辑尤其是控制流逻辑，被隐藏了起来。 假设我们要编写一个函数，将一个数组的每个元素都乘以 2，**PP**风格的代码如下:
 
 ```typescript
 // TypeScript
@@ -1389,7 +1389,7 @@ function double (arr) {
 
 > First do this, then do that.
 
-**FP**则不会描述数组是如何迭代的，也不会显式地修改变量, 仅仅描述了我们想要什么，我们想要将元素乘以2，`item * 2`就是核心逻辑，不需要开发者关心它是怎么迭代和修改变量的。
+**FP**则不会描述数组是如何迭代的，也不会显式地修改变量, 仅仅描述了我们想要什么，我们想要将元素乘以 2，`item * 2`就是核心逻辑，不需要开发者关心它是怎么迭代和修改变量的。
 
 ```typescript
 function double (arr) {
@@ -1401,7 +1401,7 @@ function double (arr) {
 
 ##### MP(Meta Programming)
 
-即元编程, 也写做*Metaprogramming*。元编程是一种可以将程序当作数据来操作的技术，元编程能够读取，生成，分析或转换其他的程序代码，甚至可以在运行时修改自身. *C++*的template即属于*metaprogramming*的范畴，编译器在编译时生成具体的源代码。在web框架*Ruby on Rails*里，元编程被普遍使用。比如，在SQL数据库的表里，有一个表users，在ruby中用类*User*表示，你需要根据user的email字段来获取相应的结果，通常的做法是写个sql查询语句去完成，但是*Ruby on Rails*在元编程的加持下，会让这件事变得异常简单。
+即元编程, 也写做*Metaprogramming*。元编程是一种可以将程序当作数据来操作的技术，元编程能够读取，生成，分析或转换其他的程序代码，甚至可以在运行时修改自身. *C++*的 template 即属于*metaprogramming*的范畴，编译器在编译时生成具体的源代码。在 web 框架*Ruby on Rails*里，元编程被普遍使用。比如，在 SQL 数据库的表里，有一个表 users，在 ruby 中用类*User*表示，你需要根据 user 的 email 字段来获取相应的结果，通常的做法是写个 sql 查询语句去完成，但是*Ruby on Rails*在元编程的加持下，会让这件事变得异常简单。
 
 ```ruby
 User.find_by_email('songtianyi630@163.com')
@@ -1421,7 +1421,7 @@ User.find_by_email('songtianyi630@163.com')
 * *strongly typed*: 类型不可变
 * *dynamically typed*: 值的类型仅在运行时确定
 * *statically typed*: 值的类型仅在编译时确定
-* *duck*: duck typing, 也叫row polymorphism
+* *duck*: duck typing, 也叫 row polymorphism
 * *generic*: parametric polymorphism
 * *subtype*: subtype polymorphism
 * *overloading*: Ad hoc polymorphism, 函数重载或操作符重载或两者都有

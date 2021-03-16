@@ -1,550 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-        <style>:root
-{
---markdown-font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui, "Ubuntu", "Droid Sans", sans-serif;
---markdown-font-size: 14px;
---markdown-line-height: 1.6;
---vscode-font-family:"Segoe WPC", "Segoe UI", sans-serif;
---vscode-font-weight:normal;
---vscode-font-size:13px;
---vscode-editor-font-family:Consolas, "Courier New", monospace;
---vscode-editor-font-weight:normal;
---vscode-editor-font-size:14px;
---vscode-foreground:#616161;
---vscode-errorForeground:#a1260d;
---vscode-descriptionForeground:#717171;
---vscode-icon-foreground:#424242;
---vscode-focusBorder:#0090f1;
---vscode-textSeparator-foreground:rgba(0, 0, 0, 0.18);
---vscode-textLink-foreground:#006ab1;
---vscode-textLink-activeForeground:#006ab1;
---vscode-textPreformat-foreground:#a31515;
---vscode-textBlockQuote-background:rgba(127, 127, 127, 0.1);
---vscode-textBlockQuote-border:rgba(0, 122, 204, 0.5);
---vscode-textCodeBlock-background:rgba(220, 220, 220, 0.4);
---vscode-widget-shadow:#a8a8a8;
---vscode-input-background:#ffffff;
---vscode-input-foreground:#616161;
---vscode-inputOption-activeBorder:rgba(0, 122, 204, 0);
---vscode-inputOption-activeBackground:rgba(0, 144, 241, 0.2);
---vscode-inputOption-activeForeground:#000000;
---vscode-input-placeholderForeground:#767676;
---vscode-inputValidation-infoBackground:#d6ecf2;
---vscode-inputValidation-infoBorder:#007acc;
---vscode-inputValidation-warningBackground:#f6f5d2;
---vscode-inputValidation-warningBorder:#b89500;
---vscode-inputValidation-errorBackground:#f2dede;
---vscode-inputValidation-errorBorder:#be1100;
---vscode-dropdown-background:#ffffff;
---vscode-dropdown-border:#cecece;
---vscode-checkbox-background:#ffffff;
---vscode-checkbox-border:#cecece;
---vscode-button-foreground:#ffffff;
---vscode-button-background:#007acc;
---vscode-button-hoverBackground:#0062a3;
---vscode-button-secondaryForeground:#ffffff;
---vscode-button-secondaryBackground:#5f6a79;
---vscode-button-secondaryHoverBackground:#4c5561;
---vscode-badge-background:#c4c4c4;
---vscode-badge-foreground:#333333;
---vscode-scrollbar-shadow:#dddddd;
---vscode-scrollbarSlider-background:rgba(100, 100, 100, 0.4);
---vscode-scrollbarSlider-hoverBackground:rgba(100, 100, 100, 0.7);
---vscode-scrollbarSlider-activeBackground:rgba(0, 0, 0, 0.6);
---vscode-progressBar-background:#0e70c0;
---vscode-editorError-foreground:#e51400;
---vscode-editorWarning-foreground:#e9a700;
---vscode-editorInfo-foreground:#75beff;
---vscode-editorHint-foreground:#6c6c6c;
---vscode-editor-background:#ffffff;
---vscode-editor-foreground:#000000;
---vscode-editorWidget-background:#f3f3f3;
---vscode-editorWidget-foreground:#616161;
---vscode-editorWidget-border:#c8c8c8;
---vscode-quickInput-background:#f3f3f3;
---vscode-quickInput-foreground:#616161;
---vscode-quickInputTitle-background:rgba(0, 0, 0, 0.06);
---vscode-pickerGroup-foreground:#0066bf;
---vscode-pickerGroup-border:#cccedb;
---vscode-editor-selectionBackground:#add6ff;
---vscode-editor-inactiveSelectionBackground:#e5ebf1;
---vscode-editor-selectionHighlightBackground:rgba(173, 214, 255, 0.5);
---vscode-editor-findMatchBackground:#a8ac94;
---vscode-editor-findMatchHighlightBackground:rgba(234, 92, 0, 0.33);
---vscode-editor-findRangeHighlightBackground:rgba(180, 180, 180, 0.3);
---vscode-searchEditor-findMatchBackground:rgba(234, 92, 0, 0.22);
---vscode-editor-hoverHighlightBackground:rgba(173, 214, 255, 0.15);
---vscode-editorHoverWidget-background:#f3f3f3;
---vscode-editorHoverWidget-foreground:#616161;
---vscode-editorHoverWidget-border:#c8c8c8;
---vscode-editorHoverWidget-statusBarBackground:#e7e7e7;
---vscode-editorLink-activeForeground:#0000ff;
---vscode-editorLightBulb-foreground:#ddb100;
---vscode-editorLightBulbAutoFix-foreground:#007acc;
---vscode-diffEditor-insertedTextBackground:rgba(155, 185, 85, 0.2);
---vscode-diffEditor-removedTextBackground:rgba(255, 0, 0, 0.2);
---vscode-diffEditor-diagonalFill:rgba(34, 34, 34, 0.2);
---vscode-list-focusBackground:#d6ebff;
---vscode-list-activeSelectionBackground:#0074e8;
---vscode-list-activeSelectionForeground:#ffffff;
---vscode-list-inactiveSelectionBackground:#e4e6f1;
---vscode-list-hoverBackground:#e8e8e8;
---vscode-list-dropBackground:#d6ebff;
---vscode-list-highlightForeground:#0066bf;
---vscode-list-invalidItemForeground:#b89500;
---vscode-list-errorForeground:#b01011;
---vscode-list-warningForeground:#855f00;
---vscode-listFilterWidget-background:#efc1ad;
---vscode-listFilterWidget-outline:rgba(0, 0, 0, 0);
---vscode-listFilterWidget-noMatchesOutline:#be1100;
---vscode-list-filterMatchBackground:rgba(234, 92, 0, 0.33);
---vscode-tree-indentGuidesStroke:#a9a9a9;
---vscode-list-deemphasizedForeground:#8e8e90;
---vscode-menu-foreground:#616161;
---vscode-menu-background:#ffffff;
---vscode-menu-selectionForeground:#ffffff;
---vscode-menu-selectionBackground:#0074e8;
---vscode-menu-separatorBackground:#888888;
---vscode-editor-snippetTabstopHighlightBackground:rgba(10, 50, 100, 0.2);
---vscode-editor-snippetFinalTabstopHighlightBorder:rgba(10, 50, 100, 0.5);
---vscode-breadcrumb-foreground:rgba(97, 97, 97, 0.8);
---vscode-breadcrumb-background:#ffffff;
---vscode-breadcrumb-focusForeground:#4e4e4e;
---vscode-breadcrumb-activeSelectionForeground:#4e4e4e;
---vscode-breadcrumbPicker-background:#f3f3f3;
---vscode-merge-currentHeaderBackground:rgba(64, 200, 174, 0.5);
---vscode-merge-currentContentBackground:rgba(64, 200, 174, 0.2);
---vscode-merge-incomingHeaderBackground:rgba(64, 166, 255, 0.5);
---vscode-merge-incomingContentBackground:rgba(64, 166, 255, 0.2);
---vscode-merge-commonHeaderBackground:rgba(96, 96, 96, 0.4);
---vscode-merge-commonContentBackground:rgba(96, 96, 96, 0.16);
---vscode-editorOverviewRuler-currentContentForeground:rgba(64, 200, 174, 0.5);
---vscode-editorOverviewRuler-incomingContentForeground:rgba(64, 166, 255, 0.5);
---vscode-editorOverviewRuler-commonContentForeground:rgba(96, 96, 96, 0.4);
---vscode-editorOverviewRuler-findMatchForeground:rgba(209, 134, 22, 0.49);
---vscode-editorOverviewRuler-selectionHighlightForeground:rgba(160, 160, 160, 0.8);
---vscode-minimap-findMatchHighlight:#d18616;
---vscode-minimap-selectionHighlight:#add6ff;
---vscode-minimap-errorHighlight:rgba(255, 18, 18, 0.7);
---vscode-minimap-warningHighlight:#e9a700;
---vscode-minimapSlider-background:rgba(100, 100, 100, 0.2);
---vscode-minimapSlider-hoverBackground:rgba(100, 100, 100, 0.35);
---vscode-minimapSlider-activeBackground:rgba(0, 0, 0, 0.3);
---vscode-problemsErrorIcon-foreground:#e51400;
---vscode-problemsWarningIcon-foreground:#e9a700;
---vscode-problemsInfoIcon-foreground:#75beff;
---vscode-editor-lineHighlightBorder:#eeeeee;
---vscode-editor-rangeHighlightBackground:rgba(253, 255, 0, 0.2);
---vscode-editor-symbolHighlightBackground:rgba(234, 92, 0, 0.33);
---vscode-editorCursor-foreground:#000000;
---vscode-editorWhitespace-foreground:rgba(51, 51, 51, 0.2);
---vscode-editorIndentGuide-background:#d3d3d3;
---vscode-editorIndentGuide-activeBackground:#939393;
---vscode-editorLineNumber-foreground:#237893;
---vscode-editorActiveLineNumber-foreground:#0b216f;
---vscode-editorLineNumber-activeForeground:#0b216f;
---vscode-editorRuler-foreground:#d3d3d3;
---vscode-editorCodeLens-foreground:#999999;
---vscode-editorBracketMatch-background:rgba(0, 100, 0, 0.1);
---vscode-editorBracketMatch-border:#b9b9b9;
---vscode-editorOverviewRuler-border:rgba(127, 127, 127, 0.3);
---vscode-editorGutter-background:#ffffff;
---vscode-editorUnnecessaryCode-opacity:rgba(0, 0, 0, 0.47);
---vscode-editorOverviewRuler-rangeHighlightForeground:rgba(0, 122, 204, 0.6);
---vscode-editorOverviewRuler-errorForeground:rgba(255, 18, 18, 0.7);
---vscode-editorOverviewRuler-warningForeground:#e9a700;
---vscode-editorOverviewRuler-infoForeground:#75beff;
---vscode-editorOverviewRuler-bracketMatchForeground:#a0a0a0;
---vscode-symbolIcon-arrayForeground:#616161;
---vscode-symbolIcon-booleanForeground:#616161;
---vscode-symbolIcon-classForeground:#d67e00;
---vscode-symbolIcon-colorForeground:#616161;
---vscode-symbolIcon-constantForeground:#616161;
---vscode-symbolIcon-constructorForeground:#652d90;
---vscode-symbolIcon-enumeratorForeground:#d67e00;
---vscode-symbolIcon-enumeratorMemberForeground:#007acc;
---vscode-symbolIcon-eventForeground:#d67e00;
---vscode-symbolIcon-fieldForeground:#007acc;
---vscode-symbolIcon-fileForeground:#616161;
---vscode-symbolIcon-folderForeground:#616161;
---vscode-symbolIcon-functionForeground:#652d90;
---vscode-symbolIcon-interfaceForeground:#007acc;
---vscode-symbolIcon-keyForeground:#616161;
---vscode-symbolIcon-keywordForeground:#616161;
---vscode-symbolIcon-methodForeground:#652d90;
---vscode-symbolIcon-moduleForeground:#616161;
---vscode-symbolIcon-namespaceForeground:#616161;
---vscode-symbolIcon-nullForeground:#616161;
---vscode-symbolIcon-numberForeground:#616161;
---vscode-symbolIcon-objectForeground:#616161;
---vscode-symbolIcon-operatorForeground:#616161;
---vscode-symbolIcon-packageForeground:#616161;
---vscode-symbolIcon-propertyForeground:#616161;
---vscode-symbolIcon-referenceForeground:#616161;
---vscode-symbolIcon-snippetForeground:#616161;
---vscode-symbolIcon-stringForeground:#616161;
---vscode-symbolIcon-structForeground:#616161;
---vscode-symbolIcon-textForeground:#616161;
---vscode-symbolIcon-typeParameterForeground:#616161;
---vscode-symbolIcon-unitForeground:#616161;
---vscode-symbolIcon-variableForeground:#007acc;
---vscode-editor-foldBackground:rgba(173, 214, 255, 0.3);
---vscode-editorGutter-foldingControlForeground:#424242;
---vscode-editor-onTypeRenameBackground:rgba(255, 0, 0, 0.3);
---vscode-editorSuggestWidget-background:#f3f3f3;
---vscode-editorSuggestWidget-border:#c8c8c8;
---vscode-editorSuggestWidget-foreground:#000000;
---vscode-editorSuggestWidget-selectedBackground:#d6ebff;
---vscode-editorSuggestWidget-highlightForeground:#0066bf;
---vscode-editor-wordHighlightBackground:rgba(87, 87, 87, 0.25);
---vscode-editor-wordHighlightStrongBackground:rgba(14, 99, 156, 0.25);
---vscode-editorOverviewRuler-wordHighlightForeground:rgba(160, 160, 160, 0.8);
---vscode-editorOverviewRuler-wordHighlightStrongForeground:rgba(192, 160, 192, 0.8);
---vscode-peekViewTitle-background:#ffffff;
---vscode-peekViewTitleLabel-foreground:#333333;
---vscode-peekViewTitleDescription-foreground:rgba(97, 97, 97, 0.9);
---vscode-peekView-border:#007acc;
---vscode-peekViewResult-background:#f3f3f3;
---vscode-peekViewResult-lineForeground:#646465;
---vscode-peekViewResult-fileForeground:#1e1e1e;
---vscode-peekViewResult-selectionBackground:rgba(51, 153, 255, 0.2);
---vscode-peekViewResult-selectionForeground:#6c6c6c;
---vscode-peekViewEditor-background:#f2f8fc;
---vscode-peekViewEditorGutter-background:#f2f8fc;
---vscode-peekViewResult-matchHighlightBackground:rgba(234, 92, 0, 0.3);
---vscode-peekViewEditor-matchHighlightBackground:rgba(245, 216, 2, 0.87);
---vscode-editorMarkerNavigationError-background:#e51400;
---vscode-editorMarkerNavigationWarning-background:#e9a700;
---vscode-editorMarkerNavigationInfo-background:#75beff;
---vscode-editorMarkerNavigation-background:#ffffff;
---vscode-tab-activeBackground:#ffffff;
---vscode-tab-unfocusedActiveBackground:#ffffff;
---vscode-tab-inactiveBackground:#ececec;
---vscode-tab-unfocusedInactiveBackground:#ececec;
---vscode-tab-activeForeground:#333333;
---vscode-tab-inactiveForeground:rgba(51, 51, 51, 0.7);
---vscode-tab-unfocusedActiveForeground:rgba(51, 51, 51, 0.7);
---vscode-tab-unfocusedInactiveForeground:rgba(51, 51, 51, 0.35);
---vscode-tab-activeModifiedBorder:#33aaee;
---vscode-tab-inactiveModifiedBorder:rgba(51, 170, 238, 0.5);
---vscode-tab-unfocusedActiveModifiedBorder:rgba(51, 170, 238, 0.7);
---vscode-tab-unfocusedInactiveModifiedBorder:rgba(51, 170, 238, 0.25);
---vscode-tab-border:#f3f3f3;
---vscode-editorPane-background:#ffffff;
---vscode-editorGroupHeader-tabsBackground:#f3f3f3;
---vscode-editorGroupHeader-noTabsBackground:#ffffff;
---vscode-editorGroup-border:#e7e7e7;
---vscode-editorGroup-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-imagePreview-border:rgba(128, 128, 128, 0.35);
---vscode-panel-background:#ffffff;
---vscode-panel-border:rgba(128, 128, 128, 0.35);
---vscode-panelTitle-activeForeground:#424242;
---vscode-panelTitle-inactiveForeground:rgba(66, 66, 66, 0.75);
---vscode-panelTitle-activeBorder:#424242;
---vscode-panelInput-border:#dddddd;
---vscode-panel-dropBorder:#424242;
---vscode-panelSection-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-panelSectionHeader-background:rgba(128, 128, 128, 0.2);
---vscode-panelSection-border:rgba(128, 128, 128, 0.35);
---vscode-statusBar-foreground:#ffffff;
---vscode-statusBar-noFolderForeground:#ffffff;
---vscode-statusBar-background:#007acc;
---vscode-statusBar-noFolderBackground:#68217a;
---vscode-statusBarItem-activeBackground:rgba(255, 255, 255, 0.18);
---vscode-statusBarItem-hoverBackground:rgba(255, 255, 255, 0.12);
---vscode-statusBarItem-prominentForeground:#ffffff;
---vscode-statusBarItem-prominentBackground:rgba(0, 0, 0, 0.5);
---vscode-statusBarItem-prominentHoverBackground:rgba(0, 0, 0, 0.3);
---vscode-activityBar-background:#2c2c2c;
---vscode-activityBar-foreground:#ffffff;
---vscode-activityBar-inactiveForeground:rgba(255, 255, 255, 0.4);
---vscode-activityBar-activeBorder:#ffffff;
---vscode-activityBar-dropBorder:#ffffff;
---vscode-activityBarBadge-background:#007acc;
---vscode-activityBarBadge-foreground:#ffffff;
---vscode-statusBarItem-remoteBackground:#16825d;
---vscode-statusBarItem-remoteForeground:#ffffff;
---vscode-extensionBadge-remoteBackground:#007acc;
---vscode-extensionBadge-remoteForeground:#ffffff;
---vscode-sideBar-background:#f3f3f3;
---vscode-sideBarTitle-foreground:#6f6f6f;
---vscode-sideBar-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-sideBarSectionHeader-background:rgba(0, 0, 0, 0);
---vscode-sideBarSectionHeader-border:rgba(97, 97, 97, 0.19);
---vscode-titleBar-activeForeground:#333333;
---vscode-titleBar-inactiveForeground:rgba(51, 51, 51, 0.6);
---vscode-titleBar-activeBackground:#dddddd;
---vscode-titleBar-inactiveBackground:rgba(221, 221, 221, 0.6);
---vscode-menubar-selectionForeground:#333333;
---vscode-menubar-selectionBackground:rgba(0, 0, 0, 0.1);
---vscode-notifications-foreground:#616161;
---vscode-notifications-background:#f3f3f3;
---vscode-notificationLink-foreground:#006ab1;
---vscode-notificationCenterHeader-background:#e7e7e7;
---vscode-notifications-border:#e7e7e7;
---vscode-notificationsErrorIcon-foreground:#e51400;
---vscode-notificationsWarningIcon-foreground:#e9a700;
---vscode-notificationsInfoIcon-foreground:#75beff;
---vscode-editorGutter-commentRangeForeground:#c5c5c5;
---vscode-editor-stackFrameHighlightBackground:rgba(255, 255, 102, 0.45);
---vscode-editor-focusedStackFrameHighlightBackground:rgba(206, 231, 206, 0.45);
---vscode-terminal-foreground:#333333;
---vscode-terminal-selectionBackground:rgba(0, 0, 0, 0.25);
---vscode-terminal-border:rgba(128, 128, 128, 0.35);
---vscode-statusBar-debuggingBackground:#cc6633;
---vscode-statusBar-debuggingForeground:#ffffff;
---vscode-settings-headerForeground:#444444;
---vscode-settings-modifiedItemIndicator:#66afe0;
---vscode-settings-dropdownBackground:#ffffff;
---vscode-settings-dropdownBorder:#cecece;
---vscode-settings-dropdownListBorder:#c8c8c8;
---vscode-settings-checkboxBackground:#ffffff;
---vscode-settings-checkboxBorder:#cecece;
---vscode-settings-textInputBackground:#ffffff;
---vscode-settings-textInputForeground:#616161;
---vscode-settings-textInputBorder:#cecece;
---vscode-settings-numberInputBackground:#ffffff;
---vscode-settings-numberInputForeground:#616161;
---vscode-settings-numberInputBorder:#cecece;
---vscode-debugExceptionWidget-border:#a31515;
---vscode-debugExceptionWidget-background:#f1dfde;
---vscode-editorGutter-modifiedBackground:#66afe0;
---vscode-editorGutter-addedBackground:#81b88b;
---vscode-editorGutter-deletedBackground:#ca4b51;
---vscode-minimapGutter-modifiedBackground:#66afe0;
---vscode-minimapGutter-addedBackground:#81b88b;
---vscode-minimapGutter-deletedBackground:#ca4b51;
---vscode-editorOverviewRuler-modifiedForeground:rgba(102, 175, 224, 0.6);
---vscode-editorOverviewRuler-addedForeground:rgba(129, 184, 139, 0.6);
---vscode-editorOverviewRuler-deletedForeground:rgba(202, 75, 81, 0.6);
---vscode-searchEditor-textInputBorder:#cecece;
---vscode-debugIcon-breakpointForeground:#e51400;
---vscode-debugIcon-breakpointDisabledForeground:#848484;
---vscode-debugIcon-breakpointUnverifiedForeground:#848484;
---vscode-debugIcon-breakpointCurrentStackframeForeground:#ffcc00;
---vscode-debugIcon-breakpointStackframeForeground:#89d185;
---vscode-debugToolBar-background:#f3f3f3;
---vscode-debugIcon-startForeground:#388a34;
---vscode-debugIcon-pauseForeground:#007acc;
---vscode-debugIcon-stopForeground:#a1260d;
---vscode-debugIcon-disconnectForeground:#a1260d;
---vscode-debugIcon-restartForeground:#388a34;
---vscode-debugIcon-stepOverForeground:#007acc;
---vscode-debugIcon-stepIntoForeground:#007acc;
---vscode-debugIcon-stepOutForeground:#007acc;
---vscode-debugIcon-continueForeground:#007acc;
---vscode-debugIcon-stepBackForeground:#007acc;
---vscode-debugTokenExpression-name:#9b46b0;
---vscode-debugTokenExpression-value:rgba(108, 108, 108, 0.8);
---vscode-debugTokenExpression-string:#a31515;
---vscode-debugTokenExpression-boolean:#0000ff;
---vscode-debugTokenExpression-number:#098658;
---vscode-debugTokenExpression-error:#e51400;
---vscode-debugView-exceptionLabelForeground:#ffffff;
---vscode-debugView-exceptionLabelBackground:#a31515;
---vscode-debugView-stateLabelForeground:#616161;
---vscode-debugView-stateLabelBackground:rgba(136, 136, 136, 0.27);
---vscode-debugView-valueChangedHighlight:#569cd6;
---vscode-debugConsole-infoForeground:#75beff;
---vscode-debugConsole-warningForeground:#e9a700;
---vscode-debugConsole-errorForeground:#a1260d;
---vscode-debugConsole-sourceForeground:#616161;
---vscode-debugConsoleInputIcon-foreground:#616161;
---vscode-extensionButton-prominentBackground:#327e36;
---vscode-extensionButton-prominentForeground:#ffffff;
---vscode-extensionButton-prominentHoverBackground:#28632b;
---vscode-notebook-cellBorderColor:#dae3e9;
---vscode-notebook-focusedEditorBorder:#0090f1;
---vscode-notebookStatusSuccessIcon-foreground:#388a34;
---vscode-notebookStatusErrorIcon-foreground:#a1260d;
---vscode-notebookStatusRunningIcon-foreground:#616161;
---vscode-notebook-outputContainerBackgroundColor:rgba(200, 221, 241, 0.31);
---vscode-notebook-cellToolbarSeparator:rgba(128, 128, 128, 0.35);
---vscode-notebook-focusedCellBackground:rgba(200, 221, 241, 0.31);
---vscode-notebook-cellHoverBackground:rgba(200, 221, 241, 0.22);
---vscode-notebook-focusedCellBorder:rgba(0, 0, 0, 0.12);
---vscode-notebook-cellStatusBarItemHoverBackground:rgba(0, 0, 0, 0.08);
---vscode-notebook-cellInsertionIndicator:#0090f1;
---vscode-notebookScrollbarSlider-background:rgba(100, 100, 100, 0.4);
---vscode-notebookScrollbarSlider-hoverBackground:rgba(100, 100, 100, 0.7);
---vscode-notebookScrollbarSlider-activeBackground:rgba(0, 0, 0, 0.6);
---vscode-notebook-symbolHighlightBackground:rgba(253, 255, 0, 0.2);
---vscode-scm-providerBorder:#c8c8c8;
---vscode-terminal-ansiBlack:#000000;
---vscode-terminal-ansiRed:#cd3131;
---vscode-terminal-ansiGreen:#00bc00;
---vscode-terminal-ansiYellow:#949800;
---vscode-terminal-ansiBlue:#0451a5;
---vscode-terminal-ansiMagenta:#bc05bc;
---vscode-terminal-ansiCyan:#0598bc;
---vscode-terminal-ansiWhite:#555555;
---vscode-terminal-ansiBrightBlack:#666666;
---vscode-terminal-ansiBrightRed:#cd3131;
---vscode-terminal-ansiBrightGreen:#14ce14;
---vscode-terminal-ansiBrightYellow:#b5ba00;
---vscode-terminal-ansiBrightBlue:#0451a5;
---vscode-terminal-ansiBrightMagenta:#bc05bc;
---vscode-terminal-ansiBrightCyan:#0598bc;
---vscode-terminal-ansiBrightWhite:#a5a5a5;
---vscode-gitDecoration-addedResourceForeground:#587c0c;
---vscode-gitDecoration-modifiedResourceForeground:#895503;
---vscode-gitDecoration-deletedResourceForeground:#ad0707;
---vscode-gitDecoration-untrackedResourceForeground:#007100;
---vscode-gitDecoration-ignoredResourceForeground:#8e8e90;
---vscode-gitDecoration-conflictingResourceForeground:#6c6cc4;
---vscode-gitDecoration-submoduleResourceForeground:#1258a7;
---vscode-gitlens-gutterBackgroundColor:rgba(0, 0, 0, 0.05);
---vscode-gitlens-gutterForegroundColor:#747474;
---vscode-gitlens-gutterUncommittedForegroundColor:rgba(0, 188, 242, 0.6);
---vscode-gitlens-trailingLineBackgroundColor:rgba(0, 0, 0, 0);
---vscode-gitlens-trailingLineForegroundColor:rgba(153, 153, 153, 0.35);
---vscode-gitlens-lineHighlightBackgroundColor:rgba(0, 188, 242, 0.2);
---vscode-gitlens-lineHighlightOverviewRulerColor:rgba(0, 188, 242, 0.6);
---vscode-issues-newIssueDecoration:rgba(0, 0, 0, 0.28);
-}
+<head>
+<title>M-bst-avl-red-black-tree.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-body
-{
-background-color: var(--vscode-editor-background);
-color: var(--vscode-editor-foreground);
-font-family: var(--vscode-font-family);
-font-weight: var(--vscode-font-weight);
-font-size: var(--vscode-font-size);
-margin: 0;
-padding: 0 20px;
-}
-
-img
-{
-max-width: 100%;
-max-height: 100%;
-}
-
-a
-{
-color: var(--vscode-textLink-foreground);
-}
-
-a:hover
-{
-color: var(--vscode-textLink-activeForeground);
-}
-
-a:focus,
-input:focus,
-select:focus,
-textarea:focus
-{
-outline: 1px solid -webkit-focus-ring-color;
-outline-offset: -1px;
-}
-
-code
-{
-color: var(--vscode-textPreformat-foreground);
-}
-
-blockquote
-{
-background: var(--vscode-textBlockQuote-background);
-border-color: var(--vscode-textBlockQuote-border);
-}
-
-kbd
-{
-color: var(--vscode-editor-foreground);
-border-radius: 3px;
-vertical-align: middle;
-padding: 1px 3px;
-
-background-color: hsla(0,0%,50%,.17);
-border: 1px solid rgba(71,71,71,.4);
-border-bottom-color: rgba(88,88,88,.4);
-box-shadow: inset 0 -1px 0 rgba(88,88,88,.4);
-}
-
-.vscode-light kbd
-{
-background-color: hsla(0,0%,87%,.5);
-border: 1px solid hsla(0,0%,80%,.7);
-border-bottom-color: hsla(0,0%,73%,.7);
-box-shadow: inset 0 -1px 0 hsla(0,0%,73%,.7);
-}
-
-::-webkit-scrollbar
-{
-width: 10px;
-height: 10px;
-}
-
-::-webkit-scrollbar-corner
-{
-background-color: var(--vscode-editor-background);
-}
-
-::-webkit-scrollbar-thumb
-{
-background-color: var(--vscode-scrollbarSlider-background);
-}
-::-webkit-scrollbar-thumb:hover
-{
-background-color: var(--vscode-scrollbarSlider-hoverBackground);
-}
-::-webkit-scrollbar-thumb:active
-{
-background-color: var(--vscode-scrollbarSlider-activeBackground);
-}
-
-.emoji
-{
-height: 20px;
-}
-
-pre
-{
-white-space: pre-wrap;
-}
-
-.page-break
-{
-display: block;
-page-break-after: always;
-}
-
-.no-page-break
-{
-page-break-inside: avoid;
-}
-</style>
-<style>/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
-
-html, body {
-	font-family: var(--markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui, "Ubuntu", "Droid Sans", sans-serif);
-	font-size: var(--markdown-font-size, 14px);
-	padding: 0 26px;
-	line-height: var(--markdown-line-height, 22px);
-	word-wrap: break-word;
-}
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 body {
-	padding-top: 1em;
-}
-
-/* Reset margin top for elements */
-h1, h2, h3, h4, h5, h6,
-p, ol, ul, pre {
-	margin-top: 0;
-}
-
-h2, h3, h4, h5, h6 {
-	font-weight: normal;
-	margin-bottom: 0.2em;
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
 }
 
 #code-csp-warning {
@@ -648,15 +120,6 @@ textarea:focus {
 	outline-offset: -1px;
 }
 
-p {
-	margin-bottom: 0.7em;
-}
-
-ul,
-ol {
-	margin-bottom: 0.7em;
-}
-
 hr {
 	border: 0;
 	height: 2px;
@@ -668,6 +131,9 @@ h1 {
 	line-height: 1.2;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
 	font-weight: normal;
 }
 
@@ -675,13 +141,15 @@ table {
 	border-collapse: collapse;
 }
 
-th {
+table > thead > tr > th {
 	text-align: left;
 	border-bottom: 1px solid;
 }
 
-th,
-td {
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
 	padding: 5px 10px;
 }
 
@@ -697,7 +165,7 @@ blockquote {
 }
 
 code {
-	font-family: var(--vscode-editor-font-family, "SF Mono", Monaco, Menlo, Consolas, "Ubuntu Mono", "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace);
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
 	font-size: 1em;
 	line-height: 1.357em;
 }
@@ -736,103 +204,93 @@ pre code {
 	border-color: rgb(0, 0, 0);
 }
 
-.vscode-light th {
+.vscode-light table > thead > tr > th {
 	border-color: rgba(0, 0, 0, 0.69);
 }
 
-.vscode-dark th {
+.vscode-dark table > thead > tr > th {
 	border-color: rgba(255, 255, 255, 0.69);
 }
 
 .vscode-light h1,
 .vscode-light hr,
-.vscode-light td {
+.vscode-light table > tbody > tr + tr > td {
 	border-color: rgba(0, 0, 0, 0.18);
 }
 
 .vscode-dark h1,
 .vscode-dark hr,
-.vscode-dark td {
+.vscode-dark table > tbody > tr + tr > td {
 	border-color: rgba(255, 255, 255, 0.18);
 }
+
 </style>
-<style>/*
-https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs2015.css
-*/
-/*
-* Visual Studio 2015 dark style
-* Author: Nicolas LLOBERA <nllobera@gmail.com>
-*/
 
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
 
-.hljs-keyword,
-.hljs-literal,
-.hljs-symbol,
-.hljs-name {
-	color: #569CD6;
-}
-.hljs-link {
-	color: #569CD6;
-	text-decoration: underline;
-}
-
-.hljs-built_in,
-.hljs-type {
-	color: #4EC9B0;
-}
-
-.hljs-number,
-.hljs-class {
-	color: #B8D7A3;
-}
-
-.hljs-string,
-.hljs-meta-string {
-	color: #D69D85;
-}
-
-.hljs-regexp,
-.hljs-template-tag {
-	color: #9A5334;
-}
-
-.hljs-subst,
-.hljs-function,
-.hljs-title,
-.hljs-params,
-.hljs-formula {
-	color: #DCDCDC;
-}
-
+/* Tomorrow Comment */
 .hljs-comment,
 .hljs-quote {
-	color: #57A64A;
-	font-style: italic;
+	color: #8e908c;
 }
 
-.hljs-doctag {
-	color: #608B4E;
-}
-
-.hljs-meta,
-.hljs-meta-keyword,
-.hljs-tag {
-	color: #9B9B9B;
-}
-
+/* Tomorrow Red */
 .hljs-variable,
-.hljs-template-variable {
-	color: #BD63C5;
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
 }
 
-.hljs-attr,
-.hljs-attribute,
-.hljs-builtin-name {
-	color: #9CDCFE;
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
 }
 
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
 .hljs-section {
-	color: gold;
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
 }
 
 .hljs-emphasis {
@@ -842,140 +300,96 @@ https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs201
 .hljs-strong {
 	font-weight: bold;
 }
-
-/*.hljs-code {
-	font-family:'Monospace';
-}*/
-
-.hljs-bullet,
-.hljs-selector-tag,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-selector-attr,
-.hljs-selector-pseudo {
-	color: #D7BA7D;
-}
-
-.hljs-addition {
-	background-color: var(--vscode-diffEditor-insertedTextBackground, rgba(155, 185, 85, 0.2));
-	color: rgb(155, 185, 85);
-	display: inline-block;
-	width: 100%;
-}
-
-.hljs-deletion {
-	background: var(--vscode-diffEditor-removedTextBackground, rgba(255, 0, 0, 0.2));
-	color: rgb(255, 0, 0);
-	display: inline-block;
-	width: 100%;
-}
-
-
-/*
-From https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs.css
-*/
-/*
-
-Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
-
-*/
-
-.vscode-light .hljs-function,
-.vscode-light .hljs-params,
-.vscode-light .hljs-number,
-.vscode-light .hljs-class  {
-	color: inherit;
-}
-
-.vscode-light .hljs-comment,
-.vscode-light .hljs-quote,
-.vscode-light .hljs-number,
-.vscode-light .hljs-class,
-.vscode-light .hljs-variable {
-	color: #008000;
-}
-
-.vscode-light .hljs-keyword,
-.vscode-light .hljs-selector-tag,
-.vscode-light .hljs-name,
-.vscode-light .hljs-tag {
-	color: #00f;
-}
-
-.vscode-light .hljs-built_in,
-.vscode-light .hljs-builtin-name {
-	color: #007acc;
-}
-
-.vscode-light .hljs-string,
-.vscode-light .hljs-section,
-.vscode-light .hljs-attribute,
-.vscode-light .hljs-literal,
-.vscode-light .hljs-template-tag,
-.vscode-light .hljs-template-variable,
-.vscode-light .hljs-type {
-	color: #a31515;
-}
-
-.vscode-light .hljs-selector-attr,
-.vscode-light .hljs-selector-pseudo,
-.vscode-light .hljs-meta,
-.vscode-light .hljs-meta-keyword {
-	color: #2b91af;
-}
-
-.vscode-light .hljs-title,
-.vscode-light .hljs-doctag {
-	color: #808080;
-}
-
-.vscode-light .hljs-attr {
-	color: #f00;
-}
-
-.vscode-light .hljs-symbol,
-.vscode-light .hljs-bullet,
-.vscode-light .hljs-link {
-	color: #00b0e8;
-}
-
-
-.vscode-light .hljs-emphasis {
-	font-style: italic;
-}
-
-.vscode-light .hljs-strong {
-	font-weight: bold;
-}
 </style>
 
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="er-cha-sou-suo-shu-avl--hong-hei-shu" id="%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91-avl-%E7%BA%A2%E9%BB%91%E6%A0%91" data-line="0" class="code-line">二叉搜索树-AVL-红黑树</h1>
-<p data-line="2" class="code-line">作者: <a href="http://songtianyi.info" data-href="http://songtianyi.info">songtianyi</a></p>
-<h2 id="er-cha-sou-suo-shu" id="%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91" data-line="4" class="code-line">二叉搜索树</h2>
-<p data-line="6" class="code-line">定义:</p>
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91-avl-%E7%BA%A2%E9%BB%91%E6%A0%91">二叉搜索树-AVL-红黑树</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a></p>
+<h2 id="%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91">二叉搜索树</h2>
+<p>定义:</p>
 <ul>
-<li data-line="8" class="code-line">二分</li>
-<li data-line="9" class="code-line">左孩子小于父节点，右孩子大于父节点</li>
+<li>二分</li>
+<li>左孩子小于父节点，右孩子大于父节点</li>
 </ul>
-<p data-line="11" class="code-line">假设我们有一个如下的数组:</p>
-<pre><code data-line="13" class="code-line language-C"><div><span class="hljs-comment">/* C */</span>
+<p>假设我们有一个如下的数组:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/* C */</span>
 <span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>] = {<span class="hljs-number">1</span>, <span class="hljs-number">450</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">56</span>, <span class="hljs-number">12</span>, <span class="hljs-number">123</span>, <span class="hljs-number">45</span>, <span class="hljs-number">23</span>, <span class="hljs-number">6</span>};
 </div></code></pre>
-<p data-line="18" class="code-line">它的构造过程如图:</p>
-<p data-line="20" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-build.png" alt="image" class="loading" id="image-hash-1715257690"></p>
-<p data-line="22" class="code-line">可以看出:</p>
+<p>它的构造过程如图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-build.png" alt="image"></p>
+<p>可以看出:</p>
 <ul>
-<li data-line="24" class="code-line">二叉搜索树中的子树也是满足二叉搜索树的定义的</li>
-<li data-line="25" class="code-line">中序遍历是升序的</li>
-<li data-line="26" class="code-line">这棵树的高度为为 7 (假如从0开始)，和数组长度相差无几，且大部分数据的高度超过 4，说明一定存在优化的空间。</li>
+<li>二叉搜索树中的子树也是满足二叉搜索树的定义的</li>
+<li>中序遍历是升序的</li>
+<li>这棵树的高度为为 7 (假如从 0 开始)，和数组长度相差无几，且大部分数据的高度超过 4，说明一定存在优化的空间。</li>
 </ul>
-<h3 id="cha-ru-he-sou-suo" id="%E6%8F%92%E5%85%A5%E5%92%8C%E6%90%9C%E7%B4%A2" data-line="28" class="code-line">插入和搜索</h3>
-<p data-line="30" class="code-line">二叉搜索树的插入和搜索比较简单，这里直接给出代码。</p>
-<pre><code data-line="32" class="code-line language-C"><div><span class="hljs-function">struct node *<span class="hljs-title">bst_insert</span><span class="hljs-params">(struct node *curr, struct node *p)</span> </span>{
+<h3 id="%E6%8F%92%E5%85%A5%E5%92%8C%E6%90%9C%E7%B4%A2">插入和搜索</h3>
+<p>二叉搜索树的插入和搜索比较简单，这里直接给出代码。</p>
+<pre class="hljs"><code><div><span class="hljs-function">struct node *<span class="hljs-title">bst_insert</span><span class="hljs-params">(struct node *curr, struct node *p)</span> </span>{
   <span class="hljs-keyword">if</span> (curr == <span class="hljs-literal">NULL</span>) {
-    <span class="hljs-keyword">return</span> p;  <span class="hljs-comment">// 插入的节点的左右孩子的初始值一定要为NULL</span>
+    <span class="hljs-keyword">return</span> p;  <span class="hljs-comment">// 插入的节点的左右孩子的初始值一定要为 NULL</span>
   } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (p-&gt;value &lt; curr-&gt;value) {
     curr-&gt;left = bst_insert(curr-&gt;left, p);
   } <span class="hljs-keyword">else</span> {
@@ -984,7 +398,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   <span class="hljs-keyword">return</span> curr;
 }
 </div></code></pre>
-<pre><code data-line="45" class="code-line language-C"><div><span class="hljs-comment">/* C */</span>
+<pre class="hljs"><code><div><span class="hljs-comment">/* C */</span>
 
 <span class="hljs-function">struct node *<span class="hljs-title">bst_search</span><span class="hljs-params">(struct node *curr, struct node *parent, <span class="hljs-keyword">int</span> value,
                         <span class="hljs-keyword">int</span> ret_flag)</span> </span>{
@@ -1007,38 +421,38 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   }
 }
 </div></code></pre>
-<h3 id="shan-chu-cao-zuo" id="%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C" data-line="70" class="code-line">删除操作</h3>
-<p data-line="72" class="code-line">删除相对麻烦一点点，分几种情况</p>
+<h3 id="%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C">删除操作</h3>
+<p>删除相对麻烦一点点，分几种情况</p>
 <ol>
-<li data-line="74" class="code-line">如果被删除的节点，没有左子树和右子树，直接删除即可</li>
+<li>如果被删除的节点，没有左子树和右子树，直接删除即可</li>
 </ol>
-<p data-line="76" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-1.png" alt="image" class="loading" id="image-hash-1845426169"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-1.png" alt="image"></p>
 <ol start="2">
-<li data-line="78" class="code-line">如果被删除的节点，有左子树，没有右子树，那么将父节点的右指针指向左子树即可, 如下图左。此时还要区分被删除的节点是在其父节点的左边还是右边。</li>
-<li data-line="79" class="code-line">同理，如果被删除的节点，没有左子树，有右子树，那么将父节点的左指针指向右子树即可，如下图右。此时还要区分被删除的节点是在其父节点的左边还是右边。</li>
+<li>如果被删除的节点，有左子树，没有右子树，那么将父节点的右指针指向左子树即可, 如下图左。此时还要区分被删除的节点是在其父节点的左边还是右边。</li>
+<li>同理，如果被删除的节点，没有左子树，有右子树，那么将父节点的左指针指向右子树即可，如下图右。此时还要区分被删除的节点是在其父节点的左边还是右边。</li>
 </ol>
-<p data-line="81" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-2.png" alt="image" class="loading" id="image-hash-1846349690"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-2.png" alt="image"></p>
 <ol start="4">
-<li data-line="83" class="code-line">
-<p data-line="83" class="code-line">如果被删除节点既有左子树，又有右子树。此时没办法把两个子树直接和父节点连起来，只能采取交换值的方法。因为要保持二叉搜索树的特性，所以要找到待删除节点的右子树中的最小值和其交换，</p>
-<p data-line="85" class="code-line">这样交换后，待删除节点的左子树都小于交换后的值，右子树都大于交换后的值. 之后再删除被交换的节点，被交换节点的删除和1，2，3的情况一致。
-例1:</p>
+<li>
+<p>如果被删除节点既有左子树，又有右子树。此时没办法把两个子树直接和父节点连起来，只能采取交换值的方法。因为要保持二叉搜索树的特性，所以要找到待删除节点的右子树中的最小值和其交换，</p>
+<p>这样交换后，待删除节点的左子树都小于交换后的值，右子树都大于交换后的值. 之后再删除被交换的节点，被交换节点的删除和 1，2，3 的情况一致。
+例 1:</p>
 </li>
 </ol>
-<p data-line="88" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-3.png" alt="image" class="loading" id="image-hash-1847273211"></p>
-<p data-line="90" class="code-line">例2:</p>
-<p data-line="92" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-4.png" alt="image" class="loading" id="image-hash-1848196732"></p>
-<h3 id="wan-zheng-dai-ma" id="%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81" data-line="94" class="code-line">完整代码</h3>
-<pre><code data-line="96" class="code-line language-C"><div><span class="hljs-comment">/* C */</span>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-3.png" alt="image"></p>
+<p>例 2:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-4.png" alt="image"></p>
+<h3 id="%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81">完整代码</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">/* C */</span>
 <span class="hljs-comment">/**
  * 二叉排序树模板
- * 插入函数 插入之前应先申请一个要插入的p节点 然后传进去
- * 查找函数 root为根节点 parent等于root value为要查找的值
- * ret_flag为0返回查找到的节点的父节点这样便于删除时使用  ret_flag
- * 为1返回查找到的节点的指针
+ * 插入函数 插入之前应先申请一个要插入的 p 节点 然后传进去
+ * 查找函数 root 为根节点 parent 等于 root value 为要查找的值
+ * ret_flag 为 0 返回查找到的节点的父节点这样便于删除时使用  ret_flag
+ * 为 1 返回查找到的节点的指针
  * 删除函数 传入要删除的节点的父节点和要删除的节点
- * 如果待删节点为父节点的左孩子is_left=1 如果为右孩子 is_left=1 构造函数
- * 将一个数组从start到end（不包括end）的范围构造为一个二叉排序树 root为根节点
+ * 如果待删节点为父节点的左孩子 is_left=1 如果为右孩子 is_left=1 构造函数
+ * 将一个数组从 start 到 end（不包括 end）的范围构造为一个二叉排序树 root 为根节点
  */</span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
@@ -1049,7 +463,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 };
 <span class="hljs-function">struct node *<span class="hljs-title">bst_insert</span><span class="hljs-params">(struct node *curr, struct node *p)</span> </span>{
   <span class="hljs-keyword">if</span> (curr == <span class="hljs-literal">NULL</span>) {
-    <span class="hljs-keyword">return</span> p;  <span class="hljs-comment">//插入的节点的左右孩子的初始值一定要为NULL</span>
+    <span class="hljs-keyword">return</span> p;  <span class="hljs-comment">//插入的节点的左右孩子的初始值一定要为 NULL</span>
   } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (p-&gt;value &lt; curr-&gt;value) {
     curr-&gt;left = bst_insert(curr-&gt;left, p);
   } <span class="hljs-keyword">else</span> {
@@ -1107,11 +521,11 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   <span class="hljs-keyword">if</span> (p-&gt;left == <span class="hljs-literal">NULL</span> &amp;&amp; p-&gt;right == <span class="hljs-literal">NULL</span>) {
     <span class="hljs-comment">// leaft node</span>
     <span class="hljs-keyword">if</span> (is_left) {
-      <span class="hljs-comment">// p 为parent的左子叶</span>
-      <span class="hljs-comment">// 将 parent的左指针置为空</span>
+      <span class="hljs-comment">// p 为 parent 的左子叶</span>
+      <span class="hljs-comment">// 将 parent 的左指针置为空</span>
       parent-&gt;left = <span class="hljs-literal">NULL</span>;
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-comment">// p 为parent的右子叶</span>
+      <span class="hljs-comment">// p 为 parent 的右子叶</span>
       parent-&gt;right = <span class="hljs-literal">NULL</span>;
     }
     <span class="hljs-built_in">free</span>(p);
@@ -1137,7 +551,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     struct node *s = p-&gt;right;
     <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">sp</span> = <span class="hljs-title">p</span>;</span>
     <span class="hljs-comment">//找右子树中最左的节点 或者找左子树中最右的节点</span>
-    <span class="hljs-comment">//然后和要删除的位置交换value</span>
+    <span class="hljs-comment">//然后和要删除的位置交换 value</span>
     <span class="hljs-comment">//这里选择前者</span>
     <span class="hljs-keyword">while</span> (s-&gt;left != <span class="hljs-literal">NULL</span>) {
       sp = s;
@@ -1150,16 +564,16 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
       <span class="hljs-comment">// </span>
       sp-&gt;right = s-&gt;right;
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-comment">//因为s肯定没有左子树 所以把右子树接在父节点的左指针上就行了</span>
+      <span class="hljs-comment">//因为 s 肯定没有左子树 所以把右子树接在父节点的左指针上就行了</span>
       sp-&gt;left = s-&gt;right;
     }
     <span class="hljs-built_in">free</span>(s);
   }
   <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
 }
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bst_build</span><span class="hljs-params">(struct node *root, <span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span>, <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> end)</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bst_build</span><span class="hljs-params">(struct node *root, <span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span>, <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> <span class="hljs-built_in">end</span>)</span> </span>{
   <span class="hljs-comment">// [start, end)</span>
-  <span class="hljs-keyword">while</span> (start &lt; end) {
+  <span class="hljs-keyword">while</span> (start &lt; <span class="hljs-built_in">end</span>) {
     <span class="hljs-comment">// create node</span>
     <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">p</span> = <span class="hljs-title">malloc</span>(<span class="hljs-title">sizeof</span>(<span class="hljs-title">struct</span> <span class="hljs-title">node</span>));</span>
     p-&gt;value = <span class="hljs-built_in">array</span>[start];
@@ -1188,89 +602,89 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 }
 
 </div></code></pre>
-<h3 id="you-hua" id="%E4%BC%98%E5%8C%96" data-line="257" class="code-line">优化</h3>
-<p data-line="259" class="code-line">前面提到，我们构造的这棵树的高度为为 7 ，和数组长度相差无几，且大部分数据的高度超过 4，查找的效率相对来说，是比较低的，存在优化的空间。要优化构造出来的结构，只能从构造下手。
+<h3 id="%E4%BC%98%E5%8C%96">优化</h3>
+<p> 前面提到，我们构造的这棵树的高度为为 7 ，和数组长度相差无几，且大部分数据的高度超过 4，查找的效率相对来说，是比较低的，存在优化的空间。要优化构造出来的结构，只能从构造下手。
 我们构造 BST 的过程是从数组的第一个元素开始的，那么从第 2 个元素开始构造呢？构造的结果会不一样。数组中，值的大小顺序决定着最终的结构，那么是否存在一个最佳的构造顺序呢？</p>
-<h2 id="avl" id="avl" data-line="262" class="code-line">AVL</h2>
-<p data-line="264" class="code-line">我们从目标出发，我们的目标是构造一个尽可能矮的二叉搜索树，这样平均检索效率才是最高的。用术语来描述就是:</p>
+<h2 id="avl">AVL</h2>
+<p>我们从目标出发，我们的目标是构造一个尽可能矮的二叉搜索树，这样平均检索效率才是最高的。用术语来描述就是:</p>
 <ul>
-<li data-line="266" class="code-line">是一棵 BST 树</li>
-<li data-line="267" class="code-line">每棵子树的左右子树的深度差不能超过1</li>
+<li>是一棵 BST 树</li>
+<li>每棵子树的左右子树的深度差不能超过 1</li>
 </ul>
-<p data-line="269" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-demo.png" alt="image" class="loading" id="image-hash-1005055171"></p>
-<blockquote data-line="271" class="code-line">
-<p data-line="271" class="code-line">图中的数字代表深度，深度从 1 开始。深度也可以从 0 开始，不影响结果。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-demo.png" alt="image"></p>
+<blockquote>
+<p>图中的数字代表深度，深度从 1 开始。深度也可以从 0 开始，不影响结果。</p>
 </blockquote>
-<p data-line="273" class="code-line">满足这种特性的 BST 称为 Self-balancing binary search tree, 也称 AVL 树。</p>
-<blockquote data-line="275" class="code-line">
-<p data-line="275" class="code-line">AVL 树得名于它的发明者 G. M. Adelson-Velsky 和 E. M. Landis，他们在1962年的论文《An algorithm for the organization of information》中发表了它。</p>
+<p>满足这种特性的 BST 称为 Self-balancing binary search tree, 也称 AVL 树。</p>
+<blockquote>
+<p>AVL 树得名于它的发明者 G. M. Adelson-Velsky 和 E. M. Landis，他们在 1962 年的论文《An algorithm for the organization of information》中发表了它。</p>
 </blockquote>
-<p data-line="277" class="code-line">那我们怎么构建这样的 AVL 树呢？通过调整输入的值的顺序是不现实的，因为输入可能是流式的，没办法在当前时间点得到未来时间点的输入。那么可行的方法是，一边构建 BST, 一边将 BST 调整成 AVL, 而且是马上调整，因为我们要时刻保持 AVL 树的特性。这种调整是基于 <code>旋转</code> 实现的。</p>
-<h3 id="zuo-xuan" id="%E5%B7%A6%E6%97%8B" data-line="279" class="code-line">左旋</h3>
-<blockquote data-line="281" class="code-line">
-<p data-line="281" class="code-line">以下所讲的内容，深度从 1 开始</p>
+<p>那我们怎么构建这样的 AVL 树呢？通过调整输入的值的顺序是不现实的，因为输入可能是流式的，没办法在当前时间点得到未来时间点的输入。那么可行的方法是，一边构建 BST, 一边将 BST 调整成 AVL, 而且是马上调整，因为我们要时刻保持 AVL 树的特性。这种调整是基于 <code>旋转</code> 实现的。</p>
+<h3 id="%E5%B7%A6%E6%97%8B">左旋</h3>
+<blockquote>
+<p>以下所讲的内容，深度从 1 开始</p>
 </blockquote>
-<p data-line="283" class="code-line">如图，当插入节点 14 之后，以 1 为根的子树的左子树的深度为1(因为根的深度已经为1，左子树虽然没节点，但是深度是从2开始的)，右子树的深度为 3，相差 2，不满足 AVL 的特性。此时，可以将 1 逆时针旋转（左旋），同时改变连接关系，将节点 10 作为子树的根结点，1 从父节点变为 10 的左子树，14 仍然作为 10 的右子树。
+<p>如图，当插入节点 14 之后，以 1 为根的子树的左子树的深度为 1(因为根的深度已经为 1，左子树虽然没节点，但是深度是从 2 开始的)，右子树的深度为 3，相差 2，不满足 AVL 的特性。此时，可以将 1 逆时针旋转（左旋），同时改变连接关系，将节点 10 作为子树的根结点，1 从父节点变为 10 的左子树，14 仍然作为 10 的右子树。
 我们可以观察出，所谓的旋转是以子树的根为圆心，顺时针或者逆时针旋转，旋转之后，连接关系会被改变。</p>
-<p data-line="286" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-left-rotate-1.png" alt="image" class="loading" id="image-hash-685649521"></p>
-<h3 id="you-xuan" id="%E5%8F%B3%E6%97%8B" data-line="288" class="code-line">右旋</h3>
-<p data-line="290" class="code-line">和左旋类似，不再赘述。通过这两种基本的旋转，我们能总结出一个旋转规律：</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-left-rotate-1.png" alt="image"></p>
+<h3 id="%E5%8F%B3%E6%97%8B">右旋</h3>
+<p>和左旋类似，不再赘述。通过这两种基本的旋转，我们能总结出一个旋转规律：</p>
 <ul>
-<li data-line="292" class="code-line">当右子树的深度小于左子树，右旋</li>
-<li data-line="293" class="code-line">当右子树的深度大于左子树，左旋</li>
+<li>当右子树的深度小于左子树，右旋</li>
+<li>当右子树的深度大于左子树，左旋</li>
 </ul>
-<p data-line="295" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-right-rotate.png" alt="image" class="loading" id="image-hash--117082410"></p>
-<h3 id="duo-ci-xuan-zhuan" id="%E5%A4%9A%E6%AC%A1%E6%97%8B%E8%BD%AC" data-line="297" class="code-line">多次旋转</h3>
-<p data-line="299" class="code-line">对于一直向左，或者一直向右延伸的情况，我们比较容易能够知道应该怎么旋转。接着我们来看一下较复杂的情况。</p>
-<blockquote data-line="301" class="code-line">
-<p data-line="301" class="code-line">图中的数字 A/B 表示，该节点的值为 A，(该节点的左子树深度 - 该节点的左子树深度) = B</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-right-rotate.png" alt="image"></p>
+<h3 id="%E5%A4%9A%E6%AC%A1%E6%97%8B%E8%BD%AC">多次旋转</h3>
+<p>对于一直向左，或者一直向右延伸的情况，我们比较容易能够知道应该怎么旋转。接着我们来看一下较复杂的情况。</p>
+<blockquote>
+<p>图中的数字 A/B 表示，该节点的值为 A，(该节点的左子树深度 - 该节点的左子树深度) = B</p>
 </blockquote>
-<p data-line="303" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-complicate-rotate-question-mark.png" alt="image" class="loading" id="image-hash--1054118592"></p>
-<p data-line="305" class="code-line">如上图，当我们插入 3 这个节点后，导致了不平衡，如果 3 是插入在了 450 的右边，那么左旋就可以了，我们从物理学的角度来直观感受，插在右边会很明显地导致右边重左边轻，但现在插入了左边，那么到底是左边重一点，还是右边重一点，我们是不是很难靠直觉来判断了？
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-complicate-rotate-question-mark.png" alt="image"></p>
+<p>如上图，当我们插入 3 这个节点后，导致了不平衡，如果 3 是插入在了 450 的右边，那么左旋就可以了，我们从物理学的角度来直观感受，插在右边会很明显地导致右边重左边轻，但现在插入了左边，那么到底是左边重一点，还是右边重一点，我们是不是很难靠直觉来判断了？
 由于节点比较少，我们可以通过枚举来得知，一次旋转是不够的，需要两次旋转。</p>
-<p data-line="308" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-right-left-rotate.png" alt="image" class="loading" id="image-hash-296605916"></p>
-<p data-line="310" class="code-line">如上图，经过两次旋转(先右旋，后左旋)达到平衡, 写到这里我发现，可以把节点以及节点之间的联系想象成一个链条，左旋是逆时针<strong>拉动链条</strong>, 右旋是顺时针<strong>拉动链条</strong>，这和我们的生活常识是相通的。在做第一次旋转之前，我们不知道左边重还是右边重，但将 3 右旋之后，很明显右边会变重，我们可以认为，第一次拉动是为第二次拉动做准备的，第一次拉动让链条变得更加平整，有序，这样第二次拉动就比较简单了。</p>
-<p data-line="312" class="code-line">再来看一个新的例子:</p>
-<p data-line="314" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-left-right-rotate.png" alt="image" class="loading" id="image-hash--1860136354"></p>
-<p data-line="316" class="code-line">如上图，有了之前的经验，我们应该可以很快知道怎么旋转。</p>
-<p data-line="318" class="code-line">多加一个例子，这样我们才能更容易看出其规律:</p>
-<p data-line="320" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-right-left-rotate-1.png" alt="image" class="loading" id="image-hash-1481738304"></p>
-<p data-line="322" class="code-line">结合这几个实际案例，我们现在大致可以弄明白两件事。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-right-left-rotate.png" alt="image"></p>
+<p>如上图，经过两次旋转(先右旋，后左旋)达到平衡, 写到这里我发现，可以把节点以及节点之间的联系想象成一个链条，左旋是逆时针<strong>拉动链条</strong>, 右旋是顺时针<strong>拉动链条</strong>，这和我们的生活常识是相通的。在做第一次旋转之前，我们不知道左边重还是右边重，但将 3 右旋之后，很明显右边会变重，我们可以认为，第一次拉动是为第二次拉动做准备的，第一次拉动让链条变得更加平整，有序，这样第二次拉动就比较简单了。</p>
+<p>再来看一个新的例子:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-left-right-rotate.png" alt="image"></p>
+<p>如上图，有了之前的经验，我们应该可以很快知道怎么旋转。</p>
+<p>多加一个例子，这样我们才能更容易看出其规律:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-right-left-rotate-1.png" alt="image"></p>
+<p>结合这几个实际案例，我们现在大致可以弄明白两件事。</p>
 <ol>
-<li data-line="324" class="code-line">旋转的触发条件</li>
-<li data-line="325" class="code-line">旋转的方式</li>
+<li>旋转的触发条件</li>
+<li>旋转的方式</li>
 </ol>
-<p data-line="327" class="code-line">阐述一下:</p>
-<blockquote data-line="329" class="code-line">
-<p data-line="329" class="code-line">深度差 = 左子树深度 - 右子树深度</p>
+<p>阐述一下:</p>
+<blockquote>
+<p>深度差 = 左子树深度 - 右子树深度</p>
 </blockquote>
 <ol>
-<li data-line="331" class="code-line">当插入节点 w，导致深度差为 -2 时，如果 w 是作为右子树插入，那么左旋就可以了</li>
-<li data-line="332" class="code-line">当插入节点 w, 导致深度差为 -2 时，如果 w 是作为左子树插入，先右旋，让它变成情况 1，然后再左旋就可以了</li>
-<li data-line="333" class="code-line">当插入节点 w, 导致深度差为 2 时，如果 w 是作为左子树插入，那么右旋就可以了</li>
-<li data-line="334" class="code-line">当插入节点 w, 导致深度差为 2 时，如果 w 是作为右子树插入，先左旋，让它变成情况 2，然后再右旋就可以了</li>
+<li>当插入节点 w，导致深度差为 -2 时，如果 w 是作为右子树插入，那么左旋就可以了</li>
+<li>当插入节点 w, 导致深度差为 -2 时，如果 w 是作为左子树插入，先右旋，让它变成情况 1，然后再左旋就可以了</li>
+<li>当插入节点 w, 导致深度差为 2 时，如果 w 是作为左子树插入，那么右旋就可以了</li>
+<li>当插入节点 w, 导致深度差为 2 时，如果 w 是作为右子树插入，先左旋，让它变成情况 2，然后再右旋就可以了</li>
 </ol>
-<h3 id="avl-shi-xian" id="avl-%E5%AE%9E%E7%8E%B0" data-line="336" class="code-line">AVL 实现</h3>
-<p data-line="338" class="code-line">现在来考虑如何实现。根据前面的内容，可以得出以下结论:</p>
+<h3 id="avl-%E5%AE%9E%E7%8E%B0">AVL 实现</h3>
+<p>现在来考虑如何实现。根据前面的内容，可以得出以下结论:</p>
 <ol>
-<li data-line="340" class="code-line">旋转是自底向上的，所以可以用递归</li>
-<li data-line="341" class="code-line">需要知道左右子树的深度差，由于我们使用的是递归，高度的计算相对深度来说要简单，所以实现的时候用高度代替深度，结果不变。插入的叶子结点的高度为 1. 深度差或者高度差称为 balance factor, BF.</li>
-<li data-line="342" class="code-line">左旋右旋可以复用</li>
-<li data-line="343" class="code-line">旋转需要一个枢纽，枢纽是根据高度差的值为 2 或者 -2 来确定的, 称为 pivot.</li>
-<li data-line="344" class="code-line">旋转的时候根会变化，连接关系需要调整</li>
+<li>旋转是自底向上的，所以可以用递归</li>
+<li>需要知道左右子树的深度差，由于我们使用的是递归，高度的计算相对深度来说要简单，所以实现的时候用高度代替深度，结果不变。插入的叶子结点的高度为 1. 深度差或者高度差称为 balance factor, BF.</li>
+<li>左旋右旋可以复用</li>
+<li>旋转需要一个枢纽，枢纽是根据高度差的值为 2 或者 -2 来确定的, 称为 pivot.</li>
+<li>旋转的时候根会变化，连接关系需要调整</li>
 </ol>
-<pre><code data-line="346" class="code-line language-C"><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
 <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> {</span>
   <span class="hljs-keyword">int</span> value;
   <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">left</span>, *<span class="hljs-title">right</span>;</span>
-  <span class="hljs-keyword">int</span> height;
+  <span class="hljs-keyword">int</span> <span class="hljs-built_in">height</span>;
 };
 
 <span class="hljs-comment">// A utility function to get the height of the tree</span>
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">height</span><span class="hljs-params">(struct node *N)</span> </span>{
   <span class="hljs-keyword">if</span> (N == <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-  <span class="hljs-keyword">return</span> N-&gt;height;
+  <span class="hljs-keyword">return</span> N-&gt;<span class="hljs-built_in">height</span>;
 }
 
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">max</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{ <span class="hljs-keyword">return</span> a &gt; b ? a : b; }
@@ -1286,9 +700,9 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   <span class="hljs-comment">// 因为被影响的左子树是新的枢纽的左子树，是必然大于旧枢纽的，所以放在旧枢纽的右边</span>
   x-&gt;right = influenced;
   <span class="hljs-comment">// 新的高度为 左子树高度 右子树高度之间的最大值再加自身</span>
-  x-&gt;height = max(height(x-&gt;left), height(x-&gt;right)) + <span class="hljs-number">1</span>;
+  x-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(x-&gt;left), <span class="hljs-built_in">height</span>(x-&gt;right)) + <span class="hljs-number">1</span>;
   <span class="hljs-comment">// 同理</span>
-  pivot-&gt;height = max(height(pivot-&gt;left), height(pivot-&gt;right)) + <span class="hljs-number">1</span>;
+  pivot-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(pivot-&gt;left), <span class="hljs-built_in">height</span>(pivot-&gt;right)) + <span class="hljs-number">1</span>;
   <span class="hljs-comment">// 返回新的枢纽，既新的根</span>
   <span class="hljs-keyword">return</span> pivot;
 }
@@ -1303,21 +717,21 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   pivot-&gt;right = x;
   x-&gt;left = influenced;
   <span class="hljs-comment">// 新的高度为 左子树高度 右子树高度之间的最大值再加自身</span>
-  x-&gt;height = max(height(x-&gt;left), height(x-&gt;right)) + <span class="hljs-number">1</span>;
+  x-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(x-&gt;left), <span class="hljs-built_in">height</span>(x-&gt;right)) + <span class="hljs-number">1</span>;
   <span class="hljs-comment">// 同理</span>
-  pivot-&gt;height = max(height(pivot-&gt;left), height(pivot-&gt;right)) + <span class="hljs-number">1</span>;
+  pivot-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(pivot-&gt;left), <span class="hljs-built_in">height</span>(pivot-&gt;right)) + <span class="hljs-number">1</span>;
   <span class="hljs-comment">// 返回新的枢纽，即新的根</span>
   <span class="hljs-keyword">return</span> pivot;
 }
 
 <span class="hljs-comment">// calc balance factor</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">BF</span><span class="hljs-params">(struct node *x)</span> </span>{ <span class="hljs-keyword">return</span> height(x-&gt;left) - height(x-&gt;right); }
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">BF</span><span class="hljs-params">(struct node *x)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-built_in">height</span>(x-&gt;left) - <span class="hljs-built_in">height</span>(x-&gt;right); }
 
 <span class="hljs-function">struct node *<span class="hljs-title">newN</span><span class="hljs-params">(<span class="hljs-keyword">int</span> v)</span> </span>{
   <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> *<span class="hljs-title">n</span> = <span class="hljs-title">malloc</span>(<span class="hljs-title">sizeof</span>(<span class="hljs-title">struct</span> <span class="hljs-title">node</span>));</span>
   n-&gt;value = v;
   n-&gt;left = n-&gt;right = <span class="hljs-literal">NULL</span>;
-  n-&gt;height = <span class="hljs-number">1</span>;
+  n-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-number">1</span>;
   <span class="hljs-keyword">return</span> n;
 }
 
@@ -1334,7 +748,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">return</span> curr;  <span class="hljs-comment">// NOT INSERT</span>
   }
-  curr-&gt;height = <span class="hljs-number">1</span> + max(height(curr-&gt;left), height(curr-&gt;right));
+  curr-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-number">1</span> + <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(curr-&gt;left), <span class="hljs-built_in">height</span>(curr-&gt;right));
 
   <span class="hljs-keyword">int</span> bf = BF(curr);
 
@@ -1390,15 +804,15 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   bst_preorder_traversal(root);
 }
 </div></code></pre>
-<h3 id="avl-shan-chu-cao-zuo" id="avl-%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C" data-line="479" class="code-line">AVL 删除操作</h3>
-<p data-line="481" class="code-line">前面讲的都是关于插入时的旋转情况，那么删除呢？插入的时候，只要看插入节点的位置就可以了，因为在插入之前 avl 就已经是平衡的，但删除要稍麻烦一些，因为单单 BST 的删除的情况就有多种。那我们就看删除的时候导致的变化。</p>
-<p data-line="483" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-delete-1.png" alt="image" class="loading" id="image-hash--373789969"></p>
-<p data-line="485" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-delete-2.png" alt="image" class="loading" id="image-hash--372866448"></p>
-<p data-line="487" class="code-line">我们观察如上两张图，删除的是同一个节点，但是第二张图需要多一次旋转。这种差异是右子树的不同所导致的，需要观察右子树的的 bf 值，当然，要先检查到不平衡的情况。总结如下:</p>
-<blockquote data-line="489" class="code-line">
-<p data-line="489" class="code-line">注意: 如果被删除的节点是右边的，那就要观察左边，即，观察的是待删除节点的 兄弟(sibling)节点</p>
+<h3 id="avl-%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C">AVL 删除操作</h3>
+<p>前面讲的都是关于插入时的旋转情况，那么删除呢？插入的时候，只要看插入节点的位置就可以了，因为在插入之前 avl 就已经是平衡的，但删除要稍麻烦一些，因为单单 BST 的删除的情况就有多种。那我们就看删除的时候导致的变化。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-delete-1.png" alt="image"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-delete-2.png" alt="image"></p>
+<p>我们观察如上两张图，删除的是同一个节点，但是第二张图需要多一次旋转。这种差异是右子树的不同所导致的，需要观察右子树的的 bf 值，当然，要先检查到不平衡的情况。总结如下:</p>
+<blockquote>
+<p>注意: 如果被删除的节点是右边的，那就要观察左边，即，观察的是待删除节点的 兄弟(sibling)节点</p>
 </blockquote>
-<pre><code data-line="491" class="code-line language-C"><div><span class="hljs-comment">/* C */</span>
+<pre class="hljs"><code><div><span class="hljs-comment">/* C */</span>
 <span class="hljs-keyword">if</span> (BF(curr) &lt; <span class="hljs-number">-1</span> &amp;&amp; BF(curr-&gt;right) &lt;= <span class="hljs-number">0</span>) {
   <span class="hljs-comment">// 检测到了不平衡，且右子树的的高度差小于等于 0</span>
   left_rotate(curr);
@@ -1409,8 +823,8 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   left_rotate(curr);
 }
 </div></code></pre>
-<p data-line="504" class="code-line">同理可得:</p>
-<pre><code data-line="506" class="code-line language-C"><div><span class="hljs-comment">/* C */</span>
+<p>同理可得:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/* C */</span>
 <span class="hljs-keyword">if</span>(BF(curr) &gt; <span class="hljs-number">1</span> &amp;&amp; BF(curr-&gt;left) &gt;= <span class="hljs-number">0</span>) {
   right_rotate(curr);
 }
@@ -1420,11 +834,11 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   right_rotate(curr);
 }
 </div></code></pre>
-<p data-line="518" class="code-line">完整的删除代码如下:</p>
-<blockquote data-line="520" class="code-line">
-<p data-line="520" class="code-line">注意只有一个节点的情况，被删除就没有节点了。</p>
+<p>完整的删除代码如下:</p>
+<blockquote>
+<p>注意只有一个节点的情况，被删除就没有节点了。</p>
 </blockquote>
-<pre><code data-line="522" class="code-line language-C"><div><span class="hljs-function">struct node *<span class="hljs-title">minN</span><span class="hljs-params">(struct node *x)</span> </span>{
+<pre class="hljs"><code><div><span class="hljs-function">struct node *<span class="hljs-title">minN</span><span class="hljs-params">(struct node *x)</span> </span>{
   <span class="hljs-keyword">while</span> (x-&gt;left != <span class="hljs-literal">NULL</span>) {
     x = x-&gt;left;
   }
@@ -1470,7 +884,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
   }
 
-  curr-&gt;height = max(height(curr-&gt;left), height(curr-&gt;right)) + <span class="hljs-number">1</span>;
+  curr-&gt;<span class="hljs-built_in">height</span> = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(curr-&gt;left), <span class="hljs-built_in">height</span>(curr-&gt;right)) + <span class="hljs-number">1</span>;
 
   <span class="hljs-keyword">int</span> bf = BF(curr);
 
@@ -1495,103 +909,103 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   <span class="hljs-keyword">return</span> curr;
 }
 </div></code></pre>
-<h2 id="red-black-tree" id="red-black-tree" data-line="595" class="code-line">Red-Black Tree</h2>
-<p data-line="597" class="code-line">AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AVL 需要频繁的旋转操作，红黑树应运而生。
+<h2 id="red-black-tree">Red-Black Tree</h2>
+<p>AVL 的搜索性能是很好的，但是对于频繁插入和删除的场景, AVL 需要频繁的旋转操作，红黑树应运而生。
 红黑树巧妙地改变了高度的定义:</p>
-<pre><code data-line="600" class="code-line"><code><div>
+<pre class="hljs"><code><div>
 从叶子节点到根结点的路径中的黑色节点的数量视为高度
-</div></code></code></pre>
-<p data-line="605" class="code-line">且:</p>
+</div></code></pre>
+<p>且:</p>
 <ol>
-<li data-line="607" class="code-line">每个节点要么是红色，要么是黑色</li>
-<li data-line="608" class="code-line">根节点始终是黑色, 空叶子节点(NULL Leaf)始终是黑色</li>
-<li data-line="609" class="code-line">相邻的节点不能都为红色</li>
-<li data-line="610" class="code-line">从叶子节点到根节点的高度相同</li>
-<li data-line="611" class="code-line">叶子结点必须为空叶子节点(NULL Leaf)</li>
+<li>每个节点要么是红色，要么是黑色</li>
+<li>根节点始终是黑色, 空叶子节点(NULL Leaf)始终是黑色</li>
+<li>相邻的节点不能都为红色</li>
+<li>从叶子节点到根节点的高度相同</li>
+<li>叶子结点必须为空叶子节点(NULL Leaf)</li>
 </ol>
-<p data-line="613" class="code-line">如此，我们可以通过改变节点颜色来改变子树的高度，高度会影响平衡性的判断，这种做法有助于减少子树被判断为不平衡的次数。当然，旋转在需要的时候还是会有的，但总的旋转次数和 AVL 相比要低很多。</p>
-<p data-line="615" class="code-line">我们先用一个具体的例子来说明 AVL 和红黑树之间的差异。</p>
-<p data-line="617" class="code-line">假设插入序列为:</p>
-<pre><code data-line="619" class="code-line"><code><div>
+<p>如此，我们可以通过改变节点颜色来改变子树的高度，高度会影响平衡性的判断，这种做法有助于减少子树被判断为不平衡的次数。当然，旋转在需要的时候还是会有的，但总的旋转次数和 AVL 相比要低很多。</p>
+<p>我们先用一个具体的例子来说明 AVL 和红黑树之间的差异。</p>
+<p>假设插入序列为:</p>
+<pre class="hljs"><code><div>
 [1, 450, 3, 4, 56, 12, 123, 45, 23, 6]
-</div></code></code></pre>
-<p data-line="624" class="code-line">依次插入 1, 450, 3, 4, 56 之后得到如下图的 AVL</p>
-<p data-line="626" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-1.jpg" alt="image" class="loading" id="image-hash-891616869"></p>
-<p data-line="628" class="code-line">然后插入 12, 得到不平衡的 AVL, 如下图:</p>
-<p data-line="630" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-2.jpg" alt="image" class="loading" id="image-hash-892540390"></p>
-<p data-line="632" class="code-line">之后按照我们之前讲的方式，经过两次旋转得到平衡的 AVL, 如下图:</p>
-<p data-line="634" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-3.jpg" alt="image" class="loading" id="image-hash-893463911"></p>
-<p data-line="636" class="code-line">依次插入 1, 450, 3, 4, 56 之后得到如下图的红黑树:</p>
-<p data-line="638" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-11.jpg" alt="image" class="loading" id="image-hash-1871296882"></p>
-<p data-line="640" class="code-line">然后插入 12, 新插入的节点的颜色为红色, 此时违背红黑树的性质 3，相邻的节点不能都为红色, 所以需要调整. 如下图:</p>
-<p data-line="642" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-12.jpg" alt="image" class="loading" id="image-hash-1872220403"></p>
-<p data-line="644" class="code-line">回顾 AVL, 需要两次旋转来达到平衡，而红黑树只需要改变 4 和 450 这两个节点的颜色，将红色改变为黑色，然后将节点 12 的颜色变为红色，红黑树就又平衡了，因为性质 4 也是满足的，所有性质都是满足的, 如下图:</p>
-<p data-line="646" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-13.jpg" alt="image" class="loading" id="image-hash-1873143924"></p>
-<p data-line="648" class="code-line">同时，观察一下我们能发现，红黑树的平衡性并没有 AVL 好，所以大家要根据具体的业务需要来选择不同的结构。</p>
-<p data-line="650" class="code-line">为了描述的更加清晰易懂，我们先对红黑树中的节点关系进行一个定义, 如下:</p>
-<p data-line="652" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/red-black-tree-def.png" alt="image" class="loading" id="image-hash-904249344"></p>
-<h3 id="hong-hei-shu-de-cha-ru" id="%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5" data-line="654" class="code-line">红黑树的插入</h3>
-<p data-line="656" class="code-line">我们回顾插入 12 的时候的情况，12 是红色，去掉了一个黑色的 Null Leaf，然后补充了两个黑色的空叶子节点，这样高度仍然是不变的，这种情况不需要调整。那么，什么情况下高度会改变？
+</div></code></pre>
+<p>依次插入 1, 450, 3, 4, 56 之后得到如下图的 AVL</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-1.jpg" alt="image"></p>
+<p>然后插入 12, 得到不平衡的 AVL, 如下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-2.jpg" alt="image"></p>
+<p>之后按照我们之前讲的方式，经过两次旋转得到平衡的 AVL, 如下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-3.jpg" alt="image"></p>
+<p>依次插入 1, 450, 3, 4, 56 之后得到如下图的红黑树:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-11.jpg" alt="image"></p>
+<p>然后插入 12, 新插入的节点的颜色为红色, 此时违背红黑树的性质 3，相邻的节点不能都为红色, 所以需要调整. 如下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-12.jpg" alt="image"></p>
+<p>回顾 AVL, 需要两次旋转来达到平衡，而红黑树只需要改变 4 和 450 这两个节点的颜色，将红色改变为黑色，然后将节点 12 的颜色变为红色，红黑树就又平衡了，因为性质 4 也是满足的，所有性质都是满足的, 如下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/avl-vs-red-black-13.jpg" alt="image"></p>
+<p>同时，观察一下我们能发现，红黑树的平衡性并没有 AVL 好，所以大家要根据具体的业务需要来选择不同的结构。</p>
+<p>为了描述的更加清晰易懂，我们先对红黑树中的节点关系进行一个定义, 如下:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/red-black-tree-def.png" alt="image"></p>
+<h3 id="%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5">红黑树的插入</h3>
+<p>我们回顾插入 12 的时候的情况，12 是红色，去掉了一个黑色的 Null Leaf，然后补充了两个黑色的空叶子节点，这样高度仍然是不变的，这种情况不需要调整。那么，什么情况下高度会改变？
 新插入进去的节点并不会导致高度的变化，因为插入进去的节点总是在末端，而且是红色。那么需要调整的情况只能是，<strong>两个相邻节点都为红色</strong>。</p>
-<blockquote data-line="659" class="code-line">
-<p data-line="659" class="code-line">为什么相邻节点不能都为红色呢？大家可以在纸上画一画，如果不做这个要求，平衡性是没法儿保证的，树的高度会恶化。</p>
+<blockquote>
+<p>为什么相邻节点不能都为红色呢？大家可以在纸上画一画，如果不做这个要求，平衡性是没法儿保证的，树的高度会恶化。</p>
 </blockquote>
-<p data-line="661" class="code-line">我们还像分析 BST 和 AVL 一样来分析红色相邻的情况，由于新插入的节点是红色，那么既然相邻是红色，Father 就必然是红色，因此, GrandFather 必定是黑色，因为在插入之前红黑树的性质是满足的。最终，我们实际要分析的是 Uncle 的颜色的各种情况:</p>
+<p>我们还像分析 BST 和 AVL 一样来分析红色相邻的情况，由于新插入的节点是红色，那么既然相邻是红色，Father 就必然是红色，因此, GrandFather 必定是黑色，因为在插入之前红黑树的性质是满足的。最终，我们实际要分析的是 Uncle 的颜色的各种情况:</p>
 <ol>
-<li data-line="663" class="code-line">Uncle 是红色。这种情况的调整比较容易，把黑色的 GrandFather 往下移动，即 Father 和 Uncle 都变为黑色，然后 GrandFather 变为红色，高度不会变化，红黑树仍然是平衡的。</li>
+<li>Uncle 是红色。这种情况的调整比较容易，把黑色的 GrandFather 往下移动，即 Father 和 Uncle 都变为黑色，然后 GrandFather 变为红色，高度不会变化，红黑树仍然是平衡的。</li>
 </ol>
-<p data-line="665" class="code-line">如下图，新插入的节点 12 导致相邻节点为红色。</p>
-<p data-line="667" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-red.png" alt="image" class="loading" id="image-hash--1645367061"></p>
-<p data-line="669" class="code-line">Uncle 节点是红色的时候，直接变色即可, 得到下图:</p>
-<p data-line="671" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-red-1.png" alt="image" class="loading" id="image-hash--738486129"></p>
+<p>如下图，新插入的节点 12 导致相邻节点为红色。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-red.png" alt="image"></p>
+<p>Uncle 节点是红色的时候，直接变色即可, 得到下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-red-1.png" alt="image"></p>
 <ol start="2">
-<li data-line="673" class="code-line">Uncle 是黑色。此时，要改变相邻的节点都是红色的情况，就要将其中一个节点置为黑色，直接这样做必然会导致不平衡，既然直接变色后会有一边会变&quot;重&quot;，那就先旋转，再根据情况变色。</li>
+<li>Uncle 是黑色。此时，要改变相邻的节点都是红色的情况，就要将其中一个节点置为黑色，直接这样做必然会导致不平衡，既然直接变色后会有一边会变&quot;重&quot;，那就先旋转，再根据情况变色。</li>
 </ol>
-<p data-line="675" class="code-line">旋转的情况和 AVL 差不多，要分析新插入的节点是在 Father 节点的左边还是右边，是属于 GrandFather 的左子树还是右子树。我们先分析右子树，右孩子的情况，如下:</p>
-<p data-line="677" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-right-of-p-and-p-right-of-g.png" alt="image" class="loading" id="image-hash-638787822"></p>
-<p data-line="679" class="code-line">新插入的节点为 45，我们预判直接变色会导致右边变重，所以要先左旋。 左旋之后，可以交换 Father 和 GrandFather 的颜色来保持高度一致。</p>
-<p data-line="681" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-right-of-p-and-p-right-of-g-1.png" alt="image" class="loading" id="image-hash--393931822"></p>
+<p>旋转的情况和 AVL 差不多，要分析新插入的节点是在 Father 节点的左边还是右边，是属于 GrandFather 的左子树还是右子树。我们先分析右子树，右孩子的情况，如下:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-right-of-p-and-p-right-of-g.png" alt="image"></p>
+<p>新插入的节点为 45，我们预判直接变色会导致右边变重，所以要先左旋。 左旋之后，可以交换 Father 和 GrandFather 的颜色来保持高度一致。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-right-of-p-and-p-right-of-g-1.png" alt="image"></p>
 <ol start="3">
-<li data-line="683" class="code-line">Uncle 是黑色，新插入的节点 23 属于右子树，左孩子, 如下图:</li>
+<li>Uncle 是黑色，新插入的节点 23 属于右子树，左孩子, 如下图:</li>
 </ol>
-<p data-line="685" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g.png" alt="image" class="loading" id="image-hash-2048033697"></p>
-<p data-line="687" class="code-line">此时由于 Uncle 4 是红色，属于 CASE 1(注意，这个例子并不是一开始就是 CASE3), 直接变色，得到下图:</p>
-<p data-line="689" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-1.png" alt="image" class="loading" id="image-hash-976655813"></p>
-<p data-line="691" class="code-line">此时 12 和 56 的颜色又不满足了，且 Uncle 是黑色，属于 CASE 3，我们预判直接变色会导致左边变重，于是先右旋，得到下图:</p>
-<p data-line="693" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-2.png" alt="image" class="loading" id="image-hash-977579334"></p>
-<p data-line="695" class="code-line">是不是又回到 CASE 2了？那么按照 CASE 2 来处理，先左旋，然后交换 Father 和 GrandFather 的颜色, 得到下图:</p>
-<p data-line="697" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-3.png" alt="image" class="loading" id="image-hash-978502855"></p>
-<p data-line="699" class="code-line">综上，我们可以重新阐述下这些规律:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g.png" alt="image"></p>
+<p>此时由于 Uncle 4 是红色，属于 CASE 1(注意，这个例子并不是一开始就是 CASE3), 直接变色，得到下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-1.png" alt="image"></p>
+<p>此时 12 和 56 的颜色又不满足了，且 Uncle 是黑色，属于 CASE 3，我们预判直接变色会导致左边变重，于是先右旋，得到下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-2.png" alt="image"></p>
+<p>是不是又回到 CASE 2 了？那么按照 CASE 2 来处理，先左旋，然后交换 Father 和 GrandFather 的颜色, 得到下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-3.png" alt="image"></p>
+<p>综上，我们可以重新阐述下这些规律:</p>
 <ol>
-<li data-line="701" class="code-line">Uncle 是红色，将 Uncle 和 Father 变为黑色，GrandFather 变为红色。</li>
-<li data-line="702" class="code-line">Uncle 是黑色，新插入的节点在 GrandFather 的右边，且在 Father 的右边，先左旋，再交换 Father 和 GrandFather 的颜色</li>
-<li data-line="703" class="code-line">Uncle 是黑色，新插入的节点在 GrandFather 的右边，且在 Father 的左边，先右旋，回到 CASE 2</li>
-<li data-line="704" class="code-line">Uncle 是黑色，新插入的节点在 GrandFather 的左边，且在 Father 的左边，先右旋，再交换 Father 和 GrandFather 的颜色</li>
-<li data-line="705" class="code-line">Uncle 是黑色，新插入的节点在 GrandFather 的左边，且在 Father 的右边，先左旋，回到 CASE 4</li>
+<li>Uncle 是红色，将 Uncle 和 Father 变为黑色，GrandFather 变为红色。</li>
+<li>Uncle 是黑色，新插入的节点在 GrandFather 的右边，且在 Father 的右边，先左旋，再交换 Father 和 GrandFather 的颜色</li>
+<li>Uncle 是黑色，新插入的节点在 GrandFather 的右边，且在 Father 的左边，先右旋，回到 CASE 2</li>
+<li>Uncle 是黑色，新插入的节点在 GrandFather 的左边，且在 Father 的左边，先右旋，再交换 Father 和 GrandFather 的颜色</li>
+<li>Uncle 是黑色，新插入的节点在 GrandFather 的左边，且在 Father 的右边，先左旋，回到 CASE 4</li>
 </ol>
-<h3 id="hong-hei-shu-shan-chu" id="%E7%BA%A2%E9%BB%91%E6%A0%91%E5%88%A0%E9%99%A4" data-line="707" class="code-line">红黑树删除</h3>
-<p data-line="709" class="code-line">红黑树的删除比插入要麻烦，因为插入的时候，不会改变高度，需要调整的是相邻都为红色的情况，而删除需要考虑高度的变化，以及可能相邻为红色的情况。
+<h3 id="%E7%BA%A2%E9%BB%91%E6%A0%91%E5%88%A0%E9%99%A4">红黑树删除</h3>
+<p>红黑树的删除比插入要麻烦，因为插入的时候，不会改变高度，需要调整的是相邻都为红色的情况，而删除需要考虑高度的变化，以及可能相邻为红色的情况。
 通过简单的观察，以及参考 BST 和 AVL 的删除时的操作，我们能发现一些比较明显的删除规则:</p>
 <ol>
-<li data-line="713" class="code-line">如果被删除的节点是红色，且该节点的左右孩子都是 NULL Leaf, 那么直接删除它即可</li>
-<li data-line="714" class="code-line">如果被删除的节点是红色，且左右子树只有其中一个，且为黑色，那么删除之后高度是不变的，不需要变色。</li>
-<li data-line="715" class="code-line">如果被删除的节点是黑色，且左右子树只有其中一个，且为红色，那么删除之后高度发生了变化，但只要把子树的颜色变成黑色就可以了。因为黑色被删除之后又被补充了，而且发生变色的是子树的根，不改变下面的高度差。</li>
+<li>如果被删除的节点是红色，且该节点的左右孩子都是 NULL Leaf, 那么直接删除它即可</li>
+<li>如果被删除的节点是红色，且左右子树只有其中一个，且为黑色，那么删除之后高度是不变的，不需要变色。</li>
+<li>如果被删除的节点是黑色，且左右子树只有其中一个，且为红色，那么删除之后高度发生了变化，但只要把子树的颜色变成黑色就可以了。因为黑色被删除之后又被补充了，而且发生变色的是子树的根，不改变下面的高度差。</li>
 </ol>
-<p data-line="717" class="code-line">那，如果是下面这种情况呢？如下图:</p>
-<p data-line="719" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-black.png" alt="image" class="loading" id="image-hash--1166259217"></p>
-<p data-line="721" class="code-line">删除黑色节点 1 必然会导致高度的变化，Father 以及 Father 以上的节点属于公共路径，调整公共路径并不会改变高度差，所以，此时我们要考虑的是 sibling 以及 sibling 的左右子树的各种情况。</p>
-<p data-line="723" class="code-line">上图中的情况比较容易调整，将 Father 和 sibling 的颜色交换一下即可。</p>
+<p>那，如果是下面这种情况呢？如下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-black.png" alt="image"></p>
+<p>删除黑色节点 1 必然会导致高度的变化，Father 以及 Father 以上的节点属于公共路径，调整公共路径并不会改变高度差，所以，此时我们要考虑的是 sibling 以及 sibling 的左右子树的各种情况。</p>
+<p>上图中的情况比较容易调整，将 Father 和 sibling 的颜色交换一下即可。</p>
 <ol start="4">
-<li data-line="725" class="code-line">
-<p data-line="725" class="code-line">如果被删除的节点是黑色，且左右子树都是黑色，此时查看 sibling 的颜色情况，如果为黑色，且 sibling 的左右孩子都为黑色。由于被删除节点为黑色，导致 sibling 这边的高度变高，所以将 sibling 的颜色置为红色。</p>
-<p data-line="727" class="code-line">同时，查看 Father 节点的颜色，如果 Father 是红色，将 Father 置为黑色，由于 Father 是公共的，不会改变子树的高度差，但会影响 GrandFather 的子树的平衡性，这种情况递归处理就好了。</p>
+<li>
+<p>如果被删除的节点是黑色，且左右子树都是黑色，此时查看 sibling 的颜色情况，如果为黑色，且 sibling 的左右孩子都为黑色。由于被删除节点为黑色，导致 sibling 这边的高度变高，所以将 sibling 的颜色置为红色。</p>
+<p>同时，查看 Father 节点的颜色，如果 Father 是红色，将 Father 置为黑色，由于 Father 是公共的，不会改变子树的高度差，但会影响 GrandFather 的子树的平衡性，这种情况递归处理就好了。</p>
 </li>
 </ol>
-<p data-line="729" class="code-line">我们始终需要牢记一点，在删除节点之前，树是平衡的。在 AVL 里，不平衡可以通过旋转来恢复平衡，红黑树是先考虑变色。</p>
-<p data-line="731" class="code-line">但是，先考虑变色并不意味着先执行变色，在插入的时候我们就强调过这种思路，如果直接变色是可以的，那就直接变色，如果直接变色会导致相邻节点为红色，那就先旋转再变色。</p>
-<p data-line="733" class="code-line">其他的需要旋转的情况其实本质上和 AVL 是一致的，AVL 是根据 sibling 的 balance factor 确定旋转方式，红黑树是根据 sibling 的颜色，以及 sibling 子树的颜色来决定旋转方式。
+<p>我们始终需要牢记一点，在删除节点之前，树是平衡的。在 AVL 里，不平衡可以通过旋转来恢复平衡，红黑树是先考虑变色。</p>
+<p>但是，先考虑变色并不意味着先执行变色，在插入的时候我们就强调过这种思路，如果直接变色是可以的，那就直接变色，如果直接变色会导致相邻节点为红色，那就先旋转再变色。</p>
+<p>其他的需要旋转的情况其实本质上和 AVL 是一致的，AVL 是根据 sibling 的 balance factor 确定旋转方式，红黑树是根据 sibling 的颜色，以及 sibling 子树的颜色来决定旋转方式。
 讲到这里，可能你的脑子可能会比较懵，如果你想一时半儿吃透它，我觉得难。如果你觉得理解起来有困难，你就不停地从 BST, AVL 重新来过, 吃透 BST 才能吃透 AVL, 继而才能吃透红黑树，死记硬背它的特性意义不大。或者，看下具体的代码实现（如下），来换换脑。</p>
-<pre><code data-line="736" class="code-line language-C++"><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt; </span></span>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt; </span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;queue&gt; </span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>; 
   
@@ -2121,36 +1535,34 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; 
 } 
 </div></code></pre>
-<p data-line="1268" class="code-line">OK! 我们换完脑子，再来啃这块骨头！如下图，我们要删除节点 11:</p>
-<p data-line="1270" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11.png" alt="image" class="loading" id="image-hash--609268410"></p>
-<p data-line="1272" class="code-line">节点 11 为黑色，且节点 11 的 sibling 为黑色，且 sibling 节点有一个孩子为红色。如果直接将 sibling 节点，即节点 22 的颜色改为红色，则会导致红色相邻的情况，根据我们之前的原则，先左旋，再尝试变色, 如下图。</p>
-<p data-line="1274" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11-left-rotate.png" alt="image" class="loading" id="image-hash--375873958"></p>
-<p data-line="1276" class="code-line">接着来看一个 sibling 的两个孩子都为红色的情况，如下图:</p>
-<p data-line="1278" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate.png" alt="image" class="loading" id="image-hash--164424658"></p>
-<p data-line="1280" class="code-line">如上图，我们要删除节点 10, 根据 BST 的删除规则，实际删除的节点的位置是 8，那我们做旋转和染色的依据是节点 8 这个位置，即，要考察的是 8 的 sibling 和 sibling 的左右孩子的颜色情况。节点 8 的 sibling 为黑色，左右孩子都为黑色。
+<p>OK! 我们换完脑子，再来啃这块骨头！如下图，我们要删除节点 11:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11.png" alt="image"></p>
+<p>节点 11 为黑色，且节点 11 的 sibling 为黑色，且 sibling 节点有一个孩子为红色。如果直接将 sibling 节点，即节点 22 的颜色改为红色，则会导致红色相邻的情况，根据我们之前的原则，先左旋，再尝试变色, 如下图。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-11-left-rotate.png" alt="image"></p>
+<p>接着来看一个 sibling 的两个孩子都为红色的情况，如下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate.png" alt="image"></p>
+<p>如上图，我们要删除节点 10, 根据 BST 的删除规则，实际删除的节点的位置是 8，那我们做旋转和染色的依据是节点 8 这个位置，即，要考察的是 8 的 sibling 和 sibling 的左右孩子的颜色情况。节点 8 的 sibling 为黑色，左右孩子都为黑色。
 由于节点 8 是黑色，删除后会导致高度变低，如下图:</p>
-<p data-line="1283" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-1.png" alt="image" class="loading" id="image-hash-812988178"></p>
-<p data-line="1285" class="code-line">此时，无法通过变色来完成平衡(如果要变色，7必须为黑色，那 3 必须为红色，这样会违背红色不能相邻的性质). 很明显，左重右轻，需要右旋, 结果如下图:</p>
-<p data-line="1287" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-2.png" alt="image" class="loading" id="image-hash-813911699"></p>
-<p data-line="1289" class="code-line">然后变色即可, 如下图:</p>
-<p data-line="1291" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-3.png" alt="image" class="loading" id="image-hash-814835220"></p>
-<p data-line="1293" class="code-line">综上，其实我们已经没有必要再去详细地一个个把所有的旋转情况列出来了，而是总结为一条原则，即:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-1.png" alt="image"></p>
+<p>此时，无法通过变色来完成平衡(如果要变色，7 必须为黑色，那 3 必须为红色，这样会违背红色不能相邻的性质). 很明显，左重右轻，需要右旋, 结果如下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-2.png" alt="image"></p>
+<p>然后变色即可, 如下图:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-3.png" alt="image"></p>
+<p>综上，其实我们已经没有必要再去详细地一个个把所有的旋转情况列出来了，而是总结为一条原则，即:</p>
 <ol>
-<li data-line="1295" class="code-line">执行 BST 删除</li>
-<li data-line="1296" class="code-line">如果仍然平衡，什么都不做(这是红黑树相对于 AVL 最主要的差异点，由于红色节点的删除不会导致高度差的变化，所以红黑树需要调整平衡的次数要比 AVL少)</li>
-<li data-line="1297" class="code-line">不平衡先尝试变色，无法通过变色达到平衡则先旋转再变色(由于旋转和变色是有固定规律的，所以，我们能略过尝试变色的步骤，而是直接根据条件进行旋转和变色操作)</li>
-<li data-line="1298" class="code-line">递归处理</li>
+<li>执行 BST 删除</li>
+<li>如果仍然平衡，什么都不做(这是红黑树相对于 AVL 最主要的差异点，由于红色节点的删除不会导致高度差的变化，所以红黑树需要调整平衡的次数要比 AVL 少)</li>
+<li>不平衡先尝试变色，无法通过变色达到平衡则先旋转再变色(由于旋转和变色是有固定规律的，所以，我们能略过尝试变色的步骤，而是直接根据条件进行旋转和变色操作)</li>
+<li>递归处理</li>
 </ol>
-<h2 id="can-kao-zi-liao" id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99" data-line="1300" class="code-line">参考资料</h2>
+<h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
 <ul>
-<li data-line="1302" class="code-line"><a href="https://blog.csdn.net/qq_36667170/article/details/84142019" data-href="https://blog.csdn.net/qq_36667170/article/details/84142019">树的高度和深度</a></li>
-<li data-line="1303" class="code-line"><a href="http://data.biancheng.net/view/59.html" data-href="http://data.biancheng.net/view/59.html">平衡二叉树（AVL树）及C语言实现</a></li>
-<li data-line="1304" class="code-line"><a href="https://www.cs.usfca.edu/~galles/visualization/RedBlack.html" data-href="https://www.cs.usfca.edu/~galles/visualization/RedBlack.html">Algorithm Visualizations-red/black-tree</a></li>
-<li data-line="1305" class="code-line"><a href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html" data-href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html">Algorithm Visualizations-AVLTree</a></li>
-<li data-line="1306" class="code-line"><a href="https://www.geeksforgeeks.org/red-black-tree-set-2-insert/" data-href="https://www.geeksforgeeks.org/red-black-tree-set-2-insert/">Red-Black Tree | Set 2 (Insert)</a></li>
+<li><a href="https://blog.csdn.net/qq_36667170/article/details/84142019">树的高度和深度</a></li>
+<li><a href="http://data.biancheng.net/view/59.html">平衡二叉树（AVL 树）及 C 语言实现</a></li>
+<li><a href="https://www.cs.usfca.edu/~galles/visualization/RedBlack.html">Algorithm Visualizations-red/black-tree</a></li>
+<li><a href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html">Algorithm Visualizations-AVLTree</a></li>
+<li><a href="https://www.geeksforgeeks.org/red-black-tree-set-2-insert/">Red-Black Tree | Set 2 (Insert)</a></li>
 </ul>
 
-        <script>!function(e){var t={};function n(o){if(t[o])return t[o].exports;var i=t[o]={i:o,l:!1,exports:{}};return e[o].call(i.exports,i,i.exports,n),i.l=!0,i.exports}n.m=e,n.c=t,n.d=function(e,t,o){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:o})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)n.d(o,i,function(t){return e[t]}.bind(null,i));return o},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=3)}([function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});let o=void 0;function i(e){const t=document.getElementById("vscode-markdown-preview-data");if(t){const n=t.getAttribute(e);if(n)return JSON.parse(n)}throw new Error(`Could not load data for ${e}`)}t.getData=i,t.getSettings=function(){if(o)return o;if(o=i("data-settings"))return o;throw new Error("Could not load settings")}},function(e,t){var n;n=function(){return this}();try{n=n||new Function("return this")()}catch(e){"object"==typeof window&&(n=window)}e.exports=n},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(0),i="code-line";function r(e){return t=0,n=o.getSettings().lineCount-1,i=e,Math.min(n,Math.max(t,i));var t,n,i}const c=(()=>{let e;return()=>{if(!e){e=[{element:document.body,line:0}];for(const t of document.getElementsByClassName(i)){const n=+t.getAttribute("data-line");isNaN(n)||("CODE"===t.tagName&&t.parentElement&&"PRE"===t.parentElement.tagName?e.push({element:t.parentElement,line:n}):e.push({element:t,line:n}))}}return e}})();function s(e){const t=Math.floor(e),n=c();let o=n[0]||null;for(const e of n){if(e.line===t)return{previous:e,next:void 0};if(e.line>t)return{previous:o,next:e};o=e}return{previous:o}}function a(e){const t=c(),n=e-window.scrollY;let o=-1,i=t.length-1;for(;o+1<i;){const e=Math.floor((o+i)/2),r=u(t[e]);r.top+r.height>=n?i=e:o=e}const r=t[i],s=u(r);if(i>=1&&s.top>n){return{previous:t[o],next:r}}return i>1&&i<t.length&&s.top+s.height>n?{previous:r,next:t[i+1]}:{previous:r}}function u({element:e}){const t=e.getBoundingClientRect(),n=e.querySelector(`.${i}`);if(n){const e=n.getBoundingClientRect(),o=Math.max(1,e.top-t.top);return{top:t.top,height:o}}return t}t.getElementsForSourceLine=s,t.getLineElementsAtPageOffset=a,t.scrollToRevealSourceLine=function(e){if(!o.getSettings().scrollPreviewWithEditor)return;if(e<=0)return void window.scroll(window.scrollX,0);const{previous:t,next:n}=s(e);if(!t)return;let i=0;const r=u(t),c=r.top;if(n&&n.line!==t.line){i=c+(e-t.line)/(n.line-t.line)*(n.element.getBoundingClientRect().top-c)}else{const t=e-Math.floor(e);i=c+r.height*t}window.scroll(window.scrollX,Math.max(1,window.scrollY+i))},t.getEditorLineNumberForPageOffset=function(e){const{previous:t,next:n}=a(e);if(t){const o=u(t),i=e-window.scrollY-o.top;if(n){const e=i/(u(n).top-o.top);return r(t.line+e*(n.line-t.line))}{const e=i/o.height;return r(t.line+e)}}return null},t.getLineElementForFragment=function(e){return c().find(t=>t.element.id===e)}},function(e,t,n){"use strict";(function(e){Object.defineProperty(t,"__esModule",{value:!0});const o=n(7),i=n(8),r=n(9),c=n(2),s=n(0),a=n(10);let u=!0;const l=new o.ActiveLineMarker,f=s.getSettings(),d=acquireVsCodeApi(),m=d.getState(),p={..."object"==typeof m?m:{},...s.getData("data-state")};d.setState(p);const g=r.createPosterForVsCode(d);window.cspAlerter.setPoster(g),window.styleLoadingMonitor.setPoster(g),window.onload=()=>{v()},i.onceDocumentLoaded(()=>{const t=p.scrollProgress;"number"!=typeof t||f.fragment?f.scrollPreviewWithEditor&&e(()=>{if(f.fragment){p.fragment=void 0,d.setState(p);const e=c.getLineElementForFragment(f.fragment);e&&(u=!0,c.scrollToRevealSourceLine(e.line))}else isNaN(f.line)||(u=!0,c.scrollToRevealSourceLine(f.line))}):e(()=>{u=!0,window.scrollTo(0,t*document.body.clientHeight)})});const h=(()=>{const e=a(e=>{u=!0,c.scrollToRevealSourceLine(e)},50);return t=>{isNaN(t)||(p.line=t,e(t))}})();let v=a(()=>{const e=[];let t=document.getElementsByTagName("img");if(t){let n;for(n=0;n<t.length;n++){const o=t[n];o.classList.contains("loading")&&o.classList.remove("loading"),e.push({id:o.id,height:o.height,width:o.width})}g.postMessage("cacheImageSizes",e)}},50);window.addEventListener("resize",()=>{u=!0,w(),v()},!0),window.addEventListener("message",e=>{if(e.data.source===f.source)switch(e.data.type){case"onDidChangeTextEditorSelection":l.onDidChangeTextEditorSelection(e.data.line);break;case"updateView":h(e.data.line)}},!1),document.addEventListener("dblclick",e=>{if(!f.doubleClickToSwitchToEditor)return;for(let t=e.target;t;t=t.parentNode)if("A"===t.tagName)return;const t=e.pageY,n=c.getEditorLineNumberForPageOffset(t);"number"!=typeof n||isNaN(n)||g.postMessage("didClick",{line:Math.floor(n)})});const y=["http:","https:","mailto:","vscode:","vscode-insiders:"];function w(){p.scrollProgress=window.scrollY/document.body.clientHeight,d.setState(p)}document.addEventListener("click",e=>{if(!e)return;let t=e.target;for(;t;){if(t.tagName&&"A"===t.tagName&&t.href){if(t.getAttribute("href").startsWith("#"))return;let n=t.getAttribute("data-href");if(!n){if(y.some(e=>t.href.startsWith(e)))return;n=t.getAttribute("href")}return/^[a-z\-]+:/i.test(n)?void 0:(g.postMessage("openLink",{href:n}),e.preventDefault(),void e.stopPropagation())}t=t.parentNode}},!0),window.addEventListener("scroll",a(()=>{if(w(),u)u=!1;else{const e=c.getEditorLineNumberForPageOffset(window.scrollY);"number"!=typeof e||isNaN(e)||g.postMessage("revealLine",{line:e})}},50))}).call(this,n(4).setImmediate)},function(e,t,n){(function(e){var o=Function.prototype.apply;function i(e,t){this._id=e,this._clearFn=t}t.setTimeout=function(){return new i(o.call(setTimeout,window,arguments),clearTimeout)},t.setInterval=function(){return new i(o.call(setInterval,window,arguments),clearInterval)},t.clearTimeout=t.clearInterval=function(e){e&&e.close()},i.prototype.unref=i.prototype.ref=function(){},i.prototype.close=function(){this._clearFn.call(window,this._id)},t.enroll=function(e,t){clearTimeout(e._idleTimeoutId),e._idleTimeout=t},t.unenroll=function(e){clearTimeout(e._idleTimeoutId),e._idleTimeout=-1},t._unrefActive=t.active=function(e){clearTimeout(e._idleTimeoutId);var t=e._idleTimeout;t>=0&&(e._idleTimeoutId=setTimeout((function(){e._onTimeout&&e._onTimeout()}),t))},n(5),t.setImmediate="undefined"!=typeof self&&self.setImmediate||void 0!==e&&e.setImmediate||this&&this.setImmediate,t.clearImmediate="undefined"!=typeof self&&self.clearImmediate||void 0!==e&&e.clearImmediate||this&&this.clearImmediate}).call(this,n(1))},function(e,t,n){(function(e,t){!function(e,n){"use strict";if(!e.setImmediate){var o,i,r,c,s,a=1,u={},l=!1,f=e.document,d=Object.getPrototypeOf&&Object.getPrototypeOf(e);d=d&&d.setTimeout?d:e,"[object process]"==={}.toString.call(e.process)?o=function(e){t.nextTick((function(){p(e)}))}:!function(){if(e.postMessage&&!e.importScripts){var t=!0,n=e.onmessage;return e.onmessage=function(){t=!1},e.postMessage("","*"),e.onmessage=n,t}}()?e.MessageChannel?((r=new MessageChannel).port1.onmessage=function(e){p(e.data)},o=function(e){r.port2.postMessage(e)}):f&&"onreadystatechange"in f.createElement("script")?(i=f.documentElement,o=function(e){var t=f.createElement("script");t.onreadystatechange=function(){p(e),t.onreadystatechange=null,i.removeChild(t),t=null},i.appendChild(t)}):o=function(e){setTimeout(p,0,e)}:(c="setImmediate$"+Math.random()+"$",s=function(t){t.source===e&&"string"==typeof t.data&&0===t.data.indexOf(c)&&p(+t.data.slice(c.length))},e.addEventListener?e.addEventListener("message",s,!1):e.attachEvent("onmessage",s),o=function(t){e.postMessage(c+t,"*")}),d.setImmediate=function(e){"function"!=typeof e&&(e=new Function(""+e));for(var t=new Array(arguments.length-1),n=0;n<t.length;n++)t[n]=arguments[n+1];var i={callback:e,args:t};return u[a]=i,o(a),a++},d.clearImmediate=m}function m(e){delete u[e]}function p(e){if(l)setTimeout(p,0,e);else{var t=u[e];if(t){l=!0;try{!function(e){var t=e.callback,o=e.args;switch(o.length){case 0:t();break;case 1:t(o[0]);break;case 2:t(o[0],o[1]);break;case 3:t(o[0],o[1],o[2]);break;default:t.apply(n,o)}}(t)}finally{m(e),l=!1}}}}}("undefined"==typeof self?void 0===e?this:e:self)}).call(this,n(1),n(6))},function(e,t){var n,o,i=e.exports={};function r(){throw new Error("setTimeout has not been defined")}function c(){throw new Error("clearTimeout has not been defined")}function s(e){if(n===setTimeout)return setTimeout(e,0);if((n===r||!n)&&setTimeout)return n=setTimeout,setTimeout(e,0);try{return n(e,0)}catch(t){try{return n.call(null,e,0)}catch(t){return n.call(this,e,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:r}catch(e){n=r}try{o="function"==typeof clearTimeout?clearTimeout:c}catch(e){o=c}}();var a,u=[],l=!1,f=-1;function d(){l&&a&&(l=!1,a.length?u=a.concat(u):f=-1,u.length&&m())}function m(){if(!l){var e=s(d);l=!0;for(var t=u.length;t;){for(a=u,u=[];++f<t;)a&&a[f].run();f=-1,t=u.length}a=null,l=!1,function(e){if(o===clearTimeout)return clearTimeout(e);if((o===c||!o)&&clearTimeout)return o=clearTimeout,clearTimeout(e);try{o(e)}catch(t){try{return o.call(null,e)}catch(t){return o.call(this,e)}}}(e)}}function p(e,t){this.fun=e,this.array=t}function g(){}i.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];u.push(new p(e,t)),1!==u.length||l||s(m)},p.prototype.run=function(){this.fun.apply(null,this.array)},i.title="browser",i.browser=!0,i.env={},i.argv=[],i.version="",i.versions={},i.on=g,i.addListener=g,i.once=g,i.off=g,i.removeListener=g,i.removeAllListeners=g,i.emit=g,i.prependListener=g,i.prependOnceListener=g,i.listeners=function(e){return[]},i.binding=function(e){throw new Error("process.binding is not supported")},i.cwd=function(){return"/"},i.chdir=function(e){throw new Error("process.chdir is not supported")},i.umask=function(){return 0}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(2);t.ActiveLineMarker=class{onDidChangeTextEditorSelection(e){const{previous:t}=o.getElementsForSourceLine(e);this._update(t&&t.element)}_update(e){this._unmarkActiveElement(this._current),this._markActiveElement(e),this._current=e}_unmarkActiveElement(e){e&&(e.className=e.className.replace(/\bcode-active-line\b/g,""))}_markActiveElement(e){e&&(e.className+=" code-active-line")}}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.onceDocumentLoaded=function(e){"loading"===document.readyState||"uninitialized"===document.readyState?document.addEventListener("DOMContentLoaded",e):e()}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(0);t.createPosterForVsCode=e=>new class{postMessage(t,n){e.postMessage({type:t,source:o.getSettings().source,body:n})}}},function(e,t,n){(function(t){var n="Expected a function",o=NaN,i="[object Symbol]",r=/^\s+|\s+$/g,c=/^[-+]0x[0-9a-f]+$/i,s=/^0b[01]+$/i,a=/^0o[0-7]+$/i,u=parseInt,l="object"==typeof t&&t&&t.Object===Object&&t,f="object"==typeof self&&self&&self.Object===Object&&self,d=l||f||Function("return this")(),m=Object.prototype.toString,p=Math.max,g=Math.min,h=function(){return d.Date.now()};function v(e,t,o){var i,r,c,s,a,u,l=0,f=!1,d=!1,m=!0;if("function"!=typeof e)throw new TypeError(n);function v(t){var n=i,o=r;return i=r=void 0,l=t,s=e.apply(o,n)}function b(e){var n=e-u;return void 0===u||n>=t||n<0||d&&e-l>=c}function T(){var e=h();if(b(e))return E(e);a=setTimeout(T,function(e){var n=t-(e-u);return d?g(n,c-(e-l)):n}(e))}function E(e){return a=void 0,m&&i?v(e):(i=r=void 0,s)}function _(){var e=h(),n=b(e);if(i=arguments,r=this,u=e,n){if(void 0===a)return function(e){return l=e,a=setTimeout(T,t),f?v(e):s}(u);if(d)return a=setTimeout(T,t),v(u)}return void 0===a&&(a=setTimeout(T,t)),s}return t=w(t)||0,y(o)&&(f=!!o.leading,c=(d="maxWait"in o)?p(w(o.maxWait)||0,t):c,m="trailing"in o?!!o.trailing:m),_.cancel=function(){void 0!==a&&clearTimeout(a),l=0,i=u=r=a=void 0},_.flush=function(){return void 0===a?s:E(h())},_}function y(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function w(e){if("number"==typeof e)return e;if(function(e){return"symbol"==typeof e||function(e){return!!e&&"object"==typeof e}(e)&&m.call(e)==i}(e))return o;if(y(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=y(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(r,"");var n=s.test(e);return n||a.test(e)?u(e.slice(2),n?2:8):c.test(e)?o:+e}e.exports=function(e,t,o){var i=!0,r=!0;if("function"!=typeof e)throw new TypeError(n);return y(o)&&(i="leading"in o?!!o.leading:i,r="trailing"in o?!!o.trailing:r),v(e,t,{leading:i,maxWait:t,trailing:r})}}).call(this,n(1))}]);</script>
-
-    </body>
+</body>
 </html>

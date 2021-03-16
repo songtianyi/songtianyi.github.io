@@ -1,6 +1,6 @@
-# amqp rpc模式实现
+# amqp rpc 模式实现
 
-## 安装rabiitmq
+## 安装 rabiitmq
 
 #### mac
 
@@ -12,7 +12,7 @@ rabbitmq-server -detach
 
 ## client
 
-client端用spring boot实现
+client 端用 spring boot 实现
 
 #### amqp config
 
@@ -36,15 +36,15 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class AmqpConfig {
-    // 创建一个connectionFactory对amqp的连接信息作配置
+    // 创建一个 connectionFactory 对 amqp 的连接信息作配置
     public ConnectionFactory connectionFactory() {
         return new CachingConnectionFactory("localhost");
     }
 
-    // 创建一个rabbitTemplate 作为消息发送的模板
+    // 创建一个 rabbitTemplate 作为消息发送的模板
     // 这里有几个点需要注意
-    // 为rabbitTemplate设置一个jackson2MessageConverter，这样可以使用rabbitTemplate.convertSendAndReceive去收发消息，converter会自动帮我们将对象转换成json. 定义这些对象的时候记得加@JsonProperty这个注解来辅助converter的转换
-    // 给rabbitTemplate设置reply地址，这样框架才会帮我们启动messageListener去收取对应的消息, server端也可以利用这个地址，将回包发送到指定的队列
+    // 为 rabbitTemplate 设置一个 jackson2MessageConverter，这样可以使用 rabbitTemplate.convertSendAndReceive 去收发消息，converter 会自动帮我们将对象转换成 json. 定义  这些对象的时候记得加@JsonProperty 这个注解来辅助 converter 的转换
+    // 给 rabbitTemplate 设置 reply 地址，这样框架才会帮我们启动 messageListener 去收取对应的消息, server 端也可以利用这个地址，将回包发送到指定的队列
     @Bean
     public RabbitTemplate rabbitTemplate() {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
@@ -59,7 +59,7 @@ public class AmqpConfig {
         return converter;
     }
 
-    // 创建MessageListenerContainer，将container和rabbitTemplate绑定，并设置监听的队列
+    // 创建 MessageListenerContainer，将 container 和 rabbitTemplate 绑定，并设置监听的队列
     @Bean
     public SimpleMessageListenerContainer replyListenerContainer() {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
@@ -82,10 +82,10 @@ public class AmqpConfig {
 
 ``` Java
 
-// 创建一个request对象
+// 创建一个 request 对象
 Command command = new Command("set system host-name 666666");
-// 将request发送到rpc交换机，路由键为ssh-request，最终会被路由到requests队列
-// 同时传入一个MessageProcesser，将MessageId设置为CommonResponse，server端将MessageId填充到回包消息的Headers["__TypeId__"], 这样client端在收到消息后才能被正确解析
+// 将 request 发送到 rpc 交换机，路由键为 ssh-request，最终会被路由到 requests 队列
+// 同时传入一个 MessageProcesser，将 MessageId 设置为 CommonResponse，server 端将 MessageId 填充到回包消息的 Headers["__TypeId__"], 这样 client 端在收到消息后才能被正确解析
 Object rpcResponse = rabbitTemplate.convertSendAndReceive("rpc", "ssh-request", command, message -> {
             message.getMessageProperties().setMessageId(CommonResponse.class.getName());
             return message;
@@ -94,9 +94,9 @@ Object rpcResponse = rabbitTemplate.convertSendAndReceive("rpc", "ssh-request", 
 
 ## server
 
-server端用go实现
+server 端用 go 实现
 
-#### 实现consumer
+#### 实现 consumer
 
 ``` golang
 
@@ -242,4 +242,4 @@ func (s *Consumer) handle(deliveries <-chan amqp.Delivery) {
 }
 ```
 
-写一个main程序，new一个consumer，监听rpc交换机的request队列，当收到消息时，往rpc交换机的response队列回json消息，路由键为ssh-response。
+写一个 main 程序，new 一个 consumer，监听 rpc 交换机的 request 队列，当收到消息时，往 rpc 交换机的 response 队列回 json 消息，路由键为 ssh-response。

@@ -18,5 +18,5 @@
 
 ##### Regex
 
-* *[regex101](https://regex101.com/)* 可视化效果很好，而且提供了很多常用regex，还提供了代码生成，一把梭，但不支持java
+* *[regex101](https://regex101.com/)* 可视化效果很好，而且提供了很多常用 regex，还提供了代码生成，一把梭，但不支持 java
 * *[java regex](http://myregexp.com/)* 好用

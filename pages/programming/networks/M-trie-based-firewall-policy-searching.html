@@ -227,17 +227,17 @@ pre code {
 </style>
 
 <style>
-/* a11y-light theme */
-/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
-/* @author: ericwbailey */
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
 
-/* Comment */
+/* Tomorrow Comment */
 .hljs-comment,
 .hljs-quote {
-  color: #696969;
+	color: #8e908c;
 }
 
-/* Red */
+/* Tomorrow Red */
 .hljs-variable,
 .hljs-template-variable,
 .hljs-tag,
@@ -246,10 +246,10 @@ pre code {
 .hljs-selector-class,
 .hljs-regexp,
 .hljs-deletion {
-  color: #d91e18;
+	color: #c82829;
 }
 
-/* Orange */
+/* Tomorrow Orange */
 .hljs-number,
 .hljs-built_in,
 .hljs-builtin-name,
@@ -258,75 +258,48 @@ pre code {
 .hljs-params,
 .hljs-meta,
 .hljs-link {
-  color: #aa5d00;
+	color: #f5871f;
 }
 
-/* Yellow */
+/* Tomorrow Yellow */
 .hljs-attribute {
-  color: #aa5d00;
+	color: #eab700;
 }
 
-/* Green */
+/* Tomorrow Green */
 .hljs-string,
 .hljs-symbol,
 .hljs-bullet,
 .hljs-addition {
-  color: #008000;
+	color: #718c00;
 }
 
-/* Blue */
+/* Tomorrow Blue */
 .hljs-title,
 .hljs-section {
-  color: #007faa;
+	color: #4271ae;
 }
 
-/* Purple */
+/* Tomorrow Purple */
 .hljs-keyword,
 .hljs-selector-tag {
-  color: #7928a1;
+	color: #8959a8;
 }
 
 .hljs {
-  display: block;
-  overflow-x: auto;
-  background: #fefefe;
-  color: #545454;
-  padding: 0.5em;
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
 }
 
 .hljs-emphasis {
-  font-style: italic;
+	font-style: italic;
 }
 
 .hljs-strong {
-  font-weight: bold;
+	font-weight: bold;
 }
-
-@media screen and (-ms-high-contrast: active) {
-  .hljs-addition,
-  .hljs-attribute,
-  .hljs-built_in,
-  .hljs-builtin-name,
-  .hljs-bullet,
-  .hljs-comment,
-  .hljs-link,
-  .hljs-literal,
-  .hljs-meta,
-  .hljs-number,
-  .hljs-params,
-  .hljs-string,
-  .hljs-symbol,
-  .hljs-type,
-  .hljs-quote {
-        color: highlight;
-    }
-
-    .hljs-keyword,
-    .hljs-selector-tag {
-        font-weight: bold;
-    }
-}
-
 </style>
 
 <style>
@@ -392,35 +365,35 @@ code {
           : 'default'
     });
   </script>
-<h1 id="%E5%9F%BA%E4%BA%8Etrie%E7%9A%84%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95">基于Trie的防火墙策略搜索方法</h1>
+<h1 id="%E5%9F%BA%E4%BA%8E-trie-%E7%9A%84%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95">基于 Trie 的防火墙策略搜索方法</h1>
 <p>作者: <a href="http://www.songtianyi.info">songtianyi</a></p>
 <h3 id="%E5%89%8D%E8%A8%80">前言</h3>
 <p>在网络工程师对防火墙策略作运维变更时，通常需要知道防火墙是否存在一条或者多条策略满足了当前需求，或者当前需求冲突；需要知道某个端口是否已经被开放等等，因此基于用户输入的五元组信息搜索出关联策略是一个高频需求。暴力的方法是遍历已有策略，根据输入条件进行过滤得到结果，但在金融企业里，当结果可能存在于任意一台防火墙上时，策略总数可能多达十几万条，而且策略之间的对比比较复杂，O(N)的复杂度难以应对高频次的搜索需求。一个简单的优化是对输入和输出作映射并缓存，但并不解决根本问题。</p>
 <h3 id="trie">Trie</h3>
-<p>Trie(读作/ˈtriː/)又称前缀树或字典树，是一种有序树，一个节点的所有子孙都有相同的前缀。它的用途很广泛，比如用户搜索提示，当输入一个网址(公共前缀)时，可以从Trie中找到所有可能的选择，也可以用于词频统计，字符串查询等方面。</p>
-<h5 id="trie%E7%9A%84%E6%9E%84%E9%80%A0">Trie的构造</h5>
-<p>对于字符串数组S, 其元素为:</p>
+<p>Trie(读作/ˈtriː/)又称前缀树或字典树，是一种有序树，一个节点的所有子孙都有相同的前缀。它的用途很广泛，比如用户搜索提示，当输入一个网址(公共前缀)时，可以从 Trie 中找到所有可能的选择，也可以用于词频统计，字符串查询等方面。</p>
+<h5 id="trie-%E7%9A%84%E6%9E%84%E9%80%A0">Trie 的构造</h5>
+<p>对于字符串数组 S, 其元素为:</p>
 <pre class="hljs"><code><div>[<span class="hljs-string">"A"</span>, <span class="hljs-string">"to"</span>, <span class="hljs-string">"tea"</span>, <span class="hljs-string">"ted"</span>, <span class="hljs-string">"ten"</span>, <span class="hljs-string">"i"</span>, <span class="hljs-string">"in"</span>,<span class="hljs-string">"inn"</span>]
 </div></code></pre>
-<p>先创建一个空的根节点，枚举S，对于元素S<sub>i</sub>, 从根节点开始，找到和其第一个字符匹配的节点，如果没有则创建，再以匹配到的节点为始，找到和其第二个字符匹配的节点，如果没有则创建，依次类推，构建出整棵树。最终得到Trie结构:</p>
+<p>先创建一个空的根节点，枚举 S，对于元素 S<sub>i</sub>, 从根节点开始，找到和其第一个字符匹配的节点，如果没有则创建，再以匹配到的节点为始，找到和其第二个字符匹配的节点，如果没有则创建，依次类推，构建出整棵树。最终得到 Trie 结构:</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/trie-demo.png" alt="image"></p>
 <h3 id="%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5%E6%90%9C%E7%B4%A2">防火墙策略搜索</h3>
-<p>防火墙策略的搜索是输入的五元组+动作和已有策略的比较过程，如果我们将已有策略划分成不相关的集合(即，有集合A和B，如果策略P只存在于A或者只存在于B，那么认为A和B是不相关的)，并且集合內的策略是有序的，那么比较次数会大大减少。Trie的树形结构能够表达集合之间的不相交特性，所以适合用Trie来表达已有策略，最终搜索已有策略的过程变成搜索Trie的过程。</p>
+<p>防火墙策略的搜索是输入的五元组+动作和已有策略的比较过程，如果我们将已有策略划分成不相关的集合(即，有集合 A 和 B，如果策略 P 只存在于 A 或者只存在于 B，那么认为 A 和 B 是不相关的)，并且集合內的策略是有序的，那么比较次数会大大减少。Trie 的树形结构能够表达集合之间的不相交特性，所以适合用 Trie 来表达已有策略，最终搜索已有策略的过程变成搜索 Trie 的过程。</p>
 <h5 id="%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5%E9%A2%84%E5%A4%84%E7%90%86">防火墙策略预处理</h5>
 <p>防火墙策略的结构本质是五元组+动作的六元组，即(SrcAddr, DstAddr, Protocol, SrcPort, DstPort, Action)。</p>
 <ul>
-<li>对于地址，我们可以将其转换为数字范围, 比如对于IP地址<code>192.168.1.8</code>可以转换成<code>[3232235784, 3232235784</code>, 对于CIDR地址址<code>192.168.1.0/25</code>, 它的可用范围为<code>192.168.1.1~192.168.1.126</code>, 转换成数字范围为<code>[3232235777, 3232235902]</code></li>
-<li>对于协议，可以将其转换成数字，比如TCP可以转成6</li>
-<li>对于端口，部分防火墙使用字符串表示端口，比如www代表80等等，将其转换成数字形式</li>
-<li>如果协议是ICMP/ICMP6, 它的type和code也可以用数字表示</li>
-<li>对于动作，用0表示deny，用1表示accept</li>
-<li>对于any，可以用-1表示</li>
+<li>对于地址，我们可以将其转换为数字范围, 比如对于 IP 地址<code>192.168.1.8</code>可以转换成<code>[3232235784, 3232235784</code>, 对于 CIDR 地址址<code>192.168.1.0/25</code>, 它的可用范围为<code>192.168.1.1~192.168.1.126</code>, 转换成数字范围为<code>[3232235777, 3232235902]</code></li>
+<li>对于协议，可以将其转换成数字，比如 TCP 可以转成 6</li>
+<li>对于端口，部分防火墙使用字符串表示端口，比如 www 代表 80 等等，将其转换成数字形式</li>
+<li>如果协议是 ICMP/ICMP6, 它的 type 和 code 也可以用数字表示</li>
+<li>对于动作，用 0 表示 deny，用 1 表示 accept</li>
+<li>对于 any，可以用-1 表示</li>
 </ul>
 <p>经过预处理的策略表示为:</p>
 <pre class="hljs"><code><div>R = (a, p, [sal, sar], [dal, dar], [spl, spr], [dpl, dpr])
 </div></code></pre>
 <h5 id="%E6%9E%84%E9%80%A0%E7%AD%96%E7%95%A5%E6%A0%91">构造策略树</h5>
-<p>现有经过预处理的已有策略数组 S, S = [R<sub>1</sub>, R<sub>2</sub>, …, R<sub>n</sub>], 其Json格式为:</p>
+<p>现有经过预处理的已有策略数组 S, S = [R<sub>1</sub>, R<sub>2</sub>, …, R<sub>n</sub>], 其 Json 格式为:</p>
 <pre class="hljs"><code><div>{  
    <span class="hljs-attr">"S"</span>:[  
       {  
@@ -510,7 +483,7 @@ code {
    ]
 }
 </div></code></pre>
-<p>我们可以把一个六元组看成trie树例子中的字符串，依次处理六元组的每个元素。比如对于协议，我们的构造的结果如图所示:</p>
+<p>我们可以把一个六元组看成 trie 树例子中的字符串，依次处理六元组的每个元素。比如对于协议，我们的构造的结果如图所示:</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/any-tcp-udp-without-virtual-node.png" alt="image"></p>
 <p>以此类推，构造出整棵树, 由于图片大小限制，只给出部分构造，并且省略了保存策略的叶子结点:</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/part-policy-trie.png" alt="image"></p>

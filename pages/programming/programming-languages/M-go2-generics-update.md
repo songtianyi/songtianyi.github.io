@@ -4,11 +4,11 @@
 
 ### 前言
 
-18年的时候，go team 发布了Go2 的几个新特性的草案，其中包括呼声较高的泛型，当时[写了一篇文章做了介绍](http://songtianyi.info/pages/programming/programming-languages/go2-design-draft-introduction.html)。最近 Go team 对泛型的设计草案进行了较大的改动，有必要更新下这个改动并分享出来。
+18 年的时候，go team 发布了 Go2 的几个新特性的草案，其中包括呼声较高的泛型，当时[写了一篇文章做了介绍](http://songtianyi.info/pages/programming/programming-languages/go2-design-draft-introduction.html)。最近 Go team 对泛型的设计草案进行了较大的改动，有必要更新下这个改动并分享出来。
 
 ### contracts
 
-在18年释出的草案中，是使用 `contract` 来约束泛型的类型参数(type parameters)的，最新的草案放弃了这种做法, 用已有的概念 `interface` 代替。
+在 18 年释出的草案中，是使用 `contract` 来约束泛型的类型参数(type parameters)的，最新的草案放弃了这种做法, 用已有的概念 `interface` 代替。
 在继续之前，先来熟悉 `type parameter` 这个概念:
 
 > Generic code is code that is written using types that will be specified later. Each unspecified type is called a type parameter. 

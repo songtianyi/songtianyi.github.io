@@ -227,17 +227,17 @@ pre code {
 </style>
 
 <style>
-/* a11y-light theme */
-/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
-/* @author: ericwbailey */
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
 
-/* Comment */
+/* Tomorrow Comment */
 .hljs-comment,
 .hljs-quote {
-  color: #696969;
+	color: #8e908c;
 }
 
-/* Red */
+/* Tomorrow Red */
 .hljs-variable,
 .hljs-template-variable,
 .hljs-tag,
@@ -246,10 +246,10 @@ pre code {
 .hljs-selector-class,
 .hljs-regexp,
 .hljs-deletion {
-  color: #d91e18;
+	color: #c82829;
 }
 
-/* Orange */
+/* Tomorrow Orange */
 .hljs-number,
 .hljs-built_in,
 .hljs-builtin-name,
@@ -258,75 +258,48 @@ pre code {
 .hljs-params,
 .hljs-meta,
 .hljs-link {
-  color: #aa5d00;
+	color: #f5871f;
 }
 
-/* Yellow */
+/* Tomorrow Yellow */
 .hljs-attribute {
-  color: #aa5d00;
+	color: #eab700;
 }
 
-/* Green */
+/* Tomorrow Green */
 .hljs-string,
 .hljs-symbol,
 .hljs-bullet,
 .hljs-addition {
-  color: #008000;
+	color: #718c00;
 }
 
-/* Blue */
+/* Tomorrow Blue */
 .hljs-title,
 .hljs-section {
-  color: #007faa;
+	color: #4271ae;
 }
 
-/* Purple */
+/* Tomorrow Purple */
 .hljs-keyword,
 .hljs-selector-tag {
-  color: #7928a1;
+	color: #8959a8;
 }
 
 .hljs {
-  display: block;
-  overflow-x: auto;
-  background: #fefefe;
-  color: #545454;
-  padding: 0.5em;
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
 }
 
 .hljs-emphasis {
-  font-style: italic;
+	font-style: italic;
 }
 
 .hljs-strong {
-  font-weight: bold;
+	font-weight: bold;
 }
-
-@media screen and (-ms-high-contrast: active) {
-  .hljs-addition,
-  .hljs-attribute,
-  .hljs-built_in,
-  .hljs-builtin-name,
-  .hljs-bullet,
-  .hljs-comment,
-  .hljs-link,
-  .hljs-literal,
-  .hljs-meta,
-  .hljs-number,
-  .hljs-params,
-  .hljs-string,
-  .hljs-symbol,
-  .hljs-type,
-  .hljs-quote {
-        color: highlight;
-    }
-
-    .hljs-keyword,
-    .hljs-selector-tag {
-        font-weight: bold;
-    }
-}
-
 </style>
 
 <style>
@@ -392,19 +365,19 @@ code {
           : 'default'
     });
   </script>
-<h1 id="kong%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91">kong插件开发</h1>
+<h1 id="kong-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91">kong 插件开发</h1>
 <h3 id="%E8%AF%B4%E6%98%8E">说明</h3>
-<p>本文档记录了开发kong插件所需注意的要点</p>
-<h3 id="%E5%85%B3%E4%BA%8Ekong%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3">关于kong插件开发文档</h3>
+<p>本文档记录了开发 kong 插件所需注意的要点</p>
+<h3 id="%E5%85%B3%E4%BA%8E-kong-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3">关于 kong 插件开发文档</h3>
 <p>开发插件之前，至少阅读一遍开发文档，卡壳儿的时候及时回顾文档</p>
 <p>https://docs.konghq.com/0.14.x/plugin-development/</p>
-<p>特别注意文档的版本，需要和你所使用的kong的版本相匹配，否则写出来的代码不兼容。</p>
+<p>特别注意文档的版本，需要和你所使用的 kong 的版本相匹配，否则写出来的代码不兼容。</p>
 <pre class="hljs"><code><div>kong version
 </div></code></pre>
-<p>另外，可以参考kong内置的插件代码, 足够我们进行copy&amp;paste</p>
+<p>另外，可以参考 kong 内置的插件代码, 足够我们进行 copy&amp;paste</p>
 <pre class="hljs"><code><div>find . -name handler.lua
 </div></code></pre>
-<p>通过grep发现，内置插件中并没有http请求的代码，补充如下:</p>
+<p>通过 grep 发现，内置插件中并没有 http 请求的代码，补充如下:</p>
 <pre class="hljs"><code><div>  token, err = retrieve_token(conf)
   <span class="hljs-keyword">local</span> resp = {}
   r, c, h = http.request {
@@ -417,7 +390,7 @@ code {
   }
   kong.<span class="hljs-built_in">log</span>.inspect(r, c, h, resp)
 </div></code></pre>
-<p>注: 如果使用docker/k8s部署的kong，请先登录容器然后再执行上述命令</p>
+<p>注: 如果使用 docker/k8s 部署的 kong，请先登录容器然后再执行上述命令</p>
 <h3 id="%E6%89%93%E5%8C%85%E4%BB%A3%E7%A0%81">打包代码</h3>
 <p>使用<a href="https://github.com/luarocks/luarocks/wiki/Installation-instructions-for-Unix">luarocks</a> 打包，文档里有写，这里给出一个实际例子。</p>
 <p>打包前需要编写一个配置文件，参考如下</p>
@@ -462,8 +435,8 @@ build = {
 <p>上传到服务器，并安装，安装命令如下:</p>
 <pre class="hljs"><code><div>luarocks install kong-plugin-rbac-1.0.0-1.all.rock
 </div></code></pre>
-<h3 id="docker%E7%8E%AF%E5%A2%83%E4%B8%8Bkong%E6%8F%92%E4%BB%B6%E9%83%A8%E7%BD%B2">docker环境下kong插件部署</h3>
-<p>在docker环境下kong插件的部署要较麻烦一些，需要做路径映射，将本地安装的kong插件映射到容器内，同时修改lua包的搜索路径。kong的配置文件里的参数都是可以通过环境变量控制的，变量名的规律为 xx_xx, KONG_XX_XX, 比如 lua_package_path参数对应的环境变量名为 KONG_LUA_PACKAGE_PATH.</p>
+<h3 id="docker-%E7%8E%AF%E5%A2%83%E4%B8%8B-kong-%E6%8F%92%E4%BB%B6%E9%83%A8%E7%BD%B2">docker 环境下 kong 插件部署</h3>
+<p>在 docker 环境下 kong 插件的部署要较麻烦一些，需要做路径映射，将本地安装的 kong 插件映射到容器内，同时修改 lua 包的搜索路径。kong 的配置文件里的参数都是可以通过环境变量控制的，变量名的规律为 xx_xx, KONG_XX_XX, 比如 lua_package_path 参数对应的环境变量名为 KONG_LUA_PACKAGE_PATH.</p>
 <pre class="hljs"><code><div>    <span class="hljs-attr">volumeMounts:</span>
 
         <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">tz</span>
@@ -494,8 +467,8 @@ build = {
         <span class="hljs-attr">hostPath:</span>
           <span class="hljs-attr">path:</span> <span class="hljs-string">/srv/nap/kong/logs/</span>
 </div></code></pre>
-<p>如上所示，将本地的rbac插件目录，映射到了容器内。然后按照如下的方式修改注入环境变量。</p>
-<p>先使用luarocks将代码打包, 打包需要一个配置文件，参考如下</p>
+<p>如上所示，将本地的 rbac 插件目录，映射到了容器内。然后按照如下的方式修改注入环境变量。</p>
+<p>先使用 luarocks 将代码打包, 打包需要一个配置文件，参考如下</p>
 <pre class="hljs"><code><div>
         <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">KONG_LUA_PACKAGE_PATH</span>
 
@@ -510,7 +483,7 @@ build = {
           <span class="hljs-attr">value:</span> <span class="hljs-string">rbac,jwt-keycloak,oidc,acl,aws-lambda,azure-functions,basic-auth,bot-detection,correlation-id,cors,datadog,file-log,hmac-auth,http-log,ip-restriction,jwt,key-auth,ldap-auth,loggly,oauth2,post-function,pre-function,prometheus,rate-limiting,request-size-limiting,request-termination,request-transformer,statsd,syslog,tcp-log,udp-log,zipkin</span>
 </div></code></pre>
 <h3 id="%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F">执行顺序</h3>
-<p>kong的多个插件是按照优先级依次执行的，要注意这点，方便按照预期的方式调试/验证代码.</p>
+<p>kong 的多个插件是按照优先级依次执行的，要注意这点，方便按照预期的方式调试/验证代码.</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">local</span> RBACHandler =  BasePlugin:extend()
 
 <span class="hljs-keyword">local</span> priority_env_var = <span class="hljs-string">"KONG_RBAC_PRIORITY"</span>
@@ -525,7 +498,7 @@ kong.<span class="hljs-built_in">log</span>.<span class="hljs-built_in">debug</s
 </div></code></pre>
 <p>内置插件的优先级可以参考文档，保证自己开发的插件在合适的时机运行。</p>
 <h3 id="pdk">PDK</h3>
-<p>pdk是kong提供的插件开发包，方便我们在不同插件之间共享数据，以及操作db，使用方式比较简单，参考文档即可，但要注意文档的版本。</p>
+<p>pdk 是 kong 提供的插件开发包，方便我们在不同插件之间共享数据，以及操作 db，使用方式比较简单，参考文档即可，但要注意文档的版本。</p>
 
 </body>
 </html>

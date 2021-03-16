@@ -1,550 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-        <style>:root
-{
---markdown-font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui, "Ubuntu", "Droid Sans", sans-serif;
---markdown-font-size: 14px;
---markdown-line-height: 1.6;
---vscode-font-family:"Segoe WPC", "Segoe UI", sans-serif;
---vscode-font-weight:normal;
---vscode-font-size:13px;
---vscode-editor-font-family:Consolas, "Courier New", monospace;
---vscode-editor-font-weight:normal;
---vscode-editor-font-size:14px;
---vscode-foreground:#616161;
---vscode-errorForeground:#a1260d;
---vscode-descriptionForeground:#717171;
---vscode-icon-foreground:#424242;
---vscode-focusBorder:#0090f1;
---vscode-textSeparator-foreground:rgba(0, 0, 0, 0.18);
---vscode-textLink-foreground:#006ab1;
---vscode-textLink-activeForeground:#006ab1;
---vscode-textPreformat-foreground:#a31515;
---vscode-textBlockQuote-background:rgba(127, 127, 127, 0.1);
---vscode-textBlockQuote-border:rgba(0, 122, 204, 0.5);
---vscode-textCodeBlock-background:rgba(220, 220, 220, 0.4);
---vscode-widget-shadow:#a8a8a8;
---vscode-input-background:#ffffff;
---vscode-input-foreground:#616161;
---vscode-inputOption-activeBorder:rgba(0, 122, 204, 0);
---vscode-inputOption-activeBackground:rgba(0, 144, 241, 0.2);
---vscode-inputOption-activeForeground:#000000;
---vscode-input-placeholderForeground:#767676;
---vscode-inputValidation-infoBackground:#d6ecf2;
---vscode-inputValidation-infoBorder:#007acc;
---vscode-inputValidation-warningBackground:#f6f5d2;
---vscode-inputValidation-warningBorder:#b89500;
---vscode-inputValidation-errorBackground:#f2dede;
---vscode-inputValidation-errorBorder:#be1100;
---vscode-dropdown-background:#ffffff;
---vscode-dropdown-border:#cecece;
---vscode-checkbox-background:#ffffff;
---vscode-checkbox-border:#cecece;
---vscode-button-foreground:#ffffff;
---vscode-button-background:#007acc;
---vscode-button-hoverBackground:#0062a3;
---vscode-button-secondaryForeground:#ffffff;
---vscode-button-secondaryBackground:#5f6a79;
---vscode-button-secondaryHoverBackground:#4c5561;
---vscode-badge-background:#c4c4c4;
---vscode-badge-foreground:#333333;
---vscode-scrollbar-shadow:#dddddd;
---vscode-scrollbarSlider-background:rgba(100, 100, 100, 0.4);
---vscode-scrollbarSlider-hoverBackground:rgba(100, 100, 100, 0.7);
---vscode-scrollbarSlider-activeBackground:rgba(0, 0, 0, 0.6);
---vscode-progressBar-background:#0e70c0;
---vscode-editorError-foreground:#e51400;
---vscode-editorWarning-foreground:#e9a700;
---vscode-editorInfo-foreground:#75beff;
---vscode-editorHint-foreground:#6c6c6c;
---vscode-editor-background:#ffffff;
---vscode-editor-foreground:#000000;
---vscode-editorWidget-background:#f3f3f3;
---vscode-editorWidget-foreground:#616161;
---vscode-editorWidget-border:#c8c8c8;
---vscode-quickInput-background:#f3f3f3;
---vscode-quickInput-foreground:#616161;
---vscode-quickInputTitle-background:rgba(0, 0, 0, 0.06);
---vscode-pickerGroup-foreground:#0066bf;
---vscode-pickerGroup-border:#cccedb;
---vscode-editor-selectionBackground:#add6ff;
---vscode-editor-inactiveSelectionBackground:#e5ebf1;
---vscode-editor-selectionHighlightBackground:rgba(173, 214, 255, 0.5);
---vscode-editor-findMatchBackground:#a8ac94;
---vscode-editor-findMatchHighlightBackground:rgba(234, 92, 0, 0.33);
---vscode-editor-findRangeHighlightBackground:rgba(180, 180, 180, 0.3);
---vscode-searchEditor-findMatchBackground:rgba(234, 92, 0, 0.22);
---vscode-editor-hoverHighlightBackground:rgba(173, 214, 255, 0.15);
---vscode-editorHoverWidget-background:#f3f3f3;
---vscode-editorHoverWidget-foreground:#616161;
---vscode-editorHoverWidget-border:#c8c8c8;
---vscode-editorHoverWidget-statusBarBackground:#e7e7e7;
---vscode-editorLink-activeForeground:#0000ff;
---vscode-editorLightBulb-foreground:#ddb100;
---vscode-editorLightBulbAutoFix-foreground:#007acc;
---vscode-diffEditor-insertedTextBackground:rgba(155, 185, 85, 0.2);
---vscode-diffEditor-removedTextBackground:rgba(255, 0, 0, 0.2);
---vscode-diffEditor-diagonalFill:rgba(34, 34, 34, 0.2);
---vscode-list-focusBackground:#d6ebff;
---vscode-list-activeSelectionBackground:#0074e8;
---vscode-list-activeSelectionForeground:#ffffff;
---vscode-list-inactiveSelectionBackground:#e4e6f1;
---vscode-list-hoverBackground:#e8e8e8;
---vscode-list-dropBackground:#d6ebff;
---vscode-list-highlightForeground:#0066bf;
---vscode-list-invalidItemForeground:#b89500;
---vscode-list-errorForeground:#b01011;
---vscode-list-warningForeground:#855f00;
---vscode-listFilterWidget-background:#efc1ad;
---vscode-listFilterWidget-outline:rgba(0, 0, 0, 0);
---vscode-listFilterWidget-noMatchesOutline:#be1100;
---vscode-list-filterMatchBackground:rgba(234, 92, 0, 0.33);
---vscode-tree-indentGuidesStroke:#a9a9a9;
---vscode-list-deemphasizedForeground:#8e8e90;
---vscode-menu-foreground:#616161;
---vscode-menu-background:#ffffff;
---vscode-menu-selectionForeground:#ffffff;
---vscode-menu-selectionBackground:#0074e8;
---vscode-menu-separatorBackground:#888888;
---vscode-editor-snippetTabstopHighlightBackground:rgba(10, 50, 100, 0.2);
---vscode-editor-snippetFinalTabstopHighlightBorder:rgba(10, 50, 100, 0.5);
---vscode-breadcrumb-foreground:rgba(97, 97, 97, 0.8);
---vscode-breadcrumb-background:#ffffff;
---vscode-breadcrumb-focusForeground:#4e4e4e;
---vscode-breadcrumb-activeSelectionForeground:#4e4e4e;
---vscode-breadcrumbPicker-background:#f3f3f3;
---vscode-merge-currentHeaderBackground:rgba(64, 200, 174, 0.5);
---vscode-merge-currentContentBackground:rgba(64, 200, 174, 0.2);
---vscode-merge-incomingHeaderBackground:rgba(64, 166, 255, 0.5);
---vscode-merge-incomingContentBackground:rgba(64, 166, 255, 0.2);
---vscode-merge-commonHeaderBackground:rgba(96, 96, 96, 0.4);
---vscode-merge-commonContentBackground:rgba(96, 96, 96, 0.16);
---vscode-editorOverviewRuler-currentContentForeground:rgba(64, 200, 174, 0.5);
---vscode-editorOverviewRuler-incomingContentForeground:rgba(64, 166, 255, 0.5);
---vscode-editorOverviewRuler-commonContentForeground:rgba(96, 96, 96, 0.4);
---vscode-editorOverviewRuler-findMatchForeground:rgba(209, 134, 22, 0.49);
---vscode-editorOverviewRuler-selectionHighlightForeground:rgba(160, 160, 160, 0.8);
---vscode-minimap-findMatchHighlight:#d18616;
---vscode-minimap-selectionHighlight:#add6ff;
---vscode-minimap-errorHighlight:rgba(255, 18, 18, 0.7);
---vscode-minimap-warningHighlight:#e9a700;
---vscode-minimapSlider-background:rgba(100, 100, 100, 0.2);
---vscode-minimapSlider-hoverBackground:rgba(100, 100, 100, 0.35);
---vscode-minimapSlider-activeBackground:rgba(0, 0, 0, 0.3);
---vscode-problemsErrorIcon-foreground:#e51400;
---vscode-problemsWarningIcon-foreground:#e9a700;
---vscode-problemsInfoIcon-foreground:#75beff;
---vscode-editor-lineHighlightBorder:#eeeeee;
---vscode-editor-rangeHighlightBackground:rgba(253, 255, 0, 0.2);
---vscode-editor-symbolHighlightBackground:rgba(234, 92, 0, 0.33);
---vscode-editorCursor-foreground:#000000;
---vscode-editorWhitespace-foreground:rgba(51, 51, 51, 0.2);
---vscode-editorIndentGuide-background:#d3d3d3;
---vscode-editorIndentGuide-activeBackground:#939393;
---vscode-editorLineNumber-foreground:#237893;
---vscode-editorActiveLineNumber-foreground:#0b216f;
---vscode-editorLineNumber-activeForeground:#0b216f;
---vscode-editorRuler-foreground:#d3d3d3;
---vscode-editorCodeLens-foreground:#999999;
---vscode-editorBracketMatch-background:rgba(0, 100, 0, 0.1);
---vscode-editorBracketMatch-border:#b9b9b9;
---vscode-editorOverviewRuler-border:rgba(127, 127, 127, 0.3);
---vscode-editorGutter-background:#ffffff;
---vscode-editorUnnecessaryCode-opacity:rgba(0, 0, 0, 0.47);
---vscode-editorOverviewRuler-rangeHighlightForeground:rgba(0, 122, 204, 0.6);
---vscode-editorOverviewRuler-errorForeground:rgba(255, 18, 18, 0.7);
---vscode-editorOverviewRuler-warningForeground:#e9a700;
---vscode-editorOverviewRuler-infoForeground:#75beff;
---vscode-editorOverviewRuler-bracketMatchForeground:#a0a0a0;
---vscode-symbolIcon-arrayForeground:#616161;
---vscode-symbolIcon-booleanForeground:#616161;
---vscode-symbolIcon-classForeground:#d67e00;
---vscode-symbolIcon-colorForeground:#616161;
---vscode-symbolIcon-constantForeground:#616161;
---vscode-symbolIcon-constructorForeground:#652d90;
---vscode-symbolIcon-enumeratorForeground:#d67e00;
---vscode-symbolIcon-enumeratorMemberForeground:#007acc;
---vscode-symbolIcon-eventForeground:#d67e00;
---vscode-symbolIcon-fieldForeground:#007acc;
---vscode-symbolIcon-fileForeground:#616161;
---vscode-symbolIcon-folderForeground:#616161;
---vscode-symbolIcon-functionForeground:#652d90;
---vscode-symbolIcon-interfaceForeground:#007acc;
---vscode-symbolIcon-keyForeground:#616161;
---vscode-symbolIcon-keywordForeground:#616161;
---vscode-symbolIcon-methodForeground:#652d90;
---vscode-symbolIcon-moduleForeground:#616161;
---vscode-symbolIcon-namespaceForeground:#616161;
---vscode-symbolIcon-nullForeground:#616161;
---vscode-symbolIcon-numberForeground:#616161;
---vscode-symbolIcon-objectForeground:#616161;
---vscode-symbolIcon-operatorForeground:#616161;
---vscode-symbolIcon-packageForeground:#616161;
---vscode-symbolIcon-propertyForeground:#616161;
---vscode-symbolIcon-referenceForeground:#616161;
---vscode-symbolIcon-snippetForeground:#616161;
---vscode-symbolIcon-stringForeground:#616161;
---vscode-symbolIcon-structForeground:#616161;
---vscode-symbolIcon-textForeground:#616161;
---vscode-symbolIcon-typeParameterForeground:#616161;
---vscode-symbolIcon-unitForeground:#616161;
---vscode-symbolIcon-variableForeground:#007acc;
---vscode-editor-foldBackground:rgba(173, 214, 255, 0.3);
---vscode-editorGutter-foldingControlForeground:#424242;
---vscode-editor-onTypeRenameBackground:rgba(255, 0, 0, 0.3);
---vscode-editorSuggestWidget-background:#f3f3f3;
---vscode-editorSuggestWidget-border:#c8c8c8;
---vscode-editorSuggestWidget-foreground:#000000;
---vscode-editorSuggestWidget-selectedBackground:#d6ebff;
---vscode-editorSuggestWidget-highlightForeground:#0066bf;
---vscode-editor-wordHighlightBackground:rgba(87, 87, 87, 0.25);
---vscode-editor-wordHighlightStrongBackground:rgba(14, 99, 156, 0.25);
---vscode-editorOverviewRuler-wordHighlightForeground:rgba(160, 160, 160, 0.8);
---vscode-editorOverviewRuler-wordHighlightStrongForeground:rgba(192, 160, 192, 0.8);
---vscode-peekViewTitle-background:#ffffff;
---vscode-peekViewTitleLabel-foreground:#333333;
---vscode-peekViewTitleDescription-foreground:rgba(97, 97, 97, 0.9);
---vscode-peekView-border:#007acc;
---vscode-peekViewResult-background:#f3f3f3;
---vscode-peekViewResult-lineForeground:#646465;
---vscode-peekViewResult-fileForeground:#1e1e1e;
---vscode-peekViewResult-selectionBackground:rgba(51, 153, 255, 0.2);
---vscode-peekViewResult-selectionForeground:#6c6c6c;
---vscode-peekViewEditor-background:#f2f8fc;
---vscode-peekViewEditorGutter-background:#f2f8fc;
---vscode-peekViewResult-matchHighlightBackground:rgba(234, 92, 0, 0.3);
---vscode-peekViewEditor-matchHighlightBackground:rgba(245, 216, 2, 0.87);
---vscode-editorMarkerNavigationError-background:#e51400;
---vscode-editorMarkerNavigationWarning-background:#e9a700;
---vscode-editorMarkerNavigationInfo-background:#75beff;
---vscode-editorMarkerNavigation-background:#ffffff;
---vscode-tab-activeBackground:#ffffff;
---vscode-tab-unfocusedActiveBackground:#ffffff;
---vscode-tab-inactiveBackground:#ececec;
---vscode-tab-unfocusedInactiveBackground:#ececec;
---vscode-tab-activeForeground:#333333;
---vscode-tab-inactiveForeground:rgba(51, 51, 51, 0.7);
---vscode-tab-unfocusedActiveForeground:rgba(51, 51, 51, 0.7);
---vscode-tab-unfocusedInactiveForeground:rgba(51, 51, 51, 0.35);
---vscode-tab-activeModifiedBorder:#33aaee;
---vscode-tab-inactiveModifiedBorder:rgba(51, 170, 238, 0.5);
---vscode-tab-unfocusedActiveModifiedBorder:rgba(51, 170, 238, 0.7);
---vscode-tab-unfocusedInactiveModifiedBorder:rgba(51, 170, 238, 0.25);
---vscode-tab-border:#f3f3f3;
---vscode-editorPane-background:#ffffff;
---vscode-editorGroupHeader-tabsBackground:#f3f3f3;
---vscode-editorGroupHeader-noTabsBackground:#ffffff;
---vscode-editorGroup-border:#e7e7e7;
---vscode-editorGroup-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-imagePreview-border:rgba(128, 128, 128, 0.35);
---vscode-panel-background:#ffffff;
---vscode-panel-border:rgba(128, 128, 128, 0.35);
---vscode-panelTitle-activeForeground:#424242;
---vscode-panelTitle-inactiveForeground:rgba(66, 66, 66, 0.75);
---vscode-panelTitle-activeBorder:#424242;
---vscode-panelInput-border:#dddddd;
---vscode-panel-dropBorder:#424242;
---vscode-panelSection-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-panelSectionHeader-background:rgba(128, 128, 128, 0.2);
---vscode-panelSection-border:rgba(128, 128, 128, 0.35);
---vscode-statusBar-foreground:#ffffff;
---vscode-statusBar-noFolderForeground:#ffffff;
---vscode-statusBar-background:#007acc;
---vscode-statusBar-noFolderBackground:#68217a;
---vscode-statusBarItem-activeBackground:rgba(255, 255, 255, 0.18);
---vscode-statusBarItem-hoverBackground:rgba(255, 255, 255, 0.12);
---vscode-statusBarItem-prominentForeground:#ffffff;
---vscode-statusBarItem-prominentBackground:rgba(0, 0, 0, 0.5);
---vscode-statusBarItem-prominentHoverBackground:rgba(0, 0, 0, 0.3);
---vscode-activityBar-background:#2c2c2c;
---vscode-activityBar-foreground:#ffffff;
---vscode-activityBar-inactiveForeground:rgba(255, 255, 255, 0.4);
---vscode-activityBar-activeBorder:#ffffff;
---vscode-activityBar-dropBorder:#ffffff;
---vscode-activityBarBadge-background:#007acc;
---vscode-activityBarBadge-foreground:#ffffff;
---vscode-statusBarItem-remoteBackground:#16825d;
---vscode-statusBarItem-remoteForeground:#ffffff;
---vscode-extensionBadge-remoteBackground:#007acc;
---vscode-extensionBadge-remoteForeground:#ffffff;
---vscode-sideBar-background:#f3f3f3;
---vscode-sideBarTitle-foreground:#6f6f6f;
---vscode-sideBar-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-sideBarSectionHeader-background:rgba(0, 0, 0, 0);
---vscode-sideBarSectionHeader-border:rgba(97, 97, 97, 0.19);
---vscode-titleBar-activeForeground:#333333;
---vscode-titleBar-inactiveForeground:rgba(51, 51, 51, 0.6);
---vscode-titleBar-activeBackground:#dddddd;
---vscode-titleBar-inactiveBackground:rgba(221, 221, 221, 0.6);
---vscode-menubar-selectionForeground:#333333;
---vscode-menubar-selectionBackground:rgba(0, 0, 0, 0.1);
---vscode-notifications-foreground:#616161;
---vscode-notifications-background:#f3f3f3;
---vscode-notificationLink-foreground:#006ab1;
---vscode-notificationCenterHeader-background:#e7e7e7;
---vscode-notifications-border:#e7e7e7;
---vscode-notificationsErrorIcon-foreground:#e51400;
---vscode-notificationsWarningIcon-foreground:#e9a700;
---vscode-notificationsInfoIcon-foreground:#75beff;
---vscode-editorGutter-commentRangeForeground:#c5c5c5;
---vscode-editor-stackFrameHighlightBackground:rgba(255, 255, 102, 0.45);
---vscode-editor-focusedStackFrameHighlightBackground:rgba(206, 231, 206, 0.45);
---vscode-terminal-foreground:#333333;
---vscode-terminal-selectionBackground:rgba(0, 0, 0, 0.25);
---vscode-terminal-border:rgba(128, 128, 128, 0.35);
---vscode-statusBar-debuggingBackground:#cc6633;
---vscode-statusBar-debuggingForeground:#ffffff;
---vscode-settings-headerForeground:#444444;
---vscode-settings-modifiedItemIndicator:#66afe0;
---vscode-settings-dropdownBackground:#ffffff;
---vscode-settings-dropdownBorder:#cecece;
---vscode-settings-dropdownListBorder:#c8c8c8;
---vscode-settings-checkboxBackground:#ffffff;
---vscode-settings-checkboxBorder:#cecece;
---vscode-settings-textInputBackground:#ffffff;
---vscode-settings-textInputForeground:#616161;
---vscode-settings-textInputBorder:#cecece;
---vscode-settings-numberInputBackground:#ffffff;
---vscode-settings-numberInputForeground:#616161;
---vscode-settings-numberInputBorder:#cecece;
---vscode-debugExceptionWidget-border:#a31515;
---vscode-debugExceptionWidget-background:#f1dfde;
---vscode-editorGutter-modifiedBackground:#66afe0;
---vscode-editorGutter-addedBackground:#81b88b;
---vscode-editorGutter-deletedBackground:#ca4b51;
---vscode-minimapGutter-modifiedBackground:#66afe0;
---vscode-minimapGutter-addedBackground:#81b88b;
---vscode-minimapGutter-deletedBackground:#ca4b51;
---vscode-editorOverviewRuler-modifiedForeground:rgba(102, 175, 224, 0.6);
---vscode-editorOverviewRuler-addedForeground:rgba(129, 184, 139, 0.6);
---vscode-editorOverviewRuler-deletedForeground:rgba(202, 75, 81, 0.6);
---vscode-searchEditor-textInputBorder:#cecece;
---vscode-debugIcon-breakpointForeground:#e51400;
---vscode-debugIcon-breakpointDisabledForeground:#848484;
---vscode-debugIcon-breakpointUnverifiedForeground:#848484;
---vscode-debugIcon-breakpointCurrentStackframeForeground:#ffcc00;
---vscode-debugIcon-breakpointStackframeForeground:#89d185;
---vscode-debugToolBar-background:#f3f3f3;
---vscode-debugIcon-startForeground:#388a34;
---vscode-debugIcon-pauseForeground:#007acc;
---vscode-debugIcon-stopForeground:#a1260d;
---vscode-debugIcon-disconnectForeground:#a1260d;
---vscode-debugIcon-restartForeground:#388a34;
---vscode-debugIcon-stepOverForeground:#007acc;
---vscode-debugIcon-stepIntoForeground:#007acc;
---vscode-debugIcon-stepOutForeground:#007acc;
---vscode-debugIcon-continueForeground:#007acc;
---vscode-debugIcon-stepBackForeground:#007acc;
---vscode-debugTokenExpression-name:#9b46b0;
---vscode-debugTokenExpression-value:rgba(108, 108, 108, 0.8);
---vscode-debugTokenExpression-string:#a31515;
---vscode-debugTokenExpression-boolean:#0000ff;
---vscode-debugTokenExpression-number:#098658;
---vscode-debugTokenExpression-error:#e51400;
---vscode-debugView-exceptionLabelForeground:#ffffff;
---vscode-debugView-exceptionLabelBackground:#a31515;
---vscode-debugView-stateLabelForeground:#616161;
---vscode-debugView-stateLabelBackground:rgba(136, 136, 136, 0.27);
---vscode-debugView-valueChangedHighlight:#569cd6;
---vscode-debugConsole-infoForeground:#75beff;
---vscode-debugConsole-warningForeground:#e9a700;
---vscode-debugConsole-errorForeground:#a1260d;
---vscode-debugConsole-sourceForeground:#616161;
---vscode-debugConsoleInputIcon-foreground:#616161;
---vscode-extensionButton-prominentBackground:#327e36;
---vscode-extensionButton-prominentForeground:#ffffff;
---vscode-extensionButton-prominentHoverBackground:#28632b;
---vscode-notebook-cellBorderColor:#dae3e9;
---vscode-notebook-focusedEditorBorder:#0090f1;
---vscode-notebookStatusSuccessIcon-foreground:#388a34;
---vscode-notebookStatusErrorIcon-foreground:#a1260d;
---vscode-notebookStatusRunningIcon-foreground:#616161;
---vscode-notebook-outputContainerBackgroundColor:rgba(200, 221, 241, 0.31);
---vscode-notebook-cellToolbarSeparator:rgba(128, 128, 128, 0.35);
---vscode-notebook-focusedCellBackground:rgba(200, 221, 241, 0.31);
---vscode-notebook-cellHoverBackground:rgba(200, 221, 241, 0.22);
---vscode-notebook-focusedCellBorder:rgba(0, 0, 0, 0.12);
---vscode-notebook-cellStatusBarItemHoverBackground:rgba(0, 0, 0, 0.08);
---vscode-notebook-cellInsertionIndicator:#0090f1;
---vscode-notebookScrollbarSlider-background:rgba(100, 100, 100, 0.4);
---vscode-notebookScrollbarSlider-hoverBackground:rgba(100, 100, 100, 0.7);
---vscode-notebookScrollbarSlider-activeBackground:rgba(0, 0, 0, 0.6);
---vscode-notebook-symbolHighlightBackground:rgba(253, 255, 0, 0.2);
---vscode-scm-providerBorder:#c8c8c8;
---vscode-terminal-ansiBlack:#000000;
---vscode-terminal-ansiRed:#cd3131;
---vscode-terminal-ansiGreen:#00bc00;
---vscode-terminal-ansiYellow:#949800;
---vscode-terminal-ansiBlue:#0451a5;
---vscode-terminal-ansiMagenta:#bc05bc;
---vscode-terminal-ansiCyan:#0598bc;
---vscode-terminal-ansiWhite:#555555;
---vscode-terminal-ansiBrightBlack:#666666;
---vscode-terminal-ansiBrightRed:#cd3131;
---vscode-terminal-ansiBrightGreen:#14ce14;
---vscode-terminal-ansiBrightYellow:#b5ba00;
---vscode-terminal-ansiBrightBlue:#0451a5;
---vscode-terminal-ansiBrightMagenta:#bc05bc;
---vscode-terminal-ansiBrightCyan:#0598bc;
---vscode-terminal-ansiBrightWhite:#a5a5a5;
---vscode-gitDecoration-addedResourceForeground:#587c0c;
---vscode-gitDecoration-modifiedResourceForeground:#895503;
---vscode-gitDecoration-deletedResourceForeground:#ad0707;
---vscode-gitDecoration-untrackedResourceForeground:#007100;
---vscode-gitDecoration-ignoredResourceForeground:#8e8e90;
---vscode-gitDecoration-conflictingResourceForeground:#6c6cc4;
---vscode-gitDecoration-submoduleResourceForeground:#1258a7;
---vscode-gitlens-gutterBackgroundColor:rgba(0, 0, 0, 0.05);
---vscode-gitlens-gutterForegroundColor:#747474;
---vscode-gitlens-gutterUncommittedForegroundColor:rgba(0, 188, 242, 0.6);
---vscode-gitlens-trailingLineBackgroundColor:rgba(0, 0, 0, 0);
---vscode-gitlens-trailingLineForegroundColor:rgba(153, 153, 153, 0.35);
---vscode-gitlens-lineHighlightBackgroundColor:rgba(0, 188, 242, 0.2);
---vscode-gitlens-lineHighlightOverviewRulerColor:rgba(0, 188, 242, 0.6);
---vscode-issues-newIssueDecoration:rgba(0, 0, 0, 0.28);
-}
+<head>
+<title>M-decrypt-tls.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-body
-{
-background-color: var(--vscode-editor-background);
-color: var(--vscode-editor-foreground);
-font-family: var(--vscode-font-family);
-font-weight: var(--vscode-font-weight);
-font-size: var(--vscode-font-size);
-margin: 0;
-padding: 0 20px;
-}
-
-img
-{
-max-width: 100%;
-max-height: 100%;
-}
-
-a
-{
-color: var(--vscode-textLink-foreground);
-}
-
-a:hover
-{
-color: var(--vscode-textLink-activeForeground);
-}
-
-a:focus,
-input:focus,
-select:focus,
-textarea:focus
-{
-outline: 1px solid -webkit-focus-ring-color;
-outline-offset: -1px;
-}
-
-code
-{
-color: var(--vscode-textPreformat-foreground);
-}
-
-blockquote
-{
-background: var(--vscode-textBlockQuote-background);
-border-color: var(--vscode-textBlockQuote-border);
-}
-
-kbd
-{
-color: var(--vscode-editor-foreground);
-border-radius: 3px;
-vertical-align: middle;
-padding: 1px 3px;
-
-background-color: hsla(0,0%,50%,.17);
-border: 1px solid rgba(71,71,71,.4);
-border-bottom-color: rgba(88,88,88,.4);
-box-shadow: inset 0 -1px 0 rgba(88,88,88,.4);
-}
-
-.vscode-light kbd
-{
-background-color: hsla(0,0%,87%,.5);
-border: 1px solid hsla(0,0%,80%,.7);
-border-bottom-color: hsla(0,0%,73%,.7);
-box-shadow: inset 0 -1px 0 hsla(0,0%,73%,.7);
-}
-
-::-webkit-scrollbar
-{
-width: 10px;
-height: 10px;
-}
-
-::-webkit-scrollbar-corner
-{
-background-color: var(--vscode-editor-background);
-}
-
-::-webkit-scrollbar-thumb
-{
-background-color: var(--vscode-scrollbarSlider-background);
-}
-::-webkit-scrollbar-thumb:hover
-{
-background-color: var(--vscode-scrollbarSlider-hoverBackground);
-}
-::-webkit-scrollbar-thumb:active
-{
-background-color: var(--vscode-scrollbarSlider-activeBackground);
-}
-
-.emoji
-{
-height: 20px;
-}
-
-pre
-{
-white-space: pre-wrap;
-}
-
-.page-break
-{
-display: block;
-page-break-after: always;
-}
-
-.no-page-break
-{
-page-break-inside: avoid;
-}
-</style>
-<style>/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
-
-html, body {
-	font-family: var(--markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui, "Ubuntu", "Droid Sans", sans-serif);
-	font-size: var(--markdown-font-size, 14px);
-	padding: 0 26px;
-	line-height: var(--markdown-line-height, 22px);
-	word-wrap: break-word;
-}
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 body {
-	padding-top: 1em;
-}
-
-/* Reset margin top for elements */
-h1, h2, h3, h4, h5, h6,
-p, ol, ul, pre {
-	margin-top: 0;
-}
-
-h2, h3, h4, h5, h6 {
-	font-weight: normal;
-	margin-bottom: 0.2em;
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
 }
 
 #code-csp-warning {
@@ -648,15 +120,6 @@ textarea:focus {
 	outline-offset: -1px;
 }
 
-p {
-	margin-bottom: 0.7em;
-}
-
-ul,
-ol {
-	margin-bottom: 0.7em;
-}
-
 hr {
 	border: 0;
 	height: 2px;
@@ -668,6 +131,9 @@ h1 {
 	line-height: 1.2;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
 	font-weight: normal;
 }
 
@@ -675,13 +141,15 @@ table {
 	border-collapse: collapse;
 }
 
-th {
+table > thead > tr > th {
 	text-align: left;
 	border-bottom: 1px solid;
 }
 
-th,
-td {
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
 	padding: 5px 10px;
 }
 
@@ -697,7 +165,7 @@ blockquote {
 }
 
 code {
-	font-family: var(--vscode-editor-font-family, "SF Mono", Monaco, Menlo, Consolas, "Ubuntu Mono", "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace);
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
 	font-size: 1em;
 	line-height: 1.357em;
 }
@@ -736,103 +204,93 @@ pre code {
 	border-color: rgb(0, 0, 0);
 }
 
-.vscode-light th {
+.vscode-light table > thead > tr > th {
 	border-color: rgba(0, 0, 0, 0.69);
 }
 
-.vscode-dark th {
+.vscode-dark table > thead > tr > th {
 	border-color: rgba(255, 255, 255, 0.69);
 }
 
 .vscode-light h1,
 .vscode-light hr,
-.vscode-light td {
+.vscode-light table > tbody > tr + tr > td {
 	border-color: rgba(0, 0, 0, 0.18);
 }
 
 .vscode-dark h1,
 .vscode-dark hr,
-.vscode-dark td {
+.vscode-dark table > tbody > tr + tr > td {
 	border-color: rgba(255, 255, 255, 0.18);
 }
+
 </style>
-<style>/*
-https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs2015.css
-*/
-/*
-* Visual Studio 2015 dark style
-* Author: Nicolas LLOBERA <nllobera@gmail.com>
-*/
 
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
 
-.hljs-keyword,
-.hljs-literal,
-.hljs-symbol,
-.hljs-name {
-	color: #569CD6;
-}
-.hljs-link {
-	color: #569CD6;
-	text-decoration: underline;
-}
-
-.hljs-built_in,
-.hljs-type {
-	color: #4EC9B0;
-}
-
-.hljs-number,
-.hljs-class {
-	color: #B8D7A3;
-}
-
-.hljs-string,
-.hljs-meta-string {
-	color: #D69D85;
-}
-
-.hljs-regexp,
-.hljs-template-tag {
-	color: #9A5334;
-}
-
-.hljs-subst,
-.hljs-function,
-.hljs-title,
-.hljs-params,
-.hljs-formula {
-	color: #DCDCDC;
-}
-
+/* Tomorrow Comment */
 .hljs-comment,
 .hljs-quote {
-	color: #57A64A;
-	font-style: italic;
+	color: #8e908c;
 }
 
-.hljs-doctag {
-	color: #608B4E;
-}
-
-.hljs-meta,
-.hljs-meta-keyword,
-.hljs-tag {
-	color: #9B9B9B;
-}
-
+/* Tomorrow Red */
 .hljs-variable,
-.hljs-template-variable {
-	color: #BD63C5;
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
 }
 
-.hljs-attr,
-.hljs-attribute,
-.hljs-builtin-name {
-	color: #9CDCFE;
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
 }
 
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
 .hljs-section {
-	color: gold;
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
 }
 
 .hljs-emphasis {
@@ -842,240 +300,196 @@ https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs201
 .hljs-strong {
 	font-weight: bold;
 }
-
-/*.hljs-code {
-	font-family:'Monospace';
-}*/
-
-.hljs-bullet,
-.hljs-selector-tag,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-selector-attr,
-.hljs-selector-pseudo {
-	color: #D7BA7D;
-}
-
-.hljs-addition {
-	background-color: var(--vscode-diffEditor-insertedTextBackground, rgba(155, 185, 85, 0.2));
-	color: rgb(155, 185, 85);
-	display: inline-block;
-	width: 100%;
-}
-
-.hljs-deletion {
-	background: var(--vscode-diffEditor-removedTextBackground, rgba(255, 0, 0, 0.2));
-	color: rgb(255, 0, 0);
-	display: inline-block;
-	width: 100%;
-}
-
-
-/*
-From https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs.css
-*/
-/*
-
-Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
-
-*/
-
-.vscode-light .hljs-function,
-.vscode-light .hljs-params,
-.vscode-light .hljs-number,
-.vscode-light .hljs-class  {
-	color: inherit;
-}
-
-.vscode-light .hljs-comment,
-.vscode-light .hljs-quote,
-.vscode-light .hljs-number,
-.vscode-light .hljs-class,
-.vscode-light .hljs-variable {
-	color: #008000;
-}
-
-.vscode-light .hljs-keyword,
-.vscode-light .hljs-selector-tag,
-.vscode-light .hljs-name,
-.vscode-light .hljs-tag {
-	color: #00f;
-}
-
-.vscode-light .hljs-built_in,
-.vscode-light .hljs-builtin-name {
-	color: #007acc;
-}
-
-.vscode-light .hljs-string,
-.vscode-light .hljs-section,
-.vscode-light .hljs-attribute,
-.vscode-light .hljs-literal,
-.vscode-light .hljs-template-tag,
-.vscode-light .hljs-template-variable,
-.vscode-light .hljs-type {
-	color: #a31515;
-}
-
-.vscode-light .hljs-selector-attr,
-.vscode-light .hljs-selector-pseudo,
-.vscode-light .hljs-meta,
-.vscode-light .hljs-meta-keyword {
-	color: #2b91af;
-}
-
-.vscode-light .hljs-title,
-.vscode-light .hljs-doctag {
-	color: #808080;
-}
-
-.vscode-light .hljs-attr {
-	color: #f00;
-}
-
-.vscode-light .hljs-symbol,
-.vscode-light .hljs-bullet,
-.vscode-light .hljs-link {
-	color: #00b0e8;
-}
-
-
-.vscode-light .hljs-emphasis {
-	font-style: italic;
-}
-
-.vscode-light .hljs-strong {
-	font-weight: bold;
-}
 </style>
 
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="jie-matls" id="%E8%A7%A3%E7%A0%81tls" data-line="0" class="code-line">解码TLS</h1>
-<p data-line="2" class="code-line">作者: <a href="http://songtianyi.info" data-href="http://songtianyi.info">songtianyi</a> 2020-06-11</p>
-<blockquote data-line="4" class="code-line">
-<p data-line="4" class="code-line">本文前三小节会介绍TLS相关的基础知识，只对解密部分感兴趣的可直接跳到TLS握手这一节</p>
-<p data-line="6" class="code-line">部分图片来自网络</p>
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E8%A7%A3%E7%A0%81-tls">解码 TLS</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a> 2020-06-11</p>
+<blockquote>
+<p>本文前三小节会介绍 TLS 相关的基础知识，只对解密部分感兴趣的可直接跳到 TLS 握手这一节</p>
+<p>部分图片来自网络</p>
 </blockquote>
-<h3 id="tls" id="tls" data-line="8" class="code-line">TLS</h3>
-<p data-line="10" class="code-line">TLS(Transport Layer Security)协议是为了安全而生的，它的前身是SSL(Secure Sockets Layer)，能够为TCP, HTTP等协议提供安全性。</p>
-<p data-line="12" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/WeChat1c21580295a2493c238e262635eb00e7.png" alt="image" class="loading" id="image-hash-975644741"></p>
-<p data-line="14" class="code-line">如果不使用安全协议，会产生哪些安全问题？</p>
+<h3 id="tls">TLS</h3>
+<p>TLS(Transport Layer Security)协议是为了安全而生的，它的前身是 SSL(Secure Sockets Layer)，能够为 TCP, HTTP 等协议提供安全性。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/WeChat1c21580295a2493c238e262635eb00e7.png" alt="image"></p>
+<p>如果不使用安全协议，会产生哪些安全问题？</p>
 <ul>
-<li data-line="16" class="code-line">我们在开发服务的时候，如果不考虑安全，基本都是使用http/tcp协议，为了方便，直接使用明文传输，数据在传输过程如果被嗅探，那么我们的隐私就全都暴露给了别人，形同裸奔。</li>
-<li data-line="17" class="code-line">明文传输也会暴露自己的交互接口，伪造客户端或服务端程序会变得很容易</li>
-<li data-line="18" class="code-line">数据在传输过程中可能会被劫持和篡改</li>
-<li data-line="19" class="code-line">一种方案是使用对称加密，通信双方用同样的密钥对数据加解密，但仍然存在密钥泄漏的可能。如果所有的连接都使用相同的密钥，泄漏之后造成的危害极大，如果使用不同的密钥，那么协商密钥的过程也会被嗅探。</li>
+<li>我们在开发服务的时候，如果不考虑安全，基本都是使用 http/tcp 协议，为了方便，直接使用明文传输，数据在传输过程如果被嗅探，那么我们的隐私就全都暴露给了别人，形同裸奔。</li>
+<li>明文传输也会暴露自己的交互接口，伪造客户端或服务端程序会变得很容易</li>
+<li>数据在传输过程中可能会被劫持和篡改</li>
+<li>一种方案是使用对称加密，通信双方用同样的密钥对数据加解密，但仍然存在密钥泄漏的可能。如果所有的连接都使用相同的密钥，泄漏之后造成的危害极大，如果使用不同的密钥，那么协商密钥的过程也会被嗅探。</li>
 </ul>
-<p data-line="21" class="code-line">上述问题总结为</p>
+<p>上述问题总结为</p>
 <ul>
-<li data-line="23" class="code-line">数据会泄漏</li>
-<li data-line="24" class="code-line">数据会被篡改</li>
-<li data-line="25" class="code-line">可伪造数据</li>
+<li>数据会泄漏</li>
+<li>数据会被篡改</li>
+<li>可伪造数据</li>
 </ul>
-<p data-line="27" class="code-line">实践证明，TLS很好地解决了这些问题</p>
+<p>实践证明，TLS 很好地解决了这些问题</p>
 <ul>
-<li data-line="29" class="code-line">用证书(public key certificate)机制做身份验证，防伪造</li>
-<li data-line="30" class="code-line">借助非对称加密协商密钥，对应用数据进行对称加密，防泄漏，防篡改</li>
+<li>用证书(public key certificate)机制做身份验证，防伪造</li>
+<li>借助非对称加密协商密钥，对应用数据进行对称加密，防泄漏，防篡改</li>
 </ul>
-<h3 id="gong-yao-zheng-shu" id="%E5%85%AC%E9%92%A5%E8%AF%81%E4%B9%A6" data-line="32" class="code-line">公钥证书</h3>
-<p data-line="34" class="code-line">了解非对称加密<sub>[2]</sub>特点的人应该知道，用公钥对数据加密后，只能用私钥解密，相应的，用私钥加密数据后，只能用公钥解密，这个特性是证书的基础。简单来说，假如A访问B，B用自己的私钥将信息加密后，传输给A，同时把B的公钥告诉A，A用收到的公钥对加密数据解密，如果能够解密，说明A收到的数据确实是B发送的。问题在于，A怎么知道自己得到的加密数据和公钥确实是B的呢，似乎我们掉进了一个鸡生蛋蛋生鸡的循环里。比如，<a href="http://我们访问zhihu.com" data-href="http://我们访问zhihu.com">我们访问zhihu.com</a>，怎么知道我们收到的公钥确实是知乎的呢？那是否，知乎需要通过可信渠道将公钥派发给我们？如果通过网络派发，我们又回到了安全问题的循环里，如果通过传统媒介，比如报纸，电视等，很明显这类方式是没办法轻松完成数以亿计的公钥派发的，于是有了根证书的概念。公钥存在证书里，通过网络派发，根证书就是初始的“可信渠道”。</p>
-<p data-line="36" class="code-line">根证书是世界公认的可信机构自己给自己签名的证书，前面列举的A/B通信的例子就是自签名的案例，问题是，如果每个人都可以自签名，那么证书就没有可信度了，<a href="http://相当于谁都可以说自己是zhihu.com" data-href="http://相当于谁都可以说自己是zhihu.com">相当于谁都可以说自己是zhihu.com</a>，该信谁？信认可以派生，对于证书的信任派生是以可信机构的自签名证书为根，逐级进行的。</p>
-<p data-line="38" class="code-line"><a href="http://我们打开zhihu.com" data-href="http://我们打开zhihu.com">我们打开zhihu.com</a>, 找到其证书, 可以很清晰的看到，可信机构<strong>DigiCert Inc</strong>自签名了一个全球有效的根证书 <strong>DigiCert Global Root CA</strong>，并用自己的私钥给分支机构签发证书，再由分支机构用自己的私钥向外签发证书，完成整个信任派生的过程。</p>
-<p data-line="40" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/zhihu-cert-root.jpg" alt="image" class="loading" id="image-hash--719278060"></p>
-<p data-line="42" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/zhihu-cert-zhongji.jpg" alt="image" class="loading" id="image-hash-932124685"></p>
-<p data-line="44" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/zhihu-cert.jpg" alt="image" class="loading" id="image-hash--220603999"></p>
-<p data-line="46" class="code-line">我们的操作系统内置了可信任的根证书，那么由可信任的根证书签发的整个证书链都是可信的。</p>
-<p data-line="48" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/digicert-in-system.jpg" alt="image" class="loading" id="image-hash-81948269"></p>
-<p data-line="50" class="code-line">根证书的重要性不言而喻，需要审计后才能加入到可信列表中，这里不展开讲。曾经的 12306 使用的是自己内部(SRCA)签名的证书，SRCA不在操作系统如widnows的可信列表中，所以大家在使用的时候会遇到安全方面的提示，现在 12306 也使用国际机构签发的证书了。</p>
-<h5 id="shuang-xiang-shen-fen-yan-zheng" id="%E5%8F%8C%E5%90%91%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81" data-line="52" class="code-line">双向身份验证</h5>
-<p data-line="54" class="code-line">A访问B的场景中，只需要B提供证书，保证B的身份的真实性。比如我们访问知乎，只需要用户名和密码即可，至于是我们本人在访问，还是本人的亲人朋友在访问，知乎并不关心。但对于网上银行交易来说，银行（此时扮演B）必须确保 A 的身份的真实性，所以在银行开卡的时候，通常会发一个 U盾（USBKey），U盾里存放着 A 的数字证书和他的私钥，在交易时，银行会验证这些信息，确保使用者是其本人。</p>
-<h3 id="x.509" id="x509" data-line="56" class="code-line">x.509</h3>
-<p data-line="58" class="code-line">x.509<sub>[3]</sub>是公钥证书遵循的一种标准格式，我们称使用x.509规范的公钥证书为x.509证书，它的应用场景不止于TLS，还包括</p>
+<h3 id="%E5%85%AC%E9%92%A5%E8%AF%81%E4%B9%A6">公钥证书</h3>
+<p>了解非对称加密 <sub>[2]</sub>特点的人应该知道，用公钥对数据加密后，只能用私钥解密，相应的，用私钥加密数据后，只能用公钥解密，这个特性是证书的基础。简单来说，假如 A 访问 B，B 用自己的私钥将信息加密后，传输给 A，同时把 B 的公钥告诉 A，A 用收到的公钥对加密数据解密，如果能够解密，说明 A 收到的数据确实是 B 发送的。问题在于，A 怎么知道自己得到的加密数据和公钥确实是 B 的呢，似乎我们掉进了一个鸡生蛋蛋生鸡的循环里。比如，我们访问 zhihu.com，怎么知道我们收到的公钥确实是知乎的呢？那是否，知乎需要通过可信渠道将公钥派发给我们？如果通过网络派发，我们又回到了安全问题的循环里，如果通过传统媒介，比如报纸，电视等，很明显这类方式是没办法轻松完成数以亿计的公钥派发的，于是有了根证书的概念。公钥存在证书里，通过网络派发，根证书就是初始的“可信渠道”。</p>
+<p>根证书是世界公认的可信机构自己给自己签名的证书，前面列举的 A/B 通信的例子就是自签名的案例，问题是，如果每个人都可以自签名，那么证书就没有可信度了，相当于谁都可以说自己是 zhihu.com，该信谁？信认可以派生，对于证书的信任派生是以可信机构的自签名证书为根，逐级进行的。</p>
+<p>我们打开 zhihu.com, 找到其证书, 可以很清晰的看到，可信机构<strong>DigiCert Inc</strong>自签名了一个全球有效的根证书 <strong>DigiCert Global Root CA</strong>，并用自己的私钥给分支机构签发证书，再由分支机构用自己的私钥向外签发证书，完成整个信任派生的过程。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/zhihu-cert-root.jpg" alt="image"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/zhihu-cert-zhongji.jpg" alt="image"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/zhihu-cert.jpg" alt="image"></p>
+<p>我们的操作系统内置了可信任的根证书，那么由可信任的根证书签发的整个证书链都是可信的。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/digicert-in-system.jpg" alt="image"></p>
+<p>根证书的重要性不言而喻，需要审计后才能加入到可信列表中，这里不展开讲。曾经的 12306 使用的是自己内部(SRCA)签名的证书，SRCA 不在操作系统如 widnows 的可信列表中，所以大家在使用的时候会遇到安全方面的提示，现在 12306 也使用国际机构签发的证书了。</p>
+<h5 id="%E5%8F%8C%E5%90%91%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81">双向身份验证</h5>
+<p>A 访问 B 的场景中，只需要 B 提供证书，保证 B 的身份的真实性。比如我们访问知乎，只需要用户名和密码即可，至于是我们本人在访问，还是本人的亲人朋友在访问，知乎并不关心。但对于网上银行交易来说，银行（此时扮演 B）必须确保 A 的身份的真实性，所以在银行开卡的时候，通常会发一个 U 盾（USBKey），U 盾里存放着 A 的数字证书和他的私钥，在交易时，银行会验证这些信息，确保使用者是其本人。</p>
+<h3 id="x509">x.509</h3>
+<p>x.509<sub>[3]</sub>是公钥证书遵循的一种标准格式，我们称使用 x.509 规范的公钥证书为 x.509 证书，它的应用场景不止于 TLS，还包括</p>
 <ul>
-<li data-line="60" class="code-line">邮件加密</li>
-<li data-line="61" class="code-line">代码/应用程序签名</li>
-<li data-line="62" class="code-line">电子文档签名</li>
-<li data-line="63" class="code-line">客户端认证</li>
-<li data-line="64" class="code-line">电子身份签名</li>
+<li>邮件加密</li>
+<li>代码/应用程序签名</li>
+<li>电子文档签名</li>
+<li>客户端认证</li>
+<li>电子身份签名</li>
 </ul>
-<p data-line="66" class="code-line">x.509包含哪些内容？回顾一下前面的内容</p>
-<blockquote data-line="68" class="code-line">
-<p data-line="68" class="code-line">简单来说，假如A访问B，B用自己的私钥将自己的信息加密后，传输给A，同时把B的公钥告诉A，A用收到的公钥后对加密数据解密，如果能够解密，说明A收到的数据确实是B发送的</p>
+<p>x.509 包含哪些内容？回顾一下前面的内容</p>
+<blockquote>
+<p>简单来说，假如 A 访问 B，B 用自己的私钥将自己的信息加密后，传输给 A，同时把 B 的公钥告诉 A，A 用收到的公钥后对加密数据解密，如果能够解密，说明 A 收到的数据确实是 B 发送的</p>
 </blockquote>
-<p data-line="70" class="code-line">这是一个基本的通信场景，证书解决的是把B的公钥告诉A时的安全问题，所以证书需要包含B的公钥。为了表明身份信息，至少会包含签发的对象（这里是B）以及签发者。为了方便管理证书，会给它分配一个序列号，同时还有x.509规范的版本信息，证书的有效期，签名算法等等，这些属于证书的数据域，我们先对证书的数据域进行hash，然后签发者用自己的私钥对hash值加密，得到一个签名，并放进证书。以上，我们得知，一个完整的证书至少包含以下内容</p>
+<p>这是一个基本的通信场景，证书解决的是把 B 的公钥告诉 A 时的安全问题，所以证书需要包含 B 的公钥。为了表明身份信息，至少会包含签发的对象（这里是 B）以及签发者。为了方便管理证书，会给它分配一个序列号，同时还有 x.509 规范的版本信息，证书的有效期，签名算法等等，这些属于证书的数据域，我们先对证书的数据域进行 hash，然后签发者用自己的私钥对 hash 值加密，得到一个签名，并放进证书。以上，我们得知，一个完整的证书至少包含以下内容</p>
 <ul>
-<li data-line="72" class="code-line">签发的对象</li>
-<li data-line="73" class="code-line">签发者</li>
-<li data-line="74" class="code-line">签发的对象的公钥</li>
-<li data-line="75" class="code-line">x.509版本</li>
-<li data-line="76" class="code-line">签名算法</li>
-<li data-line="77" class="code-line">证书有效期</li>
-<li data-line="78" class="code-line">证书数据签名</li>
+<li>签发的对象</li>
+<li>签发者</li>
+<li>签发的对象的公钥</li>
+<li>x.509 版本</li>
+<li>签名算法</li>
+<li>证书有效期</li>
+<li>证书数据签名</li>
 </ul>
-<p data-line="80" class="code-line">A在收到此证书后，使用签发者的公钥（签发者的公钥是内置在系统内的证书包含的，以此类推）解密签名，得到数据域的hash值，使用同样的hash算法对数据域hash，对比两个hash值，来验证A收到的B的证书的可靠性。</p>
-<blockquote data-line="82" class="code-line">
-<p data-line="82" class="code-line">注意，实际上我们并不会直接用RSA对需要传输的数据进行加解密，因为效率不高。通常，对于防篡改的场景，我们对数据先做hash，然后对hash值做RSA加密</p>
+<p>A 在收到此证书后，使用签发者的公钥（签发者的公钥是内置在系统内的证书包含的，以此类推）解密签名，得到数据域的 hash 值，使用同样的 hash 算法对数据域 hash，对比两个 hash 值，来验证 A 收到的 B 的证书的可靠性。</p>
+<blockquote>
+<p>注意，实际上我们并不会直接用 RSA 对需要传输的数据进行加解密，因为效率不高。通常，对于防篡改的场景，我们对数据先做 hash，然后对 hash 值做 RSA 加密</p>
 </blockquote>
-<p data-line="84" class="code-line">我们可以借助openssl命令打开一个证书看看，里面具体有哪些内容</p>
-<pre><code data-line="86" class="code-line"><code><div>
+<p>我们可以借助 openssl 命令打开一个证书看看，里面具体有哪些内容</p>
+<pre class="hljs"><code><div>
 # 先生成自签名的证书
 openssl req -x509 -nodes -newkey rsa:2048 -keyout server.key -out server.crt -days 3650
 # 查看证书文本
 openssl x509 -in server.crt -text
-</div></code></code></pre>
-<p data-line="94" class="code-line">这是一个自签名的证书，所以Issuer(签发者）和Subject（签发的对象）是相同的。</p>
-<p data-line="96" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/self-signed-certificate-example.jpg" alt="image" title="本地自签名例子" class="loading" id="image-hash-1957018770"></p>
-<h3 id="tls-wo-shou" id="tls%E6%8F%A1%E6%89%8B" data-line="98" class="code-line">TLS握手</h3>
-<p data-line="100" class="code-line">前面提到，公钥证书是TLS加密机制的一部分，那它们具体是怎么联系在一起的？我们来推测一下，还是以A访问B为例。</p>
+</div></code></pre>
+<p>这是一个自签名的证书，所以 Issuer(签发者）和 Subject（签发的对象）是相同的。</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/self-signed-certificate-example.jpg" alt="image" title="本地自签名例子"></p>
+<h3 id="tls-%E6%8F%A1%E6%89%8B">TLS 握手</h3>
+<p>前面提到，公钥证书是 TLS 加密机制的一部分，那它们具体是怎么联系在一起的？我们来推测一下，还是以 A 访问 B 为例。</p>
 <ol>
-<li data-line="102" class="code-line">首先，TLS协议是在传输层之上的，所以需要先建立TCP连接</li>
-<li data-line="103" class="code-line">B需要把自己的公钥证书发送给A，A根据证书链去验证B的真实性</li>
-<li data-line="104" class="code-line">由于安全的需要，A/B之间的应用数据是需要加密后传输的，但我们不直接使用RSA对应用数据加解密，因为效率低，所以需要协商一个对称加密算法和密码，这些少量的协商时的内容在传输过程中可以使用RSA来加密</li>
-<li data-line="105" class="code-line">使用协商好的算法和密码，对应用数据加密，然后传输，对方在收到数据后用协商好的算法和密码解密</li>
+<li>首先，TLS 协议是在传输层之上的，所以需要先建立 TCP 连接</li>
+<li>B 需要把自己的公钥证书发送给 A，A 根据证书链去验证 B 的真实性</li>
+<li>由于安全的需要，A/B 之间的应用数据是需要加密后传输的，但我们不直接使用 RSA 对应用数据加解密，因为效率低，所以需要协商一个对称加密算法和密码，这些少量的协商时的内容在传输过程中可以使用 RSA 来加密</li>
+<li>使用协商好的算法和密码，对应用数据加密，然后传输，对方在收到数据后用协商好的算法和密码解密</li>
 </ol>
-<p data-line="107" class="code-line">实际过程复杂很多，除了加密算法还会协商压缩算法。TLS协议包含握手协议和记录(record)协议。记录协议会对数据分片压缩，再用协商的对称密钥加密。TLS协议的构成如下:</p>
-<p data-line="109" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-proto.png" alt="image" class="loading" id="image-hash--1871399796"></p>
-<p data-line="111" class="code-line">我们来抓包看下具体的握手过程。在此之前需要先生成自签名的证书，然后编写client端和server端的代码, 见Github <a href="https://github.com/songtianyi/tls-example" data-href="https://github.com/songtianyi/tls-example">tls-example</a> <sub>[4]</sub></p>
-<p data-line="113" class="code-line">编译并运行样例程序，并使用wireshark抓包，截图如下</p>
-<p data-line="115" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-handshake.jpg" alt="image" class="loading" id="image-hash-298046547"></p>
-<p data-line="117" class="code-line">从图中，可以清楚地看到</p>
+<p>实际过程复杂很多，除了加密算法还会协商压缩算法。TLS 协议包含握手协议和记录(record)协议。记录协议会对数据分片压缩，再用协商的对称密钥加密。TLS 协议的构成如下:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-proto.png" alt="image"></p>
+<p>我们来抓包看下具体的握手过程。在此之前需要先生成自签名的证书，然后编写 client 端和 server 端的代码, 见 Github <a href="https://github.com/songtianyi/tls-example">tls-example</a> <sub>[4]</sub></p>
+<p>编译并运行样例程序，并使用 wireshark 抓包，截图如下</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-handshake.jpg" alt="image"></p>
+<p>从图中，可以清楚地看到</p>
 <ol>
-<li data-line="119" class="code-line">在建立TLS连接之前先建立了TCP连接</li>
-<li data-line="120" class="code-line">tls握手开始，先发送client hello消息，告诉server端自己的tls版本，支持的加密算法，压缩算法等等，另外生成随机字符串 Random，我们记它为 client random</li>
+<li>在建立 TLS 连接之前先建立了 TCP 连接</li>
+<li>tls 握手开始，先发送 client hello 消息，告诉 server 端自己的 tls 版本，支持的加密算法，压缩算法等等，另外生成随机字符串 Random，我们记它为 client random</li>
 </ol>
-<p data-line="122" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/client-hello.jpg" alt="image" class="loading" id="image-hash--1027015256"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/client-hello.jpg" alt="image"></p>
 <ol start="3">
-<li data-line="124" class="code-line">
-<p data-line="124" class="code-line">server端收到client hello后，发送了三种类型的消息给client端</p>
+<li>
+<p>server 端收到 client hello 后，发送了三种类型的消息给 client 端</p>
 <ul>
-<li data-line="126" class="code-line">Server Hello: 发送选择的加密算法，压缩算法等，生成Random字符串，我们记它为 server random</li>
-<li data-line="127" class="code-line">Certificate: 发送server端的证书</li>
-<li data-line="128" class="code-line">Server Hello Done: 结束标记</li>
+<li>Server Hello: 发送选择的加密算法，压缩算法等，生成 Random 字符串，我们记它为 server random</li>
+<li>Certificate: 发送 server 端的证书</li>
+<li>Server Hello Done: 结束标记</li>
 </ul>
 </li>
 </ol>
-<p data-line="130" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/server-handshake.jpg" alt="image" class="loading" id="image-hash--261167547"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/server-handshake.jpg" alt="image"></p>
 <ol start="4">
-<li data-line="132" class="code-line">client收到证书后进行验证</li>
-<li data-line="133" class="code-line">client根据协商的算法生成PreMaster-Secret, 然后使用收到的证书里的公钥加密，发送加密后的PreMaster Secret, 结束握手</li>
-<li data-line="134" class="code-line">server收到加密后的PreMaster Secret，并使用自己的私钥解密, 然后结束握手</li>
+<li>client 收到证书后进行验证</li>
+<li>client 根据协商的算法生成 PreMaster-Secret, 然后使用收到的证书里的公钥加密，发送加密后的 PreMaster Secret, 结束握手</li>
+<li>server 收到加密后的 PreMaster Secret，并使用自己的私钥解密, 然后结束握手</li>
 </ol>
-<p data-line="136" class="code-line">至此，client和server都可以根据 client random, server random和PreMaster secret来生成加密密钥</p>
-<pre><code data-line="138" class="code-line"><code><div>
+<p>至此，client 和 server 都可以根据 client random, server random 和 PreMaster secret 来生成加密密钥</p>
+<pre class="hljs"><code><div>
 key = GenerateKey(client_random, server_random, pre_master_secret)
-</div></code></code></pre>
-<p data-line="143" class="code-line">之后发送的数据会使用这个key来加密，key是我们解密TLS数据包的关键。</p>
-<p data-line="145" class="code-line">综上，tls握手的流程总结如下：</p>
-<p data-line="147" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-handshake-process.png" alt="image" class="loading" id="image-hash-852683581"></p>
-<h3 id="jie-ma" id="%E8%A7%A3%E7%A0%81" data-line="149" class="code-line">解码</h3>
-<p data-line="151" class="code-line">在我们使用wireshark抓包的时候，纵观整个流程，只有PreMaster-Secret是加密的，其他的握手数据是明文，所以，PreMaster-Secret是解码的关键。为此，wireshark给我们提供了两种方案。</p>
-<h5 id="tong-guorsa-si-yao" id="%E9%80%9A%E8%BF%87rsa%E7%A7%81%E9%92%A5" data-line="153" class="code-line">通过RSA私钥</h5>
-<p data-line="155" class="code-line">有了PreMaster-Secret, 我们就能生成密钥，使用密钥来解码数据。而Secret是使用server端的公钥加密的，只能使用server端的私钥解密，因此，我们有了私钥，自然可以对抓到的Secret解密，然后生成密钥。具体的操作步骤可以参考<sub>[1]</sub></p>
-<p data-line="157" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/wireshark-rsa-list.jpg" alt="image" class="loading" id="image-hash--1226918320"></p>
-<h5 id="tong-guossl_key_log" id="%E9%80%9A%E8%BF%87sslkeylog" data-line="159" class="code-line">通过ssl_key_log</h5>
-<p data-line="161" class="code-line">client和server作为通信的双方，也是能够知道加密密钥的，所以很多语言包，为了debug tls，会提供输出PreMaster-Secret的接口，比如Go语言提供了KeyLogWriter：</p>
-<pre><code data-line="163" class="code-line language-go"><div><span class="hljs-comment">// write per-session secrets</span>
+</div></code></pre>
+<p>之后发送的数据会使用这个 key 来加密，key 是我们解密 TLS 数据包的关键。</p>
+<p>综上，tls 握手的流程总结如下：</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-handshake-process.png" alt="image"></p>
+<h3 id="%E8%A7%A3%E7%A0%81">解码</h3>
+<p>在我们使用 wireshark 抓包的时候，纵观整个流程，只有 PreMaster-Secret 是加密的，其他的握手数据是明文，所以，PreMaster-Secret 是解码的关键。为此，wireshark 给我们提供了两种方案。</p>
+<h5 id="%E9%80%9A%E8%BF%87-rsa-%E7%A7%81%E9%92%A5">通过 RSA 私钥</h5>
+<p>有了 PreMaster-Secret, 我们就能生成密钥，使用密钥来解码数据。而 Secret 是使用 server 端的公钥加密的，只能使用 server 端的私钥解密，因此，我们有了私钥，自然可以对抓到的 Secret 解密，然后生成密钥。具体的操作步骤可以参考 <sub>[1]</sub></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/wireshark-rsa-list.jpg" alt="image"></p>
+<h5 id="%E9%80%9A%E8%BF%87-sslkeylog">通过 ssl_key_log</h5>
+<p>client 和 server 作为通信的双方，也是能够知道加密密钥的，所以很多语言包，为了 debug tls，会提供输出 PreMaster-Secret 的接口，比如 Go 语言提供了 KeyLogWriter:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// write per-session secrets</span>
 w, err := os.OpenFile(<span class="hljs-string">"sslkeylog"</span>, os.O_WRONLY|os.O_CREATE|os.O_APPEND, <span class="hljs-number">0600</span>)
 <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
 	log.Fatal(err)
@@ -1085,20 +499,18 @@ config = tls.Config{
 	KeyLogWriter:       w, <span class="hljs-comment">// writer</span>
 }
 </div></code></pre>
-<p data-line="175" class="code-line">把写到文件的secret交给wireshark就可以解包了，具体操作步骤参考<sub>[1]</sub></p>
-<p data-line="177" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/wireshark-ssl-keylog.jpg" alt="image" class="loading" id="image-hash--1578688597"></p>
-<p data-line="179" class="code-line">本地测试结果截图如下:</p>
-<p data-line="181" class="code-line"><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-send-demo.jpg" alt="image" class="loading" id="image-hash-494939364"></p>
-<p data-line="183" class="code-line">除了使用wireshark，我们也可以自己写代码来抓数据包，然后使用相同的方式解码。</p>
-<h3 id="can-kao-zi-liao" id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99" data-line="185" class="code-line">参考资料</h3>
+<p>把写到文件的 secret 交给 wireshark 就可以解包了，具体操作步骤参考 <sub>[1]</sub></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/wireshark-ssl-keylog.jpg" alt="image"></p>
+<p>本地测试结果截图如下:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-send-demo.jpg" alt="image"></p>
+<p>除了使用 wireshark，我们也可以自己写代码来抓数据包，然后使用相同的方式解码。</p>
+<h3 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h3>
 <ul>
-<li data-line="187" class="code-line">[1] wireshark TLS 〔DB/OL〕<a href="https://wiki.wireshark.org/TLS" data-href="https://wiki.wireshark.org/TLS">https://wiki.wireshark.org/TLS</a></li>
-<li data-line="188" class="code-line">[2] RSA加密算法的探究与实现 〔DB/OL〕<a href="http://songtianyi.info/pages/secure/001-secure.html" data-href="http://songtianyi.info/pages/secure/001-secure.html">http://songtianyi.info/pages/secure/001-secure.html</a></li>
-<li data-line="189" class="code-line">[3] What Is an X.509 Certificate? 〔DB/OL〕<a href="https://www.ssl.com/faqs/what-is-an-x-509-certificate/" data-href="https://www.ssl.com/faqs/what-is-an-x-509-certificate/">https://www.ssl.com/faqs/what-is-an-x-509-certificate/</a></li>
-<li data-line="190" class="code-line">[4] tls-example 〔DB/OL〕<a href="https://github.com/songtianyi/tls-example" data-href="https://github.com/songtianyi/tls-example">https://github.com/songtianyi/tls-example</a></li>
+<li>[1] wireshark TLS 〔DB/OL〕<a href="https://wiki.wireshark.org/TLS">https://wiki.wireshark.org/TLS</a></li>
+<li>[2] RSA 加密算法的探究与实现 〔DB/OL〕<a href="http://songtianyi.info/pages/secure/001-secure.html">http://songtianyi.info/pages/secure/001-secure.html</a></li>
+<li>[3] What Is an X.509 Certificate? 〔DB/OL〕<a href="https://www.ssl.com/faqs/what-is-an-x-509-certificate/">https://www.ssl.com/faqs/what-is-an-x-509-certificate/</a></li>
+<li>[4] tls-example 〔DB/OL〕<a href="https://github.com/songtianyi/tls-example">https://github.com/songtianyi/tls-example</a></li>
 </ul>
 
-        <script>!function(e){var t={};function n(o){if(t[o])return t[o].exports;var i=t[o]={i:o,l:!1,exports:{}};return e[o].call(i.exports,i,i.exports,n),i.l=!0,i.exports}n.m=e,n.c=t,n.d=function(e,t,o){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:o})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)n.d(o,i,function(t){return e[t]}.bind(null,i));return o},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=3)}([function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});let o=void 0;function i(e){const t=document.getElementById("vscode-markdown-preview-data");if(t){const n=t.getAttribute(e);if(n)return JSON.parse(n)}throw new Error(`Could not load data for ${e}`)}t.getData=i,t.getSettings=function(){if(o)return o;if(o=i("data-settings"))return o;throw new Error("Could not load settings")}},function(e,t){var n;n=function(){return this}();try{n=n||new Function("return this")()}catch(e){"object"==typeof window&&(n=window)}e.exports=n},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(0),i="code-line";function r(e){return t=0,n=o.getSettings().lineCount-1,i=e,Math.min(n,Math.max(t,i));var t,n,i}const c=(()=>{let e;return()=>{if(!e){e=[{element:document.body,line:0}];for(const t of document.getElementsByClassName(i)){const n=+t.getAttribute("data-line");isNaN(n)||("CODE"===t.tagName&&t.parentElement&&"PRE"===t.parentElement.tagName?e.push({element:t.parentElement,line:n}):e.push({element:t,line:n}))}}return e}})();function s(e){const t=Math.floor(e),n=c();let o=n[0]||null;for(const e of n){if(e.line===t)return{previous:e,next:void 0};if(e.line>t)return{previous:o,next:e};o=e}return{previous:o}}function a(e){const t=c(),n=e-window.scrollY;let o=-1,i=t.length-1;for(;o+1<i;){const e=Math.floor((o+i)/2),r=u(t[e]);r.top+r.height>=n?i=e:o=e}const r=t[i],s=u(r);if(i>=1&&s.top>n){return{previous:t[o],next:r}}return i>1&&i<t.length&&s.top+s.height>n?{previous:r,next:t[i+1]}:{previous:r}}function u({element:e}){const t=e.getBoundingClientRect(),n=e.querySelector(`.${i}`);if(n){const e=n.getBoundingClientRect(),o=Math.max(1,e.top-t.top);return{top:t.top,height:o}}return t}t.getElementsForSourceLine=s,t.getLineElementsAtPageOffset=a,t.scrollToRevealSourceLine=function(e){if(!o.getSettings().scrollPreviewWithEditor)return;if(e<=0)return void window.scroll(window.scrollX,0);const{previous:t,next:n}=s(e);if(!t)return;let i=0;const r=u(t),c=r.top;if(n&&n.line!==t.line){i=c+(e-t.line)/(n.line-t.line)*(n.element.getBoundingClientRect().top-c)}else{const t=e-Math.floor(e);i=c+r.height*t}window.scroll(window.scrollX,Math.max(1,window.scrollY+i))},t.getEditorLineNumberForPageOffset=function(e){const{previous:t,next:n}=a(e);if(t){const o=u(t),i=e-window.scrollY-o.top;if(n){const e=i/(u(n).top-o.top);return r(t.line+e*(n.line-t.line))}{const e=i/o.height;return r(t.line+e)}}return null},t.getLineElementForFragment=function(e){return c().find(t=>t.element.id===e)}},function(e,t,n){"use strict";(function(e){Object.defineProperty(t,"__esModule",{value:!0});const o=n(7),i=n(8),r=n(9),c=n(2),s=n(0),a=n(10);let u=!0;const l=new o.ActiveLineMarker,f=s.getSettings(),d=acquireVsCodeApi(),m=d.getState(),p={..."object"==typeof m?m:{},...s.getData("data-state")};d.setState(p);const g=r.createPosterForVsCode(d);window.cspAlerter.setPoster(g),window.styleLoadingMonitor.setPoster(g),window.onload=()=>{v()},i.onceDocumentLoaded(()=>{const t=p.scrollProgress;"number"!=typeof t||f.fragment?f.scrollPreviewWithEditor&&e(()=>{if(f.fragment){p.fragment=void 0,d.setState(p);const e=c.getLineElementForFragment(f.fragment);e&&(u=!0,c.scrollToRevealSourceLine(e.line))}else isNaN(f.line)||(u=!0,c.scrollToRevealSourceLine(f.line))}):e(()=>{u=!0,window.scrollTo(0,t*document.body.clientHeight)})});const h=(()=>{const e=a(e=>{u=!0,c.scrollToRevealSourceLine(e)},50);return t=>{isNaN(t)||(p.line=t,e(t))}})();let v=a(()=>{const e=[];let t=document.getElementsByTagName("img");if(t){let n;for(n=0;n<t.length;n++){const o=t[n];o.classList.contains("loading")&&o.classList.remove("loading"),e.push({id:o.id,height:o.height,width:o.width})}g.postMessage("cacheImageSizes",e)}},50);window.addEventListener("resize",()=>{u=!0,w(),v()},!0),window.addEventListener("message",e=>{if(e.data.source===f.source)switch(e.data.type){case"onDidChangeTextEditorSelection":l.onDidChangeTextEditorSelection(e.data.line);break;case"updateView":h(e.data.line)}},!1),document.addEventListener("dblclick",e=>{if(!f.doubleClickToSwitchToEditor)return;for(let t=e.target;t;t=t.parentNode)if("A"===t.tagName)return;const t=e.pageY,n=c.getEditorLineNumberForPageOffset(t);"number"!=typeof n||isNaN(n)||g.postMessage("didClick",{line:Math.floor(n)})});const y=["http:","https:","mailto:","vscode:","vscode-insiders:"];function w(){p.scrollProgress=window.scrollY/document.body.clientHeight,d.setState(p)}document.addEventListener("click",e=>{if(!e)return;let t=e.target;for(;t;){if(t.tagName&&"A"===t.tagName&&t.href){if(t.getAttribute("href").startsWith("#"))return;let n=t.getAttribute("data-href");if(!n){if(y.some(e=>t.href.startsWith(e)))return;n=t.getAttribute("href")}return/^[a-z\-]+:/i.test(n)?void 0:(g.postMessage("openLink",{href:n}),e.preventDefault(),void e.stopPropagation())}t=t.parentNode}},!0),window.addEventListener("scroll",a(()=>{if(w(),u)u=!1;else{const e=c.getEditorLineNumberForPageOffset(window.scrollY);"number"!=typeof e||isNaN(e)||g.postMessage("revealLine",{line:e})}},50))}).call(this,n(4).setImmediate)},function(e,t,n){(function(e){var o=Function.prototype.apply;function i(e,t){this._id=e,this._clearFn=t}t.setTimeout=function(){return new i(o.call(setTimeout,window,arguments),clearTimeout)},t.setInterval=function(){return new i(o.call(setInterval,window,arguments),clearInterval)},t.clearTimeout=t.clearInterval=function(e){e&&e.close()},i.prototype.unref=i.prototype.ref=function(){},i.prototype.close=function(){this._clearFn.call(window,this._id)},t.enroll=function(e,t){clearTimeout(e._idleTimeoutId),e._idleTimeout=t},t.unenroll=function(e){clearTimeout(e._idleTimeoutId),e._idleTimeout=-1},t._unrefActive=t.active=function(e){clearTimeout(e._idleTimeoutId);var t=e._idleTimeout;t>=0&&(e._idleTimeoutId=setTimeout((function(){e._onTimeout&&e._onTimeout()}),t))},n(5),t.setImmediate="undefined"!=typeof self&&self.setImmediate||void 0!==e&&e.setImmediate||this&&this.setImmediate,t.clearImmediate="undefined"!=typeof self&&self.clearImmediate||void 0!==e&&e.clearImmediate||this&&this.clearImmediate}).call(this,n(1))},function(e,t,n){(function(e,t){!function(e,n){"use strict";if(!e.setImmediate){var o,i,r,c,s,a=1,u={},l=!1,f=e.document,d=Object.getPrototypeOf&&Object.getPrototypeOf(e);d=d&&d.setTimeout?d:e,"[object process]"==={}.toString.call(e.process)?o=function(e){t.nextTick((function(){p(e)}))}:!function(){if(e.postMessage&&!e.importScripts){var t=!0,n=e.onmessage;return e.onmessage=function(){t=!1},e.postMessage("","*"),e.onmessage=n,t}}()?e.MessageChannel?((r=new MessageChannel).port1.onmessage=function(e){p(e.data)},o=function(e){r.port2.postMessage(e)}):f&&"onreadystatechange"in f.createElement("script")?(i=f.documentElement,o=function(e){var t=f.createElement("script");t.onreadystatechange=function(){p(e),t.onreadystatechange=null,i.removeChild(t),t=null},i.appendChild(t)}):o=function(e){setTimeout(p,0,e)}:(c="setImmediate$"+Math.random()+"$",s=function(t){t.source===e&&"string"==typeof t.data&&0===t.data.indexOf(c)&&p(+t.data.slice(c.length))},e.addEventListener?e.addEventListener("message",s,!1):e.attachEvent("onmessage",s),o=function(t){e.postMessage(c+t,"*")}),d.setImmediate=function(e){"function"!=typeof e&&(e=new Function(""+e));for(var t=new Array(arguments.length-1),n=0;n<t.length;n++)t[n]=arguments[n+1];var i={callback:e,args:t};return u[a]=i,o(a),a++},d.clearImmediate=m}function m(e){delete u[e]}function p(e){if(l)setTimeout(p,0,e);else{var t=u[e];if(t){l=!0;try{!function(e){var t=e.callback,o=e.args;switch(o.length){case 0:t();break;case 1:t(o[0]);break;case 2:t(o[0],o[1]);break;case 3:t(o[0],o[1],o[2]);break;default:t.apply(n,o)}}(t)}finally{m(e),l=!1}}}}}("undefined"==typeof self?void 0===e?this:e:self)}).call(this,n(1),n(6))},function(e,t){var n,o,i=e.exports={};function r(){throw new Error("setTimeout has not been defined")}function c(){throw new Error("clearTimeout has not been defined")}function s(e){if(n===setTimeout)return setTimeout(e,0);if((n===r||!n)&&setTimeout)return n=setTimeout,setTimeout(e,0);try{return n(e,0)}catch(t){try{return n.call(null,e,0)}catch(t){return n.call(this,e,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:r}catch(e){n=r}try{o="function"==typeof clearTimeout?clearTimeout:c}catch(e){o=c}}();var a,u=[],l=!1,f=-1;function d(){l&&a&&(l=!1,a.length?u=a.concat(u):f=-1,u.length&&m())}function m(){if(!l){var e=s(d);l=!0;for(var t=u.length;t;){for(a=u,u=[];++f<t;)a&&a[f].run();f=-1,t=u.length}a=null,l=!1,function(e){if(o===clearTimeout)return clearTimeout(e);if((o===c||!o)&&clearTimeout)return o=clearTimeout,clearTimeout(e);try{o(e)}catch(t){try{return o.call(null,e)}catch(t){return o.call(this,e)}}}(e)}}function p(e,t){this.fun=e,this.array=t}function g(){}i.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];u.push(new p(e,t)),1!==u.length||l||s(m)},p.prototype.run=function(){this.fun.apply(null,this.array)},i.title="browser",i.browser=!0,i.env={},i.argv=[],i.version="",i.versions={},i.on=g,i.addListener=g,i.once=g,i.off=g,i.removeListener=g,i.removeAllListeners=g,i.emit=g,i.prependListener=g,i.prependOnceListener=g,i.listeners=function(e){return[]},i.binding=function(e){throw new Error("process.binding is not supported")},i.cwd=function(){return"/"},i.chdir=function(e){throw new Error("process.chdir is not supported")},i.umask=function(){return 0}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(2);t.ActiveLineMarker=class{onDidChangeTextEditorSelection(e){const{previous:t}=o.getElementsForSourceLine(e);this._update(t&&t.element)}_update(e){this._unmarkActiveElement(this._current),this._markActiveElement(e),this._current=e}_unmarkActiveElement(e){e&&(e.className=e.className.replace(/\bcode-active-line\b/g,""))}_markActiveElement(e){e&&(e.className+=" code-active-line")}}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.onceDocumentLoaded=function(e){"loading"===document.readyState||"uninitialized"===document.readyState?document.addEventListener("DOMContentLoaded",e):e()}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(0);t.createPosterForVsCode=e=>new class{postMessage(t,n){e.postMessage({type:t,source:o.getSettings().source,body:n})}}},function(e,t,n){(function(t){var n="Expected a function",o=NaN,i="[object Symbol]",r=/^\s+|\s+$/g,c=/^[-+]0x[0-9a-f]+$/i,s=/^0b[01]+$/i,a=/^0o[0-7]+$/i,u=parseInt,l="object"==typeof t&&t&&t.Object===Object&&t,f="object"==typeof self&&self&&self.Object===Object&&self,d=l||f||Function("return this")(),m=Object.prototype.toString,p=Math.max,g=Math.min,h=function(){return d.Date.now()};function v(e,t,o){var i,r,c,s,a,u,l=0,f=!1,d=!1,m=!0;if("function"!=typeof e)throw new TypeError(n);function v(t){var n=i,o=r;return i=r=void 0,l=t,s=e.apply(o,n)}function b(e){var n=e-u;return void 0===u||n>=t||n<0||d&&e-l>=c}function T(){var e=h();if(b(e))return E(e);a=setTimeout(T,function(e){var n=t-(e-u);return d?g(n,c-(e-l)):n}(e))}function E(e){return a=void 0,m&&i?v(e):(i=r=void 0,s)}function _(){var e=h(),n=b(e);if(i=arguments,r=this,u=e,n){if(void 0===a)return function(e){return l=e,a=setTimeout(T,t),f?v(e):s}(u);if(d)return a=setTimeout(T,t),v(u)}return void 0===a&&(a=setTimeout(T,t)),s}return t=w(t)||0,y(o)&&(f=!!o.leading,c=(d="maxWait"in o)?p(w(o.maxWait)||0,t):c,m="trailing"in o?!!o.trailing:m),_.cancel=function(){void 0!==a&&clearTimeout(a),l=0,i=u=r=a=void 0},_.flush=function(){return void 0===a?s:E(h())},_}function y(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function w(e){if("number"==typeof e)return e;if(function(e){return"symbol"==typeof e||function(e){return!!e&&"object"==typeof e}(e)&&m.call(e)==i}(e))return o;if(y(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=y(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(r,"");var n=s.test(e);return n||a.test(e)?u(e.slice(2),n?2:8):c.test(e)?o:+e}e.exports=function(e,t,o){var i=!0,r=!0;if("function"!=typeof e)throw new TypeError(n);return y(o)&&(i="leading"in o?!!o.leading:i,r="trailing"in o?!!o.trailing:r),v(e,t,{leading:i,maxWait:t,trailing:r})}}).call(this,n(1))}]);</script>
-
-    </body>
+</body>
 </html>

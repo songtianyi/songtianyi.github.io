@@ -1,507 +1,406 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>swimming-basics</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: rgb(255, 255, 255); --text-color: rgb(51, 51, 51); --select-text-bg-color: rgb(181, 214, 252); --select-text-font-color: auto; --monospace: 'Lucida Console', Consolas, Courier, monospace; }
-html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
-iframe { margin: auto; }
-a.url { word-break: break-all; }
-a:active, a:hover { outline: 0px; }
-.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
-#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
-#write.first-line-indent p { text-indent: 2em; }
-#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
-#write.first-line-indent li { margin-left: 2em; }
-.for-image #write { padding-left: 8px; padding-right: 8px; }
-body.typora-export { padding-left: 30px; padding-right: 30px; }
-.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
-@media screen and (max-width: 500px) { 
-  body.typora-export { padding-left: 0px; padding-right: 0px; }
-  #write { padding-left: 20px; padding-right: 20px; }
-  .CodeMirror-sizer { margin-left: 0px !important; }
-  .CodeMirror-gutters { display: none !important; }
-}
-#write li > figure:last-child { margin-bottom: 0.5rem; }
-#write ol, #write ul { position: relative; }
-img { max-width: 100%; vertical-align: middle; }
-button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; line-height: inherit; }
-input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
-*, ::after, ::before { box-sizing: border-box; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
-p { line-height: inherit; }
-h1, h2, h3, h4, h5, h6 { page-break-after: avoid; break-after: avoid-page; page-break-inside: avoid; orphans: 2; }
-p { orphans: 4; }
-h1 { font-size: 2rem; }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.6rem; }
-h4 { font-size: 1.4rem; }
-h5 { font-size: 1.2rem; }
-h6 { font-size: 1rem; }
-.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
-.hidden { display: none; }
-.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
-a { cursor: pointer; }
-sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.701961); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
-sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
-#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
-figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
-figure > table { margin: 0px !important; }
-tr { page-break-inside: avoid; page-break-after: auto; }
-thead { display: table-header-group; }
-table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; page-break-inside: auto; text-align: left; }
-table.md-table td { min-width: 32px; }
-.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
-.CodeMirror-linenumber { }
-.CodeMirror { text-align: left; }
-.CodeMirror-placeholder { opacity: 0.3; }
-.CodeMirror pre { padding: 0px 4px; }
-.CodeMirror-lines { padding: 0px; }
-div.hr:focus { cursor: none; }
-#write pre { white-space: pre-wrap; }
-#write.fences-no-line-wrapping pre { white-space: pre; }
-#write pre.ty-contain-cm { white-space: normal; }
-.CodeMirror-gutters { margin-right: 4px; }
-.md-fences { font-size: 0.9rem; display: block; page-break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
-.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
-#write .md-fences.mock-cm { white-space: pre-wrap; }
-.md-fences.md-fences-with-lineno { padding-left: 0px; }
-#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
-.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
-.CodeMirror-line, twitterwidget { page-break-inside: avoid; }
-.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
-.footnotes + .footnotes { margin-top: 0px; }
-.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
-li div { padding-top: 0px; }
-blockquote { margin: 1rem 0px; }
-li .mathjax-block, li p { margin: 0.5rem 0px; }
-li { margin: 0px; position: relative; }
-blockquote > :last-child { margin-bottom: 0px; }
-blockquote > :first-child, li > :first-child { margin-top: 0px; }
-.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
-#write .footnote-line { white-space: pre-wrap; }
-@media print { 
-  body, html { border: 1px solid transparent; height: 99%; page-break-after: avoid; page-break-before: avoid; }
-  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
-  .typora-export * { -webkit-print-color-adjust: exact; }
-  html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; page-break-after: avoid; }
-  .typora-export #write::after { height: 0px; }
-}
-.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
-a img, img a { cursor: pointer; }
-pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
-p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
-p > .md-image:only-child { display: inline-block; width: 100%; }
-#write .MathJax_Display { margin: 0.8em 0px 0px; }
-.md-math-block { width: 100%; }
-.md-math-block:not(:empty)::after { display: none; }
-[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
-.md-task-list-item { position: relative; list-style-type: none; }
-.task-list-item.md-task-list-item { padding-left: 0px; }
-.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
-.math { font-size: 1rem; }
-.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
-.md-toc-content { position: relative; margin-left: 0px; }
-.md-toc-content::after, .md-toc::after { display: none; }
-.md-toc-item { display: block; color: rgb(65, 131, 196); }
-.md-toc-item a { text-decoration: none; }
-.md-toc-inner:hover { text-decoration: underline; }
-.md-toc-inner { display: inline-block; cursor: pointer; }
-.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
-.md-toc-h2 .md-toc-inner { margin-left: 2em; }
-.md-toc-h3 .md-toc-inner { margin-left: 4em; }
-.md-toc-h4 .md-toc-inner { margin-left: 6em; }
-.md-toc-h5 .md-toc-inner { margin-left: 8em; }
-.md-toc-h6 .md-toc-inner { margin-left: 10em; }
-@media screen and (max-width: 48em) { 
-  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
-  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
-  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
-  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
-}
-a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
-.footnote-line a:not(.reversefootnote) { color: inherit; }
-.md-attr { display: none; }
-.md-fn-count::after { content: '.'; }
-code, pre, samp, tt { font-family: var(--monospace); }
-kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
-.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
-code { text-align: left; }
-a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
-.md-inline-math .MathJax_SVG .noError { display: none !important; }
-.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
-.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
-.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
-.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
-.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
-.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
-.MathJax_SVG * { -webkit-transition: none; transition: none; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
-.os-windows.monocolor-emoji .md-emoji { font-family: 'Segoe UI Symbol', sans-serif; }
-.md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; height: auto; }
-[lang="mermaid"] .node text { font-size: 1rem; }
-table tr th { border-bottom-width: 0px; }
-video { max-width: 100%; display: block; margin: 0px auto; }
-iframe { max-width: 100%; width: 100%; border: none; }
-.highlight td, .highlight tr { border: 0px; }
+<title>swimming-basics.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-
-:root {
-    --side-bar-bg-color: #fafafa;
-    --control-text-color: #777;
-}
-
-@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
-
-html {
-    font-size: 16px;
-}
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 body {
-    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-    color: rgb(51, 51, 51);
-    line-height: 1.6;
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
 }
 
-#write {
-    max-width: 860px;
-  	margin: 0 auto;
-  	padding: 30px;
-    padding-bottom: 100px;
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
 }
-#write > ul:first-child,
-#write > ol:first-child{
-    margin-top: 30px;
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
 }
 
 a {
-    color: #4183C4;
+	text-decoration: none;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    position: relative;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    font-weight: bold;
-    line-height: 1.4;
-    cursor: text;
+
+a:hover {
+	text-decoration: underline;
 }
-h1:hover a.anchor,
-h2:hover a.anchor,
-h3:hover a.anchor,
-h4:hover a.anchor,
-h5:hover a.anchor,
-h6:hover a.anchor {
-    text-decoration: none;
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
 }
-h1 tt,
-h1 code {
-    font-size: inherit;
-}
-h2 tt,
-h2 code {
-    font-size: inherit;
-}
-h3 tt,
-h3 code {
-    font-size: inherit;
-}
-h4 tt,
-h4 code {
-    font-size: inherit;
-}
-h5 tt,
-h5 code {
-    font-size: inherit;
-}
-h6 tt,
-h6 code {
-    font-size: inherit;
-}
-h1 {
-    padding-bottom: .3em;
-    font-size: 2.25em;
-    line-height: 1.2;
-    border-bottom: 1px solid #eee;
-}
-h2 {
-   padding-bottom: .3em;
-    font-size: 1.75em;
-    line-height: 1.225;
-    border-bottom: 1px solid #eee;
-}
-h3 {
-    font-size: 1.5em;
-    line-height: 1.43;
-}
-h4 {
-    font-size: 1.25em;
-}
-h5 {
-    font-size: 1em;
-}
-h6 {
-   font-size: 1em;
-    color: #777;
-}
-p,
-blockquote,
-ul,
-ol,
-dl,
-table{
-    margin: 0.8em 0;
-}
-li>ol,
-li>ul {
-    margin: 0 0;
-}
+
 hr {
-    height: 2px;
-    padding: 0;
-    margin: 16px 0;
-    background-color: #e7e7e7;
-    border: 0 none;
-    overflow: hidden;
-    box-sizing: content-box;
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
 }
 
-li p.first {
-    display: inline-block;
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 }
-ul,
-ol {
-    padding-left: 30px;
+
+h1, h2, h3 {
+	font-weight: normal;
 }
-ul:first-child,
-ol:first-child {
-    margin-top: 0;
-}
-ul:last-child,
-ol:last-child {
-    margin-bottom: 0;
-}
-blockquote {
-    border-left: 4px solid #dfe2e5;
-    padding: 0 15px;
-    color: #777777;
-}
-blockquote blockquote {
-    padding-right: 0;
-}
+
 table {
-    padding: 0;
-    word-break: initial;
-}
-table tr {
-    border-top: 1px solid #dfe2e5;
-    margin: 0;
-    padding: 0;
-}
-table tr:nth-child(2n),
-thead {
-    background-color: #f8f8f8;
-}
-table tr th {
-    font-weight: bold;
-    border: 1px solid #dfe2e5;
-    border-bottom: 0;
-    text-align: left;
-    margin: 0;
-    padding: 6px 13px;
-}
-table tr td {
-    border: 1px solid #dfe2e5;
-    text-align: left;
-    margin: 0;
-    padding: 6px 13px;
-}
-table tr th:first-child,
-table tr td:first-child {
-    margin-top: 0;
-}
-table tr th:last-child,
-table tr td:last-child {
-    margin-bottom: 0;
+	border-collapse: collapse;
 }
 
-.CodeMirror-lines {
-    padding-left: 4px;
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
 }
 
-.code-tooltip {
-    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
-    border-top: 1px solid #eef2f2;
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
 }
 
-.md-fences,
-code,
-tt {
-    border: 1px solid #e7eaed;
-    background-color: #f8f8f8;
-    border-radius: 3px;
-    padding: 0;
-    padding: 2px 4px 0px 4px;
-    font-size: 0.9em;
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
 }
 
 code {
-    background-color: #f3f4f4;
-    padding: 0 2px 0 2px;
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
 }
 
-.md-fences {
-    margin-bottom: 15px;
-    margin-top: 15px;
-    padding-top: 8px;
-    padding-bottom: 6px;
+body.wordWrap pre {
+	white-space: pre-wrap;
 }
 
-
-.md-task-list-item > input {
-  margin-left: -1.3em;
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
 }
 
-@media print {
-    html {
-        font-size: 13px;
-    }
-    table,
-    pre {
-        page-break-inside: avoid;
-    }
-    pre {
-        word-wrap: break-word;
-    }
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
 }
 
-.md-fences {
-	background-color: #f8f8f8;
-}
-#write pre.md-meta-block {
-	padding: 1rem;
-    font-size: 85%;
-    line-height: 1.45;
-    background-color: #f7f7f7;
-    border: 0;
-    border-radius: 3px;
-    color: #777777;
-    margin-top: 0 !important;
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
 }
 
-.mathjax-block>.code-tooltip {
-	bottom: .375rem;
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
 }
 
-.md-mathjax-midline {
-    background: #fafafa;
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
 }
 
-#write>h3.md-focus:before{
-	left: -1.5625rem;
-	top: .375rem;
-}
-#write>h4.md-focus:before{
-	left: -1.5625rem;
-	top: .285714286rem;
-}
-#write>h5.md-focus:before{
-	left: -1.5625rem;
-	top: .285714286rem;
-}
-#write>h6.md-focus:before{
-	left: -1.5625rem;
-	top: .285714286rem;
-}
-.md-image>.md-meta {
-    /*border: 1px solid #ddd;*/
-    border-radius: 3px;
-    padding: 2px 0px 0px 4px;
-    font-size: 0.9em;
-    color: inherit;
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
 }
 
-.md-tag {
-    color: #a7a7a7;
-    opacity: 1;
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
 }
 
-.md-toc { 
-    margin-top:20px;
-    padding-bottom:20px;
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
 }
 
-.sidebar-tabs {
-    border-bottom: none;
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
 }
 
-#typora-quick-open {
-    border: 1px solid #ddd;
-    background-color: #f8f8f8;
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
 }
 
-#typora-quick-open-item {
-    background-color: #FAFAFA;
-    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
-    border-style: solid;
-    border-width: 1px;
-}
-
-/** focus mode */
-.on-focus-mode blockquote {
-    border-left-color: rgba(85, 85, 85, 0.12);
-}
-
-header, .context-menu, .megamenu-content, footer{
-    font-family: "Segoe UI", "Arial", sans-serif;
-}
-
-.file-node-content:hover .file-node-icon,
-.file-node-content:hover .file-node-open-state{
-    visibility: visible;
-}
-
-.mac-seamless-mode #typora-sidebar {
-    background-color: #fafafa;
-    background-color: var(--side-bar-bg-color);
-}
-
-.md-lang {
-    color: #b4654d;
-}
-
-.html-for-mac .context-menu {
-    --item-hover-bg-color: #E6F0FE;
-}
-
-#md-notification .btn {
-    border: 0;
-}
-
-.dropdown-menu .divider {
-    border-color: #e5e5e5;
-}
-
-.ty-preferences .window-content {
-    background-color: #fafafa;
-}
-
-.ty-preferences .nav-group-item.active {
-    color: white;
-    background: #999;
-}
-
- .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
 </style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
 </head>
-<body class='typora-export' >
-<div  id='write'  class = 'is-mac'><h2><a name="游泳基础" class="md-header-anchor"></a><span>游泳基础</span></h2><p><span>作者: </span><a href='songtianyi.info'><span>songtianyi</span></a><span> 2019-09-10</span></p><h5><a name="免责声明" class="md-header-anchor"></a><span>免责声明</span></h5><p><span>本人并非是下文所列各类运动的执证教练，也非相关从业者，只是一个水上水下运动的业余爱好者。以下内容仅是根据自身经验及体会所写，各位开展此类运动时还请查阅权威资料或找专业教练指导，对自己和他人的安全负责。</span></p><h5><a name="前言" class="md-header-anchor"></a><span>前言</span></h5><p><span>游泳是一项还未普及的运动，据海南的一项调查结果，只有21%的青少年会游泳(来源于网络), 人作为陆地动物，游泳/潜水并不是一项必备的生存技能，但是一个令人不安的事实是(来源于世卫组织):</span></p><ul><li><span>溺水是世界各地非故意伤害死亡的第三大原因，占所有与伤害有关死亡的7%</span></li><li><span>溺水造成的死亡占全球总死亡率的超过9%</span></li><li><span>世界各地每年溺水死亡数估计为36万例</span></li><li><span>在全球，溺水发生率最高的是1-4岁的儿童，其次是5-9岁的儿童。在世卫组织西太平洋区域，5-14岁儿童溺水死亡的几率高于其它死因。在中国，溺水是1-14岁儿童伤害死亡的主要原因</span></li></ul><p><span>随着中国经济的发展，去海边游玩或者去玩一些水上运动是很常见的旅游消费形式，新潮一点的还会去玩浮潜/水肺，甚至自由潜，如果会游泳，会大大降低意外情况下的溺水死亡概率，也可以在必要的时候帮助到他人。受限于场地，游泳这项运动并不太好开展，而且游泳馆的消费也不便宜，初学者还需请教练，也是一笔不小的开销，所以萌生了写一些基础的文章来普及游泳知识的想法。在我写这篇文章的时候湖北躲避峡发生了一次山洪灾害导致13人死亡的事故，令人痛心惋惜，其中有凭借自己的水性生存下来的，所以我坚信，普及这些基本常识有利于提高我们在意外情况下的生存几率。</span></p><h5><a name="淹死的都是不会水的" class="md-header-anchor"></a><span>淹死的都是不会水的</span></h5><p><span>中国有句老话，&quot;淹死的都是会水的&quot;,  这是以偏概全，是一种严重的误导，很多此类案例中的当事人其实并是真正会水的人，会水的人会在水里冻死或者撞击到其他物体导致行动能力丧失而溺亡，不会仅仅因为落入水中就溺亡！在同等条件下，会水的人（甚至只知道基本常识但并非游泳好手）绝对比不会水的存活几率高很多。这句老话的另外一层意思是，永远别碰水就永远不会有溺亡的风险，但探索世界是我们的本能，一味回避只会被大自然淘汰。真正会水的人，见下图。</span></p><p><img src='https://pic2.zhimg.com/80/v2-3fead0b70a0b7a20318da61a9e280b0c_hd.jpg' alt='image' referrerPolicy='no-referrer' /></p><h5><a name="打开新世界的钥匙" class="md-header-anchor"></a><span>打开新世界的钥匙</span></h5><p><span>地球是已知唯一表面由液态水覆盖的行星，水覆盖了地球70%以上的表面，其中海水占97.2%，淡水仅占0.26%，其余的是固态淡水，如北冰洋的海冰，南极洲的冰冠，我们所生活的地球，其实是一个水球。而我们对海洋的认知还很少，随着消费水平的提高，国外海岛游越来越热门，潜水冲浪等水类运动也随着互联网媒介的传播被大众认知，有不少人会选择去尝鲜，只有拥有不错的游泳技能才能让我们相对安全地去体验它的乐趣，如果你不会游泳，体验过程反而会很痛苦，比如冲浪的时候被浪卷进水里鼻子进水，去学自由潜交了钱却通不过测试。海洋对于人类来说是一个新世界，而游泳是第一道门的钥匙。还记得《2012》嘛，说不定哪天因为气候灾难或者行星撞击地球，海平面上升等，我们要往海里移民。上世纪90年代就有人提出了漂浮城市的概念，往海里移民比外太空的难度和成本都要低很多。</span></p><p><img src='https://pic2.zhimg.com/80/9bdb9b56d81af2bd0642d9783dbf2f05_hd.jpg' alt='image' referrerPolicy='no-referrer' /></p><p><span>会游泳的另一个乐趣在于，你可以在水中完全放松，去感受“零”重力，去感受“太空”行走，甚至自由落体。其实，宇航员除了借助失重飞机来模拟太空失重之外，也会在中性水槽中完成此类训练。</span></p><h5><a name="你真的会游泳嘛?" class="md-header-anchor"></a><span>你真的会游泳嘛?</span></h5><p><span>很多人其实只会狗刨，即一直把头漏在水面，不会换气，“淹死的都是会水的” 其实指的是这类人，自认为会游泳，但在不可控的情况下很容易呛水的人。还有一类人，游泳的时候下蛮力，猛划水，猛踢水，但速度也没多快。要掌握游泳，需要非常熟悉浮力，能够自如地呼吸，动作协调，我们分别来看。</span></p><h5><a name="浮力" class="md-header-anchor"></a><span>浮力</span></h5><p><span>不会游泳的人落水溺亡，往往是对水缺乏基本的认知，致命的往往不是水，而是恐惧。</span></p><p><span>由于人体中大约有60%左右是水(个体有差异，男性女性也有差异），所以人体的密度和水的密度是相当的，人体的密度为1.02 g/cm³，水的密度为1g/cm³，浮力和体重相当，因此人是很容易保持自己在水中不下沉的。相反，如果我们需要下潜，则要佩戴铅块儿这种密度高且廉价的东西来增加整体的密度，帮助我们不费力地下潜并在深水停留。但需要注意的是，如果深度过深，比如三十多米，由于水的巨大压力会将我们的肺缩小，此时人会自然下潜不会上浮。</span></p><p><span>在泳池里，试着深吸一口气，将肚子鼓起来，身体放松，慢慢平躺在水面上，你会发现自己可以一直浮着！身体保持放松，慢慢吐气，你会下沉，切忌闭气过久或吐气过多！</span><strong><span>新手练习时请找人在旁看护！</span></strong></p><p><span>有人可能会说，我游泳的时候就是浮不起来啊！其实这个问题我并不好回答，因为我没有过这方面的困扰。由于惯性，我们入水后会下沉，一个可能的原因是，你在刚开始下沉的时候就在划水了，这个时候推水就像是推空气，事倍功半，可以自己多想象，多体味下。初学者的泳姿大多是蛙泳，你可能看到过一个口诀，“划手腿不动,收手再收腿,先伸手臂再蹬腿,并拢伸直漂一会“，飘一会儿的目的之一是，此时阻力很小，可以充分利用惯性，另外一个主要目的是等待上半身处在上浮的状态，即上浮到一定程度再划水，游泳教练可能只告诉你飘一会儿，但没告诉你飘多久，你可以按照这个标准来。蝶泳也是如此，很多人蝶不起来很可能是没找到正确的发力时机。</span></p><p><span>人在意外落水时，如果不知道这点，很可能在下降的过程中胡乱蹬腿划水，落水的时候有可能失去方向感，这个时候很难浮出水面，加上紧张恐惧，氧气消耗很快，二氧化碳浓度升高，呼吸欲望强烈，人会本能地用鼻子吸气导致呛水。正确的做法是，闭气，鼻子轻微呼气（要根据情况) 保持冷静，放松，等待下沉结束，开始上升时划水出水换气。</span></p><p><span>另外一种感受浮力的方式是直立，不说大家也知道怎么练了，可以练习踩水。</span></p><h5><a name="呼吸" class="md-header-anchor"></a><span>呼吸</span></h5><p><span>我们先讲一些基本常识。人体的呼吸欲望来源于体内二氧化碳浓度的升高，当你第一时间感受到呼吸欲望时，此时体内的氧气仍然能支撑人体一段时间，讲这个目的是告诉大家，不要害怕闭气。</span></p><p><span>一般在做1分钟深呼吸(吸气3s，呼气6s)，然后深吸一口气，让肚子充满空气并保持放松的情况下，人是很容易做到闭气1分钟以上的，2分钟很普遍，3分钟也不少。这种方式叫静态闭气，专业的竞技自由潜水员通常静态闭气的时间在5分钟以上。感兴趣的可以去了解下腹式呼吸。</span></p><p><strong><span>请勿独自在水中测试闭气极限</span></strong><span>。</span></p><p><span>克服闭气的恐惧是前提，然后多做练习，这样我们在意外情况下也可以闭气，避免呛水。在水中，水会自然地进入我们的鼻腔，所以在水下我们需要用鼻子呼气来保证鼻腔不进水。不建议佩戴夹鼻器，因为在意外情况下我们是没有夹鼻器的。水面吸气时，张开嘴用力吸气。从你下水开始你就要抛弃陆地的呼吸方式，哪怕在泳池边靠墙休息时，也要采用水面张嘴吸气，水下用鼻呼气的呼吸方式，因为我们不知道意外什么时候会发生，这只是我的个人习惯，大家可以自由选择。高阶的呼气是仰面呼气。</span></p><h5><a name="协调性" class="md-header-anchor"></a><span>协调性</span></h5><p><span>因为我几乎每天泡泳池，周末泡海水，见过这样一个例子，一男生教自己女朋友自由泳，女生学会之后他俩比赛，结果女生游的和男生一样快。任何运动都是有技巧的，先关注动作的协调性，是否优美，再去考虑速度，不要一味使用蛮力，注意发力的节奏。关于动作，网络上有很多视频可以看，我的抖音(id: wxsongtianyi)收藏了一些不错的游泳视频,这里不做讲解了，有疑问可以提问. 练动作可以把动作拆开来练，不要直接去练完整的动作，养成不好的习惯。</span></p><p>&nbsp;</p></div>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h2 id="%E6%B8%B8%E6%B3%B3%E5%9F%BA%E7%A1%80">游泳基础</h2>
+<p>作者: <a href="http://www.songtianyi.info">songtianyi</a> 2019-09-10</p>
+<h5 id="%E5%85%8D%E8%B4%A3%E5%A3%B0%E6%98%8E">免责声明</h5>
+<p>本人并非是下文所列各类运动的执证教练，也非相关从业者，只是一个水上水下运动的业余爱好者。以下内容仅是根据自身经验及体会所写，各位开展此类运动时还请查阅权威资料或找专业教练指导，对自己和他人的安全负责。</p>
+<h5 id="%E5%89%8D%E8%A8%80">前言</h5>
+<p>游泳是一项还未普及的运动，据海南的一项调查结果，只有 21%的青少年会游泳(来源于网络), 人作为陆地动物，游泳/潜水并不是一项必备的生存技能，但是一个令人不安的事实是(来源于世卫组织):</p>
+<ul>
+<li>溺水是世界各地非故意伤害死亡的第三大原因，占所有与伤害有关死亡的 7%</li>
+<li>溺水造成的死亡占全球总死亡率的超过 9%</li>
+<li>世界各地每年溺水死亡数估计为 36 万例</li>
+<li>在全球，溺水发生率最高的是 1-4 岁的儿童，其次是 5-9 岁的儿童。在世卫组织西太平洋区域，5-14 岁儿童溺水死亡的几率高于其它死因。在中国，溺水是 1-14 岁儿童伤害死亡的主要原因</li>
+</ul>
+<p>随着中国经济的发展，去海边游玩或者去玩一些水上运动是很常见的旅游消费形式，新潮一点的还会去玩浮潜/水肺，甚至自由潜，如果会游泳，会大大降低意外情况下的溺水死亡概率，也可以在必要的时候帮助到他人。受限于场地，游泳这项运动并不太好开展，而且游泳馆的消费也不便宜，初学者还需请教练，也是一笔不小的开销，所以萌生了写一些基础的文章来普及游泳知识的想法。在我写这篇文章的时候湖北躲避峡发生了一次山洪灾害导致 13 人死亡的事故，令人痛心惋惜，其中有凭借自己的水性生存下来的，所以我坚信，普及这些基本常识有利于提高我们在意外情况下的生存几率。</p>
+<h5 id="%E6%B7%B9%E6%AD%BB%E7%9A%84%E9%83%BD%E6%98%AF%E4%B8%8D%E4%BC%9A%E6%B0%B4%E7%9A%84">淹死的都是不会水的</h5>
+<p>中国有句老话，&quot;淹死的都是会水的&quot;, 这是以偏概全，是一种严重的误导，很多此类案例中的当事人其实并是真正会水的人，会水的人会在水里冻死或者撞击到其他物体导致行动能力丧失而溺亡，不会仅仅因为落入水中就溺亡！在同等条件下，会水的人（甚至只知道基本常识但并非游泳好手）绝对比不会水的存活几率高很多。这句老话的另外一层意思是，永远别碰水就永远不会有溺亡的风险，但探索世界是我们的本能，一味回避只会被大自然淘汰。真正会水的人，见下图。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-3fead0b70a0b7a20318da61a9e280b0c_hd.jpg" alt="image"></p>
+<h5 id="%E6%89%93%E5%BC%80%E6%96%B0%E4%B8%96%E7%95%8C%E7%9A%84%E9%92%A5%E5%8C%99">打开新世界的钥匙</h5>
+<p>地球是已知唯一表面由液态水覆盖的行星，水覆盖了地球 70%以上的表面，其中海水占 97.2%，淡水仅占 0.26%，其余的是固态淡水，如北冰洋的海冰，南极洲的冰冠，我们所生活的地球，其实是一个水球。而我们对海洋的认知还很少，随着消费水平的提高，国外海岛游越来越热门，潜水冲浪等水类运动也随着互联网媒介的传播被大众认知，有不少人会选择去尝鲜，只有拥有不错的游泳技能才能让我们相对安全地去体验它的乐趣，如果你不会游泳，体验过程反而会很痛苦，比如冲浪的时候被浪卷进水里鼻子进水，去学自由潜交了钱却通不过测试。海洋对于人类来说是一个新世界，而游泳是第一道门的钥匙。还记得《2012》嘛，说不定哪天因为气候灾难或者行星撞击地球，海平面上升等，我们要往海里移民。上世纪 90 年代就有人提出了漂浮城市的概念，往海里移民比外太空的难度和成本都要低很多。</p>
+<p><img src="https://pic2.zhimg.com/80/9bdb9b56d81af2bd0642d9783dbf2f05_hd.jpg" alt="image"></p>
+<p>会游泳的另一个乐趣在于，你可以在水中完全放松，去感受“零”重力，去感受“太空”行走，甚至自由落体。其实，宇航员除了借助失重飞机来模拟太空失重之外，也会在中性水槽中完成此类训练。</p>
+<h5 id="%E4%BD%A0%E7%9C%9F%E7%9A%84%E4%BC%9A%E6%B8%B8%E6%B3%B3%E5%98%9B">你真的会游泳嘛?</h5>
+<p>很多人其实只会狗刨，即一直把头漏在水面，不会换气，“淹死的都是会水的” 其实指的是这类人，自认为会游泳，但在不可控的情况下很容易呛水的人。还有一类人，游泳的时候下蛮力，猛划水，猛踢水，但速度也没多快。要掌握游泳，需要非常熟悉浮力，能够自如地呼吸，动作协调，我们分别来看。</p>
+<h5 id="%E6%B5%AE%E5%8A%9B">浮力</h5>
+<p>不会游泳的人落水溺亡，往往是对水缺乏基本的认知，致命的往往不是水，而是恐惧。</p>
+<p>由于人体中大约有 60%左右是水(个体有差异，男性女性也有差异），所以人体的密度和水的密度是相当的，人体的密度为 1.02 g/cm³，水的密度为 1g/cm³，浮力和体重相当，因此人是很容易保持自己在水中不下沉的。相反，如果我们需要下潜，则要佩戴铅块儿这种密度高且廉价的东西来增加整体的密度，帮助我们不费力地下潜并在深水停留。但需要注意的是，如果深度过深，比如三十多米，由于水的巨大压力会将我们的肺缩小，此时人会自然下潜不会上浮。</p>
+<p>在泳池里，试着深吸一口气，将肚子鼓起来，身体放松，慢慢平躺在水面上，你会发现自己可以一直浮着！身体保持放松，慢慢吐气，你会下沉，切忌闭气过久或吐气过多！<strong>新手练习时请找人在旁看护！</strong></p>
+<p>有人可能会说，我游泳的时候就是浮不起来啊！其实这个问题我并不好回答，因为我没有过这方面的困扰。由于惯性，我们入水后会下沉，一个可能的原因是，你在刚开始下沉的时候就在划水了，这个时候推水就像是推空气，事倍功半，可以自己多想象，多体味下。初学者的泳姿大多是蛙泳，你可能看到过一个口诀，“划手腿不动, 收手再收腿, 先伸手臂再蹬腿, 并拢伸直漂一会“，飘一会儿的目的之一是，此时阻力很小，可以充分利用惯性，另外一个主要目的是等待上半身处在上浮的状态，即上浮到一定程度再划水，游泳教练可能只告诉你飘一会儿，但没告诉你飘多久，你可以按照这个标准来。蝶泳也是如此，很多人蝶不起来很可能是没找到正确的发力时机。</p>
+<p>人在意外落水时，如果不知道这点，很可能在下降的过程中胡乱蹬腿划水，落水的时候有可能失去方向感，这个时候很难浮出水面，加上紧张恐惧，氧气消耗很快，二氧化碳浓度升高，呼吸欲望强烈，人会本能地用鼻子吸气导致呛水。正确的做法是，闭气，鼻子轻微呼气（要根据情况) 保持冷静，放松，等待下沉结束，开始上升时划水出水换气。</p>
+<p>另外一种感受浮力的方式是直立，不说大家也知道怎么练了，可以练习踩水。</p>
+<h5 id="%E5%91%BC%E5%90%B8">呼吸</h5>
+<p>我们先讲一些基本常识。人体的呼吸欲望来源于体内二氧化碳浓度的升高，当你第一时间感受到呼吸欲望时，此时体内的氧气仍然能支撑人体一段时间，讲这个目的是告诉大家，不要害怕闭气。</p>
+<p>一般在做 1 分钟深呼吸(吸气 3s，呼气 6s)，然后深吸一口气，让肚子充满空气并保持放松的情况下，人是很容易做到闭气 1 分钟以上的，2 分钟很普遍，3 分钟也不少。这种方式叫静态闭气，专业的竞技自由潜水员通常静态闭气的时间在 5 分钟以上。感兴趣的可以去了解下腹式呼吸。</p>
+<p><strong>请勿独自在水中测试闭气极限</strong>。</p>
+<p>克服闭气的恐惧是前提，然后多做练习，这样我们在意外情况下也可以闭气，避免呛水。在水中，水会自然地进入我们的鼻腔，所以在水下我们需要用鼻子呼气来保证鼻腔不进水。不建议佩戴夹鼻器，因为在意外情况下我们是没有夹鼻器的。水面吸气时，张开嘴用力吸气。从你下水开始你就要抛弃陆地的呼吸方式，哪怕在泳池边靠墙休息时，也要采用水面张嘴吸气，水下用鼻呼气的呼吸方式，因为我们不知道意外什么时候会发生，这只是我的个人习惯，大家可以自由选择。高阶的呼气是仰面呼气。</p>
+<h5 id="%E5%8D%8F%E8%B0%83%E6%80%A7">协调性</h5>
+<p>因为我几乎每天泡泳池，周末泡海水，见过这样一个例子，一男生教自己女朋友自由泳，女生学会之后他俩比赛，结果女生游的和男生一样快。任何运动都是有技巧的，先关注动作的协调性，是否优美，再去考虑速度，不要一味使用蛮力，注意发力的节奏。关于动作，网络上有很多视频可以看，我的抖音(id: wxsongtianyi)收藏了一些不错的游泳视频, 这里不做讲解了，有疑问可以提问. 练动作可以把动作拆开来练，不要直接去练完整的动作，养成不好的习惯。</p>
+
 </body>
 </html>

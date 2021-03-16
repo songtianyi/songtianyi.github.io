@@ -1,4 +1,4 @@
-# DPTech-FW1000概览
+# DPTech-FW1000 概览
 
 ### 前言
 
@@ -9,8 +9,8 @@
 ``` 
 
 show version
-通过radius来控制账户权限
-HA: 静默单活，配同个ip，不做vip
+通过 radius 来控制账户权限
+HA: 静默单活，配同个 ip，不做 vip
 ````
 
 ### Full-configuration
@@ -272,8 +272,8 @@ show security-zone *
 
 ``` 
 
-1. NAP device mode设置为zone，不可修改
-2. 如果地址匹配到zone，下发zone，如果未匹配到zone，下发port(interface)
+1. NAP device mode 设置为 zone，不可修改
+2. 如果地址匹配到 zone，下发 zone，如果未匹配到 zone，下发 port(interface)
 
 ```
 

@@ -1,302 +1,596 @@
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!DOCTYPE html>
+<html>
+<head>
+<title>amqp-rpc-between-spring-boot-and-go.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-<header style="padding-bottom:50px">
-<ul>
-	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
-</ul>
-</header>
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
-<style type="text/css">
-	div{
-		font-size:11pt;
-	}
-	p{
-		text-indent:2em;/*段落缩进*/
-		line-height:140%;/*行间距*/
-	}
-	blockquote {
-		background:#f9f9f9;
-		border-left:10px solid darkblue;
-	}
-	blockquote p {
-		display:inline;
-	}
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
 </style>
 
-<!--code examples
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
 
-<a href=""></a>
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
 
-<li><a style="text-decoration:none" href="#"></a></li>
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
 
-<h2 id=""></h2>
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
 
-<div style="text-align:center;padding-top:20px">
-	<img  src="">
-	<p>图 </p>
-</div>
-	
-<sup>sup>
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
 
-<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
-</div>
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
 
--->
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
 
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
 
-<div>
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
 
-	<!--博文标题和作者信息-->
-	<h2 style="text-align:center">spring boot和go之间的amqp rpc实现</h2>
-	<h5 style="text-align:right">create@2017-06-23</h5>
+.hljs-emphasis {
+	font-style: italic;
+}
 
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
 
+<style>
+/*
+ * Markdown PDF CSS
+ */
 
-	<!--第一段，介绍文章的内容-->
-	<p>
-	amqp是消息持久化的不二选择，它本身是异步的，request和response分开接收，没什么联系，这篇文章正是为了达到这个目的，java client端发送request之后同步等go server端的回包.	
-	</p>
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
 
-	
-	<h2 id="rabbitmq">安装rabiitmq</h2>
-	
-	<h4 id="mac">mac</h4>
-	
-	<pre>
-	brew install rabbitmq
-	rabbitmq-server -detach
-	</pre>
-	
-	<h2 id="client">client</h2>
-	
-	<p>client端用spring boot实现</p>
-	
-	<h4 id="amqpconfig">amqp config</h4>
-	
-	<p>创建一个配置类</p>
-	
-	<pre>
-	package common.rpc.amqp;
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
 
-	import org.springframework.amqp.core.Queue;
-	import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-	import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-	import org.springframework.amqp.rabbit.core.RabbitTemplate;
-	import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-	import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-	import org.springframework.context.annotation.Bean;
-	import org.springframework.context.annotation.Configuration;
-	
-	/**
-	 * Created by work on 2017/6/22.
-	 */
-	@Configuration
-	public class AmqpConfig {
-	    // 创建一个connectionFactory对amqp的连接信息作配置
-	    public ConnectionFactory connectionFactory() {
-	        return new CachingConnectionFactory("localhost");
-	    }
-	
-	    // 创建一个rabbitTemplate 作为消息发送的模板
-	    // 这里有几个点需要注意
-	    // 为rabbitTemplate设置一个jackson2MessageConverter，这样可以使用rabbitTemplate.convertSendAndReceive去收发消息，converter会自动帮我们将对象转换成json. 定义这些对象的时候记得加@JsonProperty这个注解来辅助converter的转换
-	    // 给rabbitTemplate设置reply地址，这样框架才会帮我们启动messageListener去收取对应的消息, server端也可以利用这个地址，将回包发送到指定的队列
-	    @Bean
-	    public RabbitTemplate rabbitTemplate() {
-	        final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-	        rabbitTemplate.setMessageConverter(jackson2MessageConverter());
-	        rabbitTemplate.setReplyAddress("rpc/ssh-response");
-	        return rabbitTemplate;
-	    }
-	
-	    @Bean
-	    public Jackson2JsonMessageConverter jackson2MessageConverter() {
-	        Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-	        return converter;
-	    }
-	
-	    // 创建MessageListenerContainer，将container和rabbitTemplate绑定，并设置监听的队列
-	    @Bean
-	    public SimpleMessageListenerContainer replyListenerContainer() {
-	        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-	        container.setConnectionFactory(connectionFactory());
-	        container.setQueues(replyQueue());
-	        container.setMessageListener(rabbitTemplate());
-	        return container;
-	    }
-	
-	    // 创建一个收回包消息的队列
-	    @Bean
-	    public Queue replyQueue() {
-	        return new Queue("responses");
-	    }
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="amqp-rpc-%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0">amqp rpc 模式实现</h1>
+<h2 id="%E5%AE%89%E8%A3%85-rabiitmq">安装 rabiitmq</h2>
+<h4 id="mac">mac</h4>
+<pre class="hljs"><code><div>
+brew install rabbitmq
+rabbitmq-server -detach
+</div></code></pre>
+<h2 id="client">client</h2>
+<p>client 端用 spring boot 实现</p>
+<h4 id="amqp-config">amqp config</h4>
+<p>创建一个配置类</p>
+<pre class="hljs"><code><div>
+<span class="hljs-keyword">package</span> common.rpc.amqp;
+
+<span class="hljs-keyword">import</span> org.springframework.amqp.core.Queue;
+<span class="hljs-keyword">import</span> org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+<span class="hljs-keyword">import</span> org.springframework.amqp.rabbit.connection.ConnectionFactory;
+<span class="hljs-keyword">import</span> org.springframework.amqp.rabbit.core.RabbitTemplate;
+<span class="hljs-keyword">import</span> org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+<span class="hljs-keyword">import</span> org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+
+<span class="hljs-comment">/**
+ * Created by work on 2017/6/22.
+ */</span>
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AmqpConfig</span> </span>{
+    <span class="hljs-comment">// 创建一个 connectionFactory 对 amqp 的连接信息作配置</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ConnectionFactory <span class="hljs-title">connectionFactory</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CachingConnectionFactory(<span class="hljs-string">"localhost"</span>);
+    }
+
+    <span class="hljs-comment">// 创建一个 rabbitTemplate 作为消息发送的模板</span>
+    <span class="hljs-comment">// 这里有几个点需要注意</span>
+    <span class="hljs-comment">// 为 rabbitTemplate 设置一个 jackson2MessageConverter，这样可以使用 rabbitTemplate.convertSendAndReceive 去收发消息，converter 会自动帮我们将对象转换成 json. 定义  这些对象的时候记得加@JsonProperty 这个注解来辅助 converter 的转换</span>
+    <span class="hljs-comment">// 给 rabbitTemplate 设置 reply 地址，这样框架才会帮我们启动 messageListener 去收取对应的消息, server 端也可以利用这个地址，将回包发送到指定的队列</span>
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> RabbitTemplate <span class="hljs-title">rabbitTemplate</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">final</span> RabbitTemplate rabbitTemplate = <span class="hljs-keyword">new</span> RabbitTemplate(connectionFactory());
+        rabbitTemplate.setMessageConverter(jackson2MessageConverter());
+        rabbitTemplate.setReplyAddress(<span class="hljs-string">"rpc/ssh-response"</span>);
+        <span class="hljs-keyword">return</span> rabbitTemplate;
+    }
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Jackson2JsonMessageConverter <span class="hljs-title">jackson2MessageConverter</span><span class="hljs-params">()</span> </span>{
+        Jackson2JsonMessageConverter converter = <span class="hljs-keyword">new</span> Jackson2JsonMessageConverter();
+        <span class="hljs-keyword">return</span> converter;
+    }
+
+    <span class="hljs-comment">// 创建 MessageListenerContainer，将 container 和 rabbitTemplate 绑定，并设置监听的队列</span>
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> SimpleMessageListenerContainer <span class="hljs-title">replyListenerContainer</span><span class="hljs-params">()</span> </span>{
+        SimpleMessageListenerContainer container = <span class="hljs-keyword">new</span> SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory());
+        container.setQueues(replyQueue());
+        container.setMessageListener(rabbitTemplate());
+        <span class="hljs-keyword">return</span> container;
+    }
+
+    <span class="hljs-comment">// 创建一个收回包消息的队列</span>
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Queue <span class="hljs-title">replyQueue</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Queue(<span class="hljs-string">"responses"</span>);
+    }
+}
+
+</div></code></pre>
+<h4 id="%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81%E7%9A%84%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81">消息发送的部分代码</h4>
+<pre class="hljs"><code><div>
+<span class="hljs-comment">// 创建一个 request 对象</span>
+Command command = <span class="hljs-keyword">new</span> Command(<span class="hljs-string">"set system host-name 666666"</span>);
+<span class="hljs-comment">// 将 request 发送到 rpc 交换机，路由键为 ssh-request，最终会被路由到 requests 队列</span>
+<span class="hljs-comment">// 同时传入一个 MessageProcesser，将 MessageId 设置为 CommonResponse，server 端将 MessageId 填充到回包消息的 Headers["__TypeId__"], 这样 client 端在收到消息后才能被正确解析</span>
+Object rpcResponse = rabbitTemplate.convertSendAndReceive(<span class="hljs-string">"rpc"</span>, <span class="hljs-string">"ssh-request"</span>, command, message -&gt; {
+            message.getMessageProperties().setMessageId(CommonResponse<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getName</span>())</span>;
+            <span class="hljs-keyword">return</span> message;
+        });
+</div></code></pre>
+<h2 id="server">server</h2>
+<p>server 端用 go 实现</p>
+<h4 id="%E5%AE%9E%E7%8E%B0-consumer">实现 consumer</h4>
+<pre class="hljs"><code><div>
+<span class="hljs-keyword">package</span> consumer
+
+<span class="hljs-keyword">import</span> (
+	<span class="hljs-string">"fmt"</span>
+	<span class="hljs-string">"github.com/songtianyi/rrframework/logs"</span>
+	<span class="hljs-string">"github.com/streadway/amqp"</span>
+)
+
+<span class="hljs-keyword">type</span> Consumer <span class="hljs-keyword">struct</span> {
+	conn    *amqp.Connection
+	channel *amqp.Channel
+
+	uri          <span class="hljs-keyword">string</span>
+	exchangeName <span class="hljs-keyword">string</span>
+	exchangeType <span class="hljs-keyword">string</span>
+	queueName    <span class="hljs-keyword">string</span>
+	routingKey   <span class="hljs-keyword">string</span>
+	consumerTag  <span class="hljs-keyword">string</span>
+	handler      Handler
+
+	Done <span class="hljs-keyword">chan</span> error
+
+	sender *Responser
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">NewConsumer</span><span class="hljs-params">(uri, exchangeName, exchangeType, queueName, routingKey, consumerTag <span class="hljs-keyword">string</span>, handler Handler)</span> <span class="hljs-params">(*Consumer, error)</span></span> {
+	<span class="hljs-keyword">var</span> err error
+
+	responser, err := NewResponser(uri)
+	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, err
 	}
-	</pre>
-	
-	<h4 id="">消息发送的部分代码</h4>
-	
-	<pre>
-	// 创建一个request对象
-	Command command = new Command("set system host-name 666666");
-	// 将request发送到rpc交换机，路由键为ssh-request，最终会被路由到requests队列
-	// 同时传入一个MessageProcesser，将MessageId设置为CommonResponse，server端将MessageId填充到回包消息的Headers["__TypeId__"], 这样client端在收到消息后才能被正确解析
-	Object rpcResponse = rabbitTemplate.convertSendAndReceive("rpc", "ssh-request", command, message -&gt; {
-	            message.getMessageProperties().setMessageId(CommonResponse.class.getName());
-	            return message;
-	        });
-	</pre>
-	
-	<h2 id="server">server</h2>
-	
-	<p>server端用go实现</p>
-	
-	<h4 id="consumer">实现consumer</h4>
-	
-	<pre>
-	package consumer
-	
-	import (
-	    "fmt"
-	    "github.com/songtianyi/rrframework/logs"
-	    "github.com/streadway/amqp"
+
+	c := &amp;Consumer{
+		conn:    <span class="hljs-literal">nil</span>,
+		channel: <span class="hljs-literal">nil</span>,
+
+		uri:          uri,
+		exchangeName: exchangeName,
+		exchangeType: exchangeType,
+		queueName:    queueName,
+		routingKey:   routingKey,
+		consumerTag:  consumerTag,
+		handler:      handler,
+		Done:         <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> error),
+
+		sender: responser,
+	}
+
+	logs.Info(<span class="hljs-string">"Dialing %q"</span>, uri)
+	c.conn, err = amqp.Dial(uri)
+	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"Dial: %s"</span>, err)
+	}
+
+	<span class="hljs-comment">// watch connection</span>
+	<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> {
+		c.Done &lt;- fmt.Errorf(<span class="hljs-string">"connection close: %s"</span>, &lt;-c.conn.NotifyClose(<span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> *amqp.Error)))
+	}()
+
+	<span class="hljs-comment">// open a new channel</span>
+	c.channel, err = c.conn.Channel()
+	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"Channel: %s"</span>, err)
+	}
+
+	<span class="hljs-comment">// watch channel</span>
+	<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> {
+		c.Done &lt;- fmt.Errorf(<span class="hljs-string">"channel close"</span>, &lt;-c.channel.NotifyClose(<span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> *amqp.Error)))
+	}()
+
+	<span class="hljs-comment">// declare exchange</span>
+	<span class="hljs-keyword">if</span> err = c.channel.ExchangeDeclare(
+		exchangeName, <span class="hljs-comment">// name of the exchange</span>
+		exchangeType, <span class="hljs-comment">// type</span>
+		<span class="hljs-literal">true</span>,         <span class="hljs-comment">// durable</span>
+		<span class="hljs-literal">false</span>,        <span class="hljs-comment">// delete when complete</span>
+		<span class="hljs-literal">false</span>,        <span class="hljs-comment">// internal</span>
+		<span class="hljs-literal">false</span>,        <span class="hljs-comment">// noWait</span>
+		<span class="hljs-literal">nil</span>,          <span class="hljs-comment">// arguments</span>
+	); err != <span class="hljs-literal">nil</span> {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"Exchange Declare: %s"</span>, err)
+	}
+
+	<span class="hljs-comment">// declare queue</span>
+	queue, err := c.channel.QueueDeclare(
+		queueName, <span class="hljs-comment">// name of the queue</span>
+		<span class="hljs-literal">true</span>,      <span class="hljs-comment">// durable</span>
+		<span class="hljs-literal">false</span>,     <span class="hljs-comment">// delete when unused</span>
+		<span class="hljs-literal">false</span>,     <span class="hljs-comment">// exclusive</span>
+		<span class="hljs-literal">false</span>,     <span class="hljs-comment">// noWait</span>
+		<span class="hljs-literal">nil</span>,       <span class="hljs-comment">// arguments</span>
 	)
-	
-	type Consumer struct {
-	    conn    *amqp.Connection
-	    channel *amqp.Channel
-	
-	    uri          string
-	    exchangeName string
-	    exchangeType string
-	    queueName    string
-	    routingKey   string
-	    consumerTag  string
-	    handler      Handler
-	
-	    Done chan error
-	
-	    sender *Responser
+	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"Queue Declare: %s"</span>, err)
 	}
-	
-	func NewConsumer(uri, exchangeName, exchangeType, queueName, routingKey, consumerTag string, handler Handler) (*Consumer, error) {
-	    var err error
-	
-	    responser, err := NewResponser(uri)
-	    if err != nil {
-	        return nil, err
-	    }
-	
-	    c := &amp;Consumer{
-	        conn:    nil,
-	        channel: nil,
-	
-	        uri:          uri,
-	        exchangeName: exchangeName,
-	        exchangeType: exchangeType,
-	        queueName:    queueName,
-	        routingKey:   routingKey,
-	        consumerTag:  consumerTag,
-	        handler:      handler,
-	        Done:         make(chan error),
-	
-	        sender: responser,
-	    }
-	
-	    logs.Info("Dialing %q", uri)
-	    c.conn, err = amqp.Dial(uri)
-	    if err != nil {
-	        return nil, fmt.Errorf("Dial: %s", err)
-	    }
-	
-	    // watch connection
-	    go func() {
-	        c.Done &lt;- fmt.Errorf("connection close: %s", &lt;-c.conn.NotifyClose(make(chan *amqp.Error)))
-	    }()
-	
-	    // open a new channel
-	    c.channel, err = c.conn.Channel()
-	    if err != nil {
-	        return nil, fmt.Errorf("Channel: %s", err)
-	    }
-	
-	    // watch channel
-	    go func() {
-	        c.Done &lt;- fmt.Errorf("channel close", &lt;-c.channel.NotifyClose(make(chan *amqp.Error)))
-	    }()
-	
-	    // declare exchange
-	    if err = c.channel.ExchangeDeclare(
-	        exchangeName, // name of the exchange
-	        exchangeType, // type
-	        true,         // durable
-	        false,        // delete when complete
-	        false,        // internal
-	        false,        // noWait
-	        nil,          // arguments
-	    ); err != nil {
-	        return nil, fmt.Errorf("Exchange Declare: %s", err)
-	    }
-	
-	    // declare queue
-	    queue, err := c.channel.QueueDeclare(
-	        queueName, // name of the queue
-	        true,      // durable
-	        false,     // delete when unused
-	        false,     // exclusive
-	        false,     // noWait
-	        nil,       // arguments
-	    )
-	    if err != nil {
-	        return nil, fmt.Errorf("Queue Declare: %s", err)
-	    }
-	
-	    logs.Info("declared Queue (%q %d messages, %d consumers), binding to Exchange (key %q)",
-	        queue.Name, queue.Messages, queue.Consumers, routingKey)
-	
-	    if err = c.channel.QueueBind(
-	        queue.Name,   // name of the queue
-	        routingKey,   // bindingKey
-	        exchangeName, // sourceExchange
-	        false,        // noWait
-	        nil,          // arguments
-	    ); err != nil {
-	        return nil, fmt.Errorf("Queue Bind: %s", err)
-	    }
-	
-	    logs.Info("Queue %s bound to Exchange %s, starting consumer %s", queue.Name, exchangeName, consumerTag)
-	    deliveries, err := c.channel.Consume(
-	        queue.Name,  // name
-	        consumerTag, // consumerTag,
-	        false,       // noAck
-	        false,       // exclusive
-	        false,       // noLocal
-	        false,       // noWait
-	        nil,         // arguments
-	    )
-	    if err != nil {
-	        return nil, fmt.Errorf("Queue Consume: %s", err)
-	    }
-	
-	    // accept deliveries and handle them
-	    go c.handle(deliveries)
-	
-	    return c, nil
+
+	logs.Info(<span class="hljs-string">"declared Queue (%q %d messages, %d consumers), binding to Exchange (key %q)"</span>,
+		queue.Name, queue.Messages, queue.Consumers, routingKey)
+
+	<span class="hljs-keyword">if</span> err = c.channel.QueueBind(
+		queue.Name,   <span class="hljs-comment">// name of the queue</span>
+		routingKey,   <span class="hljs-comment">// bindingKey</span>
+		exchangeName, <span class="hljs-comment">// sourceExchange</span>
+		<span class="hljs-literal">false</span>,        <span class="hljs-comment">// noWait</span>
+		<span class="hljs-literal">nil</span>,          <span class="hljs-comment">// arguments</span>
+	); err != <span class="hljs-literal">nil</span> {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"Queue Bind: %s"</span>, err)
 	}
-	
-	func (s *Consumer) handle(deliveries &lt;-chan amqp.Delivery) {
-	    for d := range deliveries {
-	        go func(d amqp.Delivery) {
-	            b := s.handler(d)
-	            d.Ack(false)
-	            s.sender.Send(d, b)
-	        }(d)
-	    }
-	    logs.Info("handle: deliveries channel closed")
+
+	logs.Info(<span class="hljs-string">"Queue %s bound to Exchange %s, starting consumer %s"</span>, queue.Name, exchangeName, consumerTag)
+	deliveries, err := c.channel.Consume(
+		queue.Name,  <span class="hljs-comment">// name</span>
+		consumerTag, <span class="hljs-comment">// consumerTag,</span>
+		<span class="hljs-literal">false</span>,       <span class="hljs-comment">// noAck</span>
+		<span class="hljs-literal">false</span>,       <span class="hljs-comment">// exclusive</span>
+		<span class="hljs-literal">false</span>,       <span class="hljs-comment">// noLocal</span>
+		<span class="hljs-literal">false</span>,       <span class="hljs-comment">// noWait</span>
+		<span class="hljs-literal">nil</span>,         <span class="hljs-comment">// arguments</span>
+	)
+	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"Queue Consume: %s"</span>, err)
 	}
-	</pre>
-	
-	<p>写一个main程序，new一个consumer，监听rpc交换机的requests队列，当收到消息时，往rpc交换机的responses队列回json消息，路由键为ssh-response。并在回包的时候将收到的MessageId填充到回包的Headers["__TypeId__"]里.</p>
 
+	<span class="hljs-comment">// accept deliveries and handle them</span>
+	<span class="hljs-keyword">go</span> c.handle(deliveries)
 
-</div>
+	<span class="hljs-keyword">return</span> c, <span class="hljs-literal">nil</span>
+}
 
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(s *Consumer)</span> <span class="hljs-title">handle</span><span class="hljs-params">(deliveries &lt;-<span class="hljs-keyword">chan</span> amqp.Delivery)</span></span> {
+	<span class="hljs-keyword">for</span> d := <span class="hljs-keyword">range</span> deliveries {
+		<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(d amqp.Delivery)</span></span> {
+			b := s.handler(d)
+			d.Ack(<span class="hljs-literal">false</span>)
+			s.sender.Send(d, b)
+		}(d)
+	}
+	logs.Info(<span class="hljs-string">"handle: deliveries channel closed"</span>)
+}
+</div></code></pre>
+<p>写一个 main 程序，new 一个 consumer，监听 rpc 交换机的 request 队列，当收到消息时，往 rpc 交换机的 response 队列回 json 消息，路由键为 ssh-response。</p>
+
+</body>
+</html>

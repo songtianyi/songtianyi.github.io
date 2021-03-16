@@ -1,28 +1,28 @@
-# kong插件开发
+# kong 插件开发
 
 ### 说明
 
-本文档记录了开发kong插件所需注意的要点
+本文档记录了开发 kong 插件所需注意的要点
 
-### 关于kong插件开发文档
+### 关于 kong 插件开发文档
 
 开发插件之前，至少阅读一遍开发文档，卡壳儿的时候及时回顾文档
 
 https://docs.konghq.com/0.14.x/plugin-development/
 
-特别注意文档的版本，需要和你所使用的kong的版本相匹配，否则写出来的代码不兼容。
+特别注意文档的版本，需要和你所使用的 kong 的版本相匹配，否则写出来的代码不兼容。
 
 ``` bash
 kong version
 ```
 
-另外，可以参考kong内置的插件代码, 足够我们进行copy&paste
+另外，可以参考 kong 内置的插件代码, 足够我们进行 copy&paste
 
 ``` bash
 find . -name handler.lua
 ```
 
-通过grep发现，内置插件中并没有http请求的代码，补充如下:
+通过 grep 发现，内置插件中并没有 http 请求的代码，补充如下:
 
 ``` lua
   token, err = retrieve_token(conf)
@@ -38,7 +38,7 @@ find . -name handler.lua
   kong.log.inspect(r, c, h, resp)
 ```
 
-注: 如果使用docker/k8s部署的kong，请先登录容器然后再执行上述命令
+注: 如果使用 docker/k8s 部署的 kong，请先登录容器然后再执行上述命令
 
 ### 打包代码
 
@@ -95,9 +95,9 @@ luarocks pack kong-plugin-rbac 1.0.0-1
 luarocks install kong-plugin-rbac-1.0.0-1.all.rock
 ```
 
-### docker环境下kong插件部署
+### docker 环境下 kong 插件部署
 
-在docker环境下kong插件的部署要较麻烦一些，需要做路径映射，将本地安装的kong插件映射到容器内，同时修改lua包的搜索路径。kong的配置文件里的参数都是可以通过环境变量控制的，变量名的规律为 xx_xx, KONG_XX_XX, 比如 lua_package_path参数对应的环境变量名为 KONG_LUA_PACKAGE_PATH.
+在 docker 环境下 kong 插件的部署要较麻烦一些，需要做路径映射，将本地安装的 kong 插件映射到容器内，同时修改 lua 包的搜索路径。kong 的配置文件里的参数都是可以通过环境变量控制的，变量名的规律为 xx_xx, KONG_XX_XX, 比如 lua_package_path 参数对应的环境变量名为 KONG_LUA_PACKAGE_PATH.
 
 ``` yaml
     volumeMounts:
@@ -131,9 +131,9 @@ luarocks install kong-plugin-rbac-1.0.0-1.all.rock
           path: /srv/nap/kong/logs/
 ```
 
-如上所示，将本地的rbac插件目录，映射到了容器内。然后按照如下的方式修改注入环境变量。
+如上所示，将本地的 rbac 插件目录，映射到了容器内。然后按照如下的方式修改注入环境变量。
 
-先使用luarocks将代码打包, 打包需要一个配置文件，参考如下
+先使用 luarocks 将代码打包, 打包需要一个配置文件，参考如下
 
 ``` yaml
 
@@ -152,7 +152,7 @@ luarocks install kong-plugin-rbac-1.0.0-1.all.rock
 
 ### 执行顺序
 
-kong的多个插件是按照优先级依次执行的，要注意这点，方便按照预期的方式调试/验证代码.
+kong 的多个插件是按照优先级依次执行的，要注意这点，方便按照预期的方式调试/验证代码.
 
 ``` lua
 local RBACHandler =  BasePlugin:extend()
@@ -172,4 +172,4 @@ kong.log.debug('KONG_RBAC_PRIORITY: ' .. priority)
 
 ### PDK
 
-pdk是kong提供的插件开发包，方便我们在不同插件之间共享数据，以及操作db，使用方式比较简单，参考文档即可，但要注意文档的版本。
+pdk 是 kong 提供的插件开发包，方便我们在不同插件之间共享数据，以及操作 db，使用方式比较简单，参考文档即可，但要注意文档的版本。

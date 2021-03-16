@@ -227,17 +227,17 @@ pre code {
 </style>
 
 <style>
-/* a11y-light theme */
-/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
-/* @author: ericwbailey */
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
 
-/* Comment */
+/* Tomorrow Comment */
 .hljs-comment,
 .hljs-quote {
-  color: #696969;
+	color: #8e908c;
 }
 
-/* Red */
+/* Tomorrow Red */
 .hljs-variable,
 .hljs-template-variable,
 .hljs-tag,
@@ -246,10 +246,10 @@ pre code {
 .hljs-selector-class,
 .hljs-regexp,
 .hljs-deletion {
-  color: #d91e18;
+	color: #c82829;
 }
 
-/* Orange */
+/* Tomorrow Orange */
 .hljs-number,
 .hljs-built_in,
 .hljs-builtin-name,
@@ -258,75 +258,48 @@ pre code {
 .hljs-params,
 .hljs-meta,
 .hljs-link {
-  color: #aa5d00;
+	color: #f5871f;
 }
 
-/* Yellow */
+/* Tomorrow Yellow */
 .hljs-attribute {
-  color: #aa5d00;
+	color: #eab700;
 }
 
-/* Green */
+/* Tomorrow Green */
 .hljs-string,
 .hljs-symbol,
 .hljs-bullet,
 .hljs-addition {
-  color: #008000;
+	color: #718c00;
 }
 
-/* Blue */
+/* Tomorrow Blue */
 .hljs-title,
 .hljs-section {
-  color: #007faa;
+	color: #4271ae;
 }
 
-/* Purple */
+/* Tomorrow Purple */
 .hljs-keyword,
 .hljs-selector-tag {
-  color: #7928a1;
+	color: #8959a8;
 }
 
 .hljs {
-  display: block;
-  overflow-x: auto;
-  background: #fefefe;
-  color: #545454;
-  padding: 0.5em;
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
 }
 
 .hljs-emphasis {
-  font-style: italic;
+	font-style: italic;
 }
 
 .hljs-strong {
-  font-weight: bold;
+	font-weight: bold;
 }
-
-@media screen and (-ms-high-contrast: active) {
-  .hljs-addition,
-  .hljs-attribute,
-  .hljs-built_in,
-  .hljs-builtin-name,
-  .hljs-bullet,
-  .hljs-comment,
-  .hljs-link,
-  .hljs-literal,
-  .hljs-meta,
-  .hljs-number,
-  .hljs-params,
-  .hljs-string,
-  .hljs-symbol,
-  .hljs-type,
-  .hljs-quote {
-        color: highlight;
-    }
-
-    .hljs-keyword,
-    .hljs-selector-tag {
-        font-weight: bold;
-    }
-}
-
 </style>
 
 <style>
@@ -395,12 +368,12 @@ code {
 <h1 id="go2-%E6%B3%9B%E5%9E%8B%E8%AE%BE%E8%AE%A1%E8%8D%89%E6%A1%88%E6%9B%B4%E6%96%B0">Go2 泛型设计草案更新</h1>
 <p>作者: <a href="http://songtianyi.info">songtianyi</a> create@2020/12/03</p>
 <h3 id="%E5%89%8D%E8%A8%80">前言</h3>
-<p>18年的时候，go team 发布了Go2 的几个新特性的草案，其中包括呼声较高的泛型，当时<a href="http://songtianyi.info/pages/programming/programming-languages/go2-design-draft-introduction.html">写了一篇文章做了介绍</a>。最近 Go team 对泛型的设计草案进行了较大的改动，有必要更新下这个改动并分享出来。</p>
+<p>18 年的时候，go team 发布了 Go2 的几个新特性的草案，其中包括呼声较高的泛型，当时<a href="http://songtianyi.info/pages/programming/programming-languages/go2-design-draft-introduction.html">写了一篇文章做了介绍</a>。最近 Go team 对泛型的设计草案进行了较大的改动，有必要更新下这个改动并分享出来。</p>
 <h3 id="contracts">contracts</h3>
-<p>在18年释出的草案中，是使用 <code>contract</code> 来约束泛型的类型参数(type parameters)的，最新的草案放弃了这种做法, 用已有的概念 <code>interface</code> 代替。<br>
+<p>在 18 年释出的草案中，是使用 <code>contract</code> 来约束泛型的类型参数(type parameters)的，最新的草案放弃了这种做法, 用已有的概念 <code>interface</code> 代替。
 在继续之前，先来熟悉 <code>type parameter</code> 这个概念:</p>
 <blockquote>
-<p>Generic code is code that is written using types that will be specified later. Each unspecified type is called a type parameter.<br>
+<p>Generic code is code that is written using types that will be specified later. Each unspecified type is called a type parameter.
 When running the generic code, the type parameter will be set to a type argument.</p>
 </blockquote>
 <p>好，继续。回顾下 <code>contract</code> 形式的例子:</p>
@@ -438,7 +411,7 @@ strSlice = []<span class="hljs-keyword">string</span>{}
 }
 
 </div></code></pre>
-<p>上述代码，使用 <code>Stringer</code> interface 来约束入参 s 的类型 T 必须是实现了 <code>String() string</code> 函数的类型。<br>
+<p>上述代码，使用 <code>Stringer</code> interface 来约束入参 s 的类型 T 必须是实现了 <code>String() string</code> 函数的类型。
 除了使用自定义的 interface 来约束之外，Go 内置了 <code>any</code> 来指明入参是可以为任意类型的, 当我们不需要约束的时候可以使用 <code>any</code> 来维持写法的一致性, <code>any</code> 相当于 <code>interface{}</code> 。</p>
 <pre class="hljs"><code><div><span class="hljs-comment">// Print prints the elements of any slice.</span>
 <span class="hljs-comment">// Print has a type parameter T and has a single (non-type)</span>
@@ -526,7 +499,7 @@ contract ordered(t T) {
 <blockquote>
 <p>要写一大堆... 心里一阵 mmp... 先别慌!</p>
 </blockquote>
-<p><code>Ordered</code> interface 里列出来的类型是 <code>Ordered</code> 约束可以接受的类型参数。由此看来，针对运算符的约束写起来变的更复杂了，幸运的是，go 会内置常用的约束, <strong>不用我们自己来写</strong>.<br>
+<p><code>Ordered</code> interface 里列出来的类型是 <code>Ordered</code> 约束可以接受的类型参数。由此看来，针对运算符的约束写起来变的更复杂了，幸运的是，go 会内置常用的约束, <strong>不用我们自己来写</strong>.
 而且，约束是可以组合的:</p>
 <pre class="hljs"><code><div><span class="hljs-comment">// ComparableHasher is a type constraint that matches all</span>
 <span class="hljs-comment">// comparable types with a Hash method.</span>

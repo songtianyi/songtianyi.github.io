@@ -1,8 +1,8 @@
-# Fortinet概览
+# Fortinet 概览
 
 ### 前言
 
-主要介绍fortinet各类对象的获取和下发命令。
+主要介绍 fortinet 各类对象的获取和下发命令。
 
 ### Full-configuration
 
@@ -300,7 +300,7 @@ end
 
 ### Interface policy
 
-可以对接口定义policy，相当于从该接口进来或者出去的流量都会应用这个策略。
+可以对接口定义 policy，相当于从该接口进来或者出去的流量都会应用这个策略。
 
 ###### GET
 
@@ -445,8 +445,8 @@ show system zone
 ```
 
 ```
-1. NAP device mode设置为zone，不可修改
-2. 如果地址匹配到zone，下发zone，如果未匹配到zone，下发port(interface)
+1. NAP device mode 设置为 zone，不可修改
+2. 如果地址匹配到 zone，下发 zone，如果未匹配到 zone，下发 port(interface)
 ```
 
 ##### VDOM

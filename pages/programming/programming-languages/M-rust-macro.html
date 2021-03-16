@@ -367,7 +367,7 @@ code {
   </script>
 <h1 id="rust-%E5%AE%8F">Rust 宏</h1>
 <h2 id="%E5%89%8D%E8%A8%80">前言</h2>
-<p>18年系统学习编程语言理论的时候快速学过 Rust，两年过去了还没实际使用过它做开发，最近在使用 TDengine 的时候，发现 TDengine 的 Go binding 没有实现订阅的接口，C++ 又没多大兴趣，于是在前人的基础上把 TDengine 的 Rust binding 写了一遍，然后使用 Rust 写了 业务逻辑的 API 接口。在做错误处理的时候，认识到了 Rust 宏的强大，所以想着重新学下 Rust 宏，做个笔记。</p>
+<p>18 年系统学习编程语言理论的时候快速学过 Rust，两年过去了还没实际使用过它做开发，最近在使用 TDengine 的时候，发现 TDengine 的 Go binding 没有实现订阅的接口，C++ 又没多大兴趣，于是在前人的基础上把 TDengine 的 Rust binding 写了一遍，然后使用 Rust 写了 业务逻辑的 API 接口。在做错误处理的时候，认识到了 Rust 宏的强大，所以想着重新学下 Rust 宏，做个笔记。</p>
 <h2 id="c-macro">C Macro</h2>
 <p>宏的概念我们在刚学计算的时候就接触过，C 语言里的 <code>#define xxx</code> 就是宏。</p>
 <pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> LENGTH_OF_ARRAY 5 <span class="hljs-comment">// this is a define macro</span></span>

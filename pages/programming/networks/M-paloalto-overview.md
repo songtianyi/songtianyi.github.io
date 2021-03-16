@@ -1,6 +1,6 @@
-# PA防火墙概览
+# PA 防火墙概览
 
-> 除了带 > 号的命令，其他命令都是在configure模式下执行的
+> 除了带 > 号的命令，其他命令都是在 configure 模式下执行的
 
 ##### cheat sheet
 
@@ -8,7 +8,7 @@ https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/pdf/framemaker/71/
 
 ##### 设置配置格式
 
-用于测试的PA虚拟机上，json格式存在bug，所以用xml格式解析
+用于测试的 PA 虚拟机上，json 格式存在 bug，所以用 xml 格式解析
 
 ```
 admin@PA-VM> set cli config-output-format
@@ -36,7 +36,7 @@ admin@PA-VM> set cli config-output-format
 commit
 ```
 
-##### 获取running配置
+##### 获取 running 配置
 
 ```
 show
@@ -111,9 +111,9 @@ set shared log-settings system informational
 
 ##### address
 
->  tag暂时不考虑
+>  tag 暂时不考虑
 >
->  description 必须在 type前面定义
+>  description 必须在 type 前面定义
 
 ```
 show address
@@ -145,7 +145,7 @@ show service
 
 ```
 set service asdf protocol tcp port 1-234 source-port 1032
-# port应该是目的端口
+# port 应该是目的端口
 ```
 
 ```
@@ -164,7 +164,7 @@ set service-group srvg members [ asdf service-http ]
 
 ##### zone
 
-> zone和interface是1:1的关系
+> zone 和 interface 是 1:1 的关系
 
 ```
 show zone
@@ -185,8 +185,8 @@ set zone l31 network layer3 loopback
 ```
 
 ```
-1. NAP device mode设置为zone，不可修改
-2. 如果地址匹配到了zone，下发时使用zone，如果没有匹配到，使用any
+1. NAP device mode 设置为 zone，不可修改
+2. 如果地址匹配到了 zone，下发时使用 zone，如果没有匹配到，使用 any
 ```
 
 
@@ -252,7 +252,7 @@ set rulebase nat rules adsf nat-type ipv4 description asdf from any to l3 servic
 
 ##### 透明模式
 
-PA的透明模式叫virtual-wire或者v-wire，可以通过接口的配置来确定
+PA 的透明模式叫 virtual-wire 或者 v-wire，可以通过接口的配置来确定
 
 ```
 set network interface ethernet ethernet1/10 virtual-wire
@@ -290,10 +290,10 @@ service is invalid
 
 ##### 版本差异
 
-> 命令set service-group srvg members [ asdf service-http ]，相比pa6.0多了个关键字members
+> 命令 set service-group srvg members [ asdf service-http ]，相比 pa6.0 多了个关键字 members
 
-> 从pa6.1起，Policy新增Rule Type字段，取值<universal | intrazone | interzone>
+> 从 pa6.1 起，Policy 新增 Rule Type 字段，取值 <universal | intrazone | interzone>
 
-> 命令set shared log-settings syslog asdf server asdf format IETF server 192.168.1.99 port 5514 transport TCP，相比pa6.0  syslog 下的server里多了 format和 transport字段，其取值如下
+> 命令 set shared log-settings syslog asdf server asdf format IETF server 192.168.1.99 port 5514 transport TCP，相比 pa6.0  syslog 下的 server 里多了 format 和 transport 字段，其取值如下
 >
->  format ：<BSD | IETF>  ；transport ： <SSL | TCP | UDP>
+>  format :<BSD | IETF>  ；transport : <SSL | TCP | UDP>

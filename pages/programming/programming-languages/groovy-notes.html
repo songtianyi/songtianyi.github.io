@@ -1,657 +1,711 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>groovy-notes</title><link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}.CodeMirror { height: auto; }
-.CodeMirror-scroll { overflow-y: hidden; overflow-x: auto; }
-.CodeMirror-lines { padding: 4px 0px; }
-.CodeMirror pre { }
-.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler { background-color: white; }
-.CodeMirror-gutters { border-right-width: 1px; border-right-style: solid; border-right-color: rgb(221, 221, 221); background-color: rgb(247, 247, 247); white-space: nowrap; }
-.CodeMirror-linenumbers { }
-.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
-.CodeMirror div.CodeMirror-cursor { border-left-width: 1px; border-left-style: solid; border-left-color: black; z-index: 3; }
-.CodeMirror div.CodeMirror-secondarycursor { border-left-width: 1px; border-left-style: solid; border-left-color: silver; }
-.CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor { width: auto; border: 0px; background-color: rgb(119, 238, 119); z-index: 1; background-position: initial initial; background-repeat: initial initial; }
-.CodeMirror div.CodeMirror-cursor.CodeMirror-overwrite { }
-.cm-tab { display: inline-block; }
-.cm-s-typora-default .cm-header, .cm-s-typora-default .cm-property { color: rgb(217, 79, 138); }
-.cm-s-typora-default pre.cm-header1:not(.cm-atom) :not(.cm-overlay) { font-size: 2rem; line-height: 2rem; }
-.cm-s-typora-default pre.cm-header2:not(.cm-atom) :not(.cm-overlay) { font-size: 1.4rem; line-height: 1.4rem; }
-.cm-s-typora-default .cm-atom, .cm-s-typora-default .cm-number { color: rgb(149, 132, 134); }
-.cm-s-typora-default .cm-table-row, .cm-s-typora-default .cm-block-start { font-family: monospace; }
-.cm-s-typora-default .cm-comment, .cm-s-typora-default .cm-code { color: rgb(74, 90, 159); font-family: monospace; }
-.cm-s-typora-default .cm-tag { color: rgb(169, 68, 66); }
-.cm-s-typora-default .cm-string { color: rgb(126, 134, 169); }
-.cm-s-typora-default .cm-link { color: rgb(196, 122, 15); text-decoration: underline; }
-.cm-s-typora-default .cm-variable-2, .cm-s-typora-default .cm-variable-1 { color: inherit; }
-.cm-s-typora-default .cm-overlay { font-family: monospace; }
-.CodeMirror.cm-s-typora-default div.CodeMirror-cursor { border-left-width: 3px; border-left-style: solid; border-left-color: rgb(228, 98, 154); }
-.cm-s-typora-default .CodeMirror-activeline-background { left: -60px; right: -30px; background-color: rgba(204, 204, 204, 0.2); background-position: initial initial; background-repeat: initial initial; }
-.cm-s-typora-default .CodeMirror-gutters { border-right-style: none; background-color: inherit; }
-.cm-s-typora-default .cm-trailing-space-new-line::after, .cm-startspace::after, .cm-starttab .cm-tab::after { content: '•'; position: absolute; left: 0px; opacity: 0; font-family: LetterGothicStd, monospace; }
-.os-windows .cm-startspace::after, .os-windows .cm-starttab .cm-tab::after { left: -0.1em; }
-.cm-starttab .cm-tab::after { content: ' '; }
-.cm-startspace, .cm-tab, .cm-starttab, .cm-trailing-space-a, .cm-trailing-space-b, .cm-trailing-space-new-line { font-family: monospace; position: relative; }
-.cm-s-typora-default .cm-trailing-space-new-line::after { content: '↓'; opacity: 0.3; }
-.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
-.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
-.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
-.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
-.cm-s-inner .cm-variable { color: black; }
-.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
-.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
-.cm-s-inner .cm-property { color: black; }
-.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
-.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
-.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
-.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
-.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
-.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
-.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
-.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
-.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
-.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
-.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: blue; }
-.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
-.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
-.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
-.cm-negative { color: rgb(221, 68, 68); }
-.cm-positive { color: rgb(34, 153, 34); }
-.cm-header, .cm-strong { font-weight: bold; }
-.cm-del { text-decoration: line-through; }
-.cm-em { font-style: italic; }
-.cm-link { text-decoration: underline; }
-.cm-error { color: rgb(255, 0, 0); }
-.cm-invalidchar { color: rgb(255, 0, 0); }
-.cm-constant { color: rgb(38, 139, 210); }
-.cm-defined { color: rgb(181, 137, 0); }
-div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
-div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
-.cm-s-inner .CodeMirror-activeline-background { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
-.CodeMirror { position: relative; overflow: hidden; }
-.CodeMirror-scroll { margin-bottom: -30px; margin-right: -30px; padding-bottom: 30px; padding-right: 30px; height: 100%; outline: none; position: relative; box-sizing: content-box; }
-.CodeMirror-sizer { position: relative; }
-.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler { position: absolute; z-index: 6; display: none; }
-.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow-x: hidden; overflow-y: scroll; }
-.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow-y: hidden; overflow-x: scroll; }
-.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
-.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
-.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
-.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
-.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background-image: none !important; border: none !important; background-position: initial initial !important; background-repeat: initial initial !important; }
-.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
-.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
-.CodeMirror-lines { cursor: text; }
-.CodeMirror pre { border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-width: 0px; background-color: transparent; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: initial initial; background-repeat: initial initial; }
-.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
-.CodeMirror-code pre { border-right-width: 30px; border-right-style: solid; border-right-color: transparent; width: -webkit-fit-content; }
-.CodeMirror-wrap .CodeMirror-code pre { border-right-style: none; width: auto; }
-.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
-.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
-.CodeMirror-widget { }
-.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
-.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
-.CodeMirror-measure pre { position: static; }
-.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right-style: none; width: 0px; }
-.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
-.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
-.CodeMirror-selected { background-color: rgb(217, 217, 217); background-position: initial initial; background-repeat: initial initial; }
-.CodeMirror-focused .CodeMirror-selected { background-color: rgb(215, 212, 240); background-position: initial initial; background-repeat: initial initial; }
-.cm-searching { background-color: rgba(255, 255, 0, 0.4); background-position: initial initial; background-repeat: initial initial; }
-.CodeMirror span { }
-@media print { 
-  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
-}
-.CodeMirror-lint-markers { width: 16px; }
-.CodeMirror-lint-tooltip { background-color: infobackground; border: 1px solid black; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; color: infotext; font-family: monospace; overflow: hidden; padding: 2px 5px; position: fixed; white-space: pre-wrap; z-index: 10000; max-width: 600px; opacity: 0; -webkit-transition: opacity 0.4s; transition: opacity 0.4s; font-size: 0.8em; }
-.CodeMirror-lint-mark-error, .CodeMirror-lint-mark-warning { background-position: 0% 100%; background-repeat: repeat no-repeat; }
-.CodeMirror-lint-mark-error { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJDw4cOCW1/KIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAHElEQVQI12NggIL/DAz/GdA5/xkY/qPKMDAwAADLZwf5rvm+LQAAAABJRU5ErkJggg==); }
-.CodeMirror-lint-marker-error, .CodeMirror-lint-marker-warning { cursor: pointer; display: inline-block; height: 16px; width: 16px; vertical-align: middle; position: relative; background-position: 50% 50%; background-repeat: no-repeat no-repeat; }
-.CodeMirror-lint-message-error, .CodeMirror-lint-message-warning { padding-left: 18px; background-position: 0% 0%; background-repeat: no-repeat no-repeat; }
-.CodeMirror-lint-marker-error, .CodeMirror-lint-message-error { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAHlBMVEW7AAC7AACxAAC7AAC7AAAAAAC4AAC5AAD///+7AAAUdclpAAAABnRSTlMXnORSiwCK0ZKSAAAATUlEQVR42mWPOQ7AQAgDuQLx/z8csYRmPRIFIwRGnosRrpamvkKi0FTIiMASR3hhKW+hAN6/tIWhu9PDWiTGNEkTtIOucA5Oyr9ckPgAWm0GPBog6v4AAAAASUVORK5CYII=); }
-.CodeMirror-lint-marker-warning, .CodeMirror-lint-message-warning { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAANlBMVEX/uwDvrwD/uwD/uwD/uwD/uwD/uwD/uwD/uwD6twD/uwAAAADurwD2tQD7uAD+ugAAAAD/uwDhmeTRAAAADHRSTlMJ8mN1EYcbmiixgACm7WbuAAAAVklEQVR42n3PUQqAIBBFUU1LLc3u/jdbOJoW1P08DA9Gba8+YWJ6gNJoNYIBzAA2chBth5kLmG9YUoG0NHAUwFXwO9LuBQL1giCQb8gC9Oro2vp5rncCIY8L8uEx5ZkAAAAASUVORK5CYII=); }
-.CodeMirror-lint-marker-multiple { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAMAAADzjKfhAAAACVBMVEUAAAAAAAC/v7914kyHAAAAAXRSTlMAQObYZgAAACNJREFUeNo1ioEJAAAIwmz/H90iFFSGJgFMe3gaLZ0od+9/AQZ0ADosbYraAAAAAElFTkSuQmCC); width: 100%; height: 100%; background-position: 100% 100%; background-repeat: no-repeat no-repeat; }
+<title>groovy-notes.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-
-:root { --bg-color: rgb(255, 255, 255); --text-color: rgb(51, 51, 51); --code-block-bg-color: inherit; }
-html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
-a:active, a:hover { outline: 0px; }
-.in-text-selection, ::selection { background-color: rgb(181, 214, 252); text-shadow: none; background-position: initial initial; background-repeat: initial initial; }
-#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; padding-bottom: 70px; white-space: pre-wrap; overflow-x: visible; }
-.for-image #write { padding-left: 8px; padding-right: 8px; }
-body.typora-export { padding-left: 30px; padding-right: 30px; }
-@media screen and (max-width: 500px) { 
-  body.typora-export { padding-left: 0px; padding-right: 0px; }
-  .CodeMirror-sizer { margin-left: 0px !important; }
-  .CodeMirror-gutters { display: none !important; }
-}
-.typora-export #write { margin: 0px auto; }
-#write > p:first-child, #write > ul:first-child, #write > ol:first-child, #write > pre:first-child, #write > blockquote:first-child, #write > div:first-child, #write > table:first-child { margin-top: 30px; }
-#write li > table:first-child { margin-top: -20px; }
-img { max-width: 100%; vertical-align: middle; }
-input, button, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; line-height: inherit; }
-input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
-::before, ::after, * { box-sizing: border-box; }
-#write p, #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write div, #write pre { width: inherit; }
-#write p, #write h1, #write h2, #write h3, #write h4, #write h5, #write h6 { position: relative; }
-h1 { font-size: 2rem; }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.6rem; }
-h4 { font-size: 1.4rem; }
-h5 { font-size: 1.2rem; }
-h6 { font-size: 1rem; }
-p { -webkit-margin-before: 1rem; -webkit-margin-after: 1rem; -webkit-margin-start: 0px; -webkit-margin-end: 0px; }
-.typora-export p { white-space: normal; }
-.mathjax-block { margin-top: 0px; margin-bottom: 0px; -webkit-margin-before: 0rem; -webkit-margin-after: 0rem; }
-.hidden { display: none; }
-.md-blockmeta { color: rgb(204, 204, 204); font-weight: bold; font-style: italic; }
-a { cursor: pointer; }
-sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.701961); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; }
-#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; margin: 4px 0px 0px; }
-figure { max-width: 100%; overflow-x: auto; margin: 0px; }
-tr { page-break-inside: avoid; page-break-after: auto; }
-thead { display: table-header-group; }
-table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; page-break-inside: auto; text-align: left; }
-table.md-table td { min-width: 80px; }
-.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
-.CodeMirror { text-align: left; }
-.CodeMirror-placeholder { opacity: 0.3; }
-.CodeMirror pre { padding: 0px 4px; }
-.CodeMirror-lines { padding: 0px; }
-div.hr:focus { cursor: none; }
-pre { white-space: pre-wrap; }
-.CodeMirror-gutters { margin-right: 4px; }
-.md-fences { font-size: 0.9rem; display: block; page-break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: var(--code-block-bg-color); position: relative !important; }
-.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
-.md-fences .CodeMirror.CodeMirror-wrap { top: -1.6em; margin-bottom: -1.6em; }
-.md-fences.mock-cm { white-space: pre-wrap; }
-.show-fences-line-number .md-fences { padding-left: 0px; }
-.show-fences-line-number .md-fences.mock-cm { padding-left: 40px; }
-.CodeMirror-line { page-break-inside: avoid; }
-.footnotes { opacity: 0.8; font-size: 0.9rem; padding-top: 1em; padding-bottom: 1em; }
-.footnotes + .footnotes { margin-top: -1em; }
-.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background-color: transparent; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: normal; text-align: left; box-sizing: content-box; direction: ltr; background-position: initial initial; background-repeat: initial initial; }
-li div { padding-top: 0px; }
-blockquote { margin: 1rem 0px; }
-li p, li .mathjax-block { margin: 0.5rem 0px; }
-li { margin: 0px; position: relative; }
-blockquote > :last-child { margin-bottom: 0px; }
-blockquote > :first-child { margin-top: 0px; }
-.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; }
-@media print { 
-  html, body { border: 1px solid transparent; height: 99%; page-break-after: avoid; page-break-before: avoid; }
-  .typora-export * { -webkit-print-color-adjust: exact; }
-  h1, h2, h3, h4, h5, h6 { page-break-after: avoid; break-after: avoid-page; orphans: 2; }
-  p { orphans: 4; }
-  html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 1cm; padding-right: 1cm; padding-bottom: 0px; page-break-after: avoid; }
-  .typora-export #write::after { height: 0px; }
-  @page { margin: 20mm 0mm; }
-}
-.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
-a img, img a { cursor: pointer; }
-pre.md-meta-block { font-size: 0.8rem; min-height: 2.86rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
-p > img:only-child { display: block; margin: auto; }
-p .md-image:only-child { display: inline-block; width: 100%; text-align: center; }
-#write .MathJax_Display { margin: 0.8em 0px 0px; }
-.mathjax-block { white-space: pre; overflow: hidden; width: 100%; }
-p + .mathjax-block { margin-top: -1.143rem; }
-.mathjax-block:not(:empty)::after { display: none; }
-[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: none; box-shadow: none; }
-.task-list { list-style-type: none; }
-.task-list-item { position: relative; padding-left: 1em; }
-.task-list-item input { position: absolute; top: 0px; left: 0px; }
-.math { font-size: 1rem; }
-.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
-.md-toc-content { position: relative; margin-left: 0px; }
-.md-toc::after, .md-toc-content::after { display: none; }
-.md-toc-item { display: block; color: rgb(65, 131, 196); }
-.md-toc-item a { text-decoration: none; }
-.md-toc-inner:hover { }
-.md-toc-inner { display: inline-block; cursor: pointer; }
-.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: bold; }
-.md-toc-h2 .md-toc-inner { margin-left: 2em; }
-.md-toc-h3 .md-toc-inner { margin-left: 4em; }
-.md-toc-h4 .md-toc-inner { margin-left: 6em; }
-.md-toc-h5 .md-toc-inner { margin-left: 8em; }
-.md-toc-h6 .md-toc-inner { margin-left: 10em; }
-@media screen and (max-width: 48em) { 
-  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
-  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
-  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
-  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
-}
-a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
-.footnote-line a:not(.reversefootnote) { color: inherit; }
-.md-attr { display: none; }
-.md-fn-count::after { content: '.'; }
-.md-tag { opacity: 0.5; }
-.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: monospace; }
-code { text-align: left; }
-h1 .md-tag, h2 .md-tag, h3 .md-tag, h4 .md-tag, h5 .md-tag, h6 .md-tag { font-weight: initial; opacity: 0.35; }
-a.md-print-anchor { border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: none !important; background-color: transparent !important; text-shadow: initial !important; background-position: initial initial !important; background-repeat: initial initial !important; }
-.md-inline-math .MathJax_SVG .noError { display: none !important; }
-.mathjax-block .MathJax_SVG_Display { text-align: center; margin: 1em 0em; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; display: block !important; }
-.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
-.MathJax_SVG .MJX-monospace { font-family: monospace; }
-.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
-.MathJax_SVG { display: inline; font-style: normal; font-weight: normal; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
-.MathJax_SVG * { -webkit-transition: none; transition: none; }
-.md-diagram-panel > svg { max-width: 100%; }
-[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; }
-
-
-:root {
-    --side-bar-bg-color: #fafafa;
-    --control-text-color: #777;
-}
-
-@include-when-export url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
-
-@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Open Sans Regular'),url('file:///Users/work/Library/Application%20Support/abnerworks.Typora/themes/github/400.woff') format('woff')
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    font-style: italic;
-    font-weight: normal;
-    src: local('Open Sans Italic'),url('file:///Users/work/Library/Application%20Support/abnerworks.Typora/themes/github/400i.woff') format('woff')
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: bold;
-    src: local('Open Sans Bold'),url('file:///Users/work/Library/Application%20Support/abnerworks.Typora/themes/github/700.woff') format('woff')
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    font-style: italic;
-    font-weight: bold;
-    src: local('Open Sans Bold Italic'),url('file:///Users/work/Library/Application%20Support/abnerworks.Typora/themes/github/700i.woff') format('woff')
-}
-
-html {
-    font-size: 16px;
-}
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 body {
-    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-    color: rgb(51, 51, 51);
-    line-height: 1.6;
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
 }
 
-#write{
-    max-width: 860px;
-  	margin: 0 auto;
-  	padding: 20px 30px 40px 30px;
-	padding-top: 20px;
-    padding-bottom: 100px;
-}
-#write > ul:first-child,
-#write > ol:first-child{
-    margin-top: 30px;
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
 }
 
-body > *:first-child {
-    margin-top: 0 !important;
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
 }
-body > *:last-child {
-    margin-bottom: 0 !important;
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
 }
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
 a {
-    color: #4183C4;
+	text-decoration: none;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    position: relative;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    font-weight: bold;
-    line-height: 1.4;
-    cursor: text;
+
+a:hover {
+	text-decoration: underline;
 }
-h1:hover a.anchor,
-h2:hover a.anchor,
-h3:hover a.anchor,
-h4:hover a.anchor,
-h5:hover a.anchor,
-h6:hover a.anchor {
-    /*background: url("file:///Users/work/Library/Application%20Support/images/modules/styleguide/para.png") no-repeat 10px center;*/
-    text-decoration: none;
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
 }
-h1 tt,
-h1 code {
-    font-size: inherit;
-}
-h2 tt,
-h2 code {
-    font-size: inherit;
-}
-h3 tt,
-h3 code {
-    font-size: inherit;
-}
-h4 tt,
-h4 code {
-    font-size: inherit;
-}
-h5 tt,
-h5 code {
-    font-size: inherit;
-}
-h6 tt,
-h6 code {
-    font-size: inherit;
-}
-h1 {
-    padding-bottom: .3em;
-    font-size: 2.25em;
-    line-height: 1.2;
-    border-bottom: 1px solid #eee;
-}
-h2 {
-   padding-bottom: .3em;
-    font-size: 1.75em;
-    line-height: 1.225;
-    border-bottom: 1px solid #eee;
-}
-h3 {
-    font-size: 1.5em;
-    line-height: 1.43;
-}
-h4 {
-    font-size: 1.25em;
-}
-h5 {
-    font-size: 1em;
-}
-h6 {
-   font-size: 1em;
-    color: #777;
-}
-p,
-blockquote,
-ul,
-ol,
-dl,
-table{
-    margin: 0.8em 0;
-}
-li>ol,
-li>ul {
-    margin: 0 0;
-}
+
 hr {
-    height: 4px;
-    padding: 0;
-    margin: 16px 0;
-    background-color: #e7e7e7;
-    border: 0 none;
-    overflow: hidden;
-    box-sizing: content-box;
-    border-bottom: 1px solid #ddd;
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
 }
 
-body > h2:first-child {
-    margin-top: 0;
-    padding-top: 0;
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 }
-body > h1:first-child {
-    margin-top: 0;
-    padding-top: 0;
+
+h1, h2, h3 {
+	font-weight: normal;
 }
-body > h1:first-child + h2 {
-    margin-top: 0;
-    padding-top: 0;
-}
-body > h3:first-child,
-body > h4:first-child,
-body > h5:first-child,
-body > h6:first-child {
-    margin-top: 0;
-    padding-top: 0;
-}
-a:first-child h1,
-a:first-child h2,
-a:first-child h3,
-a:first-child h4,
-a:first-child h5,
-a:first-child h6 {
-    margin-top: 0;
-    padding-top: 0;
-}
-h1 p,
-h2 p,
-h3 p,
-h4 p,
-h5 p,
-h6 p {
-    margin-top: 0;
-}
-li p.first {
-    display: inline-block;
-}
-ul,
-ol {
-    padding-left: 30px;
-}
-ul:first-child,
-ol:first-child {
-    margin-top: 0;
-}
-ul:last-child,
-ol:last-child {
-    margin-bottom: 0;
-}
-blockquote {
-    border-left: 4px solid #dddddd;
-    padding: 0 15px;
-    color: #777777;
-}
-blockquote blockquote {
-    padding-right: 0;
-}
+
 table {
-    padding: 0;
-    word-break: initial;
-}
-table tr {
-    border-top: 1px solid #cccccc;
-    margin: 0;
-    padding: 0;
-}
-table tr:nth-child(2n) {
-    background-color: #f8f8f8;
-}
-table tr th {
-    font-weight: bold;
-    border: 1px solid #cccccc;
-    text-align: left;
-    margin: 0;
-    padding: 6px 13px;
-}
-table tr td {
-    border: 1px solid #cccccc;
-    text-align: left;
-    margin: 0;
-    padding: 6px 13px;
-}
-table tr th:first-child,
-table tr td:first-child {
-    margin-top: 0;
-}
-table tr th:last-child,
-table tr td:last-child {
-    margin-bottom: 0;
+	border-collapse: collapse;
 }
 
-.CodeMirror-gutters {
-    border-right: 1px solid #ddd;
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
 }
 
-.md-fences,
-code,
-tt {
-    border: 1px solid #ddd;
-    background-color: #f8f8f8;
-    border-radius: 3px;
-    padding: 0;
-    font-family: Consolas, "Liberation Mono", Courier, monospace;
-    padding: 2px 4px 0px 4px;
-    font-size: 0.9em;
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
 }
 
-.md-fences {
-    margin-bottom: 15px;
-    margin-top: 15px;
-    padding: 0.2em 1em;
-    padding-top: 8px;
-    padding-bottom: 6px;
-}
-.task-list{
-	padding-left: 0;
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
 }
 
-.task-list-item {
-	padding-left:32px;
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
 }
 
-.task-list-item input {
-  top: 3px;
-  left: 8px;
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
 }
 
-@media screen and (min-width: 914px) {
-    /*body {
-        width: 854px;
-        margin: 0 auto;
-    }*/
-}
-@media print {
-    html {
-        font-size: 13px;
-    }
-    table,
-    pre {
-        page-break-inside: avoid;
-    }
-    pre {
-        word-wrap: break-word;
-    }
+body.wordWrap pre {
+	white-space: pre-wrap;
 }
 
-.md-fences {
-	background-color: #f8f8f8;
-}
-#write pre.md-meta-block {
-	padding: 1rem;
-    font-size: 85%;
-    line-height: 1.45;
-    background-color: #f7f7f7;
-    border: 0;
-    border-radius: 3px;
-    color: #777777;
-    margin-top: 0 !important;
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
 }
 
-.mathjax-block>.code-tooltip {
-	bottom: .375rem;
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
 }
 
-#write>h3.md-focus:before{
-	left: -1.5625rem;
-	top: .375rem;
-}
-#write>h4.md-focus:before{
-	left: -1.5625rem;
-	top: .285714286rem;
-}
-#write>h5.md-focus:before{
-	left: -1.5625rem;
-	top: .285714286rem;
-}
-#write>h6.md-focus:before{
-	left: -1.5625rem;
-	top: .285714286rem;
-}
-.md-image>.md-meta {
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    font-family: Consolas, "Liberation Mono", Courier, monospace;
-    padding: 2px 4px 0px 4px;
-    font-size: 0.9em;
-    color: inherit;
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
 }
 
-.md-tag{
-	color: inherit;
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
 }
 
-.md-toc { 
-    margin-top:20px;
-    padding-bottom:20px;
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
 }
 
-.sidebar-tabs {
-    border-bottom: none;
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
 }
 
-#typora-quick-open {
-    border: 1px solid #ddd;
-    background-color: #f8f8f8;
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
 }
 
-#typora-quick-open-item {
-    background-color: #FAFAFA;
-    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
-    border-style: solid;
-    border-width: 1px;
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
 }
 
-#md-notification:before {
-    top: 10px;
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
 }
 
-/** focus mode */
-.on-focus-mode blockquote {
-    border-left-color: rgba(85, 85, 85, 0.12);
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
 }
-
-header, .context-menu, .megamenu-content, footer{
-    font-family: "Segoe UI", "Arial", sans-serif;
-}
-
-.file-node-content:hover .file-node-icon,
-.file-node-content:hover .file-node-open-state{
-    visibility: visible;
-}
-
-.mac-seamless-mode #typora-sidebar {
-    background-color: #fafafa;
-    background-color: var(--side-bar-bg-color);
-}
-
-.md-lang {
-    color: #b4654d;
-}
-
-
 
 </style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
 </head>
-<body class='typora-export' >
-<div  id='write'  class = 'is-mac'><h1><a name='header-n0' class='md-header-anchor '></a>Groovy笔记</h1><h3><a name='header-n2' class='md-header-anchor '></a>Groovy是什么</h3><p>Groovy 是一种面向对象的动态类型语言，与 Java 一样运行在 JVM 上。</p><h3><a name='header-n5' class='md-header-anchor '></a>简介</h3><p>Apache Groovy 是一个<strong>功能强大、可选类型</strong>的<strong>动态</strong>语言，有<strong>静态类型</strong>和<strong>静态编译</strong>能力。旨在通过<strong>简单、熟悉、易学的语法</strong>来提高 Java 平台的开发人员的开发效率。它与任何Java程序无缝集成，并可以为你的应用提供强大的功能，包括<strong>脚本能力、领域特定语言（Domain-Specific Language）、</strong>运行和编译时<strong>元编程</strong>和<strong>函数式</strong>编程。</p><h3><a name='header-n309' class='md-header-anchor '></a>JDK和GDK之间的关系</h3><p>GDK是基于JDK的，所以在Java代码和Groovy代码之间传递对象时，无需任何转换。当处在同一JVM中时，Java端和Groovy端使用的是同一对象</p><h3><a name='header-n11' class='md-header-anchor '></a>特点</h3><ul><li><strong>平坦的学习曲线</strong>：简洁的语法，对Java开发人员友好。</li><li><strong>强大的功能</strong>：闭包、构建、运行时与编译时元编程、函数式编程、类型推断和静态编译。</li><li><strong>平滑的Java集成</strong>：与Java及任何第三方库无缝透明地集成和互操作。</li><li><strong>领域特定语言</strong>：灵活和可锻铸语法，先进的集成和定制机制，在应用程序中集成可读的业务规则。</li><li><strong>充满活力和丰富的生态系统</strong>：Web开发，并发、异步、并行库，测试框架，构建工具，代码分析，GUI构建等。</li><li><strong>脚本和测试粘合：</strong>为所有的构建和自动化任务编写简洁可维护的测试。</li></ul><p>Groovy还有其他一些使这门语言更为轻量级、更为易用的特性，试举几例如下:</p><ul><li>return语句几乎总是可选的 </li><li>尽管可以使用分号分隔语句，但它几乎总是可选的</li><li> 方法和类默认是公开（public）的</li><li> ?.操作符只有对象引用不为空时才会分派调用</li><li> 可以使用具名参数初始化JavaBean</li><li>Groovy不强迫我们捕获自己不关心的异常，这些异常会被传递给代码的</li><li>静态方法内可以使用this来引用Class对象</li></ul><h3><a name='header-n43' class='md-header-anchor '></a>语法示例</h3><pre class="md-fences md-end-block md-focus" lang="" style="page-break-inside: unset;"> <div class="CodeMirror cm-s-inner CodeMirror-wrap CodeMirror-focused"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 3674px; left: 12.609375px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">public class GroovyTest {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  // sum method</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  def static sum(n, closure) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;  for(int i = 2; i &lt;= n; i += 2) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  closure(i)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;  // return 2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;  2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  def static curried(closure) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  Date date = new Date()</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  def curriedClosure = closure.curry(date)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  curriedClosure("papapa")</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  def static paramsDemo(a, b, c, closure) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  closure(a + b + c, a + b)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  def static dynamic(data, closure){</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  if(closure.maximumNumberOfParameters == 1){</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  closure(data)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }else{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  closure(data, " lala ")</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  def static examingClosure(closure) {closure()}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  public static void main(String []args){</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println "java in groovy!"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  for(int i =  0;i &lt; 10;i++) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  System.out.print(i);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  print i + ","</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println "\nrange for";</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  for (i in 0..2) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  print i</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println "\nclosure"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  0.upto(10){</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  print "$it"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println  "\nrepeat "</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  3.times {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  print "index $it,"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  print "ho "</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println "\nstep demo"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  1.step(10, 5) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  print "$it,"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println "\nsystem command invocation!"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  print "java -version".execute().text;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println "\na new way to check null"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  String a = null</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  a?.print()</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println "\ncatch exception is not necessary!"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println "semicolon is not necessary!"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  // evaluate expression in string</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println "${1==0}"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  def total = 1</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  // 666</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println "${sum(10, {index -&gt; println "$index";total *= index})}"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println total</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  sum(10){index -&gt; total *= index}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println total</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  paramsDemo("hello ", "world", "!") {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  cb1, cb2 -&gt; println cb1 + cb2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  curried(){</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; date, event -&gt; println date.toString() + " " + event </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  dynamic("666"){</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  data -&gt; println data</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  dynamic("666") {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  aa, bb -&gt; println aa + bb</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  dynamic("666") {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  // default maxmiumNumberOfParameters == 1</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println it</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  examingClosure() {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  -&gt; L:{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println getClass().name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println this.getClass().superclass.name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println owner.getClass().superclass.name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println delegate.getClass().superclass.name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  examingClosure() {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println getClass().name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println this.getClass().superclass.name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println owner.getClass().superclass.name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println delegate.getClass().superclass.name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  // string minus</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  def str = "It's a rainy day in Seattle"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println str</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  str -= "rainy "</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println str</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  // turn string to regex pattern</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  str = ~'hello'</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println str.getClass().name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  // list</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  def lst = [1,2,3,5,8,13]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println lst.getClass().name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println lst[0]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println lst[-1]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println lst[2..3]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  def left = 3</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  def right = 4</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println lst[left..right]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  // list ops</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  lst.each(){println it}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println lst.collect{ it * 2}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println lst.find{ it == 13}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println lst.collect{it}.sum()</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  def flattened = [["ni", "shi"], "sha", "bi", "ba"].flatten()</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println flattened</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println flattened - ["ni", "shi"]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println flattened*.size()</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  lst.with{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  add(3)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println "with"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println size()</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println contains(3)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  // map</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  def langs = ['C++' : 'Stroustrup', 'Java' : 'Gosling', 'Lisp' : 'McCarthy', 'AD': "99"]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println langs.getClass().name</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  // map ops</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println langs["C++"]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println langs."C++"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  langs.each{item -&gt; println item}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  langs.each{k, v -&gt; println k + ":" + v}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println langs.any{k, v -&gt; v =~ ~"[A-Za-z]"}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  println langs.every{k, v -&gt; v =~ ~"[A-Za-z]"}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  def friends = [ briang : 'Brian Goetz', brians : 'Brian Sletten', </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; davidb : 'David Bock', davidg : 'David Geary',</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; scottd : 'Scott Davis', scottl : 'Scott Leberknight', </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; stuarth : 'Stuart Halloway']</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  def groupByFirstName = friends.groupBy { it.value.split(' ')[0] }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  groupByFirstName.each { firstName, buddies -&gt;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  println "$firstName : ${buddies.collect { key, fullName -&gt; fullName }.join(', ')}"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  }</span></pre><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 3696px;"></div><div class="CodeMirror-gutters" style="display: none; height: 3726px;"></div></div></div></pre><h3><a name='header-n327' class='md-header-anchor '></a>存在的陷阱</h3><ul><li>Groovy将==操作符映射到了Java中的equals()方法，当且仅当该类没有实现Comparable接口时，才会这样映射。如果实现了Comparable接口，则==会被映射到该类的compareTo()方法. 可以使用groovy的<strong>is</strong>方法来判等</li><li>编译时类型检查默认为关闭，Groovy编译器不会验证类型，相反，它只是进行强制类型转换，然后将其留给运行时处理。Groovy编译器可能看上去不够严格，但是对于Groovy的动态和元编程等强项而言，这种行为是必要的，我们也可以选择性地增强编译时类型检查。可以使用特殊的注解@TypeChecked，让Groovy去检查这些种错误，这个注解可以用于类或单个方法上。如果用于一个类，则类型检查会在该类中所有的方法、闭包和内部类上执行。如果用于一个方法，则类型检查仅在目标方法的成员上执行。我们还可以使用SKIP参数去掉一些具体的方法，不对它们进行静态类型检查。可以使用@CompileStatic注解让Groovy执行静态编译。这样为目标代码生成的字节码会和javac生成的字节码很像，性能足以与Java媲美</li></ul><ul><li><p><strong>def</strong>和<strong>in</strong>都是Groovy中的新关键字。def用于定义方法、属性和局部变量。in用于在for循环中指定循环的区间，比如for(i in 1..10)。当把现有的Java代码当作Groovy代码时，要小心这些新关键字引起的语义变化。不要定义名为it的变量</p></li><li><p>不要在java中使用这样的代码段</p><pre class="md-fences md-end-block" lang=""> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 3.609375px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// Java代码</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">public void method() {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  System.out.println("in method1");</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  System.out.println("in block");</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 176px;"></div><div class="CodeMirror-gutters" style="display: none; height: 206px;"></div></div></div></pre><p>Java中的代码块定义了一个新的作用域，但是Groovy会感到困扰。Groovy编译器会错误地认为我们是要定义一个闭包，并给出编译错误。在Groovy中，方法内不能有任何这样的代码块。</p></li><li><p>注意闭包与匿名内部类的冲突</p></li><li><p>不要一开始就强制使用闭包去写代码，在代码重构，review的阶段引入也是合适的</p></li><li><p>要在Groovy中创建基本类型的数组，不能使用我们在Java中所习惯的方式</p><pre class="md-fences md-end-block" lang=""> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 3.609375px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">int[] arr = new int[] {1, 2, 3, 4, 5}; // java</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">int[] arr = [1, 2, 3, 4, 5] // groovy</span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">def arr = [1, 2, 3, 4, 5] as int[] // groovy</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 66px;"></div><div class="CodeMirror-gutters" style="display: none; height: 96px;"></div></div></div></pre></li></ul><h3><a name='header-n69' class='md-header-anchor '></a>哪些情况下需指明类型</h3><p>在使用Groovy编程时，我倾向于省略类型. 当然在必要的情况下，我也会选择指明类型。比如，</p><ul><li>JUnit要求测试方法为void类型</li><li>在Grails对象关系映射（GORM）中把类型映射到数据库。</li><li>如果要为使用静态类型语言的程序员开发API，那我们会在静态类型的、面向客户的API中指明方法形参的类型</li></ul><h3><a name='header-n82' class='md-header-anchor '></a>Groovy和Java混用</h3><p>要在Groovy代码中使用Groovy类，无需做什么，直接就可以工作。我们只需要确保所依赖的类在类路径（classpath）下，要么是源代码，要么是字节码。要把一个Groovy脚本拉到我们的Groovy代码中，可以使用GroovyShell。而如果要在Java类中使用Groovy脚本，则可以使用JSR 223提供的ScriptEngine API。如果想在Java中使用Groovy类，或者想在Groovy中使用Java类，我们可以利用Groovy的联合编译（joint-compilation）工具</p><h5><a name='header-n85' class='md-header-anchor '></a>运行groovy</h5><p>要运行Groovy代码，我们有两个选择。</p><ul><li><p>一个是对源代码运行groovy命令。Groovy会自动在内存中编译代码并执行。我们不必引入一个明确的编译步骤。</p></li><li><p>第二个方法，如果想用类似Java的那种更传统的方法，即显式的编译代码来创建字节码（.class文件），可以使用groovyc编译器。要执行编译好的字节码，可以像执行编译好的Java代码那样使用java命令。唯一的区别是，我们需要把groovy-all-2.1.0.jar文件放在classpath下。记得在classpath里添加一个句点（.），这样java命令就可以找到当前目录下的类了。这一Java存档文件（JAR）在GROOVY_HOME下的embeddable目录中。</p><pre class="md-fences md-end-block" lang=""> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 3.609375px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">java -classpath $GROOVY_HOME/embeddable/groovy-all-2.1.0.jar:. $groovy_file</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 52px;"></div></div></div></pre></li></ul><h5><a name='header-n96' class='md-header-anchor '></a>在Groovy中使用Groovy类</h5><p>要在Groovy代码中使用一个Groovy类，只需要确保该类在我们的classpath下。可以使用Groovy源代码，也可以把源代码编译成.class文件并使用该文件——随我们选择。当我们的Groovy代码引用了一个Groovy类时，Groovy会以该类的名字在我们的classpath下查找.groovy文件；如果找不到，则以同样的名字查找.class文件.</p><h5><a name='header-n99' class='md-header-anchor '></a>利用联合编译混合使用Groovy和Java</h5><p>如果Groovy类是预先编译好的，那我们就可以方便地在Java中使用.class文件或JAR包。来自Java的字节码和来自Groovy的字节码，对Java而言没什么区别；我们必须把Groovy JAR文件放在我们的classpath下，类似于我们使用Spring、Hibernate或其他框架/类库的JAR文件时的做法。</p><p>如果我们只有Groovy源代码，而非字节码，又会怎样呢？请记住，当我们的Java类依赖其他Java类时，如果没有找到字节码，javac将编译它认为必要的任何Java类。不过javac对Groovy可没这么友好。幸好groovyc支持联合编译。当我们编译Groovy代码时，它会确定是否有任何需要编译的Java类，并负责编译它们。因此我们可以自由地在项目中混合使用Java代码和Groovy代码，而且不必执行单独的编译步骤。简单地调用groovyc就好。</p><p>要利用联合编译，我们需要使用-j编译标志。使用-J前缀把标志传给groovy编译器.</p><pre class="md-fences md-end-block" lang=""> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 3.609375px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">groovyc -j JavaClass.java UseJavaClass.groovy -Jsource 1.6</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 52px;"></div></div></div></pre><p>-Jsource 1.6会把可选的选项source = 1.6发送给编译器。使用javap检查生成的字节码，会发现JavaClass作为一个普通的Java类，扩展了java.lang.Object，而UseJavaClass扩展了groovy.lang.Script。</p><h5><a name='header-n109' class='md-header-anchor '></a>在Java中创建与传递Groovy闭包</h5><p>如果仔细检查，我们会发现，当Groovy调用一个闭包时，它只是使用了一个名为call()的特殊方法。要在Java中创建一个闭包，我们只需要一个包含该方法的类。如果Groovy代码要向闭包传递实参，我们必须确保call()方法接受这些实参作为形参.</p><h5><a name='header-n112' class='md-header-anchor '></a>在Java中调用Groovy动态方法</h5><p>每个Groovy对象都实现了GroovyObject接口，该接口有一个叫作invokeMethod()的特殊方法。该方法接受要调用的方法的名字，以及要传递的参数。在Java这一端，invokeMethod()可以用来调用Groovy中使用元编程动态定义的方法. 从Java中可以使用任何Groovy类，这点没有限制，不管它们是否是动态的。</p><h5><a name='header-n115' class='md-header-anchor '></a>在Groovy中使用Java类</h5><p>在Groovy中使用Java类简单且直接。如果我们想使用的Java类是JDK的一部分，可以像在Java中那样导入这些类或它们的包。Groovy默认会导入很多包和类，因此，如果我们想使用的类已经导入（比如java.util.Date），直接用就可以了，无需再导入.</p><p>如果想使用一个自己的Java类，或者不是标准JDK中的类，在Groovy中可以像在Java中那样导入它们。请确保导入了必要的包或类，或者使用类的全限定名来引用它们。当运行groovy时，可以使用-classpath选项指定.class文件或JAR包的路径。如果类文件和我们的Groovy代码在同一目录下，则不需要通过该选项指定目录。</p><p>如果想显式地编译Groovy调用了java的代码，不必分别编译Java和Groovy。可以使用联合编译代替。</p><h5><a name='header-n122' class='md-header-anchor '></a>从Groovy中使用Groovy脚本</h5><p>使用GroovyShell，我们可以在任何文件（或字符串）中对脚本调用evaluate()方法，以执行该脚本。</p><pre class="md-fences md-end-block" lang=""> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 3.609375px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">evaluate(new File('Script1.groovy'))</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 52px;"></div></div></div></pre><p>如果我们想向脚本传递一些参数，又该怎么办呢？我们可以使用一个Binding实例来绑定变量</p><pre class="md-fences md-end-block" lang=""> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 3.609375px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">println "In Script2"</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">name = "Venkat"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">shell = new GroovyShell(binding)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">result = shell.evaluate(new File('Script1a.groovy'))</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">println "Script1a returned : $result"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">println "Hello $name"</span></pre></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 198px;"></div><div class="CodeMirror-gutters" style="display: none; height: 228px;"></div></div></div></pre><p>在发起调用的脚本中，我们创建了一个变量name（与被调用脚本中用到的变量名字相同）。当创建GroovyShell的实例时，我们将当前的Binding对象传给了它（每个脚本执行时都有一个这样的对象）。被调用脚本现在就可以使用（读取和设置）发起调用脚本所知道的变量了.</p><p>如果不希望影响当前的binding， 而是想将其与被调用脚本的binding分开，我们只需要创建一个新的Binding实例，在该实例上调用setProperty()来设置变量名和值，并将其作为创建GroovyShell实例时的一个参数</p><pre class="md-fences md-end-block" lang=""> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 3.609375px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">println "In Script3"</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">binding1 = new Binding()</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">binding1.setProperty('name', 'Venkat')</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">shell = new GroovyShell(binding1)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">shell.evaluate(new File('Script1a.groovy'))</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">binding2 = new Binding()</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">binding2.setProperty('name', 'Dan')</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">shell.binding = binding2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">shell.evaluate(new File('Script1a.groovy'))</span></pre></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 242px;"></div><div class="CodeMirror-gutters" style="display: none; height: 272px;"></div></div></div></pre><h5><a name='header-n134' class='md-header-anchor '></a>从Java中使用Groovy脚本</h5><p>如果想在Java中使用Groovy脚本，我们可以利用JSR 223（JSR即Java Specification Request，Java规范请求）需要确保…/jsr223-engines/groovy/build/groovy-engine.jar在我们的classpath下</p><h3><a name='header-n232' class='md-header-anchor '></a>MOP与元编程</h3><p>元编程（meta programming）意味着编写能够操作程序的程序，包括操作程序自身。像Groovy这样的动态语言通过元对象协议（MetaObject Protocol，MOP）提供了这种能力。利用Groovy的MOP，创建类、编写单元测试和引入模拟对象都很容易。在Groovy中，使用MOP可以动态调用方法，甚至在运行时合成类和方法。借助MOP，在Groovy中可以创建内部的领域特定语言。</p><h5><a name='header-n259' class='md-header-anchor '></a>Groovy对象</h5><p>Groovy对象是带有附加功能的Java对象。在一个Groovy应用中，我们会使用三类对象：POJO、POGO和Groovy拦截器。POJO（Plain Old Java Object）就是普通的Java对象，可以使用Java或JVM上的其他语言来创建。POGO（Plain Old Groovy Object）是用Groovy编写的对象，扩展了java.lang.Object，同时也实现了groovy.lang.GroovyObject接口。Groovy拦截器是扩展了GroovyInterceptable的Groovy对象，具有方法拦截功能。Groovy这样定义的GroovyObject接口:</p><pre class="md-fences md-end-block" lang=""> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 3.609375px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//这是Groovy源代码中GroovyObject.java的一个片段</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">package groovy.lang;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">public interface GroovyObject {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  Object invokeMethod(String name, Object args);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  Object getProperty(String property);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  void setProperty(String property, Object newValue);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  MetaClass getMetaClass();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  void setMetaClass(MetaClass metaClass);</span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 198px;"></div><div class="CodeMirror-gutters" style="display: none; height: 228px;"></div></div></div></pre><p>我们可以通过调用setMetaClass()修改它的MetaClass。这给我们一种对象在运行时修改了它的类的感觉.</p><p>当我们调用一个方法时，Groovy会检查目标对象是一个POJO还是一个POGO. 对于一个POJO，Groovy会去应用类（application-wide）的MetaClassRegistry取它的MetaClass，并将方法调用委托给它。因此，我们在它的MetaClass上定义的任何拦截器或方法，都优先于POJO原来的方法.</p><p>对于一个POGO, 如果对象实现了GroovyInterceptable，那么所有的调用都会被路由给它的<code>invokeMethod()</code>, 在这个拦截器内，我们可以把调用路由给实际的方法，使类AOP（Aspect-Oriented Programming，面向方面编程）的操作成为可能. 如果该POGO没有实现GroovyInterceptable，那么Groovy会先查找它的MetaClass中的方法，之后，如果没有找到，则查找POGO自身上的方法。 如果该POGO没有这样的方法，Groovy会以方法名查找属性或字段。如果属性或字段是Closure类型的，Groovy会调用它，替代方法调用。如果Groovy没有找到这样的属性或字段，它会做最后两次尝试。如果POGO有一个名为methodMissing()的方法，则调用该方法。否则调用POGO的invokeMethod()。如果我们在POGO上实现了这个方法，它会被调用。invokeMethod()的默认实现会抛出一个<code>MissingMethodException</code>.</p><p>&nbsp;</p></div>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="groovy-%E7%AC%94%E8%AE%B0">Groovy 笔记</h1>
+<h3 id="groovy-%E6%98%AF%E4%BB%80%E4%B9%88">Groovy 是什么</h3>
+<p>Groovy 是一种面向对象的动态类型语言，与 Java 一样运行在 JVM 上。</p>
+<h3 id="%E7%AE%80%E4%BB%8B">简介</h3>
+<p>Apache Groovy 是一个<strong>功能强大、可选类型</strong>的<strong>动态</strong>语言，有<strong>静态编译</strong>能力。旨在通过<strong>简单、熟悉、易学的语法</strong>来提高 Java 平台的开发人员的开发效率。它与任何 Java 程序无缝集成，并可以为你的应用提供强大的功能，包括<strong>脚本能力、领域特定语言（Domain-Specific Language）、<strong>运行和编译时</strong>元编程</strong>和<strong>函数式</strong>编程。</p>
+<h3 id="jdk-%E5%92%8C-gdk-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB">JDK 和 GDK 之间的关系</h3>
+<p>GDK 是基于 JDK 的，所以在 Java 代码和 Groovy 代码之间传递对象时，无需任何转换。当处在同一 JVM 中时，Java 端和 Groovy 端使用的是同一对象</p>
+<h3 id="%E7%89%B9%E7%82%B9">特点</h3>
+<ul>
+<li><strong>平坦的学习曲线</strong>:简洁，可读性和表现力的语法，易于学习 Java 开发人员。</li>
+<li><strong>强大的功能</strong>:闭包、构建、运行时与编译时元编程、函数式编程、类型推断和静态编译。</li>
+<li><strong>平滑的 Java 集成</strong>:与 Java 及任何第三方库无缝透明地集成和互操作。</li>
+<li><strong>领域特定语言</strong>:灵活和可锻铸语法，先进的集成和定制机制，在应用程序中集成可读的业务规则。</li>
+<li><strong>充满活力和丰富的生态系统</strong>:Web 开发，并发、异步、并行库，测试框架，构建工具，代码分析，GUI 构建等。</li>
+<li>**脚本和测试粘合：**为所有的构建和自动化任务编写简洁可维护的测试。</li>
+</ul>
+<p>Groovy 还有其他一些使这门语言更为轻量级、更为易用的特性，试举几例如下:</p>
+<ul>
+<li>return 语句几乎总是可选的</li>
+<li>尽管可以使用分号分隔语句，但它几乎总是可选的</li>
+<li>方法和类默认是公开（public）的</li>
+<li>?. 操作符只有对象引用不为空时才会分派调用</li>
+<li>可以使用具名参数初始化 JavaBean</li>
+<li>Groovy 不强迫我们捕获自己不关心的异常，这些异常会被传递给代码的</li>
+<li>静态方法内可以使用 this 来引用 Class 对象</li>
+</ul>
+<h3 id="%E8%AF%AD%E6%B3%95%E7%A4%BA%E4%BE%8B">语法示例</h3>
+<pre class="hljs"><code><div>public class GroovyTest {
+    // sum method
+    def static sum(n, closure) {
+      for(int i = 2; i &lt;= n; i += 2) {
+        closure(i)
+      }
+      // return 2
+      2
+    }
+    
+    def static curried(closure) {
+        Date date = new Date()
+        def curriedClosure = closure.curry(date)
+        curriedClosure(&quot;papapa&quot;)
+    }
+    
+    def static paramsDemo(a, b, c, closure) {
+        closure(a + b + c, a + b)
+    }
+    
+    def static dynamic(data, closure){
+        if(closure.maximumNumberOfParameters == 1){
+            closure(data)
+        }else{
+            closure(data, &quot; lala &quot;)
+        }
+    }
+    
+    def static examingClosure(closure) {closure()}
+    
+    public static void main(String []args){
+        println &quot;java in groovy!&quot;
+        for(int i =  0;i &lt; 10;i++) {
+            System.out.print(i);
+            print i + &quot;,&quot;
+        }
+        println &quot;\nrange for&quot;;
+        for (i in 0..2) {
+            print i
+        }
+        println &quot;\nclosure&quot;
+        0.upto(10){
+            print &quot;$it&quot;
+        }
+        println  &quot;\nrepeat &quot;
+        3.times {
+            print &quot;index $it,&quot;
+            print &quot;ho &quot;
+        }
+        println &quot;\nstep demo&quot;
+        1.step(10, 5) {
+            print &quot;$it,&quot;
+        }
+        println &quot;\nsystem command invocation!&quot;
+        print &quot;java -version&quot;.execute().text;
+
+        println &quot;\na new way to check null&quot;
+        String a = null
+        a?.print()
+
+        println &quot;\ncatch exception is not necessary!&quot;
+        println &quot;semicolon is not necessary!&quot;
+       
+        // evaluate expression in string
+        println &quot;${1==0}&quot;
+
+        def total = 1
+        // 666
+        println &quot;${sum(10, {index -&gt; println &quot;$index&quot;;total *= index})}&quot;
+        println total
+        
+        sum(10){index -&gt; total *= index}
+        println total
+        
+        paramsDemo(&quot;hello &quot;, &quot;world&quot;, &quot;!&quot;) {
+            cb1, cb2 -&gt; println cb1 + cb2
+        }
+        curried(){
+             date, event -&gt; println date.toString() + &quot; &quot; + event 
+        }
+        dynamic(&quot;666&quot;){
+            data -&gt; println data
+        }
+        dynamic(&quot;666&quot;) {
+            aa, bb -&gt; println aa + bb
+        }
+        dynamic(&quot;666&quot;) {
+            // default maxmiumNumberOfParameters == 1
+            println it
+        }
+        
+        examingClosure() {
+            -&gt; L:{
+                println getClass().name
+                println this.getClass().superclass.name
+                println owner.getClass().superclass.name
+                println delegate.getClass().superclass.name
+                
+                examingClosure() {
+                    println getClass().name
+                    println this.getClass().superclass.name
+                    println owner.getClass().superclass.name
+                    println delegate.getClass().superclass.name
+                }
+            }
+        }
+        
+        // string minus
+        def str = &quot;It's a rainy day in Seattle&quot;
+        println str
+
+        str -= &quot;rainy &quot;
+        println str
+        
+        // turn string to regex pattern
+        str = ~'hello'
+        println str.getClass().name
+        
+        // list
+        def lst = [1,2,3,5,8,13]
+        println lst.getClass().name
+        println lst[0]
+        println lst[-1]
+        println lst[2..3]
+        def left = 3
+        def right = 4
+        println lst[left..right]
+        // list ops
+        lst.each(){println it}
+        println lst.collect{ it * 2}
+        println lst.find{ it == 13}
+        println lst.collect{it}.sum()
+        def flattened = [[&quot;ni&quot;, &quot;shi&quot;], &quot;sha&quot;, &quot;bi&quot;, &quot;ba&quot;].flatten()
+        println flattened
+        println flattened - [&quot;ni&quot;, &quot;shi&quot;]
+        println flattened*.size()
+        lst.with{
+            add(3)
+            println &quot;with&quot;
+            println size()
+            println contains(3)
+        }
+        
+        // map
+        def langs = ['C++' : 'Stroustrup', 'Java' : 'Gosling', 'Lisp' : 'McCarthy', 'AD': &quot;99&quot;]
+        println langs.getClass().name
+        // map ops
+        println langs[&quot;C++&quot;]
+        println langs.&quot;C++&quot;
+        langs.each{item -&gt; println item}
+        langs.each{k, v -&gt; println k + &quot;:&quot; + v}
+        println langs.any{k, v -&gt; v =~ ~&quot;[A-Za-z]&quot;}
+        println langs.every{k, v -&gt; v =~ ~&quot;[A-Za-z]&quot;}
+        
+        def friends = [ briang : 'Brian Goetz', brians : 'Brian Sletten', 
+           davidb : 'David Bock', davidg : 'David Geary',
+           scottd : 'Scott Davis', scottl : 'Scott Leberknight', 
+           stuarth : 'Stuart Halloway']
+
+        def groupByFirstName = friends.groupBy { it.value.split(' ')[0] }
+        groupByFirstName.each { firstName, buddies -&gt;
+            println &quot;$firstName : ${buddies.collect { key, fullName -&gt; fullName }.join(', ')}&quot;
+        }
+  }
+}
+</div></code></pre>
+<h3 id="%E5%AD%98%E5%9C%A8%E7%9A%84%E9%99%B7%E9%98%B1">存在的陷阱</h3>
+<ul>
+<li>
+<p>Groovy 将==操作符映射到了 Java 中的 equals()方法，当且仅当该类没有实现 Comparable 接口时，才会这样映射。如果实现了 Comparable 接口，则==会被映射到该类的 compareTo()方法. 可以使用 groovy 的<strong>is</strong>方法来判等</p>
+</li>
+<li>
+<p>编译时类型检查默认为关闭，Groovy 编译器不会验证类型，相反，它只是进行强制类型转换，然后将其留给运行时处理。Groovy 编译器可能看上去不够严格，但是对于 Groovy 的动态和元编程等强项而言，这种行为是必要的，我们也可以选择性地增强编译时类型检查。可以使用特殊的注解@TypeChecked，让 Groovy 去检查这些种错误，这个注解可以用于类或单个方法上。如果用于一个类，则类型检查会在该类中所有的方法、闭包和内部类上执行。如果用于一个方法，则类型检查仅在目标方法的成员上执行。我们还可以使用 SKIP 参数去掉一些具体的方法，不对它们进行静态类型检查。可以使用@CompileStatic 注解让 Groovy 执行静态编译。这样为目标代码生成的字节码会和 javac 生成的字节码很像，性能足以与 Java 媲美</p>
+</li>
+<li>
+<p><strong>def</strong>和<strong>in</strong>都是 Groovy 中的新关键字。def 用于定义方法、属性和局部变量。in 用于在 for 循环中指定循环的区间，比如 for(i in 1..10)。当把现有的 Java 代码当作 Groovy 代码时，要小心这些新关键字引起的语义变化。不要定义名为 it 的变量</p>
+</li>
+<li>
+<p>不要在 java 中使用这样的代码段</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>  // Java 代码
+  public void method() {
+    System.out.println(&quot;in method1&quot;);
+
+    {
+      System.out.println(&quot;in block&quot;);
+    }
+  }
+</div></code></pre>
+<p>Java 中的代码块定义了一个新的作用域，但是 Groovy 会感到困扰。Groovy 编译器会错误地认为我们是要定义一个闭包，并给出编译错误。在 Groovy 中，方法内不能有任何这样的代码块。</p>
+<ul>
+<li>
+<p>注意闭包与匿名内部类的冲突</p>
+</li>
+<li>
+<p>不要一开始就强制使用闭包去写代码，在代码重构，review 的阶段引入也是合适的</p>
+</li>
+<li>
+<p>要在 Groovy 中创建基本类型的数组，不能使用我们在 Java 中所习惯的方式</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>  int[] arr = new int[] {1, 2, 3, 4, 5}; // java
+  int[] arr = [1, 2, 3, 4, 5] // groovy
+  def arr = [1, 2, 3, 4, 5] as int[] // groovy
+</div></code></pre>
+<h3 id="%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%E4%B8%8B%E9%9C%80%E6%8C%87%E6%98%8E%E7%B1%BB%E5%9E%8B">哪些情况下需指明类型</h3>
+<p>在使用 Groovy 编程时，我倾向于省略类型. 当然在必要的情况下，我也会选择指明类型。比如，</p>
+<ul>
+<li>JUnit 要求测试方法为 void 类型</li>
+<li>在 Grails 对象关系映射（GORM）中把类型映射到数据库。</li>
+<li>如果要为使用静态类型语言的程序员开发 API，那我们会在静态类型的、面向客户的 API 中指明方法形参的类型</li>
+</ul>
+<h3 id="groovy-%E5%92%8C-java-%E6%B7%B7%E7%94%A8">Groovy 和 Java 混用</h3>
+<p>要在 Groovy 代码中使用 Groovy 类，无需做什么，直接就可以工作。我们只需要确保所依赖的类在类路径（classpath）下，要么是源代码，要么是字节码。要把一个 Groovy 脚本拉到我们的 Groovy 代码中，可以使用 GroovyShell。而如果要在 Java 类中使用 Groovy 脚本，则可以使用 JSR 223 提供的 ScriptEngine API。如果想在 Java 中使用 Groovy 类，或者想在 Groovy 中使用 Java 类，我们可以利用 Groovy 的联合编译（joint-compilation）工具</p>
+<h5 id="%E8%BF%90%E8%A1%8C-groovy">运行 groovy</h5>
+<p>要运行 Groovy 代码，我们有两个选择。</p>
+<ul>
+<li>
+<p>一个是对源代码运行 groovy 命令。Groovy 会自动在内存中编译代码并执行。我们不必引入一个明确的编译步骤。</p>
+</li>
+<li>
+<p>第二个方法，如果想用类似 Java 的那种更传统的方法，即显式的编译代码来创建字节码（.class 文件），可以使用 groovyc 编译器。要执行编译好的字节码，可以像执行编译好的 Java 代码那样使用 java 命令。唯一的区别是，我们需要把 groovy-all-2.1.0.jar 文件放在 classpath 下。记得在 classpath 里添加一个句点（.），这样 java 命令就可以找到当前目录下的类了。这一 Java 存档文件（JAR）在 GROOVY_HOME 下的 embeddable 目录中。</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>  java -classpath $GROOVY_HOME/embeddable/groovy-all-2.1.0.jar:. $groovy_file
+</div></code></pre>
+<h5 id="%E5%9C%A8-groovy-%E4%B8%AD%E4%BD%BF%E7%94%A8-groovy-%E7%B1%BB">在 Groovy 中使用 Groovy 类</h5>
+<p>要在 Groovy 代码中使用一个 Groovy 类，只需要确保该类在我们的 classpath 下。可以使用 Groovy 源代码，也可以把源代码编译成.class 文件并使用该文件——随我们选择。当我们的 Groovy 代码引用了一个 Groovy 类时，Groovy 会以该类的名字在我们的 classpath 下查找.groovy 文件；如果找不到，则以同样的名字查找.class 文件.</p>
+<h5 id="%E5%88%A9%E7%94%A8%E8%81%94%E5%90%88%E7%BC%96%E8%AF%91%E6%B7%B7%E5%90%88%E4%BD%BF%E7%94%A8-groovy-%E5%92%8C-java">利用联合编译混合使用 Groovy 和 Java</h5>
+<p>如果 Groovy 类是预先编译好的，那我们就可以方便地在 Java 中使用.class 文件或 JAR 包。来自 Java 的字节码和来自 Groovy 的字节码，对 Java 而言没什么区别；我们必须把 Groovy JAR 文件放在我们的 classpath 下，类似于我们使用 Spring、Hibernate 或其他框架/类库的 JAR 文件时的做法。</p>
+<p>如果我们只有 Groovy 源代码，而非字节码，又会怎样呢？请记住，当我们的 Java 类依赖其他 Java 类时，如果没有找到字节码，javac 将编译它认为必要的任何 Java 类。不过 javac 对 Groovy 可没这么友好。幸好 groovyc 支持联合编译。当我们编译 Groovy 代码时，它会确定是否有任何需要编译的 Java 类，并负责编译它们。因此我们可以自由地在项目中混合使用 Java 代码和 Groovy 代码，而且不必执行单独的编译步骤。简单地调用 groovyc 就好。</p>
+<p>要利用联合编译，我们需要使用-j 编译标志。使用-J 前缀把标志传给 groovy 编译器.</p>
+<pre class="hljs"><code><div>groovyc -j JavaClass.java UseJavaClass.groovy -Jsource 1.6
+</div></code></pre>
+<p>-Jsource 1.6 会把可选的选项 source = 1.6 发送给编译器。使用 javap 检查生成的字节码，会发现 JavaClass 作为一个普通的 Java 类，扩展了 java.lang. Object，而 UseJavaClass 扩展了 groovy.lang. Script。</p>
+<h5 id="%E5%9C%A8-java-%E4%B8%AD%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BC%A0%E9%80%92-groovy-%E9%97%AD%E5%8C%85">在 Java 中创建与传递 Groovy 闭包</h5>
+<p>如果仔细检查，我们会发现，当 Groovy 调用一个闭包时，它只是使用了一个名为 call()的特殊方法。要在 Java 中创建一个闭包，我们只需要一个包含该方法的类。如果 Groovy 代码要向闭包传递实参，我们必须确保 call()方法接受这些实参作为形参.</p>
+<h5 id="%E5%9C%A8-java-%E4%B8%AD%E8%B0%83%E7%94%A8-groovy-%E5%8A%A8%E6%80%81%E6%96%B9%E6%B3%95">在 Java 中调用 Groovy 动态方法</h5>
+<p>每个 Groovy 对象都实现了 GroovyObject 接口，该接口有一个叫作 invokeMethod()的特殊方法。该方法接受要调用的方法的名字，以及要传递的参数。在 Java 这一端，invokeMethod()可以用来调用 Groovy 中使用元编程动态定义的方法. 从 Java 中可以使用任何 Groovy 类，这点没有限制，不管它们是否是动态的。</p>
+<h5 id="%E5%9C%A8-groovy-%E4%B8%AD%E4%BD%BF%E7%94%A8-java-%E7%B1%BB">在 Groovy 中使用 Java 类</h5>
+<p>在 Groovy 中使用 Java 类简单且直接。如果我们想使用的 Java 类是 JDK 的一部分，可以像在 Java 中那样导入这些类或它们的包。Groovy 默认会导入很多包和类，因此，如果我们想使用的类已经导入（比如 java.util. Date），直接用就可以了，无需再导入.</p>
+<p>如果想使用一个自己的 Java 类，或者不是标准 JDK 中的类，在 Groovy 中可以像在 Java 中那样导入它们。请确保导入了必要的包或类，或者使用类的全限定名来引用它们。当运行 groovy 时，可以使用-classpath 选项指定.class 文件或 JAR 包的路径。如果类文件和我们的 Groovy 代码在同一目录下，则不需要通过该选项指定目录。</p>
+<p>如果想显式地编译 Groovy 调用了 java 的代码，不必分别编译 Java 和 Groovy。可以使用联合编译代替。</p>
+<h5 id="%E4%BB%8E-groovy-%E4%B8%AD%E4%BD%BF%E7%94%A8-groovy-%E8%84%9A%E6%9C%AC">从 Groovy 中使用 Groovy 脚本</h5>
+<p>使用 GroovyShell，我们可以在任何文件（或字符串）中对脚本调用 evaluate()方法，以执行该脚本。</p>
+<pre class="hljs"><code><div>evaluate(new File('Script1.groovy'))
+</div></code></pre>
+<p>如果我们想向脚本传递一些参数，又该怎么办呢？我们可以使用一个 Binding 实例来绑定变量</p>
+<pre class="hljs"><code><div>println &quot;In Script2&quot;
+
+name = &quot;Venkat&quot;
+
+shell = new GroovyShell(binding)
+result = shell.evaluate(new File('Script1a.groovy'))
+
+println &quot;Script1a returned : $result&quot;
+println &quot;Hello $name&quot;
+</div></code></pre>
+<p>在发起调用的脚本中，我们创建了一个变量 name（与被调用脚本中用到的变量名字相同）。当创建 GroovyShell 的实例时，我们将当前的 Binding 对象传给了它（每个脚本执行时都有一个这样的对象）。被调用脚本现在就可以使用（读取和设置）发起调用脚本所知道的变量了.</p>
+<p>如果不希望影响当前的 binding， 而是想将其与被调用脚本的 binding 分开，我们只需要创建一个新的 Binding 实例，在该实例上调用 setProperty()来设置变量名和值，并将其作为创建 GroovyShell 实例时的一个参数</p>
+<pre class="hljs"><code><div>println &quot;In Script3&quot;
+
+binding1 = new Binding()
+binding1.setProperty('name', 'Venkat')
+shell = new GroovyShell(binding1)
+shell.evaluate(new File('Script1a.groovy'))
+
+binding2 = new Binding()
+binding2.setProperty('name', 'Dan')
+shell.binding = binding2
+shell.evaluate(new File('Script1a.groovy'))
+</div></code></pre>
+<h5 id="%E4%BB%8E-java-%E4%B8%AD%E4%BD%BF%E7%94%A8-groovy-%E8%84%9A%E6%9C%AC">从 Java 中使用 Groovy 脚本</h5>
+<p>如果想在 Java 中使用 Groovy 脚本，我们可以利用 JSR 223（JSR 即 Java Specification Request，Java 规范请求）需要确保…/jsr223-engines/groovy/build/groovy-engine.jar 在我们的 classpath 下</p>
+<h3 id="mop-%E4%B8%8E%E5%85%83%E7%BC%96%E7%A8%8B">MOP 与元编程</h3>
+<p>元编程（meta programming）意味着编写能够操作程序的程序，包括操作程序自身。像 Groovy 这样的动态语言通过元对象协议（MetaObject Protocol，MOP）提供了这种能力。利用 Groovy 的 MOP，创建类、编写单元测试和引入模拟对象都很容易。在 Groovy 中，使用 MOP 可以动态调用方法，甚至在运行时合成类和方法。借助 MOP，在 Groovy 中可以创建内部的领域特定语言。</p>
+<h5 id="groovy-%E5%AF%B9%E8%B1%A1">Groovy 对象</h5>
+<p>Groovy 对象是带有附加功能的 Java 对象。在一个 Groovy 应用中，我们会使用三类对象：POJO、POGO 和 Groovy 拦截器。POJO（Plain Old Java Object）就是普通的 Java 对象，可以使用 Java 或 JVM 上的其他语言来创建。POGO（Plain Old Groovy Object）是用 Groovy 编写的对象，扩展了 java.lang. Object，同时也实现了 groovy.lang. GroovyObject 接口。Groovy 拦截器是扩展了 GroovyInterceptable 的 Groovy 对象，具有方法拦截功能。Groovy 这样定义的 GroovyObject 接口:</p>
+<pre class="hljs"><code><div>//这是 Groovy 源代码中 GroovyObject.java 的一个片段
+package groovy.lang;
+public interface GroovyObject {
+  Object invokeMethod(String name, Object args);
+  Object getProperty(String property);
+  void setProperty(String property, Object newValue);
+  MetaClass getMetaClass();
+  void setMetaClass(MetaClass metaClass);
+}
+</div></code></pre>
+<p>我们可以通过调用 setMetaClass()修改它的 MetaClass。这给我们一种对象在运行时修改了它的类的感觉.</p>
+<p>当我们调用一个方法时，Groovy 会检查目标对象是一个 POJO 还是一个 POGO. 对于一个 POJO，Groovy 会去应用类（application-wide）的 MetaClassRegistry 取它的 MetaClass，并将方法调用委托给它。因此，我们在它的 MetaClass 上定义的任何拦截器或方法，都优先于 POJO 原来的方法.</p>
+<p>对于一个 POGO, 如果对象实现了 GroovyInterceptable，那么所有的调用都会被路由给它的 <code>invokeMethod()</code> , 在这个拦截器内，我们可以把调用路由给实际的方法，使类 AOP（Aspect-Oriented Programming，面向方面编程）的操作成为可能. 如果该 POGO 没有实现 GroovyInterceptable，那么 Groovy 会先查找它的 MetaClass 中的方法，之后，如果没有找到，则查找 POGO 自身上的方法。 如果该 POGO 没有这样的方法，Groovy 会以方法名查找属性或字段。如果属性或字段是 Closure 类型的，Groovy 会调用它，替代方法调用。如果 Groovy 没有找到这样的属性或字段，它会做最后两次尝试。如果 POGO 有一个名为 methodMissing()的方法，则调用该方法。否则调用 POGO 的 invokeMethod()。如果我们在 POGO 上实现了这个方法，它会被调用。invokeMethod()的默认实现会抛出一个 <code>MissingMethodException</code> .</p>
+<h4 id="%E4%BD%BF%E7%94%A8-mop-%E6%8B%A6%E6%88%AA%E6%96%B9%E6%B3%95">使用 MOP 拦截方法</h4>
+<h4 id="mop-%E6%96%B9%E6%B3%95%E6%B3%A8%E5%85%A5">MOP 方法注入</h4>
+<p>使用 MiXin 注入方法</p>
+<pre class="hljs"><code><div>class Friend {
+  def listen() {
+    &quot;$name is listening as a friend&quot;
+  }
+}
+</div></code></pre>
+<p>name 属性本身没有在这个类中做任何定义，它将由该类所混入的类提供。</p>
+<p>首先，可以使用@Mixin 注解语法，将 Mixin 注入到 Person 类中（如下面代码所示）。作为一种选择，也可以使用静态初始化器将 Mixin 引入到这个类中，就像这样：class Person { static { mixin Friend} ...}。</p>
+<pre class="hljs"><code><div>@Mixin(Friend)
+class Person {
+  String firstName
+  String lastName  
+  String getName() { &quot;$firstName $lastName&quot;}
+}
+
+john = new Person(firstName: &quot;John&quot;, lastName: &quot;Smith&quot;)
+println john.listen()
+</div></code></pre>
+<p>在这个例子中，Friend 的方法被添加到了 Person 中. 通过向注解提供由多个类名组成的列表，可以混入多个类，就像这样：@Mixin([Friend, Teacher])。</p>
+
 </body>
 </html>

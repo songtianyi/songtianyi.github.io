@@ -227,17 +227,17 @@ pre code {
 </style>
 
 <style>
-/* a11y-light theme */
-/* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
-/* @author: ericwbailey */
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
 
-/* Comment */
+/* Tomorrow Comment */
 .hljs-comment,
 .hljs-quote {
-  color: #696969;
+	color: #8e908c;
 }
 
-/* Red */
+/* Tomorrow Red */
 .hljs-variable,
 .hljs-template-variable,
 .hljs-tag,
@@ -246,10 +246,10 @@ pre code {
 .hljs-selector-class,
 .hljs-regexp,
 .hljs-deletion {
-  color: #d91e18;
+	color: #c82829;
 }
 
-/* Orange */
+/* Tomorrow Orange */
 .hljs-number,
 .hljs-built_in,
 .hljs-builtin-name,
@@ -258,75 +258,48 @@ pre code {
 .hljs-params,
 .hljs-meta,
 .hljs-link {
-  color: #aa5d00;
+	color: #f5871f;
 }
 
-/* Yellow */
+/* Tomorrow Yellow */
 .hljs-attribute {
-  color: #aa5d00;
+	color: #eab700;
 }
 
-/* Green */
+/* Tomorrow Green */
 .hljs-string,
 .hljs-symbol,
 .hljs-bullet,
 .hljs-addition {
-  color: #008000;
+	color: #718c00;
 }
 
-/* Blue */
+/* Tomorrow Blue */
 .hljs-title,
 .hljs-section {
-  color: #007faa;
+	color: #4271ae;
 }
 
-/* Purple */
+/* Tomorrow Purple */
 .hljs-keyword,
 .hljs-selector-tag {
-  color: #7928a1;
+	color: #8959a8;
 }
 
 .hljs {
-  display: block;
-  overflow-x: auto;
-  background: #fefefe;
-  color: #545454;
-  padding: 0.5em;
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
 }
 
 .hljs-emphasis {
-  font-style: italic;
+	font-style: italic;
 }
 
 .hljs-strong {
-  font-weight: bold;
+	font-weight: bold;
 }
-
-@media screen and (-ms-high-contrast: active) {
-  .hljs-addition,
-  .hljs-attribute,
-  .hljs-built_in,
-  .hljs-builtin-name,
-  .hljs-bullet,
-  .hljs-comment,
-  .hljs-link,
-  .hljs-literal,
-  .hljs-meta,
-  .hljs-number,
-  .hljs-params,
-  .hljs-string,
-  .hljs-symbol,
-  .hljs-type,
-  .hljs-quote {
-        color: highlight;
-    }
-
-    .hljs-keyword,
-    .hljs-selector-tag {
-        font-weight: bold;
-    }
-}
-
 </style>
 
 <style>
@@ -397,8 +370,8 @@ code {
 <h2 id="%E8%83%8C%E6%99%AF">背景</h2>
 <p>防火墙策略管理里有合规管理的需求，即，要开通的需求是否满足一定的规范，比如，通常不允许开放的端口范围过大。所以，我们需要一些检查手段，来防止这类策略的开通。</p>
 <ol>
-<li>在需求输入阶段，检查输入的需求是否满足规范<sub>场景1</sub></li>
-<li>在策略下发后的阶段，检查已经下发的策略是否满足规范<sub>场景2</sub></li>
+<li>在需求输入阶段，检查输入的需求是否满足规范 <sub>场景 1</sub></li>
+<li>在策略下发后的阶段，检查已经下发的策略是否满足规范 <sub>场景 2</sub></li>
 </ol>
 <p>对于第 1 种情况，假设规范的数量为 X, 那么时间复杂度为 O(X)。在规范数量较少的时候，这个性能是可以接受的，但当 X &gt; 100 基本上就很慢了。</p>
 <pre class="hljs"><code><div>
@@ -428,8 +401,8 @@ BEGIN:
 END
 </div></code></pre>
 <h2 id="%E5%90%91%E9%87%8F%E5%8E%8B%E7%BC%A9">向量压缩</h2>
-<p>防火墙策略是一个五元组, (src_addr, dst_addr, src_port, dst_port, protocol), 策略之间的比较不是像数字一样是或大或小或等于的关系，而是或包含或被包含或相等的关系。场景1和场景2本质上都是对策略的包含关系的检查。<br>
-对于场景1，如果需求 A, 包含任意一条规则 X<sub>i</sub> ，那么认为 A 是不符合规范的。对于场景2，如果已有策略 A，包含任意一条规则X<sub>i</sub> ，那么 A 是不符合规范的。</p>
+<p>防火墙策略是一个五元组, (src_addr, dst_addr, src_port, dst_port, protocol), 策略之间的比较不是像数字一样是或大或小或等于的关系，而是或包含或被包含或相等的关系。场景 1 和场景 2 本质上都是对策略的包含关系的检查。
+对于场景 1，如果需求 A, 包含任意一条规则 X<sub>i</sub> ，那么认为 A 是不符合规范的。对于场景 2，如果已有策略 A，包含任意一条规则 X<sub>i</sub> ，那么 A 是不符合规范的。</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/A-method-for-firewall-policy-filtering-which-based-on-vector-compression-include.png" alt="image"></p>
 <blockquote>
 <p>需要注意的是，实际情况，我们可能在定义规则的时候指定计算关系，并不一定是 A 包含 X<sub>i</sub>, 而是 A.src_addr 包含 X<sub>i</sub>.src_addr 且 A.dst_addr 被 X<sub>i</sub>.src_addr 包含，等等。</p>
@@ -477,7 +450,7 @@ BEGIN:
 <h3 id="%E5%AE%9E%E6%96%BD%E5%89%8D%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87">实施前的性能指标</h3>
 <ul>
 <li>不断增加 X, 一直增加到 100, 计算每条规则所需要的时间消耗</li>
-<li>准备 N 台墙, 每台墙上的策略数增加到 M, 直到 N*M &gt; 100000, 记录场景2的时间消耗</li>
+<li>准备 N 台墙, 每台墙上的策略数增加到 M, 直到 N*M &gt; 100000, 记录场景 2 的时间消耗</li>
 </ul>
 <h3 id="%E7%AD%96%E7%95%A5%E5%8E%8B%E7%BC%A9%E5%90%8E%E7%9A%84%E5%88%86%E5%B8%83%E6%83%85%E5%86%B5">策略压缩后的分布情况</h3>
 <p>对防火墙上已有策略进行向量压缩处理，绘制分布情况，根据分布情况，预判最终效果。</p>

@@ -1,6 +1,6 @@
-# Hillstone防火墙概览
+# Hillstone 防火墙概览
 
-> 除了带 > 号的命令，其他命令都是在configure模式下执行的
+> 除了带 > 号的命令，其他命令都是在 configure 模式下执行的
 
 ##### user guide
 
@@ -26,7 +26,7 @@ save
 \n
 ```
 
-##### 获取running配置
+##### 获取 running 配置
 
 ```
 show configuration xml
@@ -98,7 +98,7 @@ logging configuration on
 
 ##### address
 
->  exclude怎么表达？
+>  exclude 怎么表达？
 >
 
 ```
@@ -127,7 +127,7 @@ address test
 
 ##### service
 
-> 先确认下running config里有没有predefined service
+> 先确认下 running config 里有没有 predefined service
 
 ```
 show service
@@ -162,7 +162,7 @@ servgroup sgtest1
 
 ##### zone
 
-> zone和interface的绑定关系是在interface的配置里
+> zone 和 interface 的绑定关系是在 interface 的配置里
 
 ```
 show zone
@@ -296,7 +296,7 @@ ip vrouter trust-vr
 > ♦ Do not have to change the IP addresses of the protected network.
 > ♦ No NAT rules are needed.
 >
-> 需要注意的是，hillstone可以混用两个mode
+> 需要注意的是，hillstone 可以混用两个 mode
 
 ##### Errors
 

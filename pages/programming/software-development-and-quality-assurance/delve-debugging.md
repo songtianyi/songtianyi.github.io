@@ -1,4 +1,4 @@
-# 用delve调试go程序
+# 用 delve 调试 go 程序
 
 作者: [songtianyi](http://songtianyi.info) create@2019-06-08
 
@@ -32,7 +32,7 @@ sudo dlv debug . -- -datadir ~/trash/ekanited -udp 192.168.1.40:5514 -tcp 192.16
 
 ###### funcs
 
-用 `funcs`加包名列出需要debug的包内的函数，便于设置断点
+用 `funcs`加包名列出需要 debug 的包内的函数，便于设置断点
 
 ```
 funcs $packageName

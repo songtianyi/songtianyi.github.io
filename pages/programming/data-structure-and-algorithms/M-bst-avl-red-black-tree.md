@@ -24,7 +24,7 @@ int a[10] = {1, 450, 3, 4, 56, 12, 123, 45, 23, 6};
 
 * 二叉搜索树中的子树也是满足二叉搜索树的定义的
 * 中序遍历是升序的
-* 这棵树的高度为为 7 (假如从0开始)，和数组长度相差无几，且大部分数据的高度超过 4，说明一定存在优化的空间。
+* 这棵树的高度为为 7 (假如从 0 开始)，和数组长度相差无几，且大部分数据的高度超过 4，说明一定存在优化的空间。
 
 ### 插入和搜索
 
@@ -33,7 +33,7 @@ int a[10] = {1, 450, 3, 4, 56, 12, 123, 45, 23, 6};
 ``` C
 struct node *bst_insert(struct node *curr, struct node *p) {
   if (curr == NULL) {
-    return p;  // 插入的节点的左右孩子的初始值一定要为NULL
+    return p;  // 插入的节点的左右孩子的初始值一定要为 NULL
   } else if (p->value < curr->value) {
     curr->left = bst_insert(curr->left, p);
   } else {
@@ -83,12 +83,12 @@ struct node *bst_search(struct node *curr, struct node *parent, int value,
 
 4. 如果被删除节点既有左子树，又有右子树。此时没办法把两个子树直接和父节点连起来，只能采取交换值的方法。因为要保持二叉搜索树的特性，所以要找到待删除节点的右子树中的最小值和其交换，
 
-   这样交换后，待删除节点的左子树都小于交换后的值，右子树都大于交换后的值. 之后再删除被交换的节点，被交换节点的删除和1，2，3的情况一致。
-例1:
+   这样交换后，待删除节点的左子树都小于交换后的值，右子树都大于交换后的值. 之后再删除被交换的节点，被交换节点的删除和 1，2，3 的情况一致。
+例 1:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-3.png)
 
-例2:
+例 2:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-delete-4.png)
 
@@ -98,13 +98,13 @@ struct node *bst_search(struct node *curr, struct node *parent, int value,
 /* C */
 /**
  * 二叉排序树模板
- * 插入函数 插入之前应先申请一个要插入的p节点 然后传进去
- * 查找函数 root为根节点 parent等于root value为要查找的值
- * ret_flag为0返回查找到的节点的父节点这样便于删除时使用  ret_flag
- * 为1返回查找到的节点的指针
+ * 插入函数 插入之前应先申请一个要插入的 p 节点 然后传进去
+ * 查找函数 root 为根节点 parent 等于 root value 为要查找的值
+ * ret_flag 为 0 返回查找到的节点的父节点这样便于删除时使用  ret_flag
+ * 为 1 返回查找到的节点的指针
  * 删除函数 传入要删除的节点的父节点和要删除的节点
- * 如果待删节点为父节点的左孩子is_left=1 如果为右孩子 is_left=1 构造函数
- * 将一个数组从start到end（不包括end）的范围构造为一个二叉排序树 root为根节点
+ * 如果待删节点为父节点的左孩子 is_left=1 如果为右孩子 is_left=1 构造函数
+ * 将一个数组从 start 到 end（不包括 end）的范围构造为一个二叉排序树 root 为根节点
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -115,7 +115,7 @@ struct node {
 };
 struct node *bst_insert(struct node *curr, struct node *p) {
   if (curr == NULL) {
-    return p;  //插入的节点的左右孩子的初始值一定要为NULL
+    return p;  //插入的节点的左右孩子的初始值一定要为 NULL
   } else if (p->value < curr->value) {
     curr->left = bst_insert(curr->left, p);
   } else {
@@ -173,11 +173,11 @@ int bst_delete(struct node *parent, struct node *p, int is_left) {
   if (p->left == NULL && p->right == NULL) {
     // leaft node
     if (is_left) {
-      // p 为parent的左子叶
-      // 将 parent的左指针置为空
+      // p 为 parent 的左子叶
+      // 将 parent 的左指针置为空
       parent->left = NULL;
     } else {
-      // p 为parent的右子叶
+      // p 为 parent 的右子叶
       parent->right = NULL;
     }
     free(p);
@@ -203,7 +203,7 @@ int bst_delete(struct node *parent, struct node *p, int is_left) {
     struct node *s = p->right;
     struct node *sp = p;
     //找右子树中最左的节点 或者找左子树中最右的节点
-    //然后和要删除的位置交换value
+    //然后和要删除的位置交换 value
     //这里选择前者
     while (s->left != NULL) {
       sp = s;
@@ -216,7 +216,7 @@ int bst_delete(struct node *parent, struct node *p, int is_left) {
       // 
       sp->right = s->right;
     } else {
-      //因为s肯定没有左子树 所以把右子树接在父节点的左指针上就行了
+      //因为 s 肯定没有左子树 所以把右子树接在父节点的左指针上就行了
       sp->left = s->right;
     }
     free(s);
@@ -257,7 +257,7 @@ int main() {
 
 ### 优化
 
-前面提到，我们构造的这棵树的高度为为 7 ，和数组长度相差无几，且大部分数据的高度超过 4，查找的效率相对来说，是比较低的，存在优化的空间。要优化构造出来的结构，只能从构造下手。
+ 前面提到，我们构造的这棵树的高度为为 7 ，和数组长度相差无几，且大部分数据的高度超过 4，查找的效率相对来说，是比较低的，存在优化的空间。要优化构造出来的结构，只能从构造下手。
 我们构造 BST 的过程是从数组的第一个元素开始的，那么从第 2 个元素开始构造呢？构造的结果会不一样。数组中，值的大小顺序决定着最终的结构，那么是否存在一个最佳的构造顺序呢？
 
 ## AVL
@@ -265,7 +265,7 @@ int main() {
 我们从目标出发，我们的目标是构造一个尽可能矮的二叉搜索树，这样平均检索效率才是最高的。用术语来描述就是:
 
 * 是一棵 BST 树
-* 每棵子树的左右子树的深度差不能超过1
+* 每棵子树的左右子树的深度差不能超过 1
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-avl-demo.png)
 
@@ -273,7 +273,7 @@ int main() {
 
 满足这种特性的 BST 称为 Self-balancing binary search tree, 也称 AVL 树。
 
-> AVL 树得名于它的发明者 G. M. Adelson-Velsky 和 E. M. Landis，他们在1962年的论文《An algorithm for the organization of information》中发表了它。
+> AVL 树得名于它的发明者 G. M. Adelson-Velsky 和 E. M. Landis，他们在 1962 年的论文《An algorithm for the organization of information》中发表了它。
 
 那我们怎么构建这样的 AVL 树呢？通过调整输入的值的顺序是不现实的，因为输入可能是流式的，没办法在当前时间点得到未来时间点的输入。那么可行的方法是，一边构建 BST, 一边将 BST 调整成 AVL, 而且是马上调整，因为我们要时刻保持 AVL 树的特性。这种调整是基于 `旋转` 实现的。
 
@@ -281,7 +281,7 @@ int main() {
 
 > 以下所讲的内容，深度从 1 开始
 
-如图，当插入节点 14 之后，以 1 为根的子树的左子树的深度为1(因为根的深度已经为1，左子树虽然没节点，但是深度是从2开始的)，右子树的深度为 3，相差 2，不满足 AVL 的特性。此时，可以将 1 逆时针旋转（左旋），同时改变连接关系，将节点 10 作为子树的根结点，1 从父节点变为 10 的左子树，14 仍然作为 10 的右子树。
+如图，当插入节点 14 之后，以 1 为根的子树的左子树的深度为 1(因为根的深度已经为 1，左子树虽然没节点，但是深度是从 2 开始的)，右子树的深度为 3，相差 2，不满足 AVL 的特性。此时，可以将 1 逆时针旋转（左旋），同时改变连接关系，将节点 10 作为子树的根结点，1 从父节点变为 10 的左子树，14 仍然作为 10 的右子树。
 我们可以观察出，所谓的旋转是以子树的根为圆心，顺时针或者逆时针旋转，旋转之后，连接关系会被改变。
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bst-avl-red-black-left-rotate-1.png)
@@ -693,7 +693,7 @@ Uncle 节点是红色的时候，直接变色即可, 得到下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-2.png)
 
-是不是又回到 CASE 2了？那么按照 CASE 2 来处理，先左旋，然后交换 Father 和 GrandFather 的颜色, 得到下图:
+是不是又回到 CASE 2 了？那么按照 CASE 2 来处理，先左旋，然后交换 Father 和 GrandFather 的颜色, 得到下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-uncle-black-x-left-of-p-and-p-right-of-g-3.png)
 
@@ -1283,7 +1283,7 @@ OK! 我们换完脑子，再来啃这块骨头！如下图，我们要删除节�
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-1.png)
 
-此时，无法通过变色来完成平衡(如果要变色，7必须为黑色，那 3 必须为红色，这样会违背红色不能相邻的性质). 很明显，左重右轻，需要右旋, 结果如下图:
+此时，无法通过变色来完成平衡(如果要变色，7 必须为黑色，那 3 必须为红色，这样会违背红色不能相邻的性质). 很明显，左重右轻，需要右旋, 结果如下图:
 
 ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/rb-tree-delete-nephew-both-red-right-rotate-2.png)
 
@@ -1294,14 +1294,14 @@ OK! 我们换完脑子，再来啃这块骨头！如下图，我们要删除节�
 综上，其实我们已经没有必要再去详细地一个个把所有的旋转情况列出来了，而是总结为一条原则，即:
 
 1. 执行 BST 删除
-2. 如果仍然平衡，什么都不做(这是红黑树相对于 AVL 最主要的差异点，由于红色节点的删除不会导致高度差的变化，所以红黑树需要调整平衡的次数要比 AVL少)
+2. 如果仍然平衡，什么都不做(这是红黑树相对于 AVL 最主要的差异点，由于红色节点的删除不会导致高度差的变化，所以红黑树需要调整平衡的次数要比 AVL 少)
 3. 不平衡先尝试变色，无法通过变色达到平衡则先旋转再变色(由于旋转和变色是有固定规律的，所以，我们能略过尝试变色的步骤，而是直接根据条件进行旋转和变色操作)
 4. 递归处理
 
 ## 参考资料
 
 * [树的高度和深度](https://blog.csdn.net/qq_36667170/article/details/84142019)
-* [平衡二叉树（AVL树）及C语言实现](http://data.biancheng.net/view/59.html)
+* [平衡二叉树（AVL 树）及 C 语言实现](http://data.biancheng.net/view/59.html)
 * [Algorithm Visualizations-red/black-tree](https://www.cs.usfca.edu/~galles/visualization/RedBlack.html)
 * [Algorithm Visualizations-AVLTree](https://www.cs.usfca.edu/~galles/visualization/AVLtree.html)
 * [Red-Black Tree | Set 2 (Insert)](https://www.geeksforgeeks.org/red-black-tree-set-2-insert/)

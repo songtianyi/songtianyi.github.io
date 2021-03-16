@@ -1,550 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-        <style>:root
-{
---markdown-font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui, "Ubuntu", "Droid Sans", sans-serif;
---markdown-font-size: 14px;
---markdown-line-height: 1.6;
---vscode-font-family:"Segoe WPC", "Segoe UI", sans-serif;
---vscode-font-weight:normal;
---vscode-font-size:13px;
---vscode-editor-font-family:Consolas, "Courier New", monospace;
---vscode-editor-font-weight:normal;
---vscode-editor-font-size:14px;
---vscode-foreground:#616161;
---vscode-errorForeground:#a1260d;
---vscode-descriptionForeground:#717171;
---vscode-icon-foreground:#424242;
---vscode-focusBorder:#0090f1;
---vscode-textSeparator-foreground:rgba(0, 0, 0, 0.18);
---vscode-textLink-foreground:#006ab1;
---vscode-textLink-activeForeground:#006ab1;
---vscode-textPreformat-foreground:#a31515;
---vscode-textBlockQuote-background:rgba(127, 127, 127, 0.1);
---vscode-textBlockQuote-border:rgba(0, 122, 204, 0.5);
---vscode-textCodeBlock-background:rgba(220, 220, 220, 0.4);
---vscode-widget-shadow:#a8a8a8;
---vscode-input-background:#ffffff;
---vscode-input-foreground:#616161;
---vscode-inputOption-activeBorder:rgba(0, 122, 204, 0);
---vscode-inputOption-activeBackground:rgba(0, 144, 241, 0.2);
---vscode-inputOption-activeForeground:#000000;
---vscode-input-placeholderForeground:#767676;
---vscode-inputValidation-infoBackground:#d6ecf2;
---vscode-inputValidation-infoBorder:#007acc;
---vscode-inputValidation-warningBackground:#f6f5d2;
---vscode-inputValidation-warningBorder:#b89500;
---vscode-inputValidation-errorBackground:#f2dede;
---vscode-inputValidation-errorBorder:#be1100;
---vscode-dropdown-background:#ffffff;
---vscode-dropdown-border:#cecece;
---vscode-checkbox-background:#ffffff;
---vscode-checkbox-border:#cecece;
---vscode-button-foreground:#ffffff;
---vscode-button-background:#007acc;
---vscode-button-hoverBackground:#0062a3;
---vscode-button-secondaryForeground:#ffffff;
---vscode-button-secondaryBackground:#5f6a79;
---vscode-button-secondaryHoverBackground:#4c5561;
---vscode-badge-background:#c4c4c4;
---vscode-badge-foreground:#333333;
---vscode-scrollbar-shadow:#dddddd;
---vscode-scrollbarSlider-background:rgba(100, 100, 100, 0.4);
---vscode-scrollbarSlider-hoverBackground:rgba(100, 100, 100, 0.7);
---vscode-scrollbarSlider-activeBackground:rgba(0, 0, 0, 0.6);
---vscode-progressBar-background:#0e70c0;
---vscode-editorError-foreground:#e51400;
---vscode-editorWarning-foreground:#e9a700;
---vscode-editorInfo-foreground:#75beff;
---vscode-editorHint-foreground:#6c6c6c;
---vscode-editor-background:#ffffff;
---vscode-editor-foreground:#000000;
---vscode-editorWidget-background:#f3f3f3;
---vscode-editorWidget-foreground:#616161;
---vscode-editorWidget-border:#c8c8c8;
---vscode-quickInput-background:#f3f3f3;
---vscode-quickInput-foreground:#616161;
---vscode-quickInputTitle-background:rgba(0, 0, 0, 0.06);
---vscode-pickerGroup-foreground:#0066bf;
---vscode-pickerGroup-border:#cccedb;
---vscode-editor-selectionBackground:#add6ff;
---vscode-editor-inactiveSelectionBackground:#e5ebf1;
---vscode-editor-selectionHighlightBackground:rgba(173, 214, 255, 0.5);
---vscode-editor-findMatchBackground:#a8ac94;
---vscode-editor-findMatchHighlightBackground:rgba(234, 92, 0, 0.33);
---vscode-editor-findRangeHighlightBackground:rgba(180, 180, 180, 0.3);
---vscode-searchEditor-findMatchBackground:rgba(234, 92, 0, 0.22);
---vscode-editor-hoverHighlightBackground:rgba(173, 214, 255, 0.15);
---vscode-editorHoverWidget-background:#f3f3f3;
---vscode-editorHoverWidget-foreground:#616161;
---vscode-editorHoverWidget-border:#c8c8c8;
---vscode-editorHoverWidget-statusBarBackground:#e7e7e7;
---vscode-editorLink-activeForeground:#0000ff;
---vscode-editorLightBulb-foreground:#ddb100;
---vscode-editorLightBulbAutoFix-foreground:#007acc;
---vscode-diffEditor-insertedTextBackground:rgba(155, 185, 85, 0.2);
---vscode-diffEditor-removedTextBackground:rgba(255, 0, 0, 0.2);
---vscode-diffEditor-diagonalFill:rgba(34, 34, 34, 0.2);
---vscode-list-focusBackground:#d6ebff;
---vscode-list-activeSelectionBackground:#0074e8;
---vscode-list-activeSelectionForeground:#ffffff;
---vscode-list-inactiveSelectionBackground:#e4e6f1;
---vscode-list-hoverBackground:#e8e8e8;
---vscode-list-dropBackground:#d6ebff;
---vscode-list-highlightForeground:#0066bf;
---vscode-list-invalidItemForeground:#b89500;
---vscode-list-errorForeground:#b01011;
---vscode-list-warningForeground:#855f00;
---vscode-listFilterWidget-background:#efc1ad;
---vscode-listFilterWidget-outline:rgba(0, 0, 0, 0);
---vscode-listFilterWidget-noMatchesOutline:#be1100;
---vscode-list-filterMatchBackground:rgba(234, 92, 0, 0.33);
---vscode-tree-indentGuidesStroke:#a9a9a9;
---vscode-list-deemphasizedForeground:#8e8e90;
---vscode-menu-foreground:#616161;
---vscode-menu-background:#ffffff;
---vscode-menu-selectionForeground:#ffffff;
---vscode-menu-selectionBackground:#0074e8;
---vscode-menu-separatorBackground:#888888;
---vscode-editor-snippetTabstopHighlightBackground:rgba(10, 50, 100, 0.2);
---vscode-editor-snippetFinalTabstopHighlightBorder:rgba(10, 50, 100, 0.5);
---vscode-breadcrumb-foreground:rgba(97, 97, 97, 0.8);
---vscode-breadcrumb-background:#ffffff;
---vscode-breadcrumb-focusForeground:#4e4e4e;
---vscode-breadcrumb-activeSelectionForeground:#4e4e4e;
---vscode-breadcrumbPicker-background:#f3f3f3;
---vscode-merge-currentHeaderBackground:rgba(64, 200, 174, 0.5);
---vscode-merge-currentContentBackground:rgba(64, 200, 174, 0.2);
---vscode-merge-incomingHeaderBackground:rgba(64, 166, 255, 0.5);
---vscode-merge-incomingContentBackground:rgba(64, 166, 255, 0.2);
---vscode-merge-commonHeaderBackground:rgba(96, 96, 96, 0.4);
---vscode-merge-commonContentBackground:rgba(96, 96, 96, 0.16);
---vscode-editorOverviewRuler-currentContentForeground:rgba(64, 200, 174, 0.5);
---vscode-editorOverviewRuler-incomingContentForeground:rgba(64, 166, 255, 0.5);
---vscode-editorOverviewRuler-commonContentForeground:rgba(96, 96, 96, 0.4);
---vscode-editorOverviewRuler-findMatchForeground:rgba(209, 134, 22, 0.49);
---vscode-editorOverviewRuler-selectionHighlightForeground:rgba(160, 160, 160, 0.8);
---vscode-minimap-findMatchHighlight:#d18616;
---vscode-minimap-selectionHighlight:#add6ff;
---vscode-minimap-errorHighlight:rgba(255, 18, 18, 0.7);
---vscode-minimap-warningHighlight:#e9a700;
---vscode-minimapSlider-background:rgba(100, 100, 100, 0.2);
---vscode-minimapSlider-hoverBackground:rgba(100, 100, 100, 0.35);
---vscode-minimapSlider-activeBackground:rgba(0, 0, 0, 0.3);
---vscode-problemsErrorIcon-foreground:#e51400;
---vscode-problemsWarningIcon-foreground:#e9a700;
---vscode-problemsInfoIcon-foreground:#75beff;
---vscode-editor-lineHighlightBorder:#eeeeee;
---vscode-editor-rangeHighlightBackground:rgba(253, 255, 0, 0.2);
---vscode-editor-symbolHighlightBackground:rgba(234, 92, 0, 0.33);
---vscode-editorCursor-foreground:#000000;
---vscode-editorWhitespace-foreground:rgba(51, 51, 51, 0.2);
---vscode-editorIndentGuide-background:#d3d3d3;
---vscode-editorIndentGuide-activeBackground:#939393;
---vscode-editorLineNumber-foreground:#237893;
---vscode-editorActiveLineNumber-foreground:#0b216f;
---vscode-editorLineNumber-activeForeground:#0b216f;
---vscode-editorRuler-foreground:#d3d3d3;
---vscode-editorCodeLens-foreground:#999999;
---vscode-editorBracketMatch-background:rgba(0, 100, 0, 0.1);
---vscode-editorBracketMatch-border:#b9b9b9;
---vscode-editorOverviewRuler-border:rgba(127, 127, 127, 0.3);
---vscode-editorGutter-background:#ffffff;
---vscode-editorUnnecessaryCode-opacity:rgba(0, 0, 0, 0.47);
---vscode-editorOverviewRuler-rangeHighlightForeground:rgba(0, 122, 204, 0.6);
---vscode-editorOverviewRuler-errorForeground:rgba(255, 18, 18, 0.7);
---vscode-editorOverviewRuler-warningForeground:#e9a700;
---vscode-editorOverviewRuler-infoForeground:#75beff;
---vscode-editorOverviewRuler-bracketMatchForeground:#a0a0a0;
---vscode-symbolIcon-arrayForeground:#616161;
---vscode-symbolIcon-booleanForeground:#616161;
---vscode-symbolIcon-classForeground:#d67e00;
---vscode-symbolIcon-colorForeground:#616161;
---vscode-symbolIcon-constantForeground:#616161;
---vscode-symbolIcon-constructorForeground:#652d90;
---vscode-symbolIcon-enumeratorForeground:#d67e00;
---vscode-symbolIcon-enumeratorMemberForeground:#007acc;
---vscode-symbolIcon-eventForeground:#d67e00;
---vscode-symbolIcon-fieldForeground:#007acc;
---vscode-symbolIcon-fileForeground:#616161;
---vscode-symbolIcon-folderForeground:#616161;
---vscode-symbolIcon-functionForeground:#652d90;
---vscode-symbolIcon-interfaceForeground:#007acc;
---vscode-symbolIcon-keyForeground:#616161;
---vscode-symbolIcon-keywordForeground:#616161;
---vscode-symbolIcon-methodForeground:#652d90;
---vscode-symbolIcon-moduleForeground:#616161;
---vscode-symbolIcon-namespaceForeground:#616161;
---vscode-symbolIcon-nullForeground:#616161;
---vscode-symbolIcon-numberForeground:#616161;
---vscode-symbolIcon-objectForeground:#616161;
---vscode-symbolIcon-operatorForeground:#616161;
---vscode-symbolIcon-packageForeground:#616161;
---vscode-symbolIcon-propertyForeground:#616161;
---vscode-symbolIcon-referenceForeground:#616161;
---vscode-symbolIcon-snippetForeground:#616161;
---vscode-symbolIcon-stringForeground:#616161;
---vscode-symbolIcon-structForeground:#616161;
---vscode-symbolIcon-textForeground:#616161;
---vscode-symbolIcon-typeParameterForeground:#616161;
---vscode-symbolIcon-unitForeground:#616161;
---vscode-symbolIcon-variableForeground:#007acc;
---vscode-editor-foldBackground:rgba(173, 214, 255, 0.3);
---vscode-editorGutter-foldingControlForeground:#424242;
---vscode-editor-onTypeRenameBackground:rgba(255, 0, 0, 0.3);
---vscode-editorSuggestWidget-background:#f3f3f3;
---vscode-editorSuggestWidget-border:#c8c8c8;
---vscode-editorSuggestWidget-foreground:#000000;
---vscode-editorSuggestWidget-selectedBackground:#d6ebff;
---vscode-editorSuggestWidget-highlightForeground:#0066bf;
---vscode-editor-wordHighlightBackground:rgba(87, 87, 87, 0.25);
---vscode-editor-wordHighlightStrongBackground:rgba(14, 99, 156, 0.25);
---vscode-editorOverviewRuler-wordHighlightForeground:rgba(160, 160, 160, 0.8);
---vscode-editorOverviewRuler-wordHighlightStrongForeground:rgba(192, 160, 192, 0.8);
---vscode-peekViewTitle-background:#ffffff;
---vscode-peekViewTitleLabel-foreground:#333333;
---vscode-peekViewTitleDescription-foreground:rgba(97, 97, 97, 0.9);
---vscode-peekView-border:#007acc;
---vscode-peekViewResult-background:#f3f3f3;
---vscode-peekViewResult-lineForeground:#646465;
---vscode-peekViewResult-fileForeground:#1e1e1e;
---vscode-peekViewResult-selectionBackground:rgba(51, 153, 255, 0.2);
---vscode-peekViewResult-selectionForeground:#6c6c6c;
---vscode-peekViewEditor-background:#f2f8fc;
---vscode-peekViewEditorGutter-background:#f2f8fc;
---vscode-peekViewResult-matchHighlightBackground:rgba(234, 92, 0, 0.3);
---vscode-peekViewEditor-matchHighlightBackground:rgba(245, 216, 2, 0.87);
---vscode-editorMarkerNavigationError-background:#e51400;
---vscode-editorMarkerNavigationWarning-background:#e9a700;
---vscode-editorMarkerNavigationInfo-background:#75beff;
---vscode-editorMarkerNavigation-background:#ffffff;
---vscode-tab-activeBackground:#ffffff;
---vscode-tab-unfocusedActiveBackground:#ffffff;
---vscode-tab-inactiveBackground:#ececec;
---vscode-tab-unfocusedInactiveBackground:#ececec;
---vscode-tab-activeForeground:#333333;
---vscode-tab-inactiveForeground:rgba(51, 51, 51, 0.7);
---vscode-tab-unfocusedActiveForeground:rgba(51, 51, 51, 0.7);
---vscode-tab-unfocusedInactiveForeground:rgba(51, 51, 51, 0.35);
---vscode-tab-activeModifiedBorder:#33aaee;
---vscode-tab-inactiveModifiedBorder:rgba(51, 170, 238, 0.5);
---vscode-tab-unfocusedActiveModifiedBorder:rgba(51, 170, 238, 0.7);
---vscode-tab-unfocusedInactiveModifiedBorder:rgba(51, 170, 238, 0.25);
---vscode-tab-border:#f3f3f3;
---vscode-editorPane-background:#ffffff;
---vscode-editorGroupHeader-tabsBackground:#f3f3f3;
---vscode-editorGroupHeader-noTabsBackground:#ffffff;
---vscode-editorGroup-border:#e7e7e7;
---vscode-editorGroup-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-imagePreview-border:rgba(128, 128, 128, 0.35);
---vscode-panel-background:#ffffff;
---vscode-panel-border:rgba(128, 128, 128, 0.35);
---vscode-panelTitle-activeForeground:#424242;
---vscode-panelTitle-inactiveForeground:rgba(66, 66, 66, 0.75);
---vscode-panelTitle-activeBorder:#424242;
---vscode-panelInput-border:#dddddd;
---vscode-panel-dropBorder:#424242;
---vscode-panelSection-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-panelSectionHeader-background:rgba(128, 128, 128, 0.2);
---vscode-panelSection-border:rgba(128, 128, 128, 0.35);
---vscode-statusBar-foreground:#ffffff;
---vscode-statusBar-noFolderForeground:#ffffff;
---vscode-statusBar-background:#007acc;
---vscode-statusBar-noFolderBackground:#68217a;
---vscode-statusBarItem-activeBackground:rgba(255, 255, 255, 0.18);
---vscode-statusBarItem-hoverBackground:rgba(255, 255, 255, 0.12);
---vscode-statusBarItem-prominentForeground:#ffffff;
---vscode-statusBarItem-prominentBackground:rgba(0, 0, 0, 0.5);
---vscode-statusBarItem-prominentHoverBackground:rgba(0, 0, 0, 0.3);
---vscode-activityBar-background:#2c2c2c;
---vscode-activityBar-foreground:#ffffff;
---vscode-activityBar-inactiveForeground:rgba(255, 255, 255, 0.4);
---vscode-activityBar-activeBorder:#ffffff;
---vscode-activityBar-dropBorder:#ffffff;
---vscode-activityBarBadge-background:#007acc;
---vscode-activityBarBadge-foreground:#ffffff;
---vscode-statusBarItem-remoteBackground:#16825d;
---vscode-statusBarItem-remoteForeground:#ffffff;
---vscode-extensionBadge-remoteBackground:#007acc;
---vscode-extensionBadge-remoteForeground:#ffffff;
---vscode-sideBar-background:#f3f3f3;
---vscode-sideBarTitle-foreground:#6f6f6f;
---vscode-sideBar-dropBackground:rgba(38, 119, 203, 0.18);
---vscode-sideBarSectionHeader-background:rgba(0, 0, 0, 0);
---vscode-sideBarSectionHeader-border:rgba(97, 97, 97, 0.19);
---vscode-titleBar-activeForeground:#333333;
---vscode-titleBar-inactiveForeground:rgba(51, 51, 51, 0.6);
---vscode-titleBar-activeBackground:#dddddd;
---vscode-titleBar-inactiveBackground:rgba(221, 221, 221, 0.6);
---vscode-menubar-selectionForeground:#333333;
---vscode-menubar-selectionBackground:rgba(0, 0, 0, 0.1);
---vscode-notifications-foreground:#616161;
---vscode-notifications-background:#f3f3f3;
---vscode-notificationLink-foreground:#006ab1;
---vscode-notificationCenterHeader-background:#e7e7e7;
---vscode-notifications-border:#e7e7e7;
---vscode-notificationsErrorIcon-foreground:#e51400;
---vscode-notificationsWarningIcon-foreground:#e9a700;
---vscode-notificationsInfoIcon-foreground:#75beff;
---vscode-editorGutter-commentRangeForeground:#c5c5c5;
---vscode-editor-stackFrameHighlightBackground:rgba(255, 255, 102, 0.45);
---vscode-editor-focusedStackFrameHighlightBackground:rgba(206, 231, 206, 0.45);
---vscode-terminal-foreground:#333333;
---vscode-terminal-selectionBackground:rgba(0, 0, 0, 0.25);
---vscode-terminal-border:rgba(128, 128, 128, 0.35);
---vscode-statusBar-debuggingBackground:#cc6633;
---vscode-statusBar-debuggingForeground:#ffffff;
---vscode-settings-headerForeground:#444444;
---vscode-settings-modifiedItemIndicator:#66afe0;
---vscode-settings-dropdownBackground:#ffffff;
---vscode-settings-dropdownBorder:#cecece;
---vscode-settings-dropdownListBorder:#c8c8c8;
---vscode-settings-checkboxBackground:#ffffff;
---vscode-settings-checkboxBorder:#cecece;
---vscode-settings-textInputBackground:#ffffff;
---vscode-settings-textInputForeground:#616161;
---vscode-settings-textInputBorder:#cecece;
---vscode-settings-numberInputBackground:#ffffff;
---vscode-settings-numberInputForeground:#616161;
---vscode-settings-numberInputBorder:#cecece;
---vscode-debugExceptionWidget-border:#a31515;
---vscode-debugExceptionWidget-background:#f1dfde;
---vscode-editorGutter-modifiedBackground:#66afe0;
---vscode-editorGutter-addedBackground:#81b88b;
---vscode-editorGutter-deletedBackground:#ca4b51;
---vscode-minimapGutter-modifiedBackground:#66afe0;
---vscode-minimapGutter-addedBackground:#81b88b;
---vscode-minimapGutter-deletedBackground:#ca4b51;
---vscode-editorOverviewRuler-modifiedForeground:rgba(102, 175, 224, 0.6);
---vscode-editorOverviewRuler-addedForeground:rgba(129, 184, 139, 0.6);
---vscode-editorOverviewRuler-deletedForeground:rgba(202, 75, 81, 0.6);
---vscode-searchEditor-textInputBorder:#cecece;
---vscode-debugIcon-breakpointForeground:#e51400;
---vscode-debugIcon-breakpointDisabledForeground:#848484;
---vscode-debugIcon-breakpointUnverifiedForeground:#848484;
---vscode-debugIcon-breakpointCurrentStackframeForeground:#ffcc00;
---vscode-debugIcon-breakpointStackframeForeground:#89d185;
---vscode-debugToolBar-background:#f3f3f3;
---vscode-debugIcon-startForeground:#388a34;
---vscode-debugIcon-pauseForeground:#007acc;
---vscode-debugIcon-stopForeground:#a1260d;
---vscode-debugIcon-disconnectForeground:#a1260d;
---vscode-debugIcon-restartForeground:#388a34;
---vscode-debugIcon-stepOverForeground:#007acc;
---vscode-debugIcon-stepIntoForeground:#007acc;
---vscode-debugIcon-stepOutForeground:#007acc;
---vscode-debugIcon-continueForeground:#007acc;
---vscode-debugIcon-stepBackForeground:#007acc;
---vscode-debugTokenExpression-name:#9b46b0;
---vscode-debugTokenExpression-value:rgba(108, 108, 108, 0.8);
---vscode-debugTokenExpression-string:#a31515;
---vscode-debugTokenExpression-boolean:#0000ff;
---vscode-debugTokenExpression-number:#098658;
---vscode-debugTokenExpression-error:#e51400;
---vscode-debugView-exceptionLabelForeground:#ffffff;
---vscode-debugView-exceptionLabelBackground:#a31515;
---vscode-debugView-stateLabelForeground:#616161;
---vscode-debugView-stateLabelBackground:rgba(136, 136, 136, 0.27);
---vscode-debugView-valueChangedHighlight:#569cd6;
---vscode-debugConsole-infoForeground:#75beff;
---vscode-debugConsole-warningForeground:#e9a700;
---vscode-debugConsole-errorForeground:#a1260d;
---vscode-debugConsole-sourceForeground:#616161;
---vscode-debugConsoleInputIcon-foreground:#616161;
---vscode-extensionButton-prominentBackground:#327e36;
---vscode-extensionButton-prominentForeground:#ffffff;
---vscode-extensionButton-prominentHoverBackground:#28632b;
---vscode-notebook-cellBorderColor:#dae3e9;
---vscode-notebook-focusedEditorBorder:#0090f1;
---vscode-notebookStatusSuccessIcon-foreground:#388a34;
---vscode-notebookStatusErrorIcon-foreground:#a1260d;
---vscode-notebookStatusRunningIcon-foreground:#616161;
---vscode-notebook-outputContainerBackgroundColor:rgba(200, 221, 241, 0.31);
---vscode-notebook-cellToolbarSeparator:rgba(128, 128, 128, 0.35);
---vscode-notebook-focusedCellBackground:rgba(200, 221, 241, 0.31);
---vscode-notebook-cellHoverBackground:rgba(200, 221, 241, 0.22);
---vscode-notebook-focusedCellBorder:rgba(0, 0, 0, 0.12);
---vscode-notebook-cellStatusBarItemHoverBackground:rgba(0, 0, 0, 0.08);
---vscode-notebook-cellInsertionIndicator:#0090f1;
---vscode-notebookScrollbarSlider-background:rgba(100, 100, 100, 0.4);
---vscode-notebookScrollbarSlider-hoverBackground:rgba(100, 100, 100, 0.7);
---vscode-notebookScrollbarSlider-activeBackground:rgba(0, 0, 0, 0.6);
---vscode-notebook-symbolHighlightBackground:rgba(253, 255, 0, 0.2);
---vscode-scm-providerBorder:#c8c8c8;
---vscode-terminal-ansiBlack:#000000;
---vscode-terminal-ansiRed:#cd3131;
---vscode-terminal-ansiGreen:#00bc00;
---vscode-terminal-ansiYellow:#949800;
---vscode-terminal-ansiBlue:#0451a5;
---vscode-terminal-ansiMagenta:#bc05bc;
---vscode-terminal-ansiCyan:#0598bc;
---vscode-terminal-ansiWhite:#555555;
---vscode-terminal-ansiBrightBlack:#666666;
---vscode-terminal-ansiBrightRed:#cd3131;
---vscode-terminal-ansiBrightGreen:#14ce14;
---vscode-terminal-ansiBrightYellow:#b5ba00;
---vscode-terminal-ansiBrightBlue:#0451a5;
---vscode-terminal-ansiBrightMagenta:#bc05bc;
---vscode-terminal-ansiBrightCyan:#0598bc;
---vscode-terminal-ansiBrightWhite:#a5a5a5;
---vscode-gitDecoration-addedResourceForeground:#587c0c;
---vscode-gitDecoration-modifiedResourceForeground:#895503;
---vscode-gitDecoration-deletedResourceForeground:#ad0707;
---vscode-gitDecoration-untrackedResourceForeground:#007100;
---vscode-gitDecoration-ignoredResourceForeground:#8e8e90;
---vscode-gitDecoration-conflictingResourceForeground:#6c6cc4;
---vscode-gitDecoration-submoduleResourceForeground:#1258a7;
---vscode-gitlens-gutterBackgroundColor:rgba(0, 0, 0, 0.05);
---vscode-gitlens-gutterForegroundColor:#747474;
---vscode-gitlens-gutterUncommittedForegroundColor:rgba(0, 188, 242, 0.6);
---vscode-gitlens-trailingLineBackgroundColor:rgba(0, 0, 0, 0);
---vscode-gitlens-trailingLineForegroundColor:rgba(153, 153, 153, 0.35);
---vscode-gitlens-lineHighlightBackgroundColor:rgba(0, 188, 242, 0.2);
---vscode-gitlens-lineHighlightOverviewRulerColor:rgba(0, 188, 242, 0.6);
---vscode-issues-newIssueDecoration:rgba(0, 0, 0, 0.28);
-}
+<head>
+<title>ready-for-fight-plan.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-body
-{
-background-color: var(--vscode-editor-background);
-color: var(--vscode-editor-foreground);
-font-family: var(--vscode-font-family);
-font-weight: var(--vscode-font-weight);
-font-size: var(--vscode-font-size);
-margin: 0;
-padding: 0 20px;
-}
-
-img
-{
-max-width: 100%;
-max-height: 100%;
-}
-
-a
-{
-color: var(--vscode-textLink-foreground);
-}
-
-a:hover
-{
-color: var(--vscode-textLink-activeForeground);
-}
-
-a:focus,
-input:focus,
-select:focus,
-textarea:focus
-{
-outline: 1px solid -webkit-focus-ring-color;
-outline-offset: -1px;
-}
-
-code
-{
-color: var(--vscode-textPreformat-foreground);
-}
-
-blockquote
-{
-background: var(--vscode-textBlockQuote-background);
-border-color: var(--vscode-textBlockQuote-border);
-}
-
-kbd
-{
-color: var(--vscode-editor-foreground);
-border-radius: 3px;
-vertical-align: middle;
-padding: 1px 3px;
-
-background-color: hsla(0,0%,50%,.17);
-border: 1px solid rgba(71,71,71,.4);
-border-bottom-color: rgba(88,88,88,.4);
-box-shadow: inset 0 -1px 0 rgba(88,88,88,.4);
-}
-
-.vscode-light kbd
-{
-background-color: hsla(0,0%,87%,.5);
-border: 1px solid hsla(0,0%,80%,.7);
-border-bottom-color: hsla(0,0%,73%,.7);
-box-shadow: inset 0 -1px 0 hsla(0,0%,73%,.7);
-}
-
-::-webkit-scrollbar
-{
-width: 10px;
-height: 10px;
-}
-
-::-webkit-scrollbar-corner
-{
-background-color: var(--vscode-editor-background);
-}
-
-::-webkit-scrollbar-thumb
-{
-background-color: var(--vscode-scrollbarSlider-background);
-}
-::-webkit-scrollbar-thumb:hover
-{
-background-color: var(--vscode-scrollbarSlider-hoverBackground);
-}
-::-webkit-scrollbar-thumb:active
-{
-background-color: var(--vscode-scrollbarSlider-activeBackground);
-}
-
-.emoji
-{
-height: 20px;
-}
-
-pre
-{
-white-space: pre-wrap;
-}
-
-.page-break
-{
-display: block;
-page-break-after: always;
-}
-
-.no-page-break
-{
-page-break-inside: avoid;
-}
-</style>
-<style>/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
-
-html, body {
-	font-family: var(--markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui, "Ubuntu", "Droid Sans", sans-serif);
-	font-size: var(--markdown-font-size, 14px);
-	padding: 0 26px;
-	line-height: var(--markdown-line-height, 22px);
-	word-wrap: break-word;
-}
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 body {
-	padding-top: 1em;
-}
-
-/* Reset margin top for elements */
-h1, h2, h3, h4, h5, h6,
-p, ol, ul, pre {
-	margin-top: 0;
-}
-
-h2, h3, h4, h5, h6 {
-	font-weight: normal;
-	margin-bottom: 0.2em;
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
 }
 
 #code-csp-warning {
@@ -648,15 +120,6 @@ textarea:focus {
 	outline-offset: -1px;
 }
 
-p {
-	margin-bottom: 0.7em;
-}
-
-ul,
-ol {
-	margin-bottom: 0.7em;
-}
-
 hr {
 	border: 0;
 	height: 2px;
@@ -668,6 +131,9 @@ h1 {
 	line-height: 1.2;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
 	font-weight: normal;
 }
 
@@ -699,7 +165,7 @@ blockquote {
 }
 
 code {
-	font-family: var(--vscode-editor-font-family, "SF Mono", Monaco, Menlo, Consolas, "Ubuntu Mono", "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace);
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
 	font-size: 1em;
 	line-height: 1.357em;
 }
@@ -757,84 +223,74 @@ pre code {
 .vscode-dark table > tbody > tr + tr > td {
 	border-color: rgba(255, 255, 255, 0.18);
 }
+
 </style>
-<style>/*
-https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs2015.css
-*/
-/*
-* Visual Studio 2015 dark style
-* Author: Nicolas LLOBERA <nllobera@gmail.com>
-*/
 
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
 
-.hljs-keyword,
-.hljs-literal,
-.hljs-symbol,
-.hljs-name {
-	color: #569CD6;
-}
-.hljs-link {
-	color: #569CD6;
-	text-decoration: underline;
-}
-
-.hljs-built_in,
-.hljs-type {
-	color: #4EC9B0;
-}
-
-.hljs-number,
-.hljs-class {
-	color: #B8D7A3;
-}
-
-.hljs-string,
-.hljs-meta-string {
-	color: #D69D85;
-}
-
-.hljs-regexp,
-.hljs-template-tag {
-	color: #9A5334;
-}
-
-.hljs-subst,
-.hljs-function,
-.hljs-title,
-.hljs-params,
-.hljs-formula {
-	color: #DCDCDC;
-}
-
+/* Tomorrow Comment */
 .hljs-comment,
 .hljs-quote {
-	color: #57A64A;
-	font-style: italic;
+	color: #8e908c;
 }
 
-.hljs-doctag {
-	color: #608B4E;
-}
-
-.hljs-meta,
-.hljs-meta-keyword,
-.hljs-tag {
-	color: #9B9B9B;
-}
-
+/* Tomorrow Red */
 .hljs-variable,
-.hljs-template-variable {
-	color: #BD63C5;
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
 }
 
-.hljs-attr,
-.hljs-attribute,
-.hljs-builtin-name {
-	color: #9CDCFE;
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
 }
 
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
 .hljs-section {
-	color: gold;
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
 }
 
 .hljs-emphasis {
@@ -844,154 +300,108 @@ https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs201
 .hljs-strong {
 	font-weight: bold;
 }
-
-/*.hljs-code {
-	font-family:'Monospace';
-}*/
-
-.hljs-bullet,
-.hljs-selector-tag,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-selector-attr,
-.hljs-selector-pseudo {
-	color: #D7BA7D;
-}
-
-.hljs-addition {
-	background-color: var(--vscode-diffEditor-insertedTextBackground, rgba(155, 185, 85, 0.2));
-	color: rgb(155, 185, 85);
-	display: inline-block;
-	width: 100%;
-}
-
-.hljs-deletion {
-	background: var(--vscode-diffEditor-removedTextBackground, rgba(255, 0, 0, 0.2));
-	color: rgb(255, 0, 0);
-	display: inline-block;
-	width: 100%;
-}
-
-
-/*
-From https://raw.githubusercontent.com/isagalaev/highlight.js/master/src/styles/vs.css
-*/
-/*
-
-Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
-
-*/
-
-.vscode-light .hljs-function,
-.vscode-light .hljs-params,
-.vscode-light .hljs-number,
-.vscode-light .hljs-class  {
-	color: inherit;
-}
-
-.vscode-light .hljs-comment,
-.vscode-light .hljs-quote,
-.vscode-light .hljs-number,
-.vscode-light .hljs-class,
-.vscode-light .hljs-variable {
-	color: #008000;
-}
-
-.vscode-light .hljs-keyword,
-.vscode-light .hljs-selector-tag,
-.vscode-light .hljs-name,
-.vscode-light .hljs-tag {
-	color: #00f;
-}
-
-.vscode-light .hljs-built_in,
-.vscode-light .hljs-builtin-name {
-	color: #007acc;
-}
-
-.vscode-light .hljs-string,
-.vscode-light .hljs-section,
-.vscode-light .hljs-attribute,
-.vscode-light .hljs-literal,
-.vscode-light .hljs-template-tag,
-.vscode-light .hljs-template-variable,
-.vscode-light .hljs-type {
-	color: #a31515;
-}
-
-.vscode-light .hljs-selector-attr,
-.vscode-light .hljs-selector-pseudo,
-.vscode-light .hljs-meta,
-.vscode-light .hljs-meta-keyword {
-	color: #2b91af;
-}
-
-.vscode-light .hljs-title,
-.vscode-light .hljs-doctag {
-	color: #808080;
-}
-
-.vscode-light .hljs-attr {
-	color: #f00;
-}
-
-.vscode-light .hljs-symbol,
-.vscode-light .hljs-bullet,
-.vscode-light .hljs-link {
-	color: #00b0e8;
-}
-
-
-.vscode-light .hljs-emphasis {
-	font-style: italic;
-}
-
-.vscode-light .hljs-strong {
-	font-weight: bold;
-}
 </style>
 
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="bei-zhan-da-han-mian-shi--ji-hua" id="%E5%A4%87%E6%88%98%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95-%E8%AE%A1%E5%88%92" data-line="0" class="code-line">备战大厂面试-计划</h1>
-<p data-line="2" class="code-line">作者: <a href="http://songtianyi.info" data-href="http://songtianyi.info">songtianyi</a></p>
-<h2 id="qian-yan" id="%E5%89%8D%E8%A8%80" data-line="4" class="code-line">前言</h2>
-<p data-line="6" class="code-line">回想起来，毕业之后参加了 UCloud 的面试之后就没有再面过试了，这次离职准备试下去大厂，心里有些忐忑。刚毕业那会儿对自己是比较有信心的，因为在学校是扎扎实实学了四年的，搞过算法，拿过一些比赛的奖项，跟导师做过一些不错的项目，论文写得也过得去，在技术这条路上算是一个上了道的人，面对名校出来的一般毕业生也不怵。现在，坦白讲，成长的太慢，不进则退，已经没有那个自信了。所以，得好好准备这次面试。</p>
-<h2 id="di-yi-guan---quan-mian-shu-li" id="%E7%AC%AC%E4%B8%80%E5%85%B3---%E5%85%A8%E9%9D%A2%E6%A2%B3%E7%90%86" data-line="8" class="code-line">第一关 - 全面梳理</h2>
-<p data-line="10" class="code-line">首先，我得梳理从大学，到 UCloud 再到现在的公司，从 09年到如今，我到底都干过什么，学到了什么。一次全面的梳理，复习自己学过的东西，发现自己优点和不足。有针对性的去补充和巩固知识体系，在面试中突出自己的优点。</p>
-<h2 id="di-er-guan---shua-ti" id="%E7%AC%AC%E4%BA%8C%E5%85%B3---%E5%88%B7%E9%A2%98" data-line="12" class="code-line">第二关 - 刷题</h2>
-<p data-line="14" class="code-line">大厂就是大厂，刚毕业的时候 BAT 就看重数据结构/算法这些东西，现在依然是这样。这种东西，怎么说呢，以我这些年的经验，用到的机会很少，但是绝对会用到，刷题千日，用技一时。所以，该刷的得刷。怎么刷，leetcode 这种我以前都看不上的，不过现在生疏了，得下手了，先把简单的搞定再说。之后可以刷 codeforce , 一个我比较喜欢的平台，检验下质量。</p>
-<h2 id="di-san-guan---jian-li" id="%E7%AC%AC%E4%B8%89%E5%85%B3---%E7%AE%80%E5%8E%86" data-line="16" class="code-line">第三关 - 简历</h2>
-<p data-line="18" class="code-line">我自己用 sketch 设计了一份简历格式，然后找一位设计师朋友帮忙选了字体。</p>
-<p data-line="20" class="code-line">简历展示的内容分为个人信息/自荐陈述/履历这三大部分, 自荐陈述主要是用简短的语言把自己拥有的知识，技能，闪光点等信息展示出来。履历是以 <code>公司/学校-&gt;项目</code> 这样直观的结构来排列，首先简要介绍在公司的成绩和成长，然后以项目的维度来展开，讲清楚这段时间具体做的内容，做出的成绩是什么，对团队的帮助有多大，对业务的帮助有多大，涉及到的技能点是什么。</p>
-<p data-line="22" class="code-line">最近这几年，我也面试不少人，从我个人的习惯来看，简历<strong>必须真实</strong>，写上去的都是你真正会的，因为大部分简历都是我亲自挑的，把对方约来面试，是看中了简历中的一些点，如果连简历中提到的点都回答不好的话，那肯定没希望, 反过来讲，如果简历提到的内容都能回答的不错的话基本就能过。</p>
-<p data-line="24" class="code-line">这样的简历是一份标准简历，是 ok 的，但是我决定加上 <code>个人特质</code> 这部分内容，用实际案例展现自己的闪光点。</p>
-<h2 id="di-si-guan---di-yi-lun-ji-shu-mian" id="%E7%AC%AC%E5%9B%9B%E5%85%B3---%E7%AC%AC%E4%B8%80%E8%BD%AE-%E6%8A%80%E6%9C%AF%E9%9D%A2" data-line="26" class="code-line">第四关 - 第一轮 技术面</h2>
-<p data-line="28" class="code-line">这轮面试据说是40分钟的 coding, 考察编码能力。形式应该类似 ACM，会有一个 oj 系统，题目应该一部分是网上的，一部分来源于公司内部，会有难题，但通过应该不难。考察的内容:</p>
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E5%A4%87%E6%88%98%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95-%E8%AE%A1%E5%88%92">备战大厂面试-计划</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a></p>
+<h2 id="%E5%89%8D%E8%A8%80">前言</h2>
+<p>回想起来，毕业之后参加了 UCloud 的面试之后就没有再面过试了，这次离职准备试下去大厂，心里有些忐忑。刚毕业那会儿对自己是比较有信心的，因为在学校是扎扎实实学了四年的，搞过算法，拿过一些比赛的奖项，跟导师做过一些不错的项目，论文写得也过得去，在技术这条路上算是一个上了道的人，面对名校出来的一般毕业生也不怵。现在，坦白讲，成长的太慢，不进则退，已经没有那个自信了。所以，得好好准备这次面试。</p>
+<h2 id="%E7%AC%AC%E4%B8%80%E5%85%B3---%E5%85%A8%E9%9D%A2%E6%A2%B3%E7%90%86">第一关 - 全面梳理</h2>
+<p>首先，我得梳理从大学，到 UCloud 再到现在的公司，从 09 年到如今，我到底都干过什么，学到了什么。一次全面的梳理，复习自己学过的东西，发现自己优点和不足。有针对性的去补充和巩固知识体系，在面试中突出自己的优点。</p>
+<h2 id="%E7%AC%AC%E4%BA%8C%E5%85%B3---%E5%88%B7%E9%A2%98">第二关 - 刷题</h2>
+<p>大厂就是大厂，刚毕业的时候 BAT 就看重数据结构/算法这些东西，现在依然是这样。这种东西，怎么说呢，以我这些年的经验，用到的机会很少，但是绝对会用到，刷题千日，用技一时。所以，该刷的得刷。怎么刷，leetcode 这种我以前都看不上的，不过现在生疏了，得下手了，先把简单的搞定再说。之后可以刷 codeforce , 一个我比较喜欢的平台，检验下质量。</p>
+<h2 id="%E7%AC%AC%E4%B8%89%E5%85%B3---%E7%AE%80%E5%8E%86">第三关 - 简历</h2>
+<p>我自己用 sketch 设计了一份简历格式，然后找一位设计师朋友帮忙选了字体。</p>
+<p>简历展示的内容分为个人信息/自荐陈述/履历这三大部分, 自荐陈述主要是用简短的语言把自己拥有的知识，技能，闪光点等信息展示出来。履历是以 <code>公司/学校-&gt;项目</code> 这样直观的结构来排列，首先简要介绍在公司的成绩和成长，然后以项目的维度来展开，讲清楚这段时间具体做的内容，做出的成绩是什么，对团队的帮助有多大，对业务的帮助有多大，涉及到的技能点是什么。</p>
+<p>最近这几年，我也面试不少人，从我个人的习惯来看，简历<strong>必须真实</strong>，写上去的都是你真正会的，因为大部分简历都是我亲自挑的，把对方约来面试，是看中了简历中的一些点，如果连简历中提到的点都回答不好的话，那肯定没希望, 反过来讲，如果简历提到的内容都能回答的不错的话基本就能过。</p>
+<p>这样的简历是一份标准简历，是 ok 的，但是我决定加上 <code>个人特质</code> 这部分内容，用实际案例展现自己的闪光点。</p>
+<h2 id="%E7%AC%AC%E5%9B%9B%E5%85%B3---%E7%AC%AC%E4%B8%80%E8%BD%AE-%E6%8A%80%E6%9C%AF%E9%9D%A2">第四关 - 第一轮 技术面</h2>
+<p>这轮面试据说是 40 分钟的 coding, 考察编码能力。形式应该类似 ACM，会有一个 oj 系统，题目应该一部分是网上的，一部分来源于公司内部，会有难题，但通过应该不难。考察的内容:</p>
 <ul>
-<li data-line="30" class="code-line">对数据结构/算法的熟练程度</li>
-<li data-line="31" class="code-line">对编程语言的熟练程度</li>
-<li data-line="32" class="code-line">理解能力，思维能力</li>
-<li data-line="33" class="code-line">在压力下编程的能力，或者说看你抗不抗压</li>
+<li>对数据结构/算法的熟练程度</li>
+<li>对编程语言的熟练程度</li>
+<li>理解能力，思维能力</li>
+<li>在压力下编程的能力，或者说看你抗不抗压</li>
 </ul>
-<p data-line="35" class="code-line">要过这一关，刷题是必要的，但是刷题只能保证自己能通过，不能保证自己优于其他人，所以一定会有一些难题是用来筛选牛人的。
-刷完一般的题，需要看一些顶尖的竞赛题，需要学习一些算法的变种。另外，大厂和小厂的区别，主要在于规模，规模一旦上去问题全暴露出来了，常规的方法解决不了了，所以，tb级别甚至pb级别的数据量的存储和传输怎么解，超大量的并发怎么解，都得考虑。</p>
-<h2 id="di-wu-guan---di-er-lun-zu-nei-jiao-cha" id="%E7%AC%AC%E4%BA%94%E5%85%B3---%E7%AC%AC%E4%BA%8C%E8%BD%AE-%E7%BB%84%E5%86%85%E4%BA%A4%E5%8F%89" data-line="38" class="code-line">第五关 - 第二轮 组内交叉</h2>
-<p data-line="40" class="code-line">这一轮风险其实是最大的，人一多，变量就多了，每个人喜欢的点，讨厌的点都会不一样，同时面对多人的 judge , 压力也会很大。
-首先，第二轮可能是紧接着第一轮的，会有一些回顾性的提问，比如，对你做过的题进行挑战性提问。据说，第二轮也会有 coding , 这一轮的 coding 我猜测应该是针对简历的，考察你的简历是否有水分，但是不确定是上机coding 还是在纸上，如果在纸上，伪代码就行，上机压力会更大。</p>
-<p data-line="43" class="code-line">组内交叉的考察是全方位的，面试官可能会各自打分，然后综合评价，但是，应该还是着重于技术。你身上是否有别人欣赏的东西，值得别人学习的东西，能否帮助到他们，你沟通的方式，面对问题的态度，甚至是否有一些共同的爱好等等都会影响结果。</p>
-<p data-line="45" class="code-line">组内交叉要考察的技术应该是全方面的，所以除了数据结构/算法这些东西，其他的技术基础也一样重要，计算/存储/网络三大块儿的基础知识, 架构，如果你的知识体系全面而扎实，基本可以过。</p>
-<p data-line="47" class="code-line">这一关需要你的简历扎实，你的基本功扎实，你的职业素养扎实。</p>
-<p data-line="49" class="code-line">一旦涉及到人的时候，就会有一些打破既定模式的办法，前面讲的都是既定模式的东西，如果在既定模式上突出你自己，需要想想，比如和每一位面试官握手并记住他们的名字，首先，你得真的把自己当成他们的一员，融入他们，才有可能真的加入他们。让他们愿意和你做同事，做朋友。</p>
-<h2 id="di-liu-guan---di-san-lun-zhi-shu-leader-mian" id="%E7%AC%AC%E5%85%AD%E5%85%B3---%E7%AC%AC%E4%B8%89%E8%BD%AE-%E7%9B%B4%E5%B1%9E-leader-%E9%9D%A2" data-line="51" class="code-line">第六关 - 第三轮 直属 leader 面</h2>
-<p data-line="53" class="code-line">通常，技术把关是由 leader 来的，不过既然设置了组内交叉，那到了 leader 这一面就不会有大而全的技术面了。对于 leader 来说，现在你的基本功是 ok 的，重点是是否能为他所用，技术问题会有，但应该都是是针对他所设置的岗位上的一些问题，一些他正在面临的问题和压力，因为招人都是招进来解决问题的，不是拿来供的。这一轮，决定了你的 leader 如何定位你，你最低能拿到的 package, 是对未来比较关键的一面。除了技术，另外一个重点是，考察你是否符合他的管理风格，是否符合组内文化，当然，也会考察是否符合公司文化，虽然这是 hr 的活，但是，其实每一关，每个面试官都会考察这些的，一个合格的员工，必须维护公司的文化和价值观。</p>
-<h2 id="di-qi-guan---di-si-lun-zu-wai-jiao-cha" id="%E7%AC%AC%E4%B8%83%E5%85%B3---%E7%AC%AC%E5%9B%9B%E8%BD%AE-%E7%BB%84%E5%A4%96%E4%BA%A4%E5%8F%89" data-line="55" class="code-line">第七关 - 第四轮 组外交叉</h2>
-<p data-line="57" class="code-line">我猜不出来设计这一轮的主要目的是什么。沟通协作能力？在前两轮是能通过提问考察出来的。唯一我能想到的就是，这轮面试考察的是你技术面的广度，前三轮是技术深度，但是前三轮其实也是能考察出来这一点的，毕竟他们也是这么过来的，leader 的技术广度也够面你的。所以，搞不懂。后来想一想，其实跨部门沟通最重要的是你要切身地理解他们的需求，这样才能服务好其他部门。做 toB 的业务其实经常会遇到这样的问题，做出来的东西和客户想要的有差距，因为没有人特别熟悉他们的使用场景。</p>
-<h2 id="di-ba-guan---di-wu-lun-lao-ban-hr" id="%E7%AC%AC%E5%85%AB%E5%85%B3---%E7%AC%AC%E4%BA%94%E8%BD%AE-%E8%80%81%E6%9D%BFhr" data-line="59" class="code-line">第八关 - 第五轮 老板+HR</h2>
-<p data-line="61" class="code-line">这一轮考察的内容应该比较明显，是否符合公司文化，你的职业规划是什么，你的成长潜力怎么样，一般都能过。重点来了，这一轮是确定待遇的，直属 leader 这一面，应该会给一个待遇的区间，他特别想要你，可能上限就给的相对高点，不是特别想要，这个区间的下限可能就偏低，特别想要的人应该会跟 hr 打声招呼，不过这种情况应该是偏少的，味道对上是很难的，跟你找对象差不多难。</p>
-<p data-line="63" class="code-line">这一轮考验你的谈判能力，谈判得有筹码，前几轮面试就是你攒筹码的过程，能通过前四轮，你应该要自信，然后考验你的观察能力，因为前几轮，只能表明你通过了，但并不会告诉他们对你的评价到底如何，所以，前几轮中你对面试官的观察就很重要，从观察中得出他们对你的评价，尤其是你的直属上级，因为组内组外的人员其实并不太关心谁能入职，你的上级是最关心的，比如，他如果特别喜欢你，可能会教你怎么过第四轮和第五轮的面试。另外，手里多拿几个其他大厂的 offer 也是筹码的一种。</p>
+<p>要过这一关，刷题是必要的，但是刷题只能保证自己能通过，不能保证自己优于其他人，所以一定会有一些难题是用来筛选牛人的。
+刷完一般的题，需要看一些顶尖的竞赛题，需要学习一些算法的变种。另外，大厂和小厂的区别，主要在于规模，规模一旦上去问题全暴露出来了，常规的方法解决不了了，所以，tb 级别甚至 pb 级别的数据量的存储和传输怎么解，超大量的并发怎么解，都得考虑。</p>
+<h2 id="%E7%AC%AC%E4%BA%94%E5%85%B3---%E7%AC%AC%E4%BA%8C%E8%BD%AE-%E7%BB%84%E5%86%85%E4%BA%A4%E5%8F%89">第五关 - 第二轮 组内交叉</h2>
+<p>这一轮风险其实是最大的，人一多，变量就多了，每个人喜欢的点，讨厌的点都会不一样，同时面对多人的 judge , 压力也会很大。
+首先，第二轮可能是紧接着第一轮的，会有一些回顾性的提问，比如，对你做过的题进行挑战性提问。据说，第二轮也会有 coding , 这一轮的 coding 我猜测应该是针对简历的，考察你的简历是否有水分，但是不确定是上机 coding 还是在纸上，如果在纸上，伪代码就行，上机压力会更大。</p>
+<p>组内交叉的考察是全方位的，面试官可能会各自打分，然后综合评价，但是，应该还是着重于技术。你身上是否有别人欣赏的东西，值得别人学习的东西，能否帮助到他们，你沟通的方式，面对问题的态度，甚至是否有一些共同的爱好等等都会影响结果。</p>
+<p>组内交叉要考察的技术应该是全方面的，所以除了数据结构/算法这些东西，其他的技术基础也一样重要，计算/存储/网络三大块儿的基础知识, 架构，如果你的知识体系全面而扎实，基本可以过。</p>
+<p>这一关需要你的简历扎实，你的基本功扎实，你的职业素养扎实。</p>
+<p>一旦涉及到人的时候，就会有一些打破既定模式的办法，前面讲的都是既定模式的东西，如果在既定模式上突出你自己，需要想想，比如和每一位面试官握手并记住他们的名字，首先，你得真的把自己当成他们的一员，融入他们，才有可能真的加入他们。让他们愿意和你做同事，做朋友。</p>
+<h2 id="%E7%AC%AC%E5%85%AD%E5%85%B3---%E7%AC%AC%E4%B8%89%E8%BD%AE-%E7%9B%B4%E5%B1%9E-leader-%E9%9D%A2">第六关 - 第三轮 直属 leader 面</h2>
+<p>通常，技术把关是由 leader 来的，不过既然设置了组内交叉，那到了 leader 这一面就不会有大而全的技术面了。对于 leader 来说，现在你的基本功是 ok 的，重点是是否能为他所用，技术问题会有，但应该都是是针对他所设置的岗位上的一些问题，一些他正在面临的问题和压力，因为招人都是招进来解决问题的，不是拿来供的。这一轮，决定了你的 leader 如何定位你，你最低能拿到的 package, 是对未来比较关键的一面。除了技术，另外一个重点是，考察你是否符合他的管理风格，是否符合组内文化，当然，也会考察是否符合公司文化，虽然这是 hr 的活，但是，其实每一关，每个面试官都会考察这些的，一个合格的员工，必须维护公司的文化和价值观。</p>
+<h2 id="%E7%AC%AC%E4%B8%83%E5%85%B3---%E7%AC%AC%E5%9B%9B%E8%BD%AE-%E7%BB%84%E5%A4%96%E4%BA%A4%E5%8F%89">第七关 - 第四轮 组外交叉</h2>
+<p>我猜不出来设计这一轮的主要目的是什么。沟通协作能力？在前两轮是能通过提问考察出来的。唯一我能想到的就是，这轮面试考察的是你技术面的广度，前三轮是技术深度，但是前三轮其实也是能考察出来这一点的，毕竟他们也是这么过来的，leader 的技术广度也够面你的。所以，搞不懂。后来想一想，其实跨部门沟通最重要的是你要切身地理解他们的需求，这样才能服务好其他部门。做 toB 的业务其实经常会遇到这样的问题，做出来的东西和客户想要的有差距，因为没有人特别熟悉他们的使用场景。</p>
+<h2 id="%E7%AC%AC%E5%85%AB%E5%85%B3---%E7%AC%AC%E4%BA%94%E8%BD%AE-%E8%80%81%E6%9D%BFhr">第八关 - 第五轮 老板+HR</h2>
+<p>这一轮考察的内容应该比较明显，是否符合公司文化，你的职业规划是什么，你的成长潜力怎么样，一般都能过。重点来了，这一轮是确定待遇的，直属 leader 这一面，应该会给一个待遇的区间，他特别想要你，可能上限就给的相对高点，不是特别想要，这个区间的下限可能就偏低，特别想要的人应该会跟 hr 打声招呼，不过这种情况应该是偏少的，味道对上是很难的，跟你找对象差不多难。</p>
+<p>这一轮考验你的谈判能力，谈判得有筹码，前几轮面试就是你攒筹码的过程，能通过前四轮，你应该要自信，然后考验你的观察能力，因为前几轮，只能表明你通过了，但并不会告诉他们对你的评价到底如何，所以，前几轮中你对面试官的观察就很重要，从观察中得出他们对你的评价，尤其是你的直属上级，因为组内组外的人员其实并不太关心谁能入职，你的上级是最关心的，比如，他如果特别喜欢你，可能会教你怎么过第四轮和第五轮的面试。另外，手里多拿几个其他大厂的 offer 也是筹码的一种。</p>
 
-        <script>!function(e){var t={};function n(o){if(t[o])return t[o].exports;var i=t[o]={i:o,l:!1,exports:{}};return e[o].call(i.exports,i,i.exports,n),i.l=!0,i.exports}n.m=e,n.c=t,n.d=function(e,t,o){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:o})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)n.d(o,i,function(t){return e[t]}.bind(null,i));return o},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=3)}([function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});let o=void 0;function i(e){const t=document.getElementById("vscode-markdown-preview-data");if(t){const n=t.getAttribute(e);if(n)return JSON.parse(n)}throw new Error(`Could not load data for ${e}`)}t.getData=i,t.getSettings=function(){if(o)return o;if(o=i("data-settings"))return o;throw new Error("Could not load settings")}},function(e,t){var n;n=function(){return this}();try{n=n||new Function("return this")()}catch(e){"object"==typeof window&&(n=window)}e.exports=n},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(0),i="code-line";function r(e){return t=0,n=o.getSettings().lineCount-1,i=e,Math.min(n,Math.max(t,i));var t,n,i}const c=(()=>{let e;return()=>{if(!e){e=[{element:document.body,line:0}];for(const t of document.getElementsByClassName(i)){const n=+t.getAttribute("data-line");isNaN(n)||("CODE"===t.tagName&&t.parentElement&&"PRE"===t.parentElement.tagName?e.push({element:t.parentElement,line:n}):e.push({element:t,line:n}))}}return e}})();function s(e){const t=Math.floor(e),n=c();let o=n[0]||null;for(const e of n){if(e.line===t)return{previous:e,next:void 0};if(e.line>t)return{previous:o,next:e};o=e}return{previous:o}}function a(e){const t=c(),n=e-window.scrollY;let o=-1,i=t.length-1;for(;o+1<i;){const e=Math.floor((o+i)/2),r=u(t[e]);r.top+r.height>=n?i=e:o=e}const r=t[i],s=u(r);if(i>=1&&s.top>n){return{previous:t[o],next:r}}return i>1&&i<t.length&&s.top+s.height>n?{previous:r,next:t[i+1]}:{previous:r}}function u({element:e}){const t=e.getBoundingClientRect(),n=e.querySelector(`.${i}`);if(n){const e=n.getBoundingClientRect(),o=Math.max(1,e.top-t.top);return{top:t.top,height:o}}return t}t.getElementsForSourceLine=s,t.getLineElementsAtPageOffset=a,t.scrollToRevealSourceLine=function(e){if(!o.getSettings().scrollPreviewWithEditor)return;if(e<=0)return void window.scroll(window.scrollX,0);const{previous:t,next:n}=s(e);if(!t)return;let i=0;const r=u(t),c=r.top;if(n&&n.line!==t.line){i=c+(e-t.line)/(n.line-t.line)*(n.element.getBoundingClientRect().top-c)}else{const t=e-Math.floor(e);i=c+r.height*t}window.scroll(window.scrollX,Math.max(1,window.scrollY+i))},t.getEditorLineNumberForPageOffset=function(e){const{previous:t,next:n}=a(e);if(t){const o=u(t),i=e-window.scrollY-o.top;if(n){const e=i/(u(n).top-o.top);return r(t.line+e*(n.line-t.line))}{const e=i/o.height;return r(t.line+e)}}return null},t.getLineElementForFragment=function(e){return c().find(t=>t.element.id===e)}},function(e,t,n){"use strict";(function(e){Object.defineProperty(t,"__esModule",{value:!0});const o=n(7),i=n(8),r=n(9),c=n(2),s=n(0),a=n(10);let u=!0;const l=new o.ActiveLineMarker,f=s.getSettings(),d=acquireVsCodeApi(),m=d.getState(),p={..."object"==typeof m?m:{},...s.getData("data-state")};d.setState(p);const g=r.createPosterForVsCode(d);window.cspAlerter.setPoster(g),window.styleLoadingMonitor.setPoster(g),window.onload=()=>{v()},i.onceDocumentLoaded(()=>{const t=p.scrollProgress;"number"!=typeof t||f.fragment?f.scrollPreviewWithEditor&&e(()=>{if(f.fragment){p.fragment=void 0,d.setState(p);const e=c.getLineElementForFragment(f.fragment);e&&(u=!0,c.scrollToRevealSourceLine(e.line))}else isNaN(f.line)||(u=!0,c.scrollToRevealSourceLine(f.line))}):e(()=>{u=!0,window.scrollTo(0,t*document.body.clientHeight)})});const h=(()=>{const e=a(e=>{u=!0,c.scrollToRevealSourceLine(e)},50);return t=>{isNaN(t)||(p.line=t,e(t))}})();let v=a(()=>{const e=[];let t=document.getElementsByTagName("img");if(t){let n;for(n=0;n<t.length;n++){const o=t[n];o.classList.contains("loading")&&o.classList.remove("loading"),e.push({id:o.id,height:o.height,width:o.width})}g.postMessage("cacheImageSizes",e)}},50);window.addEventListener("resize",()=>{u=!0,w(),v()},!0),window.addEventListener("message",e=>{if(e.data.source===f.source)switch(e.data.type){case"onDidChangeTextEditorSelection":l.onDidChangeTextEditorSelection(e.data.line);break;case"updateView":h(e.data.line)}},!1),document.addEventListener("dblclick",e=>{if(!f.doubleClickToSwitchToEditor)return;for(let t=e.target;t;t=t.parentNode)if("A"===t.tagName)return;const t=e.pageY,n=c.getEditorLineNumberForPageOffset(t);"number"!=typeof n||isNaN(n)||g.postMessage("didClick",{line:Math.floor(n)})});const y=["http:","https:","mailto:","vscode:","vscode-insiders:"];function w(){p.scrollProgress=window.scrollY/document.body.clientHeight,d.setState(p)}document.addEventListener("click",e=>{if(!e)return;let t=e.target;for(;t;){if(t.tagName&&"A"===t.tagName&&t.href){if(t.getAttribute("href").startsWith("#"))return;let n=t.getAttribute("data-href");if(!n){if(y.some(e=>t.href.startsWith(e)))return;n=t.getAttribute("href")}return/^[a-z\-]+:/i.test(n)?void 0:(g.postMessage("openLink",{href:n}),e.preventDefault(),void e.stopPropagation())}t=t.parentNode}},!0),window.addEventListener("scroll",a(()=>{if(w(),u)u=!1;else{const e=c.getEditorLineNumberForPageOffset(window.scrollY);"number"!=typeof e||isNaN(e)||g.postMessage("revealLine",{line:e})}},50))}).call(this,n(4).setImmediate)},function(e,t,n){(function(e){var o=Function.prototype.apply;function i(e,t){this._id=e,this._clearFn=t}t.setTimeout=function(){return new i(o.call(setTimeout,window,arguments),clearTimeout)},t.setInterval=function(){return new i(o.call(setInterval,window,arguments),clearInterval)},t.clearTimeout=t.clearInterval=function(e){e&&e.close()},i.prototype.unref=i.prototype.ref=function(){},i.prototype.close=function(){this._clearFn.call(window,this._id)},t.enroll=function(e,t){clearTimeout(e._idleTimeoutId),e._idleTimeout=t},t.unenroll=function(e){clearTimeout(e._idleTimeoutId),e._idleTimeout=-1},t._unrefActive=t.active=function(e){clearTimeout(e._idleTimeoutId);var t=e._idleTimeout;t>=0&&(e._idleTimeoutId=setTimeout((function(){e._onTimeout&&e._onTimeout()}),t))},n(5),t.setImmediate="undefined"!=typeof self&&self.setImmediate||void 0!==e&&e.setImmediate||this&&this.setImmediate,t.clearImmediate="undefined"!=typeof self&&self.clearImmediate||void 0!==e&&e.clearImmediate||this&&this.clearImmediate}).call(this,n(1))},function(e,t,n){(function(e,t){!function(e,n){"use strict";if(!e.setImmediate){var o,i,r,c,s,a=1,u={},l=!1,f=e.document,d=Object.getPrototypeOf&&Object.getPrototypeOf(e);d=d&&d.setTimeout?d:e,"[object process]"==={}.toString.call(e.process)?o=function(e){t.nextTick((function(){p(e)}))}:!function(){if(e.postMessage&&!e.importScripts){var t=!0,n=e.onmessage;return e.onmessage=function(){t=!1},e.postMessage("","*"),e.onmessage=n,t}}()?e.MessageChannel?((r=new MessageChannel).port1.onmessage=function(e){p(e.data)},o=function(e){r.port2.postMessage(e)}):f&&"onreadystatechange"in f.createElement("script")?(i=f.documentElement,o=function(e){var t=f.createElement("script");t.onreadystatechange=function(){p(e),t.onreadystatechange=null,i.removeChild(t),t=null},i.appendChild(t)}):o=function(e){setTimeout(p,0,e)}:(c="setImmediate$"+Math.random()+"$",s=function(t){t.source===e&&"string"==typeof t.data&&0===t.data.indexOf(c)&&p(+t.data.slice(c.length))},e.addEventListener?e.addEventListener("message",s,!1):e.attachEvent("onmessage",s),o=function(t){e.postMessage(c+t,"*")}),d.setImmediate=function(e){"function"!=typeof e&&(e=new Function(""+e));for(var t=new Array(arguments.length-1),n=0;n<t.length;n++)t[n]=arguments[n+1];var i={callback:e,args:t};return u[a]=i,o(a),a++},d.clearImmediate=m}function m(e){delete u[e]}function p(e){if(l)setTimeout(p,0,e);else{var t=u[e];if(t){l=!0;try{!function(e){var t=e.callback,o=e.args;switch(o.length){case 0:t();break;case 1:t(o[0]);break;case 2:t(o[0],o[1]);break;case 3:t(o[0],o[1],o[2]);break;default:t.apply(n,o)}}(t)}finally{m(e),l=!1}}}}}("undefined"==typeof self?void 0===e?this:e:self)}).call(this,n(1),n(6))},function(e,t){var n,o,i=e.exports={};function r(){throw new Error("setTimeout has not been defined")}function c(){throw new Error("clearTimeout has not been defined")}function s(e){if(n===setTimeout)return setTimeout(e,0);if((n===r||!n)&&setTimeout)return n=setTimeout,setTimeout(e,0);try{return n(e,0)}catch(t){try{return n.call(null,e,0)}catch(t){return n.call(this,e,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:r}catch(e){n=r}try{o="function"==typeof clearTimeout?clearTimeout:c}catch(e){o=c}}();var a,u=[],l=!1,f=-1;function d(){l&&a&&(l=!1,a.length?u=a.concat(u):f=-1,u.length&&m())}function m(){if(!l){var e=s(d);l=!0;for(var t=u.length;t;){for(a=u,u=[];++f<t;)a&&a[f].run();f=-1,t=u.length}a=null,l=!1,function(e){if(o===clearTimeout)return clearTimeout(e);if((o===c||!o)&&clearTimeout)return o=clearTimeout,clearTimeout(e);try{o(e)}catch(t){try{return o.call(null,e)}catch(t){return o.call(this,e)}}}(e)}}function p(e,t){this.fun=e,this.array=t}function g(){}i.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];u.push(new p(e,t)),1!==u.length||l||s(m)},p.prototype.run=function(){this.fun.apply(null,this.array)},i.title="browser",i.browser=!0,i.env={},i.argv=[],i.version="",i.versions={},i.on=g,i.addListener=g,i.once=g,i.off=g,i.removeListener=g,i.removeAllListeners=g,i.emit=g,i.prependListener=g,i.prependOnceListener=g,i.listeners=function(e){return[]},i.binding=function(e){throw new Error("process.binding is not supported")},i.cwd=function(){return"/"},i.chdir=function(e){throw new Error("process.chdir is not supported")},i.umask=function(){return 0}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(2);t.ActiveLineMarker=class{onDidChangeTextEditorSelection(e){const{previous:t}=o.getElementsForSourceLine(e);this._update(t&&t.element)}_update(e){this._unmarkActiveElement(this._current),this._markActiveElement(e),this._current=e}_unmarkActiveElement(e){e&&(e.className=e.className.replace(/\bcode-active-line\b/g,""))}_markActiveElement(e){e&&(e.className+=" code-active-line")}}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.onceDocumentLoaded=function(e){"loading"===document.readyState||"uninitialized"===document.readyState?document.addEventListener("DOMContentLoaded",e):e()}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});const o=n(0);t.createPosterForVsCode=e=>new class{postMessage(t,n){e.postMessage({type:t,source:o.getSettings().source,body:n})}}},function(e,t,n){(function(t){var n="Expected a function",o=NaN,i="[object Symbol]",r=/^\s+|\s+$/g,c=/^[-+]0x[0-9a-f]+$/i,s=/^0b[01]+$/i,a=/^0o[0-7]+$/i,u=parseInt,l="object"==typeof t&&t&&t.Object===Object&&t,f="object"==typeof self&&self&&self.Object===Object&&self,d=l||f||Function("return this")(),m=Object.prototype.toString,p=Math.max,g=Math.min,h=function(){return d.Date.now()};function v(e,t,o){var i,r,c,s,a,u,l=0,f=!1,d=!1,m=!0;if("function"!=typeof e)throw new TypeError(n);function v(t){var n=i,o=r;return i=r=void 0,l=t,s=e.apply(o,n)}function b(e){var n=e-u;return void 0===u||n>=t||n<0||d&&e-l>=c}function T(){var e=h();if(b(e))return E(e);a=setTimeout(T,function(e){var n=t-(e-u);return d?g(n,c-(e-l)):n}(e))}function E(e){return a=void 0,m&&i?v(e):(i=r=void 0,s)}function _(){var e=h(),n=b(e);if(i=arguments,r=this,u=e,n){if(void 0===a)return function(e){return l=e,a=setTimeout(T,t),f?v(e):s}(u);if(d)return a=setTimeout(T,t),v(u)}return void 0===a&&(a=setTimeout(T,t)),s}return t=w(t)||0,y(o)&&(f=!!o.leading,c=(d="maxWait"in o)?p(w(o.maxWait)||0,t):c,m="trailing"in o?!!o.trailing:m),_.cancel=function(){void 0!==a&&clearTimeout(a),l=0,i=u=r=a=void 0},_.flush=function(){return void 0===a?s:E(h())},_}function y(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function w(e){if("number"==typeof e)return e;if(function(e){return"symbol"==typeof e||function(e){return!!e&&"object"==typeof e}(e)&&m.call(e)==i}(e))return o;if(y(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=y(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(r,"");var n=s.test(e);return n||a.test(e)?u(e.slice(2),n?2:8):c.test(e)?o:+e}e.exports=function(e,t,o){var i=!0,r=!0;if("function"!=typeof e)throw new TypeError(n);return y(o)&&(i="leading"in o?!!o.leading:i,r="trailing"in o?!!o.trailing:r),v(e,t,{leading:i,maxWait:t,trailing:r})}}).call(this,n(1))}]);</script>
-
-    </body>
+</body>
 </html>
