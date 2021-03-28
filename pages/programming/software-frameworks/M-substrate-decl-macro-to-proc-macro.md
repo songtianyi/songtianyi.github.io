@@ -128,9 +128,7 @@ macro_rules! decl_error {
 
 基于 `attribute-like` macro 的生成的逻辑的编写是非常简单的，而 `declarative` 犹如天书, 可读性很差。虽然底层逻辑我们不用太关心，但作为底层逻辑的调用者，使用 `attribute-like` macro 也可以让我们遇到更少的底层 bug
 
-## 怎么升级
-
-在了解怎么升级之前，先简单看下基于 `procedural` macro 的实现细节。
+在开始具体的升级之前，先简单看下基于 `procedural` macro 的实现细节。
 
 ``` rust
 // syn::custom_keyword declarative macro 会将该这些词作为像 rust 关键字一样解析
@@ -197,7 +195,232 @@ let item = syn::parse_macro_input!(item as syn::ItemMod);
 
 `pallet::Def` -> `event::EventDef` -> `PalletEventAttr` 是这样一层层 parse 出来的，然后存在结构体里，再经过各种 exapnd 函数生成最终的代码。
 
+## 升级
+
+#### 准备工作
+
+在迁移之前要想好怎么做迁移后的验证工作，保证迁移后的正确性。
+
+* 运行含有你准备要迁移的 pallet 的节点，通过调用 rpc 接口 state -> getMetadata 获取当前的 metadata
+
+#### 注意事项
+
+* 不要使用 inner attribute
+
+``` rust
+#[pallet]
+pub mod pallet {
+
+	//! This inner attribute will make span fail
+	..
+}
+```
+
+* 尽量使用最新的 nightly 版本来构建
+
+#### pallet
+
+``` rust
+pub use pallet::*;
+
+#[frame_support::pallet]
+pub mod pallet {
+	use frame_support::pallet_prelude::*;
+	use frame_system::pallet_prelude::*;
+	use super::*;
+}
+```
+
+首先，添加一个 pallet module. `pub use pallet::*` 引用的是此 module
+
+之前在 pallet module 外面定义的类型可以保留
+
+``` rust
+mod types {
+	// --- darwinia ---
+	use crate::*;
+
+	pub type MappedRing = u128;
+
+	pub type AccountId<T> = <T as frame_system::Config>::AccountId;
+
+	pub type RingBalance<T> = <RingCurrency<T> as Currency<AccountId<T>>>::Balance;
+
+	type RingCurrency<T> = <T as Config>::RingCurrency;
+}
+```
+
+使用 `use super::*` 引入
+
+#### 迁移 Config
+
+`decl_module!` 的内容移入 `pallet` 并放在 `#[pallet::config]` 下面
+
+``` rust
+	#[pallet::config]
+	pub trait Config: frame_system::Config {
+		#[pallet::constant]
+		type ModuleId: Get<ModuleId>;
+
+		type RingCurrency: Currency<AccountId<Self>>;
+
+		type WeightInfo: WeightInfo;
+
+		type Event: From<Event<Self>> + IsType<<Self as frame_system::Config>::Event>;
+	}
+```
+
+以前在 Config 里的 `const` 需要加上 `#[pallet::constant]` , Event 的定义是固定的
+
+#### 迁移 Module
+
+module 被迁移成了两部分
+
+``` rust
+#[pallet::hooks]
+impl<T: Config> Hooks for Pallet<T> {
+}
+```
+
+``` rust
+#[pallet::call]
+impl<T: Config> Pallet<T> {
+}
+```
+
+这两部分都是必要的，空的也要写上去。
+其中，以前定义的函数放在 call 下面, 以 substrate node-template 为例:
+
+``` rust
+	#[pallet::hooks]
+	impl<T: Config> Hooks<BlockNumberFor<T>> for Pallet<T> {}
+
+    #[pallet::call]
+	impl<T:Config> Pallet<T> {
+		/// An example dispatchable that takes a singles value as a parameter, writes the value to
+		/// storage and emits an event. This function must be dispatched by a signed extrinsic.
+		#[pallet::weight(10_000 + T::DbWeight::get().writes(1))]
+		pub fn do_something(origin: OriginFor<T>, something: u32) -> DispatchResultWithPostInfo {
+			// Check that the extrinsic was signed and get the signer.
+			// This function will return an error if the extrinsic is not signed.
+			// https://substrate.dev/docs/en/knowledgebase/runtime/origin
+			let who = ensure_signed(origin)?;
+
+			// Update storage.
+			<Something<T>>::put(something);
+
+			// Emit an event.
+			Self::deposit_event(Event::SomethingStored(something, who));
+			// Return a successful DispatchResultWithPostInfo
+			Ok(().into())
+		}
+	}
+
+```
+
+hook 里可以实现一些函数 `on_initialize/on_finalize/on_runtime_upgrade/offchain_worker/integrity_test`
+
+* origin 必须写全 `origin: OriginFor<T>`
+* 返回值的类型必须为 `DispatchResultWithPostInfo`
+* `#[compact]` 现在写为 `#[pallet::compact]`
+* `#[weight = ..]` 现在写为 `#[pallet::weight(..)]`
+
+#### 迁移 Event
+
+``` rust
+
+	#[pallet::event]
+	pub enum Event<T: Config> {
+		/// Dummy Event. [who, swapped *CRING*, burned Mapped *RING*]
+		DummyEvent(AccountId<T>, RingBalance<T>, MappedRing),
+	}
+```
+
+``` rust
+	#[pallet::event]
+	#[pallet::metadata(T::AccountId = "AccountId")]
+	#[pallet::generate_deposit(pub(super) fn deposit_event)]
+	pub enum Event<T: Config> {
+		/// Event documentation should end with an array that provides descriptive names for event
+		/// parameters. [something, who]
+		SomethingStored(u32, T::AccountId),
+	}
+```
+
+#### 迁移 error
+
+``` rust
+	// Errors inform users that something went wrong.
+	#[pallet::error]
+	pub enum Error<T> {
+		/// Error names should be descriptive.
+		NoneValue,
+		/// Errors should have helpful documentation associated with them.
+		StorageOverflow,
+	}
+```
+
+#### 迁移 GenesisiConfig
+
+``` rust
+	#[pallet::genesis_config]
+	/// 这里可以根据需要加 T 或者不加 T, mock.rs 里要对应
+	pub struct GenesisConfig<T> {
+		pub total_mapped_ring: MappedRing,
+		pub phantom: std::marker::PhantomData<T>,
+	}
+
+	/// 这里要加 std
+	#[cfg(feature = "std")]
+	// 和之前的定义要匹配, Default 是强制的
+	impl<T: Config> Default for GenesisConfig<T> {
+		fn default() -> Self {
+			Self {
+				total_mapped_ring: Default::default(),
+				phantom: Default::default(),
+			}
+		}
+	}
+
+	#[pallet::genesis_build]
+	/// 之前的 build 要放在这里
+	impl<T: Config> GenesisBuild<T> for GenesisConfig<T> {
+		fn build(&self) {
+			let _ = T::RingCurrency::make_free_balance_be(
+				&T::ModuleId::get().into_account(),
+				T::RingCurrency::minimum_balance(),
+			);
+
+			<TotalMappedRing<T>>::put(self.total_mapped_ring);
+		}
+	}
+```
+
+#### 迁移 storage
+
+``` rust
+	#[pallet::pallet]
+	/// 注意 storage prefix 发生了变化，以前这里是用 as 来改指定的前缀，现在应该没有办法指定了
+	/// 所以在 runtime 里引入的时候要改下 pallet 的名称来保持 storage prefix 的一致
+	#[pallet::generate_store(pub(super) trait Store)]
+	pub struct Pallet<T>(_);
+
+	// The pallet's runtime storage items.
+	// https://substrate.dev/docs/en/knowledgebase/runtime/storage
+	#[pallet::storage]
+	#[pallet::getter(fn something)]
+	// Learn more about declaring storage items:
+	// https://substrate.dev/docs/en/knowledgebase/runtime/storage#declaring-storage-items
+	/// 第一个参数 _ 是固定的, Storage 的类型还是那几个
+	pub type Something<T> = StorageValue<_, u32>;
+```
+
+#### instance
+
+如果有 instance, 在做上述迁移的时候要加上
+
 ## 参考资料
 
 * [Attribute Macro frame_support::pallet](https://substrate.dev/rustdocs/v3.0.0/frame_support/attr.pallet.html)
 * [attr.pallet-upgrade-guidelines](https://crates.parity.io/frame_support/attr.pallet.html#upgrade-guidelines)
+* [node-template-pallets](https://github.com/paritytech/substrate/blob/master/bin/node-template/pallets/template/src/lib.rs)

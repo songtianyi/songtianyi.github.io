@@ -471,8 +471,7 @@ decl_event! {}
     <span class="hljs-comment">// ...</span>
 </div></code></pre>
 <p>基于 <code>attribute-like</code> macro 的生成的逻辑的编写是非常简单的，而 <code>declarative</code> 犹如天书, 可读性很差。虽然底层逻辑我们不用太关心，但作为底层逻辑的调用者，使用 <code>attribute-like</code> macro 也可以让我们遇到更少的底层 bug</p>
-<h2 id="%E6%80%8E%E4%B9%88%E5%8D%87%E7%BA%A7">怎么升级</h2>
-<p>在了解怎么升级之前，先简单看下基于 <code>procedural</code> macro 的实现细节。</p>
+<p>在开始具体的升级之前，先简单看下基于 <code>procedural</code> macro 的实现细节。</p>
 <pre class="hljs"><code><div><span class="hljs-comment">// syn::custom_keyword declarative macro 会将该这些词作为像 rust 关键字一样解析</span>
 <span class="hljs-keyword">mod</span> keyword {
 	syn::custom_keyword!(Block);
@@ -521,10 +520,194 @@ decl_event! {}
 </div></code></pre>
 <p>在 parse 目录下有各种经过 parsing 后的结构，这些结构实现了 <code>syn:parse</code></p>
 <p><code>pallet::Def</code> -&gt; <code>event::EventDef</code> -&gt; <code>PalletEventAttr</code> 是这样一层层 parse 出来的，然后存在结构体里，再经过各种 exapnd 函数生成最终的代码。</p>
+<h2 id="%E5%8D%87%E7%BA%A7">升级</h2>
+<h4 id="%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C">准备工作</h4>
+<p>在迁移之前要想好怎么做迁移后的验证工作，保证迁移后的正确性。</p>
+<ul>
+<li>运行含有你准备要迁移的 pallet 的节点，通过调用 rpc 接口 state -&gt; getMetadata 获取当前的 metadata</li>
+</ul>
+<h4 id="%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">注意事项</h4>
+<ul>
+<li>不要使用 inner attribute</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-meta">#[pallet]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">mod</span> pallet {
+
+	<span class="hljs-comment">//! This inner attribute will make span fail</span>
+	..
+}
+</div></code></pre>
+<ul>
+<li>尽量使用最新的 nightly 版本来构建</li>
+</ul>
+<h4 id="pallet">pallet</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">pub</span> <span class="hljs-keyword">use</span> pallet::*;
+
+<span class="hljs-meta">#[frame_support::pallet]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">mod</span> pallet {
+	<span class="hljs-keyword">use</span> frame_support::pallet_prelude::*;
+	<span class="hljs-keyword">use</span> frame_system::pallet_prelude::*;
+	<span class="hljs-keyword">use</span> super::*;
+}
+</div></code></pre>
+<p>首先，添加一个 pallet module. <code>pub use pallet::*</code> 引用的是此 module</p>
+<p>之前在 pallet module 外面定义的类型可以保留</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">mod</span> types {
+	<span class="hljs-comment">// --- darwinia ---</span>
+	<span class="hljs-keyword">use</span> crate::*;
+
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">MappedRing</span></span> = <span class="hljs-built_in">u128</span>;
+
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">AccountId</span></span>&lt;T&gt; = &lt;T <span class="hljs-keyword">as</span> frame_system::Config&gt;::AccountId;
+
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">RingBalance</span></span>&lt;T&gt; = &lt;RingCurrency&lt;T&gt; <span class="hljs-keyword">as</span> Currency&lt;AccountId&lt;T&gt;&gt;&gt;::Balance;
+
+	<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">RingCurrency</span></span>&lt;T&gt; = &lt;T <span class="hljs-keyword">as</span> Config&gt;::RingCurrency;
+}
+</div></code></pre>
+<p>使用 <code>use super::*</code> 引入</p>
+<h4 id="%E8%BF%81%E7%A7%BB-config">迁移 Config</h4>
+<p><code>decl_module!</code> 的内容移入 <code>pallet</code> 并放在 <code>#[pallet::config]</code> 下面</p>
+<pre class="hljs"><code><div>	<span class="hljs-meta">#[pallet::config]</span>
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Config</span></span>: frame_system::Config {
+		<span class="hljs-meta">#[pallet::constant]</span>
+		<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">ModuleId</span></span>: Get&lt;ModuleId&gt;;
+
+		<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">RingCurrency</span></span>: Currency&lt;AccountId&lt;<span class="hljs-keyword">Self</span>&gt;&gt;;
+
+		<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">WeightInfo</span></span>: WeightInfo;
+
+		<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Event</span></span>: <span class="hljs-built_in">From</span>&lt;Event&lt;<span class="hljs-keyword">Self</span>&gt;&gt; + IsType&lt;&lt;<span class="hljs-keyword">Self</span> <span class="hljs-keyword">as</span> frame_system::Config&gt;::Event&gt;;
+	}
+</div></code></pre>
+<p>以前在 Config 里的 <code>const</code> 需要加上 <code>#[pallet::constant]</code> , Event 的定义是固定的</p>
+<h4 id="%E8%BF%81%E7%A7%BB-module">迁移 Module</h4>
+<p>module 被迁移成了两部分</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[pallet::hooks]</span>
+<span class="hljs-keyword">impl</span>&lt;T: Config&gt; Hooks <span class="hljs-keyword">for</span> Pallet&lt;T&gt; {
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-meta">#[pallet::call]</span>
+<span class="hljs-keyword">impl</span>&lt;T: Config&gt; Pallet&lt;T&gt; {
+}
+</div></code></pre>
+<p>这两部分都是必要的，空的也要写上去。
+其中，以前定义的函数放在 call 下面, 以 substrate node-template 为例:</p>
+<pre class="hljs"><code><div>	<span class="hljs-meta">#[pallet::hooks]</span>
+	<span class="hljs-keyword">impl</span>&lt;T: Config&gt; Hooks&lt;BlockNumberFor&lt;T&gt;&gt; <span class="hljs-keyword">for</span> Pallet&lt;T&gt; {}
+
+    <span class="hljs-meta">#[pallet::call]</span>
+	<span class="hljs-keyword">impl</span>&lt;T:Config&gt; Pallet&lt;T&gt; {
+		<span class="hljs-comment">/// An example dispatchable that takes a singles value as a parameter, writes the value to</span>
+		<span class="hljs-comment">/// storage and emits an event. This function must be dispatched by a signed extrinsic.</span>
+		<span class="hljs-meta">#[pallet::weight(10_000 + T::DbWeight::get().writes(1))]</span>
+		<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">do_something</span></span>(origin: OriginFor&lt;T&gt;, something: <span class="hljs-built_in">u32</span>) -&gt; DispatchResultWithPostInfo {
+			<span class="hljs-comment">// Check that the extrinsic was signed and get the signer.</span>
+			<span class="hljs-comment">// This function will return an error if the extrinsic is not signed.</span>
+			<span class="hljs-comment">// https://substrate.dev/docs/en/knowledgebase/runtime/origin</span>
+			<span class="hljs-keyword">let</span> who = ensure_signed(origin)?;
+
+			<span class="hljs-comment">// Update storage.</span>
+			&lt;Something&lt;T&gt;&gt;::put(something);
+
+			<span class="hljs-comment">// Emit an event.</span>
+			Self::deposit_event(Event::SomethingStored(something, who));
+			<span class="hljs-comment">// Return a successful DispatchResultWithPostInfo</span>
+			<span class="hljs-literal">Ok</span>(().into())
+		}
+	}
+
+</div></code></pre>
+<p>hook 里可以实现一些函数 <code>on_initialize/on_finalize/on_runtime_upgrade/offchain_worker/integrity_test</code></p>
+<ul>
+<li>origin 必须写全 <code>origin: OriginFor&lt;T&gt;</code></li>
+<li>返回值的类型必须为 <code>DispatchResultWithPostInfo</code></li>
+<li><code>#[compact]</code> 现在写为 <code>#[pallet::compact]</code></li>
+<li><code>#[weight = ..]</code> 现在写为 <code>#[pallet::weight(..)]</code></li>
+</ul>
+<h4 id="%E8%BF%81%E7%A7%BB-event">迁移 Event</h4>
+<pre class="hljs"><code><div>
+	<span class="hljs-meta">#[pallet::event]</span>
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Event</span></span>&lt;T: Config&gt; {
+		<span class="hljs-comment">/// Dummy Event. [who, swapped *CRING*, burned Mapped *RING*]</span>
+		DummyEvent(AccountId&lt;T&gt;, RingBalance&lt;T&gt;, MappedRing),
+	}
+</div></code></pre>
+<pre class="hljs"><code><div>	<span class="hljs-meta">#[pallet::event]</span>
+	<span class="hljs-meta">#[pallet::metadata(T::AccountId = <span class="hljs-meta-string">"AccountId"</span>)]</span>
+	<span class="hljs-meta">#[pallet::generate_deposit(pub(super) fn deposit_event)]</span>
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Event</span></span>&lt;T: Config&gt; {
+		<span class="hljs-comment">/// Event documentation should end with an array that provides descriptive names for event</span>
+		<span class="hljs-comment">/// parameters. [something, who]</span>
+		SomethingStored(<span class="hljs-built_in">u32</span>, T::AccountId),
+	}
+</div></code></pre>
+<h4 id="%E8%BF%81%E7%A7%BB-error">迁移 error</h4>
+<pre class="hljs"><code><div>	<span class="hljs-comment">// Errors inform users that something went wrong.</span>
+	<span class="hljs-meta">#[pallet::error]</span>
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Error</span></span>&lt;T&gt; {
+		<span class="hljs-comment">/// Error names should be descriptive.</span>
+		NoneValue,
+		<span class="hljs-comment">/// Errors should have helpful documentation associated with them.</span>
+		StorageOverflow,
+	}
+</div></code></pre>
+<h4 id="%E8%BF%81%E7%A7%BB-genesisiconfig">迁移 GenesisiConfig</h4>
+<pre class="hljs"><code><div>	<span class="hljs-meta">#[pallet::genesis_config]</span>
+	<span class="hljs-comment">/// 这里可以根据需要加 T 或者不加 T, mock.rs 里要对应</span>
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">GenesisConfig</span></span>&lt;T&gt; {
+		<span class="hljs-keyword">pub</span> total_mapped_ring: MappedRing,
+		<span class="hljs-keyword">pub</span> phantom: std::marker::PhantomData&lt;T&gt;,
+	}
+
+	<span class="hljs-comment">/// 这里要加 std</span>
+	<span class="hljs-meta">#[cfg(feature = <span class="hljs-meta-string">"std"</span>)]</span>
+	<span class="hljs-comment">// 和之前的定义要匹配, Default 是强制的</span>
+	<span class="hljs-keyword">impl</span>&lt;T: Config&gt; <span class="hljs-built_in">Default</span> <span class="hljs-keyword">for</span> GenesisConfig&lt;T&gt; {
+		<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">default</span></span>() -&gt; <span class="hljs-keyword">Self</span> {
+			<span class="hljs-keyword">Self</span> {
+				total_mapped_ring: <span class="hljs-built_in">Default</span>::default(),
+				phantom: <span class="hljs-built_in">Default</span>::default(),
+			}
+		}
+	}
+
+	<span class="hljs-meta">#[pallet::genesis_build]</span>
+	<span class="hljs-comment">/// 之前的 build 要放在这里</span>
+	<span class="hljs-keyword">impl</span>&lt;T: Config&gt; GenesisBuild&lt;T&gt; <span class="hljs-keyword">for</span> GenesisConfig&lt;T&gt; {
+		<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">build</span></span>(&amp;<span class="hljs-keyword">self</span>) {
+			<span class="hljs-keyword">let</span> _ = T::RingCurrency::make_free_balance_be(
+				&amp;T::ModuleId::get().into_account(),
+				T::RingCurrency::minimum_balance(),
+			);
+
+			&lt;TotalMappedRing&lt;T&gt;&gt;::put(<span class="hljs-keyword">self</span>.total_mapped_ring);
+		}
+	}
+</div></code></pre>
+<h4 id="%E8%BF%81%E7%A7%BB-storage">迁移 storage</h4>
+<pre class="hljs"><code><div>	<span class="hljs-meta">#[pallet::pallet]</span>
+	<span class="hljs-comment">/// 注意 storage prefix 发生了变化，以前这里是用 as 来改指定的前缀，现在应该没有办法指定了</span>
+	<span class="hljs-comment">/// 所以在 runtime 里引入的时候要改下 pallet 的名称来保持 storage prefix 的一致</span>
+	<span class="hljs-meta">#[pallet::generate_store(pub(super) trait Store)]</span>
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Pallet</span></span>&lt;T&gt;(_);
+
+	<span class="hljs-comment">// The pallet's runtime storage items.</span>
+	<span class="hljs-comment">// https://substrate.dev/docs/en/knowledgebase/runtime/storage</span>
+	<span class="hljs-meta">#[pallet::storage]</span>
+	<span class="hljs-meta">#[pallet::getter(fn something)]</span>
+	<span class="hljs-comment">// Learn more about declaring storage items:</span>
+	<span class="hljs-comment">// https://substrate.dev/docs/en/knowledgebase/runtime/storage#declaring-storage-items</span>
+	<span class="hljs-comment">/// 第一个参数 _ 是固定的, Storage 的类型还是那几个</span>
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Something</span></span>&lt;T&gt; = StorageValue&lt;_, <span class="hljs-built_in">u32</span>&gt;;
+</div></code></pre>
+<h4 id="instance">instance</h4>
+<p>如果有 instance, 在做上述迁移的时候要加上</p>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
 <ul>
 <li><a href="https://substrate.dev/rustdocs/v3.0.0/frame_support/attr.pallet.html">Attribute Macro frame_support::pallet</a></li>
 <li><a href="https://crates.parity.io/frame_support/attr.pallet.html#upgrade-guidelines">attr.pallet-upgrade-guidelines</a></li>
+<li><a href="https://github.com/paritytech/substrate/blob/master/bin/node-template/pallets/template/src/lib.rs">node-template-pallets</a></li>
 </ul>
 
 </body>
