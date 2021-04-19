@@ -365,6 +365,994 @@ code {
           : 'default'
     });
   </script>
+<h1 id="1-%E5%B0%8F%E6%97%B6%E5%85%A5%E9%97%A8-rust">1 小时入门 Rust</h1>
+<p>作者: <a href="https://github.com/songtianyi">songtianyi</a> create@2018-07-29, update@2020-11-22</p>
+<h3 id="%E5%89%8D%E8%A8%80">前言</h3>
+<p><code>1 分钟</code></p>
+<p>在系统地了解了编程语言的<a href="https://gitbook.cn/gitchat/activity/5b57f6fd862f763b881c033e">类型特性和编程范式</a>之后，一直想验证下对这些知识的掌握程度，以及验证这些知识能否为我们入门一门语言提速，那么最佳的途径应该是选择一门新语言来上手实践。为什么选择 Rust？Rust 和 Go 一样年轻，如果说 go 是 C-like language，那么 Rust 就是 C++-like 的语言，有人称其为更安全的 C++, 对于长期从事 C++开发的程序猿可以学来尝鲜。初看 Rust 有点想放弃，<a href="is-rust-garbage-collected.md">Rust 没有 GC</a>，并发的书写方式也并没有 Go 那么方便，但是多看几眼，它的某些优点还是吸引到了我，比如安全性，高性能，闭包等，所以本文最终以 Rust 为例，来做这两方面的验证。在阅读本文之前，掌握<a href="https://gitbook.cn/gitchat/activity/5b57f6fd862f763b881c033e">类型特性和编程范式</a>里的概念是必要的，且阅读本文需要一定的编程基础。</p>
+<h3 id="rust-%E6%98%AF%E4%BB%80%E4%B9%88">Rust 是什么</h3>
+<p><code>3 分钟</code></p>
+<blockquote>
+<p><strong>Rust</strong> is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety</p>
+</blockquote>
+<ul>
+<li>
+<p>通用，静态编译型的系统编程语言(内联汇编)</p>
+</li>
+<li>
+<p>高性能，零开销抽象，没有 GC</p>
+</li>
+<li>
+<p>安全，线程无数据竞争</p>
+</li>
+<li>
+<p>支持泛型，多态和操作符重载</p>
+</li>
+<li>
+<p>多范式，FP, OOP, MP</p>
+</li>
+<li>
+<p>高效 C 绑定</p>
+</li>
+</ul>
+<h6 id="%E9%9B%B6%E5%BC%80%E9%94%80%E6%8A%BD%E8%B1%A1">零开销抽象</h6>
+<p>简单来说，在 Java 里，class A 有个成员 b，b 的类型是 class B，如果 A 的实例 a 引用 b 的成员函数 m，那么调用链是 a.b.m(), 这个调用过程需要两次指针访问，意味着更多的开销，而 c++里的 class，同样是抽象，但只需一次指针访问，相比未抽象的情况没有额外的一次开销，所以叫零开销，这种抽象实现方式叫零开销抽象。</p>
+<h3 id="%E5%AE%89%E8%A3%85">安装</h3>
+<p><code>5 分钟</code></p>
+<p>linux 下可以直接执行这个命令来下载安装脚本并执行它。</p>
+<pre class="hljs"><code><div>curl https://sh.rustup.rs -sSf | sh
+</div></code></pre>
+<p>由于墙的原因，失败的概率会很高，在<a href="https://forge.rust-lang.org/infra/other-installation-methods.html#standalone">这个页面</a>可以找到对应个系统的离线安装包，比如<a href="%5B.pkg%5D(https://static.rust-lang.org/dist/rust-beta-x86_64-apple-darwin.pkg)">mac 的</a></p>
+<p>验证安装结果:</p>
+<pre class="hljs"><code><div>rustc -V
+</div></code></pre>
+<p>编辑工具用 vscode，然后在命令行使用 rustc(v1.27.2)编译。</p>
+<h3 id="%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F">类型系统</h3>
+<p><code>10 分钟</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Lang</th>
+<th style="text-align:center">Typed</th>
+<th style="text-align:center">Static and dynamic  checks</th>
+<th style="text-align:center">Strongly checked</th>
+<th style="text-align:center">Weakly or strongly  typed</th>
+<th style="text-align:center">Dynamically or statically typed</th>
+<th style="text-align:center">Type theories</th>
+<th>Paradigms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Rust</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">strongly</td>
+<td style="text-align:center">statically</td>
+<td style="text-align:center">generic, overloading, subtype</td>
+<td>IP, SP, PP, OOP, FP</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p><em>static and dynamic checks</em>: Rust 是静态编译语言，自然有静态检查，且非常强大</p>
+</li>
+<li>
+<p><em>strongly checked</em>: 安全性是 Rust 的第一大亮点，也是它的设计初衷。C/C++程序猿应该深有体会，内存泄漏和指针异常崩溃时常让我们的努力功亏一篑，Rust 在类型系统上下了很大功夫，尽量在编译阶段就能检测出这类错误，同时，编译时检查的加强也会降低运行时检查的性能开销。编译时检查需要依靠类型系统来提供信息，那么 Rust 的类型系统做了哪些事来达到这样的安全性呢？</p>
+<ul>
+<li>
+<p>变量</p>
+<p>变量定义在 Rust 里称作变量绑定，变量默认是不可修改的,。</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre class="hljs"><code><div>    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    	<span class="hljs-keyword">let</span> x = <span class="hljs-number">5</span>;
+    	x = <span class="hljs-number">6</span>
+    }
+    ```
+
+    上述代码编译不会通过
+
+``` shell
+    error[E0384]: cannot assign twice to immutable variable `x`
+     --&gt; <span class="hljs-keyword">let</span>.rs:<span class="hljs-number">3</span>:<span class="hljs-number">3</span>
+      |
+    <span class="hljs-number">2</span> |         <span class="hljs-keyword">let</span> x = <span class="hljs-number">5</span>;
+      |             - first assignment to `x`
+    <span class="hljs-number">3</span> |         x = <span class="hljs-number">6</span>
+      |         ^^^^^ cannot assign twice to immutable variable
+    ```
+
+    你们可能注意到了，x 的定义没有指明类型，是的，和许多现代编程语言一样，Rust 提供了类型推断。另外 Rust 是不允许使用未经初始化的变量的，虽然有类型推断但没有默认值，强迫我们使用更规范的方式去书写程序，因为默认值依赖于程序猿的经验以及运行平台，会有相应的编码风险。
+
+``` rust
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = <span class="hljs-number">5</span>; <span class="hljs-comment">// 类型推断, 用 mut 来标记 使变量可修改</span>
+    x = <span class="hljs-number">10</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> y: <span class="hljs-built_in">i32</span> <span class="hljs-comment">// 显式地指明类型为 int32</span>
+    ```
+
+  + ownership/borrowing
+
+    c/c++给程序猿提供了操作内存的自由度，但是内存管理对于缺乏经验的人来说比较困难，而且人总是会犯错的，GC 的引入解决了这个问题，但是也带来了新的问题，即性能开销。Rust 作为系统编程语言，安全和性能都是它所追求的，那么它是如何解决的呢？Rust 引入了生命周期和租借的概念，并作出如下限制:
+
+    <span class="hljs-number">1</span>. 所有的资源只能有一个所有者（owner）
+
+``` rust
+       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+           <span class="hljs-comment">// create string resource and assign it to a, a is the resource owner</span>
+           <span class="hljs-keyword">let</span> a = <span class="hljs-built_in">String</span>::new();
+           <span class="hljs-comment">// transfer the resource from a to _b, _b is the owner now</span>
+           <span class="hljs-keyword">let</span> _b = a;
+           <span class="hljs-comment">// a cannot access the resource any more</span>
+           <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, a); <span class="hljs-comment">// compile error</span>
+       }
+       ```
+
+       我们可以把所有权再还回去，修改后的代码如下
+
+``` rust
+       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+           <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a = <span class="hljs-built_in">String</span>::new();
+           <span class="hljs-keyword">let</span> _b = a; <span class="hljs-comment">// 浅拷贝</span>
+           a = _b;
+           <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, a); <span class="hljs-comment">// compile ok</span>
+       }
+       ```
+
+    <span class="hljs-number">2</span>. 其它人可以租借这个资源。
+
+``` rust
+       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+           <span class="hljs-keyword">let</span> a = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>);
+           <span class="hljs-keyword">let</span> b = &amp;a;
+           <span class="hljs-built_in">println!</span>(<span class="hljs-string">"a {}, b {}"</span>, a, b);
+       }
+       ```
+
+       租借其实就是引用。租借的形式有可变和不可变两种，最多只能有一个可变租借; 可以有多个不可变租借；当有可变租借时，不能有其他租借。
+
+``` rust
+       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+           <span class="hljs-keyword">let</span> a = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>);
+           <span class="hljs-keyword">let</span> b = &amp;a;
+           <span class="hljs-keyword">let</span> c = &amp;a;
+           <span class="hljs-built_in">println!</span>(<span class="hljs-string">"a {}, b {}, c {}"</span>, a, b, c);
+       }
+       ```
+
+    <span class="hljs-number">3</span>. 但当这个资源被借走时，所有者不允许修改或释放该资源。
+
+``` rust
+       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+           <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>);
+           <span class="hljs-keyword">let</span> b = &amp;a;
+           <span class="hljs-built_in">println!</span>(<span class="hljs-string">"a {}, b {}"</span>, a, b);
+           a = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"bar"</span>); <span class="hljs-comment">// compile error</span>
+       }
+       ```
+
+       上面的代码中，a 被借给了 b，虽然 b 是不可修改的，但是 a 作为资源的所有者仍然不能修改该资源。那么被借出的资源能否够被修改呢？答案是能。虽然所有者不能修改，但是可以授予他人修改的权限，前提当然是资源本身是允许被修改的。
+
+``` rust
+       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+           <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>);
+           <span class="hljs-keyword">let</span> n = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"bar"</span>);
+           {
+               <span class="hljs-keyword">let</span> b = &amp;<span class="hljs-keyword">mut</span> a;
+               *b = n;
+               <span class="hljs-built_in">println!</span>(<span class="hljs-string">"b {}"</span>, b);
+           }
+           <span class="hljs-built_in">println!</span>(<span class="hljs-string">"a {}"</span>, a);
+       }
+
+       ```
+
+       在上述代码中，我们先定义了可修改的 a 和 n，然后把 a 以可变的形式借给了 b，之后修改 b，在打印 a 之前，b 被销毁，归还了可变引用，因此 a 能够再次借出(打印)。
+
+  + lifetime
+
+    在上面的代码中，b 由于超出作用域而被自动销毁，使得我们能够再次正常使用 a(读写或者销毁)。但是语言的作用域并不总能达到这种效果，如果租借不能被归还(引用被销毁)，会导致变量无法正常使用。编译器需要一种机制能够让它知道引用是否被销毁，来完成它的检查，编程语言需要一种机制来确保引用的生命周期是要小于所有者的。这种机制即是 lifetime，一种显式地指定作用域的方法。再举一个例子来说明它的必要性:
+
+``` rust
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>(x: &amp;<span class="hljs-built_in">str</span>, y: &amp;<span class="hljs-built_in">str</span>) -&gt; &amp;<span class="hljs-built_in">str</span> {
+        <span class="hljs-keyword">if</span> x.len() &gt; y.len() {
+            x
+        } <span class="hljs-keyword">else</span> {
+            y
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+        <span class="hljs-keyword">let</span> x = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>);
+        <span class="hljs-keyword">let</span> z;
+        {
+            <span class="hljs-keyword">let</span> y = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"bar"</span>);
+            <span class="hljs-comment">// 租借 x 和 y，有可能返回 x 的引用，有可能返回 y 的引用</span>
+            z = foo(&amp;x, &amp;y);
+        }
+        <span class="hljs-comment">// 如果返回的是 y 的引用，由于 y 已经被销毁，访问 z 属于非法访问</span>
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"z = {}"</span>, z);
+    }
+    ```
+
+    这段代码编译会不通过，因为编译器检查出了这种风险。
+
+    lifetime 的指定方式:
+
+``` rust
+    <span class="hljs-symbol">'a</span>
+    ```
+
+    Rust 称之为 lifetime annotation。单引号是必须的，a 可以用其他字母/单词代替，但通常用 a, b, c。那么可以通过指定 lifetime 来修改上述代码使其通过。
+
+``` rust
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;<span class="hljs-symbol">'a</span>, <span class="hljs-symbol">'b</span>: <span class="hljs-symbol">'a</span>&gt;(x: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span>, y: &amp;<span class="hljs-symbol">'b</span> <span class="hljs-built_in">str</span>) -&gt; &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span>
+    ```
+
+`<span class="hljs-symbol">'b</span>: <span class="hljs-symbol">'a</span>` 的意思是限定了入参 y 的生命周期 `<span class="hljs-symbol">'b</span>` 必须比入参 x 的生命周期 `<span class="hljs-symbol">'a</span>` 要长，可以认为这是一个调用函数时的约束条件。完整代码如下:
+
+``` rust
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;<span class="hljs-symbol">'a</span>, <span class="hljs-symbol">'b</span>: <span class="hljs-symbol">'a</span>&gt;(x: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span>, y: &amp;<span class="hljs-symbol">'b</span> <span class="hljs-built_in">str</span>) -&gt; &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span> {
+        <span class="hljs-keyword">if</span> x.len() &gt; y.len() {
+            x
+        } <span class="hljs-keyword">else</span> {
+            y
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+        <span class="hljs-keyword">let</span> y = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"bar"</span>);
+        <span class="hljs-keyword">let</span> x = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>);
+        {
+            <span class="hljs-comment">// y 的生命周期必须比 x 长</span>
+            <span class="hljs-keyword">let</span> z = foo(&amp;x, &amp;y);
+            <span class="hljs-built_in">println!</span>(<span class="hljs-string">"z = {}"</span>, z);
+        }
+    }
+
+    ```
+
+* *strongly typed*: 类型在确定之后不可变
+
+* *statically typed*: 类型在编译时确定
+
+### 类型理论
+
+ `<span class="hljs-number">10</span> 分钟`
+
+##### 泛型
+
+和 c++/Java 一样，Rust 的泛型风格基本类似
+
+``` rust
+<span class="hljs-comment">// generic function</span>
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;T&gt;(_x: &amp;[T]) {}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    foo(&amp;[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>]);
+}
+
+</div></code></pre>
+<p>除此之外还有泛型结构体等，这里不再一一列举，需要在实战中摸索。</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">SGen</span></span>&lt;T&gt;(T);
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    SGen(<span class="hljs-number">2</span>);
+}
+
+</div></code></pre>
+<p>值得一提的是，我们可以限定 <code>T</code> 的类型范围:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Graph</span></span> {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">area</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">f64</span>;
+}
+<span class="hljs-comment">// 限定 T 的类型必须是实现了 Graph 的类型</span>
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;T : Graph&gt;(_x: &amp;[T]) {}
+</div></code></pre>
+<p>还有另外一种表达能力更强的写法， <code>where</code> 语句:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;T&gt;(_x: &amp;[T]) <span class="hljs-keyword">where</span> T : Graph {}
+</div></code></pre>
+<p>当我们限定的不是 T，而是使用 T 的方式时 <code>where</code> 会很有用:</p>
+<pre class="hljs"><code><div>use std::fmt::Debug;
+
+trait PrintInOption {
+    fn print_in_option(self);
+}
+
+// Because we would otherwise have to express this as `T: Debug` or
+// use another method of indirect approach, this requires a `where` clause:
+impl&lt;T&gt; PrintInOption for T where Option&lt;T&gt;: Debug {
+    // We want `Option&lt;T&gt;: Debug` as our bound because that is what's
+    // being printed. Doing otherwise would be using the wrong bound.
+    fn print_in_option(self) {
+        println!(&quot;{:?}&quot;, Some(self));
+    }
+}
+
+fn main() {
+    let vec = vec![1, 2, 3];
+
+    vec.print_in_option();
+}
+
+</div></code></pre>
+<p>上述代码中，我们限定了 <code>Option&lt;T&gt; : Debug</code> , 即 Option&lt;T&gt;必须实现了 Debug trait。</p>
+<h5 id="%E5%A4%9A%E6%80%81">多态</h5>
+<p>即 subtyping。Rust 和 golang 一样并没有继承这一说，也没有 class，但 struct 是可以定义函数的，也能指定可见性。struct 和 trait 结合使用能够达到通常 OOP 中继承和多态的效果。</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Graph</span></span> {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">area</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">f64</span>;
+}
+<span class="hljs-comment">// 定义一个结构体</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Circle</span></span> {
+    x: <span class="hljs-built_in">f64</span>,
+    y: <span class="hljs-built_in">f64</span>,
+    radius: <span class="hljs-built_in">f64</span>,
+}
+<span class="hljs-comment">// 为 Circle 实现 Graph trait，或者说实现 Graph 接口</span>
+<span class="hljs-keyword">impl</span> Graph <span class="hljs-keyword">for</span> Circle {
+    <span class="hljs-comment">// 必须实现 area</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">area</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">f64</span> {
+        std::<span class="hljs-built_in">f64</span>::consts::PI * (<span class="hljs-keyword">self</span>.radius * <span class="hljs-keyword">self</span>.radius)
+    }
+}
+<span class="hljs-comment">// 定义一个新的结构体类型</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Rec</span></span> {
+    x: <span class="hljs-built_in">f64</span>,
+    y: <span class="hljs-built_in">f64</span>,
+    length: <span class="hljs-built_in">f64</span>,
+    height: <span class="hljs-built_in">f64</span>,
+}
+<span class="hljs-comment">// 为 Rec 实现 Graph trait</span>
+<span class="hljs-keyword">impl</span> Graph <span class="hljs-keyword">for</span> Rec {
+    <span class="hljs-comment">// 必须实现 area</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">area</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">f64</span> {
+        <span class="hljs-keyword">self</span>.length * <span class="hljs-keyword">self</span>.height
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">print_g</span></span>(g : &amp;Graph) {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"graph area {}"</span>, g.area());
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> c = Circle{
+        x: <span class="hljs-number">1.0</span>,
+        y: <span class="hljs-number">1.0</span>,
+        radius: <span class="hljs-number">1.0</span>
+    };
+    <span class="hljs-keyword">let</span> r = Rec {
+        x: <span class="hljs-number">1.0</span>,
+        y: <span class="hljs-number">1.0</span>,
+        length: <span class="hljs-number">1.0</span>,
+        height: <span class="hljs-number">2.0</span>,
+    };
+    print_g(&amp;c);
+    print_g(&amp;r);
+}
+
+</div></code></pre>
+<p>上述代码中 <code>print_g</code> 的入参类型为 <code>&amp;Graph</code> , 既能将 <code>&amp;Circle</code> 作为输入，也能将 <code>&amp;Rec</code> 作为输入，即是多态用法。需要强调的是，trait 是没有类型关系的，我们不能说 Rec 是 Graph 的子类型, 这和其他基于类型关系的 subtyping 不一样。Rust 传统意义上的 subtyping 是在 lifetime 中体现的， <code>'big &lt;: 'small</code> 意味着 big 的生命周期比 small 长，big 是 small 的子类型(subtype), 在使用 <code>'small</code> (它是一个类型)的地方都可以使用 <code>'big</code> 代替。</p>
+<h5 id="%E9%87%8D%E8%BD%BD">重载</h5>
+<p>在 Rust 里操作符其实是语法糖，a + b 等价于 a. Add(b), 能够用操作符操作的类型都实现了 <code>std::ops::Add</code> 这个 trait，那我们为某个类型实现 Add trait，即重载了它的加法操作符。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">use</span> std::ops::Add;
+
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Point</span></span> {
+    x: <span class="hljs-built_in">i32</span>,
+    y: <span class="hljs-built_in">i32</span>,
+}
+
+<span class="hljs-keyword">impl</span> Add <span class="hljs-keyword">for</span> Point {
+    <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Output</span></span> = Point;
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">add</span></span>(<span class="hljs-keyword">self</span>, other: Point) -&gt; Point {
+        Point {
+            x: <span class="hljs-keyword">self</span>.x + other.x,
+            y: <span class="hljs-keyword">self</span>.y + other.y,
+        }
+    }
+}
+
+<span class="hljs-keyword">impl</span> std::fmt::Display <span class="hljs-keyword">for</span> Point {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">fmt</span></span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter) -&gt; std::fmt::<span class="hljs-built_in">Result</span> {
+        <span class="hljs-built_in">write!</span>(f, <span class="hljs-string">"({},{})"</span>, <span class="hljs-keyword">self</span>.x, <span class="hljs-keyword">self</span>.y)
+    }
+
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> p1 = Point { x: <span class="hljs-number">1</span>, y: <span class="hljs-number">0</span> };
+    <span class="hljs-keyword">let</span> p2 = Point { x: <span class="hljs-number">2</span>, y: <span class="hljs-number">3</span> };
+
+    <span class="hljs-keyword">let</span> p3 = p1 + p2;
+
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, p3)
+}
+</div></code></pre>
+<p>Rust 没有函数重载。</p>
+<h3 id="%E8%AF%AD%E6%B3%95%E8%A7%84%E8%8C%83">语法规范</h3>
+<p><code>25 分钟</code></p>
+<h5 id="types">Types</h5>
+<h6 id="primitive-types">Primitive types</h6>
+<table>
+<thead>
+<tr>
+<th>基础类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>i8, i16, i32, i64, u8, u16</td>
+<td>整数, i 代表有符号, u 代表无符号</td>
+</tr>
+<tr>
+<td>f32, f64</td>
+<td>浮点数, IEEE-754 标准</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>布尔型, true or false. <code>ex</code> . let b: bool = false;</td>
+</tr>
+<tr>
+<td>char, str</td>
+<td>字符/字符串</td>
+</tr>
+<tr>
+<td>isize, usize</td>
+<td>The pointer-sized unsigned integer type. 依赖运行平台指针大小的类型，在 32bit 的机器上，它是占用四个字节的整形，在 64 位的机器上它占用 8 个字节</td>
+</tr>
+<tr>
+<td>fn</td>
+<td>函数</td>
+</tr>
+<tr>
+<td>never</td>
+<td>书写为 <code>!</code> ，用来标记 never 类型</td>
+</tr>
+</tbody>
+</table>
+<h6 id="compound-types">Compound types</h6>
+<table>
+<thead>
+<tr>
+<th>复合类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>array, slice, Vec</td>
+<td>数组/切片/向量数组，let b = [0; 20]; 定义大小为 20 的不可修改数组，并将所有的值初始化为 0，切片则是数组的引用 let sli = &amp;b[..]，数组需定义大小，切片则不用; Vec 则是标准库提供的分配在堆上的变长数组</td>
+</tr>
+<tr>
+<td>struct</td>
+<td>结构体. <code>ex</code> . struct test{a:b, c:d}, 可以使用 pub 来标记字段的可见性</td>
+</tr>
+<tr>
+<td>closure</td>
+<td>闭包</td>
+</tr>
+<tr>
+<td>map</td>
+<td>rust 的标准库提供了 hash map 等高级数据结构</td>
+</tr>
+<tr>
+<td>fn pointer</td>
+<td>函数指针. <code>ex</code> .  type Binop = fn(i32, i32) -&gt; i32; Binop 是一个函数指针</td>
+</tr>
+<tr>
+<td>pointer, reference</td>
+<td>指针/引用, 指针的值和普通类型一样，可以被移动，拷贝，存储和返回，标准库提供了智能指针；引用则是指向别的值所在的内存地址的类型，分为 shared reference 和 mutable reference</td>
+</tr>
+<tr>
+<td>enum</td>
+<td>枚举, Rust 的枚举比 golang 表达更加丰富，它的成员可以为 struct 或者 tuple struct 或者 unit struct</td>
+</tr>
+<tr>
+<td>union</td>
+<td>联合</td>
+</tr>
+<tr>
+<td>recursive</td>
+<td>使用递归方式定义的类型，struct，union，enum 都可以递归</td>
+</tr>
+<tr>
+<td>trait</td>
+<td>rust 里的 interface</td>
+</tr>
+<tr>
+<td>tuple</td>
+<td>元组</td>
+</tr>
+</tbody>
+</table>
+<p>如果你看了我之前写的《编程语言选型》里的基础类型和复合类型，理解 Rust 的类型就会轻松一些，但是 Rust 还是提供了很多新的东西。</p>
+<h6 id="never-type">never type</h6>
+<p>never 类型是 Rust 里的特殊类型，在早期的版本里甚至称不上是类型，因为它不占用任何空间，不能像普通类型一样初始化。你可以认为它是一个不存在的类型，可以用来占位，下面的代码中，Result 枚举中的第二个类型是 never，当我们不需要返回错误时，可以用它来占位。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">from_str</span></span>(s: &amp;<span class="hljs-built_in">str</span>) -&gt; <span class="hljs-built_in">Result</span>&lt;<span class="hljs-built_in">String</span>, !&gt; {
+    <span class="hljs-literal">Ok</span>(<span class="hljs-built_in">String</span>::from(s))
+}
+</div></code></pre>
+<p>2016 年，Rust 将 <code>!</code> 升级成了一个标准的类型，意味着你可以用它来绑定变量。它的主要用途不变，但目前还在 <code>experimental</code> 的阶段。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> x: ! = <span class="hljs-built_in">panic!</span>()
+</div></code></pre>
+<h6 id="unit-struct">unit struct</h6>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">u</span></span> {}
+</div></code></pre>
+<h6 id="tuple-struct">tuple struct</h6>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">t</span></span> {<span class="hljs-built_in">i32</span>, <span class="hljs-built_in">char</span>}
+</div></code></pre>
+<h6 id="recursive-type">recursive type</h6>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">List</span></span>&lt;T&gt; {
+    Nil,
+    Cons(T, <span class="hljs-built_in">Box</span>&lt;List&lt;T&gt;&gt;)
+}
+
+<span class="hljs-keyword">let</span> a: List&lt;<span class="hljs-built_in">i32</span>&gt; = List::Cons(<span class="hljs-number">7</span>, <span class="hljs-built_in">Box</span>::new(List::Cons(<span class="hljs-number">13</span>, <span class="hljs-built_in">Box</span>::new(List::Nil))));
+</div></code></pre>
+<h6 id="struct">struct</h6>
+<p>给 struct 定义成员函数的方式和 golang 类似, 但使用 <code>impl</code> 关键字来标记, self 用来代替所实现的结构体。</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Cicle</span></span> {
+    x: <span class="hljs-built_in">f64</span>,
+    y: <span class="hljs-built_in">f64</span>,
+    radius: <span class="hljs-built_in">f64</span>,
+}
+
+<span class="hljs-keyword">impl</span> Cicle {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">area</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">f64</span> {
+        <span class="hljs-comment">// area</span>
+        std::<span class="hljs-built_in">f64</span>::consts::PI * (<span class="hljs-keyword">self</span>.radius * <span class="hljs-keyword">self</span>.radius)
+    }
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">pos</span></span>(&amp;<span class="hljs-keyword">self</span>) {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"({}, {})"</span>, <span class="hljs-keyword">self</span>.x, <span class="hljs-keyword">self</span>.y);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> c : Cicle = Cicle{
+        x: <span class="hljs-number">1.0</span>, y: <span class="hljs-number">1.0</span>, radius: <span class="hljs-number">1.0</span>
+    };
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, c.area());
+    c.pos()
+}
+</div></code></pre>
+<h6 id="%E5%85%83%E7%BB%84%E7%B4%A2%E5%BC%95">元组索引</h6>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> b = <span class="hljs-number">32</span>;
+    <span class="hljs-keyword">let</span> tuple = (<span class="hljs-string">"a"</span>, <span class="hljs-number">3</span>, b);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{} {} {}"</span>, tuple.<span class="hljs-number">0</span>, tuple.<span class="hljs-number">1</span>, tuple.<span class="hljs-number">2</span>);
+}
+</div></code></pre>
+<h6 id="%E5%87%BD%E6%95%B0">函数</h6>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> x = foo;
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, x());
+}
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>() -&gt; <span class="hljs-built_in">i32</span> {
+    <span class="hljs-number">110</span> <span class="hljs-comment">// return 110;</span>
+}
+</div></code></pre>
+<p>和 Groovy 一样，Rust 支持隐式 return 语句，而且推荐这么做，当你这么做的时候末尾不要接分号，否则它会被当成一个表达式而不是 return 语句，对于这类书写错误，rustc 编译器会提示你怎么修正。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>() -&gt; <span class="hljs-built_in">i32</span> {
+    <span class="hljs-number">110</span>; <span class="hljs-comment">// compile error</span>
+}
+</div></code></pre>
+<h6 id="%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D">类型别名</h6>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Alias</span></span> = (<span class="hljs-built_in">i32</span>, <span class="hljs-built_in">char</span>); <span class="hljs-comment">// 为元组定义一个别名</span>
+    <span class="hljs-keyword">let</span> _t : Alias = (<span class="hljs-number">10</span>, <span class="hljs-string">'a'</span>);
+}
+</div></code></pre>
+<h6 id="%E9%97%AD%E5%8C%85">闭包</h6>
+<p>闭包的入参参数写在 <code>||</code> 内，之后是函数逻辑。注意，下面的代码如果不加 <code>||</code> ， 花括号内的值会被当作表达式先执行，然后将执行的返回值作为入参。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">f</span></span>(_g: F) {
+    _g();
+}
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">F</span></span> = <span class="hljs-function"><span class="hljs-keyword">fn</span></span>() -&gt; <span class="hljs-built_in">String</span>;
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    f(||{
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"rust-lang is best lang!"</span>);
+        <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>)
+    })
+}
+</div></code></pre>
+<h6 id="%E6%9E%9A%E4%B8%BE">枚举</h6>
+<p>Rust 的枚举用法较多，和 java 一样可以带构造器。</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Animal</span></span> {
+    Dog,
+    Cat,
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a: Animal = Animal::Dog;
+a = Animal::Cat;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Animal</span></span> {
+    Dog(<span class="hljs-built_in">String</span>, <span class="hljs-built_in">f64</span>),
+    Cat { name: <span class="hljs-built_in">String</span>, weight: <span class="hljs-built_in">f64</span> },
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a: Animal = Animal::Dog(<span class="hljs-string">"Cocoa"</span>.to_string(), <span class="hljs-number">37.2</span>);
+a = Animal::Cat { name: <span class="hljs-string">"Spotty"</span>.to_string(), weight: <span class="hljs-number">2.7</span> };
+</div></code></pre>
+<h6 id="%E8%81%94%E5%90%88">联合</h6>
+<p>rust 一开始是没有 union 类型的，因为 rust 的 enum 即是 tagged union，属于比较安全的 union 实现方式。后来加入了 untagged union, 在访问它的字段时要加 <code>unsafe</code></p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[repr(C)]</span>
+<span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">MyUnion</span></span> {
+    f1: <span class="hljs-built_in">u32</span>,
+    f2: <span class="hljs-built_in">f32</span>,
+}
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> u = MyUnion { f1: <span class="hljs-number">1</span> };
+    <span class="hljs-keyword">unsafe</span> {
+        <span class="hljs-keyword">let</span> f = u.f1;
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, f);
+    }
+}
+
+</div></code></pre>
+<h6 id="trait">Trait</h6>
+<p>Rust 的 trait 类似于 golang 中的 interface，它告诉编译器一个类型必须提供哪些函数。你可以为任意类型实现某个 trait。</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">HasArea</span></span> {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">area</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">f64</span>;
+}
+
+</div></code></pre>
+<p>关于 trait 的使用，会在 subtyping 中介绍。Rust 中有个特殊的 trait <code>Drop</code> ，作用类似于析构函数，大家可以自行了解。</p>
+<h5 id="statements">Statements</h5>
+<h6 id="if">If</h6>
+<p><strong>if</strong>语句和 golang 一样没有括号。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> x = <span class="hljs-number">5</span>;
+
+<span class="hljs-keyword">if</span> x == <span class="hljs-number">5</span> {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"x is five!"</span>);
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> x == <span class="hljs-number">6</span> {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"x is six!"</span>);
+} <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"x is not five or six :("</span>);
+}
+</div></code></pre>
+<p>但是语法糖会多一些。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> x = <span class="hljs-literal">Some</span>(<span class="hljs-number">3</span>);
+<span class="hljs-keyword">let</span> a = <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-literal">Some</span>(<span class="hljs-number">1</span>) = x {
+    <span class="hljs-number">1</span>
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> x == <span class="hljs-literal">Some</span>(<span class="hljs-number">2</span>) {
+    <span class="hljs-number">2</span>
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-literal">Some</span>(y) = x {
+    y
+} <span class="hljs-keyword">else</span> {
+    -<span class="hljs-number">1</span>
+};
+</div></code></pre>
+<h6 id="let">let</h6>
+<p>let 语句，用来绑定变量。</p>
+<h5 id="operators">Operators</h5>
+<table>
+<thead>
+<tr>
+<th>Operator/Expression</th>
+<th>Associativity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>?</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Unary <code>-</code>  <code>*</code>  <code>!</code>  <code>&amp;</code>  <code>&amp;mut</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>as</code></td>
+<td>left to right</td>
+</tr>
+<tr>
+<td><code>*</code>  <code>/</code>  <code>%</code></td>
+<td>left to right</td>
+</tr>
+<tr>
+<td><code>+</code>  <code>-</code></td>
+<td>left to right</td>
+</tr>
+<tr>
+<td><code>&lt;&lt;</code>  <code>&gt;&gt;</code></td>
+<td>left to right</td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td>left to right</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>left to right</td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td>left to right</td>
+</tr>
+<tr>
+<td><code>==</code>  <code>!=</code>  <code>&lt;</code>  <code>&gt;</code>  <code>&lt;=</code>  <code>&gt;=</code></td>
+<td>Require parentheses</td>
+</tr>
+<tr>
+<td><code>&amp;&amp;</code></td>
+<td>left to right</td>
+</tr>
+<tr>
+<td><code>||</code></td>
+<td>left to right</td>
+</tr>
+<tr>
+<td><code>..</code>  <code>..=</code></td>
+<td>Require parentheses</td>
+</tr>
+<tr>
+<td><code>=</code>  <code>+=</code>  <code>-=</code>  <code>*=</code>  <code>/=</code>  <code>%=</code>  <code>&amp;=</code>  <code>|=</code>  <code>^=</code>  <code>&lt;&lt;=</code>  <code>&gt;&gt;=</code></td>
+<td>right to left</td>
+</tr>
+</tbody>
+</table>
+<h5 id="expressions">Expressions</h5>
+<p>表达式是语句(statements)的子集，这里按照 rust reference 文档，部分关于语句的语法也写在 expression 的范畴内，且只列举较陌生的表达式写法。</p>
+<h6 id="path-expression">Path expression</h6>
+<p>Rust 使用 <code>::</code> 的方式来表达引用路径，和 C++类似。</p>
+<pre class="hljs"><code><div> <span class="hljs-keyword">let</span> y = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"bar"</span>);
+</div></code></pre>
+<h6 id="errorpropagation-expression">ErrorPropagation Expression</h6>
+<p>错误传播表达式，和 Result&lt;T, E&gt;相结合用来解决异常处理的问题，格式为表达式接问号:</p>
+<pre class="hljs"><code><div>Expression ?
+</div></code></pre>
+<p>当表达式为正常值时继续运行，当表达式为 Err 时立即返回。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">try_to_parse</span></span>() -&gt; <span class="hljs-built_in">Result</span>&lt;<span class="hljs-built_in">i32</span>, std::num::ParseIntError&gt; {
+        <span class="hljs-keyword">let</span> x: <span class="hljs-built_in">i32</span> = <span class="hljs-string">"123"</span>.parse()?; <span class="hljs-comment">// x = 123</span>
+        <span class="hljs-keyword">let</span> y: <span class="hljs-built_in">i32</span> = <span class="hljs-string">"24a"</span>.parse()?; <span class="hljs-comment">// returns an Err() immediately</span>
+        <span class="hljs-literal">Ok</span>(x + y) <span class="hljs-comment">// Doesn't run.</span>
+    }
+
+    <span class="hljs-keyword">let</span> res = try_to_parse();
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{:?}"</span>, res);
+}
+
+</div></code></pre>
+<h6 id="typecastexpression">TypeCastExpression</h6>
+<p>类型转换表达式，用 <code>as</code> 来表示:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> size: <span class="hljs-built_in">f64</span> = len(values) <span class="hljs-keyword">as</span> <span class="hljs-built_in">f64</span>;
+</div></code></pre>
+<h6 id="array-expression">Array expression</h6>
+<p>数组表达式，仅列举 Rust 中特别的数组初始化方式:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> a = [<span class="hljs-number">0</span>; <span class="hljs-number">128</span>];
+</div></code></pre>
+<p>这里提一下，我们知道，数组是可以通过下标来访问的:</p>
+<pre class="hljs"><code><div>a[<span class="hljs-number">0</span>]
+</div></code></pre>
+<p>如果其他的类型实现了 <code>std::ops::Index</code> trait 和 <code>std::ops::IndexMut</code> trait，那么这些类型也可以通过下标来访问，因为方括号的形式只是语法糖。</p>
+<h6 id="closure-expression">Closure expression</h6>
+<p>即闭包。Rust 的闭包写法稍微有些奇特，可能是因为 <code>-&gt;</code> 被用来标记函数回参了吧。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> plus_one = |x: <span class="hljs-built_in">i32</span>| x + <span class="hljs-number">1</span>;
+</div></code></pre>
+<p>管道符内的是入参，其后的内容是一个表达式，注意， <code>{}</code> 也是一个表达式。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> _f = |x: <span class="hljs-built_in">i32</span>, y: <span class="hljs-built_in">i32</span>| -&gt; <span class="hljs-built_in">i32</span> {x + y};
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, _f(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>));
+}
+</div></code></pre>
+<p>也可以不指定返回类型，让编译器自行推断。Rust 的闭包 <code>||{}</code> 也是语法糖，底层仍然是通过 trait 来实现的。对于闭包的使用，较复杂的是如何返回一个闭包，具体代码如下:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">factory</span></span>(n: <span class="hljs-built_in">i32</span>) -&gt; <span class="hljs-built_in">Box</span>&lt;<span class="hljs-built_in">Fn</span>(<span class="hljs-built_in">i32</span>) -&gt; <span class="hljs-built_in">i32</span>&gt; {
+    <span class="hljs-built_in">Box</span>::new(<span class="hljs-keyword">move</span> |x| x + n)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-comment">// factory 函数返回了一个闭包</span>
+    <span class="hljs-keyword">let</span> f = factory(<span class="hljs-number">5</span>);
+    <span class="hljs-keyword">let</span> answer = f(<span class="hljs-number">1</span>);
+    <span class="hljs-built_in">assert_eq!</span>(<span class="hljs-number">6</span>, answer);
+}
+
+</div></code></pre>
+<p>在创建闭包的时候添加了一个关键字 <code>move</code> ，因为 n 是临时变量且在闭包中被借用，当闭包在当前函数 factory 外被调用，n 是不存在的，所以编译器不允许这么做， <code>move</code> 则告诉编译器，n 需要被拷贝，这样被拷贝的 n 就存在于闭包自己的内存栈中。Rust 要求返回值必须是固定大小的，而函数的大小不确定，用 Box 来封装之后，它的大小就确定了。</p>
+<h6 id="for-expression">For expression</h6>
+<p>For 语句, 像脚本语言的写法。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..<span class="hljs-number">100</span> {
+    <span class="hljs-keyword">if</span> x &gt; <span class="hljs-number">12</span> {
+        <span class="hljs-keyword">break</span>;
+    }
+    last = x;
+}
+</div></code></pre>
+<h6 id="range-expression">Range expression</h6>
+<p>此表达式会创建并初始化一个结构体，看表和例子即可。</p>
+<table>
+<thead>
+<tr>
+<th>Production</th>
+<th>Syntax</th>
+<th>Type</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>RangeExpr</em></td>
+<td>start <code>..</code> end</td>
+<td><a href="https://doc.rust-lang.org/std/ops/struct.Range.html">std::ops:: Range</a></td>
+<td>start ≤ x &lt; end</td>
+</tr>
+<tr>
+<td><em>RangeFromExpr</em></td>
+<td>start <code>..</code></td>
+<td><a href="https://doc.rust-lang.org/std/ops/struct.RangeFrom.html">std::ops:: RangeFrom</a></td>
+<td>start ≤ x</td>
+</tr>
+<tr>
+<td><em>RangeToExpr</em></td>
+<td><code>..</code> end</td>
+<td><a href="https://doc.rust-lang.org/std/ops/struct.RangeTo.html">std::ops:: RangeTo</a></td>
+<td>x &lt; end</td>
+</tr>
+<tr>
+<td><em>RangeFullExpr</em></td>
+<td><code>..</code></td>
+<td><a href="https://doc.rust-lang.org/std/ops/struct.RangeFull.html">std::ops:: RangeFull</a></td>
+<td>-</td>
+</tr>
+<tr>
+<td><em>RangeInclusiveExpr</em></td>
+<td>start <code>..=</code> end</td>
+<td><a href="https://doc.rust-lang.org/std/ops/struct.RangeInclusive.html">std::ops:: RangeInclusive</a></td>
+<td>start ≤ x ≤ end</td>
+</tr>
+<tr>
+<td><em>RangeToInclusiveExpr</em></td>
+<td><code>..=</code> end</td>
+<td><a href="https://doc.rust-lang.org/std/ops/struct.RangeToInclusive.html">std::ops:: RangeToInclusive</a></td>
+<td>x ≤ end</td>
+</tr>
+</tbody>
+</table>
+<pre class="hljs"><code><div><span class="hljs-number">1</span>..<span class="hljs-number">2</span>;   <span class="hljs-comment">// std::ops::Range</span>
+<span class="hljs-number">3</span>..;    <span class="hljs-comment">// std::ops::RangeFrom</span>
+..<span class="hljs-number">4</span>;    <span class="hljs-comment">// std::ops::RangeTo</span>
+..;     <span class="hljs-comment">// std::ops::RangeFulls</span>
+<span class="hljs-number">5</span>..=<span class="hljs-number">6</span>;  <span class="hljs-comment">// std::ops::RangeInclusive</span>
+..=<span class="hljs-number">7</span>;   <span class="hljs-comment">// std::ops::RangeToInclusive</span>
+</div></code></pre>
+<h6 id="match-expression">Match expression</h6>
+<p>match 表达式也是 Rust 的主要特色之一。除了可以当作常规的 switch 语句使用之外</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> x = <span class="hljs-number">1</span>;
+
+<span class="hljs-keyword">match</span> x {
+    <span class="hljs-number">1</span> =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"one"</span>),
+    <span class="hljs-number">2</span> =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"two"</span>),
+    <span class="hljs-number">3</span> =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"three"</span>),
+    <span class="hljs-number">4</span> =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"four"</span>),
+    <span class="hljs-number">5</span> =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"five"</span>),
+    _ =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"something else"</span>),
+}
+</div></code></pre>
+<p>还可以匹配更复杂的类型实例</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">match</span> message {
+    Message::Quit =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"Quit"</span>),
+    Message::WriteString(write) =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, &amp;write),
+    Message::Move{ x, y: <span class="hljs-number">0</span> } =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"move {} horizontally"</span>, x),
+    Message::Move{ .. } =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"other move"</span>),
+    Message::ChangeColor { <span class="hljs-number">0</span>: red, <span class="hljs-number">1</span>: green, <span class="hljs-number">2</span>: _ } =&gt; {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"color change, red: {}, green: {}"</span>, red, green);
+    }
+};
+</div></code></pre>
+<p><code>_</code> 代表默认逻辑。</p>
+<h5 id="modules">Modules</h5>
+<p>rust 的模块(包)引入语法和其他语言不太一样，我们先看下怎么定义一个模块。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">pub</span> <span class="hljs-keyword">mod</span> math {
+    <span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">f</span></span>() -&gt; <span class="hljs-built_in">f64</span> {
+        <span class="hljs-number">1.1</span>
+    }
+}
+</div></code></pre>
+<p>将上面的内容写入 math_mod.rs 中，然后在另外一个文件引入:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">mod</span> math_mod;
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, math_mod::math::f());
+}
+</div></code></pre>
+<p>引入时，也可以显式地指定路径:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[path = <span class="hljs-meta-string">"math_mod.rs"</span>]</span>
+<span class="hljs-keyword">mod</span> m;
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, m::math::f());
+}
+</div></code></pre>
+<p>可以使用 <code>use</code> 关键字来简化包的使用</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[path = <span class="hljs-meta-string">"math_mod.rs"</span>]</span>
+<span class="hljs-keyword">mod</span> m;
+<span class="hljs-keyword">use</span> m::math;
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, m::math::f());
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, math::f());
+}
+</div></code></pre>
+<p>也可以为 mod 或者 mod 里的 item 定义别名</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#[path = <span class="hljs-meta-string">"math_mod.rs"</span>]</span>
+<span class="hljs-keyword">mod</span> m;
+<span class="hljs-keyword">use</span> m::{math::f <span class="hljs-keyword">as</span> mf};
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, m::math::f());
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, mf());
+}
+</div></code></pre>
+<h4 id="%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F">编程范式</h4>
+<p><code>5 分钟</code></p>
+<h5 id="%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B">函数式编程</h5>
+<p>Rust 并不是纯函数式语言，语言的设计者们并不教条，执着在一种范式或类型特性上，而是从开发的角度出发，提供解决问题的方法，因此 Rust 作为一门年轻的现代语言，还是提供了函数式编程的途径。</p>
+<ul>
+<li>闭包</li>
+<li>迭代器，在函数式编程里，迭代器是流式处理(函数式风格)的基础</li>
+<li>函数也是类型，可以作为参数和返回值</li>
+</ul>
+<h5 id="%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B">面向对象编程</h5>
+<p>面向对象是一个很好的概念，但并不是所有情况下都是最优的选择，语言的设计者们权衡之后，都放弃了纯面向对象的方式，比如 Go。Rust 并不是一门面向对象语言，也没有类或者继承的概念，但确实可以像面向对象语言那样编程，因此也认为它具备面向对象编程这个范式。面向对象的三大特征是封装／继承／多态。封装不用说，struct 是可以定义成员函数的，多态特性我们在 subtyping 中也讲到过，那么继承呢？Rust 的继承写法也是通过 trait 来完成的，通过组合 trait 来建模对象之间的共性。</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">One</span></span> { <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">one</span></span>(&amp;<span class="hljs-keyword">self</span>); }
+<span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Two</span></span>: One { <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">two</span></span>(&amp;<span class="hljs-keyword">self</span>); }
+
+<span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Com</span></span>: One + Two;
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Foo</span></span>;
+
+<span class="hljs-keyword">impl</span> Com <span class="hljs-keyword">for</span> Foo {
+  <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">one</span></span>(&amp;<span class="hljs-keyword">self</span>) {}
+  <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">two</span></span>(&amp;<span class="hljs-keyword">self</span>) {}
+}
+</div></code></pre>
+<p><code>One + Two</code> 的语法是有说法的，TODO: Algebraic data type</p>
+<h5 id="%E5%85%83%E7%BC%96%E7%A8%8B">元编程</h5>
+<p>元编程一种程序修改自身的行为。学过 C 语言的应该知道它的宏概念，宏也属于元编程的范畴，预处理器会将宏代码替换成新的代码。C/C++的宏实现是基于文本替换的，属于不安全的宏。举一个例子:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INCI(i) do { int a=0; ++i; } while(0)</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> a = <span class="hljs-number">4</span>, b = <span class="hljs-number">8</span>;
+    INCI(a);
+    INCI(b);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"a is now %d, b is now %d\n"</span>, a, b);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p>C 的预处理器进行宏替换后的代码为:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> a = <span class="hljs-number">4</span>, b = <span class="hljs-number">8</span>;
+    <span class="hljs-keyword">do</span> { <span class="hljs-keyword">int</span> a=<span class="hljs-number">0</span>; ++a; } <span class="hljs-keyword">while</span>(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">do</span> { <span class="hljs-keyword">int</span> a=<span class="hljs-number">0</span>; ++b; } <span class="hljs-keyword">while</span>(<span class="hljs-number">0</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"a is now %d, b is now %d\n"</span>, a, b);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p>我们预期的结果应该是 a 被加 1 等于 5，b 被加 1 等 9，但是输出为:</p>
+<pre class="hljs"><code><div>a is now 4, b is now 9
+</div></code></pre>
+<blockquote>
+<p>这个例子不太恰当，一般我们不会犯这类错误，这里仅为了说明 C 语言宏实现的缺陷。</p>
+</blockquote>
+<p>而 Rust 的宏实现要强大复杂的多，Rust 的宏系统借助了语法树及它的模式匹配。</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">macro_rules!</span> foo {
+    (x =&gt; $e:expr) =&gt; (<span class="hljs-built_in">println!</span>(<span class="hljs-string">"mode X: {}"</span>, $e));
+    (y =&gt; $e:expr) =&gt; (<span class="hljs-built_in">println!</span>(<span class="hljs-string">"mode Y: {}"</span>, $e));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    foo!(y =&gt; <span class="hljs-number">3</span>);
+}
+</div></code></pre>
+<p>Rust 的宏用 <code>!</code> 标记，比 C/C++的用大写来标记可读性要高。上述代码中 foo 这个宏会对 <code>y =&gt; 3</code> 进行模式匹配，将代码替换成 <code>=&gt;</code> 后的内容，同时将表达式的值绑定到变量 e 上，可以看出它并不是简单的文本替换。Rust 的宏还有更高级的用法，这里不展开讲。</p>
+<h3 id="%E6%80%BB%E7%BB%93">总结</h3>
+<p><code>1 分钟</code></p>
+<p>单从本文涉及到的内容来看，Rust 上手已经不算简单，因为 Rust 引入了一些其他语言没有的概念，比如 ownership/lifetime 等，trait 是 Rust 类型系统的核心特性，很多语法都是基于它来实现的。此外，本文未涉及到的内容还有很多，如条件编译/注释及文档/并发编程/内联汇编/C binding/crate/cargo 等，感兴趣的可以关注之后的文章。</p>
+<h3 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h3>
+<ul>
+<li><a href="https://doc.rust-lang.org/stable/reference/items/use-declarations.html">rust-lang reference</a></li>
+</ul>
 
 </body>
 </html>
