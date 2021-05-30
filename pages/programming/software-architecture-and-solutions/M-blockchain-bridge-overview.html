@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-blockchain-bridge-overview.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E5%8C%BA%E5%9D%97%E9%93%BE%E8%B7%A8%E9%93%BE%E6%A6%82%E8%A7%88">区块链跨链概览</h1>
+<p>作者: songtianyi</p>
+<h2 id="darwinia-network-%E8%B7%A8%E9%93%BE%E6%96%B9%E6%A1%88">Darwinia Network 跨链方案</h2>
+<h3 id="shadow-service">shadow service</h3>
+<p>shadow service 的主要目的是获取并验证区块，然后生成区块的 MMR(Merkle Mountain Range)，因为有些链并不是 MMR 结构(先忽略  shadow 在整个跨链中的作用)。
+具体的方式是:</p>
+<ol>
+<li>通过链的 RPC 接口循环获取区块信息以及生成 MMR 所需的其它信息</li>
+<li>获取到的区块信息需要进行验证并处理，处理成后续 MMR 生成逻辑所需要的结构，这时候可以借助链的源码来帮助这一步的编码工作，也可以自己实现。如果借助链的源码就需要用 FFI 包一层</li>
+<li>用 Rust 实现 MMR 的生成逻辑，生成之后保存在 DB</li>
+<li>将 MMR 信息通过 API 接口或者 CLI 工具暴露给外部服务使用</li>
+</ol>
+<p>代码结构大致如下:</p>
+<pre class="hljs"><code><div>├── api(step4)
+│   ├── Cargo.toml
+├── ffi(step1 and step2)
+│   ├── Cargo.toml
+├── mmr (step3 ckb-merkle-mountain-range)
+│   ├── Cargo.toml
+├── src(step4)
+│   ├── bin
+│   │   └── shadow.rs
+│   ├── cmd
+│   │   ├── count.rs
+│   ├── mmr
+│   │   ├── mod.rs
+│   │   └── runner.rs
+</div></code></pre>
+<p>shadow service 新增一个链的支持需要考虑以下几点:</p>
+<ul>
+<li>RPC 接口: 地址，请求参数</li>
+<li>区块验证: 不同的共识算法的区块验证方式有差异，即使区块结构相同</li>
+<li><a href="https://blog.csdn.net/liangyihuai/article/details/103129061">MMR</a>: MMR 的生成和查询</li>
+<li>接口: API, CLI</li>
+</ul>
+<h4 id="ethereum-mainnet">ethereum mainnet</h4>
+<p>etherum 主网使用的是 PoW 共识，区块结构如下</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Block represents an entire block in the Ethereum blockchain.</span>
+<span class="hljs-keyword">type</span> Block <span class="hljs-keyword">struct</span> {
+	header       *Header
+	uncles       []*Header
+	transactions Transactions
+
+	<span class="hljs-comment">// caches</span>
+	hash atomic.Value
+	size atomic.Value
+
+	<span class="hljs-comment">// Td is used by package core to store the total difficulty</span>
+	<span class="hljs-comment">// of the chain up to and including the block.</span>
+	td *big.Int
+
+	<span class="hljs-comment">// These fields are used by package eth to track</span>
+	<span class="hljs-comment">// inter-peer block relay.</span>
+	ReceivedAt   time.Time
+	ReceivedFrom <span class="hljs-keyword">interface</span>{}
+}
+
+<span class="hljs-comment">// Header represents a block header in the Ethereum blockchain.</span>
+<span class="hljs-keyword">type</span> Header <span class="hljs-keyword">struct</span> {
+	ParentHash  common.Hash    <span class="hljs-string">`json:"parentHash"       gencodec:"required"`</span>
+	UncleHash   common.Hash    <span class="hljs-string">`json:"sha3Uncles"       gencodec:"required"`</span>
+	Coinbase    common.Address <span class="hljs-string">`json:"miner"            gencodec:"required"`</span>
+	Root        common.Hash    <span class="hljs-string">`json:"stateRoot"        gencodec:"required"`</span>
+	TxHash      common.Hash    <span class="hljs-string">`json:"transactionsRoot" gencodec:"required"`</span>
+	ReceiptHash common.Hash    <span class="hljs-string">`json:"receiptsRoot"     gencodec:"required"`</span>
+	Bloom       Bloom          <span class="hljs-string">`json:"logsBloom"        gencodec:"required"`</span>
+	Difficulty  *big.Int       <span class="hljs-string">`json:"difficulty"       gencodec:"required"`</span>
+	Number      *big.Int       <span class="hljs-string">`json:"number"           gencodec:"required"`</span>
+	GasLimit    <span class="hljs-keyword">uint64</span>         <span class="hljs-string">`json:"gasLimit"         gencodec:"required"`</span>
+	GasUsed     <span class="hljs-keyword">uint64</span>         <span class="hljs-string">`json:"gasUsed"          gencodec:"required"`</span>
+	Time        <span class="hljs-keyword">uint64</span>         <span class="hljs-string">`json:"timestamp"        gencodec:"required"`</span>
+	Extra       []<span class="hljs-keyword">byte</span>         <span class="hljs-string">`json:"extraData"        gencodec:"required"`</span>
+	MixDigest   common.Hash    <span class="hljs-string">`json:"mixHash"`</span>
+	Nonce       BlockNonce     <span class="hljs-string">`json:"nonce"`</span>
+}
+</div></code></pre>
+<p>PoW 的特点是计算复杂，验证相对简单, 且每个人都能出块。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">type</span> Header <span class="hljs-keyword">struct</span> {
+  Nonce [<span class="hljs-number">8</span>]<span class="hljs-keyword">byte</span>
+  ...
+}
+</div></code></pre>
+<p>通过不断修改 Nonce 的值并计算区块的 hash 值来得一个合法的(比如小于某一阈值)区块的过程就是我们通常所说的挖矿。 ethereum 的 PoW 实现命名为 ethash, 和标准 PoW 的实现大致一样，区别是:</p>
+<ul>
+<li>区块验证增加了 MixDigest 字段</li>
+<li>使用改动过的 <code>Dagger-Hashimoto</code> 算法生成 hash 值。该算法分为 Dagger 和 Hashimoto 两部分，Dagger 用来生成数据集(DAG)，增大内存消耗，防止算力攻击，Hashimoto 使用区块 Header 的哈希和 Nonce 字段以及 DAG 数据集生成一个最终的 hash(digest). DAG 的生成和 epoch 相关, 它的大小没过一个 epoch 就会增加。</li>
+</ul>
+<h4 id="huobi-eco-chain-to-darwinia">huobi-eco-chain-to-darwinia</h4>
+<p>heco 链使用的是 PoA(Proof of Authority) + PoS(Proof of Stake) 的共识机制，而 heco 的代码是从 ethereum copy 过来的，所以 heco 链的共识是在 ethereum clique 的基础上改的。PoS 的逻辑是通过合约实现的，然后以 ABI 的形式调用。</p>
+<blockquote>
+<p>heco mainnet 的 epoch length 为 200, 出块周期为 3s, 参考 <a href="https://docs.hecochain.com/#/genesis">Genesis</a></p>
+</blockquote>
+<p>虽然共识有差异，但是块结构是没有变化的，获取块数据的接口也没有变化。</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#</span><span class="bash"> get recent block number</span>
+curl -s -H 'content-type:application/json' -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":83}' https://http-mainnet-node.huobichain.com
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-meta">#</span><span class="bash"> get block by number</span>
+curl -s -H 'content-type:application/json' -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["0x39b857", false],"id":83}' https://http-mainnet-node.huobichain.com
+</div></code></pre>
+<ul>
+<li><a href="https://docs.hecochain.com/#/mainnet">heco chain mainnet</a></li>
+<li><a href="https://docs.hecochain.com/#/testnet">heco chain tetnet</a></li>
+</ul>
+<p>在 PoA 共识中，是由合格的验证人来出块，链在启动的时候会内置一些合格的验证人节点，这些验证人会轮流出块，出块时会附带投票信息，投票信息会决定下一个 epoch 的合格验证人列表。当 <code>blockNumber % epochLength == 0</code> 时，会产生一个不包含投票信息但包含当前签名者列表的块，这个 block 称之为 checkpoint</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">type</span> Vote <span class="hljs-keyword">struct</span> {
+  Signer    common.Address <span class="hljs-comment">// 此次投票是由谁投的</span>
+  Block     <span class="hljs-keyword">uint64</span>         <span class="hljs-comment">// 此次投票是在哪个高度的block上投的</span>
+  Address   common.Address <span class="hljs-comment">// 此次投票是投给谁的</span>
+  Authorize <span class="hljs-keyword">bool</span>           <span class="hljs-comment">// 这是一个加入票（申请被投人成为签名者）还是踢出票（申请将被投人踢出签名者列表）</span>
+}
+
+<span class="hljs-keyword">type</span> Tally <span class="hljs-keyword">struct</span> {
+  Authorize <span class="hljs-keyword">bool</span> <span class="hljs-comment">// 这是加入票的统计还是踢出票的统计</span>
+  Votes     <span class="hljs-keyword">int</span>  <span class="hljs-comment">// 目前为止累计的票数</span>
+}
+</div></code></pre>
+<p>虽然 clique 相比 ethash, 区块结构并没有变化，但是字段的含义发生来变化:</p>
+<ul>
+<li>extra: genesis block - 32字节的前缀(extraVanity) + 所有signer的地址 + 65字节的后缀(extraSeal), 保存signer的签名, 其他 block 的 Extra 字段只包括 extraVanity 和 extraSeal</li>
+<li>Nonce: Nonce 字段存放投票信息: 添加(nonceAuthVote: 0xffffffffffffffff )或者移除(nonceDropVote: 0x0000000000000000)一个 signer</li>
+<li>Coinbase: Coinbase 字段存放被投票的地址，比如，signerA 的一个投票: 加入signerB, 那么 Coinbase 存放 B 的地址</li>
+<li>MixDigest: clique 没有使用这个值，初始化为 <code>common. Hash{}</code>, 校验的也是这个值</li>
+</ul>
+<p>而 heco chain 的共识(congress 目录)相对于 clique 字段的意义也有些变化:</p>
+<blockquote>
+<p>signer 在 heco 里面改成了 validator</p>
+</blockquote>
+<ul>
+<li>Coinbase: congress 会把 validator 的地址放进 Coinbase, 而 clique 在 Prepare 的时候 Coinbase 被赋值为了 <code>common. Address{}</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Fields</th>
+<th style="text-align:center">Ethash</th>
+<th style="text-align:center">Clique</th>
+<th style="text-align:center">HPoS(Congress)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Extra</td>
+<td style="text-align:center">--</td>
+<td style="text-align:center">extraVanity + signers? + extraSeal</td>
+<td style="text-align:center">extraVanity + validators? + extraSeal</td>
+</tr>
+<tr>
+<td style="text-align:center">Nonce</td>
+<td style="text-align:center">random hash</td>
+<td style="text-align:center">vote action</td>
+<td style="text-align:center">--</td>
+</tr>
+<tr>
+<td style="text-align:center">Coinbase</td>
+<td style="text-align:center">miner address</td>
+<td style="text-align:center">vote target address</td>
+<td style="text-align:center">validator address</td>
+</tr>
+<tr>
+<td style="text-align:center">MixDigest</td>
+<td style="text-align:center">for verifying</td>
+<td style="text-align:center">--</td>
+<td style="text-align:center">--</td>
+</tr>
+</tbody>
+</table>
+<p>块校验:</p>
+<p>块结构和字段含义弄清楚以后就可以校验块了。 整个过程可以仿照共识代码当中的 <code>verifySeal</code> 来进行，snapshot 也可以通过接口拿到。 共识的 PoS 部分对块的校验没有影响，PoS 只负责选 validator 不负责出块逻辑。PoS 是每个 epoch 更新一次 validator 集合。</p>
+<pre class="hljs"><code><div>	<span class="hljs-comment">// do epoch thing at the end, because it will update active validators</span>
+	<span class="hljs-keyword">if</span> header.Number.Uint64()%c.config.Epoch == <span class="hljs-number">0</span> {
+		newValidators, err := c.doSomethingAtEpoch(chain, header, state)
+		<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+			<span class="hljs-keyword">return</span> err
+		}
+
+		validatorsBytes := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">byte</span>, <span class="hljs-built_in">len</span>(newValidators)*common.AddressLength)
+		<span class="hljs-keyword">for</span> i, validator := <span class="hljs-keyword">range</span> newValidators {
+			<span class="hljs-built_in">copy</span>(validatorsBytes[i*common.AddressLength:], validator.Bytes())
+		}
+
+		extraSuffix := <span class="hljs-built_in">len</span>(header.Extra) - extraSeal
+		<span class="hljs-keyword">if</span> !bytes.Equal(header.Extra[extraVanity:extraSuffix], validatorsBytes) {
+			<span class="hljs-keyword">return</span> errInvalidExtraValidators
+		}
+	}
+</div></code></pre>
+<p>snapshot 核心逻辑:</p>
+<pre class="hljs"><code><div>		<span class="hljs-comment">// If we're at the genesis, snapshot the initial state. Alternatively if we're</span>
+		<span class="hljs-comment">// at a checkpoint block without a parent (light client CHT), or we have piled</span>
+		<span class="hljs-comment">// up more headers than allowed to be reorged (chain reinit from a freezer),</span>
+		<span class="hljs-comment">// consider the checkpoint trusted and snapshot it.</span>
+		<span class="hljs-keyword">if</span> number == <span class="hljs-number">0</span> || (number%c.config.Epoch == <span class="hljs-number">0</span> &amp;&amp; (<span class="hljs-built_in">len</span>(headers) &gt; params.FullImmutabilityThreshold || chain.GetHeaderByNumber(number<span class="hljs-number">-1</span>) == <span class="hljs-literal">nil</span>)) {
+			checkpoint := chain.GetHeaderByNumber(number)
+			<span class="hljs-keyword">if</span> checkpoint != <span class="hljs-literal">nil</span> {
+				hash := checkpoint.Hash()
+
+				validators := <span class="hljs-built_in">make</span>([]common.Address, (<span class="hljs-built_in">len</span>(checkpoint.Extra)-extraVanity-extraSeal)/common.AddressLength)
+				<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">len</span>(validators); i++ {
+					<span class="hljs-built_in">copy</span>(validators[i][:], checkpoint.Extra[extraVanity+i*common.AddressLength:])
+				}
+				snap = newSnapshot(c.config, c.signatures, number, hash, validators)
+				<span class="hljs-keyword">if</span> err := snap.store(c.db); err != <span class="hljs-literal">nil</span> {
+					<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, err
+				}
+				log.Info(<span class="hljs-string">"Stored checkpoint snapshot to disk"</span>, <span class="hljs-string">"number"</span>, number, <span class="hljs-string">"hash"</span>, hash)
+				<span class="hljs-keyword">break</span>
+			}
+		}
+</div></code></pre>
+<p>snapshot 校验:</p>
+<pre class="hljs"><code><div>	<span class="hljs-keyword">if</span> _, ok := snap.Validators[signer]; !ok {
+		<span class="hljs-keyword">return</span> errUnauthorizedValidator
+	}
+	<span class="hljs-keyword">for</span> seen, recent := <span class="hljs-keyword">range</span> snap.Recents {
+		<span class="hljs-keyword">if</span> recent == signer {
+			<span class="hljs-comment">// Validator is among recents, only fail if the current block doesn't shift it out</span>
+			<span class="hljs-keyword">if</span> limit := <span class="hljs-keyword">uint64</span>(<span class="hljs-built_in">len</span>(snap.Validators)/<span class="hljs-number">2</span> + <span class="hljs-number">1</span>); seen &gt; number-limit {
+				<span class="hljs-keyword">return</span> errRecentlySigned
+			}
+		}
+	}
+</div></code></pre>
+<pre class="hljs"><code><div>snap.Recents[number] = validator
+</div></code></pre>
+<h4 id="binance-smart-chain-to-darwinia">binance-smart-chain-to-darwinia</h4>
+<p>bsc 和 heco chain 是完全一个套路，copy ethereum 然后修改共识，bsc 用的共识也是 PoA + DPoS(Deputy Proof of Stake), 取名为 PoSA(Proof of Staked Authority), 在代码里命名为 parlia. 所以这两个链在官网上没有技术白皮书，只有简单的介绍。因此，重点还是看 ethereum 的文档，然后看共识部分的代码。</p>
+<blockquote>
+<p>bsc mainnet 的 epoch length 为 200, 出块周期为 3s, 参考 <a href="https://github.com/binance-chain/bsc/releases/download/v1.0.0-alpha.0/binary.zip">Genesis</a></p>
+</blockquote>
+<p>和 heco chain 的区别:</p>
+<ol>
+<li>对 gasLimit 和 gasFee 做了校验</li>
+<li>authority set 生效的时间不同，heco 在 checkpoint block 修改并立即生效新的 authority set，而 bsc 在 checkpoint block 修改 authority set, 但会等待 N/2 个 block 才会使其生效。</li>
+<li>共识相关的 API 的 namespace 为 parlia</li>
+</ol>
+<h4 id="%E5%85%B1%E8%AF%86%E4%BB%A3%E7%A0%81%E5%AF%B9%E6%AF%94">共识代码对比</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Concepts</th>
+<th style="text-align:center">go-ethereum Clique</th>
+<th style="text-align:center">Heco Congress</th>
+<th style="text-align:center">BSC Parlia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Namespace</td>
+<td style="text-align:center">clique</td>
+<td style="text-align:center">congress</td>
+<td style="text-align:center">parlia</td>
+</tr>
+<tr>
+<td style="text-align:center">Snapshot</td>
+<td style="text-align:center">根据 <a href="https://github.com/HuobiGroup/huobi-eco-chain/blob/fd84c6482659118037ea9109c8d759e879a00dbe/consensus/clique/snapshot.go#L58">Votes</a> 更新 signer 列表</td>
+<td style="text-align:center">从 <a href="https://github.com/HuobiGroup/huobi-eco-chain/blob/fd84c6482659118037ea9109c8d759e879a00dbe/consensus/congress/snapshot.go#L155">checkpoint extra data 获取最新的 signer</a></td>
+<td style="text-align:center"><a href="https://github.com/binance-chain/bsc/blob/032970b2deeffe3b7f87703753d7be9a09906758/consensus/parlia/snapshot.go#L46">RecentForkHashes</a>, <a href="https://github.com/binance-chain/bsc/blob/032970b2deeffe3b7f87703753d7be9a09906758/consensus/parlia/snapshot.go#L191">delay N/2 block</a></td>
+</tr>
+<tr>
+<td style="text-align:center">API</td>
+<td style="text-align:center">通过 <a href="https://github.com/HuobiGrosethuobi-eco-chain/blob/fd84c6482659118037ea9109c8d759e879a00dbe/consensus/clique/api.go#L107">proposal</a> 修改 authority set</td>
+<td style="text-align:center">去除了 vote 逻辑</td>
+<td style="text-align:center">去除了 vote 逻辑和 Status 接口</td>
+</tr>
+<tr>
+<td style="text-align:center">ABI</td>
+<td style="text-align:center">--</td>
+<td style="text-align:center"><a href="https://github.com/HuobiGroup/huobi-eco-contracts/blob/master/contracts/Validators.sol">Solidity contracts</a></td>
+<td style="text-align:center"><a href="https://github.com/binance-chain/bsc-genesis-contract/blob/3b1ed714e189a8fa4b482211f0a07053517b0dde/contracts/BSCValidatorSet.sol#L18">Solidity Contracts</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Core</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center"><a href="https://github.com/HuobiGroup/huobi-eco-chain/blob/fd84c6482659118037ea9109c8d759e879a00dbe/consensus/congress/congress.go#L562">contracts</a>, <a href="https://github.com/HuobiGroup/huobi-eco-chain/blob/fd84c6482659118037ea9109c8d759e879a00dbe/consensus/congress/congress.go#L317">Verify ForkHash</a></td>
+<td style="text-align:center"><a href="https://github.com/binance-chain/bsc/blob/032970b2deeffe3b7f87703753d7be9a09906758/consensus/parlia/parlia.go#L56">wiggleTime(1 second)</a>, <a href="https://github.com/binance-chain/bsc/blob/032970b2deeffe3b7f87703753d7be9a09906758/consensus/parlia/parlia.go#L406">Gas verify</a>, <a href="https://github.com/binance-chain/bsc/blob/032970b2deeffe3b7f87703753d7be9a09906758/consensus/parlia/parlia.go#L617">contracts</a>, <a href="https://github.com/binance-chain/bsc/blob/032970b2deeffe3b7f87703753d7be9a09906758/consensus/parlia/parlia.go#L1145">SealHash 增加了 ChainID</a>, <a href="https://github.com/binance-chain/bsc/blob/032970b2deeffe3b7f87703753d7be9a09906758/consensus/parlia/parlia.go#L1176">delay 的计算更复杂</a>, <a href="https://github.com/binance-chain/bsc/blob/032970b2deeffe3b7f87703753d7be9a09906758/consensus/parlia/parlia.go#L367">Verify ForkHash</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="%E9%AA%8C%E8%AF%81">验证</h3>
+<h4 id="bsc-header-%E7%9A%84%E9%AA%8C%E8%AF%81">bsc header 的验证</h4>
+<p>substrate 需要验证 bsc 的 header 和交易信息，因此需要维护一个当前合法的 authority set</p>
+<ol>
+<li>设定一个初始的 checkpoint header</li>
+<li>从初始的 checkpoint header + epoch_length 开始提交 header，只需提交 1 + N/2 个，且第一个 header 是 checkpoint block header</li>
+<li>遍历所有 header</li>
+<li>针对提交的 header 做一些基础的检查</li>
+<li>从 header 中提取签名者，如果 N/2 个 header 的签名者都不同，且都是合法的，那么 checkpoint header 中的新的 authority set 就可以生效了。</li>
+</ol>
+<h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
+<ul>
+<li><a href="https://docs.hecochain.com/#/">heco chain docs</a></li>
+<li><a href="https://eth.wiki/json-rpc/api">eth json-rpc api</a></li>
+<li><a href="https://docs.binance.org/smart-chain/guides/concepts/consensus.html">BSC Consensus</a></li>
+</ul>
+
+</body>
+</html>
