@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-error-processing.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86">错误处理</h1>
+<p>作者: songtianyi</p>
+<h2 id="%E5%89%8D%E8%A8%80">前言</h2>
+<p>错误处理是软件开发当中一个十分重要的话题，程序员一部分时间用来构思算法逻辑，另外，很大一部分时间是用来写错误处理逻辑的，你需要考虑各种奇怪的用户输入，应对不稳定的网络，各种协作对接上的失败等等。
+程序是否健壮，几乎完全取决于错误处理做的足不足够细致。</p>
+<h2 id="%E9%94%99%E8%AF%AF%E5%88%86%E7%B1%BB">错误分类</h2>
+<p>我们可以按照不同的维度对错误场景进行分类，方便我们记忆，可以选取其中一个或者多个来作为自己的分类方式。</p>
+<ul>
+<li>
+<p>预期内 - 可能发生</p>
+<ul>
+<li>网络 io</li>
+<li>存储(文件，磁盘, 数据库) io</li>
+</ul>
+</li>
+<li>
+<p>非预期 - 必须是什么</p>
+<ul>
+<li>(用户/函数)输入校验</li>
+<li>返回值校验</li>
+<li>边界检查</li>
+</ul>
+</li>
+<li>
+<p>可忽略 - 不影响调用者的错误</p>
+</li>
+<li>
+<p>不可忽略 - 影响调用者</p>
+</li>
+<li>
+<p>io</p>
+<ul>
+<li>网络 io
+<ul>
+<li>路由不通</li>
+<li>端口不通</li>
+<li>超时</li>
+</ul>
+</li>
+<li>存储 io
+<ul>
+<li>文件不存在</li>
+<li>Not enough free disk space</li>
+<li>Out of memory</li>
+<li>超时</li>
+</ul>
+</li>
+<li>用户/函数输入</li>
+<li>返回值</li>
+<li>内存 io
+<ul>
+<li>index out of bounds</li>
+<li>index out of range</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E7%9A%84%E6%96%B9%E5%BC%8F">错误处理的方式</h2>
+<p>错误处理大致分为这几个步骤</p>
+<ul>
+<li>检查错误</li>
+<li>释放资源/回退已执行逻辑</li>
+<li>收集上下文，构建错误信息</li>
+<li>打印错误</li>
+<li>重试</li>
+<li>抛出/返回错误信息给调用者</li>
+</ul>
+<h2 id="%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%B7%AE%E5%BC%82">编程语言带来的差异</h2>
+<h2 id="%E9%94%99%E8%AF%AF%E6%A1%88%E4%BE%8B">错误案例</h2>
+<h4 id="%E7%94%A8%E5%BC%82%E5%B8%B8%E4%BB%A3%E6%9B%BF%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6">用异常代替流程控制</h4>
+<pre class="hljs"><code><div>Object a = <span class="hljs-keyword">null</span>;
+
+<span class="hljs-keyword">try</span> {
+  a = repository.findById(id);
+}<span class="hljs-keyword">catch</span>(ObjectNotFoundException e) {
+  <span class="hljs-comment">// not exist</span>
+  doSomething();
+  <span class="hljs-keyword">return</span>
+}
+
+<span class="hljs-comment">// exist</span>
+doSomething(a)
+</div></code></pre>
+<pre class="hljs"><code><div>Boolean exist = repository.existById(id);
+
+<span class="hljs-keyword">if</span> (exist) {
+  Object a = repository.findById(id).;
+  doSomething(a);
+}<span class="hljs-keyword">else</span> {
+  doSomething();
+}
+
+</div></code></pre>
+<h4 id="%E6%9C%AA%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8">未处理异常</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">for</span> (String id : ids) {
+    <span class="hljs-keyword">try</span> {
+        credentialService.deleteCredential(id);
+    } <span class="hljs-keyword">catch</span> (Exception e) {
+        logger.debug(e.getMessage(), e);
+        <span class="hljs-keyword">continue</span>;
+    }
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-keyword">try</span> {
+  repository.deleteCredentialWithIds(List&lt;String&gt; ids)
+}<span class="hljs-keyword">catch</span>(Exception e) {
+  <span class="hljs-keyword">throw</span> e
+}
+</div></code></pre>
+<h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
+<p><a href="https://www.baeldung.com/spring-data-exists-query">The Exists Query in Spring Data</a></p>
+
+</body>
+</html>
