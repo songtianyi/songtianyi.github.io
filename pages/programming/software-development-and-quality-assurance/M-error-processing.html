@@ -374,21 +374,6 @@ code {
 <p>我们可以按照不同的维度对错误场景进行分类，方便我们记忆，可以选取其中一个或者多个来作为自己的分类方式。</p>
 <ul>
 <li>
-<p>预期内 - 可能发生</p>
-<ul>
-<li>网络 io</li>
-<li>存储(文件，磁盘, 数据库) io</li>
-</ul>
-</li>
-<li>
-<p>非预期 - 必须是什么</p>
-<ul>
-<li>(用户/函数)输入校验</li>
-<li>返回值校验</li>
-<li>边界检查</li>
-</ul>
-</li>
-<li>
 <p>可忽略 - 不影响调用者的错误</p>
 </li>
 <li>
@@ -413,7 +398,7 @@ code {
 </ul>
 </li>
 <li>用户/函数输入</li>
-<li>返回值</li>
+<li>接口/函数返回值</li>
 <li>内存 io
 <ul>
 <li>index out of bounds</li>
@@ -433,7 +418,76 @@ code {
 <li>重试</li>
 <li>抛出/返回错误信息给调用者</li>
 </ul>
-<h2 id="%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%B7%AE%E5%BC%82">编程语言带来的差异</h2>
+<h2 id="%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%B8%A6%E6%9D%A5%E7%9A%84%E7%BC%96%E7%A0%81%E5%B7%AE%E5%BC%82">编程语言带来的编码差异</h2>
+<h5 id="go">go</h5>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(s *Vendor)</span> <span class="hljs-title">GetSSHInitializer</span><span class="hljs-params">()</span> <span class="hljs-title">SSHInitializer</span></span> {
+	<span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(c *ssh.Client, req *protocol.CliRequest)</span> <span class="hljs-params">(r io.Reader, w io.WriteCloser, session *ssh.Session, err error)</span></span> {
+
+		session, err = c.NewSession()
+		<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, <span class="hljs-literal">nil</span>, <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"new ssh session failed, %s"</span>, err)
+		}
+
+		<span class="hljs-comment">// get stdout and stdin channel</span>
+		r, err = session.StdoutPipe()
+		<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+			session.Close()
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, <span class="hljs-literal">nil</span>, <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"create stdout pipe failed, %s"</span>, err)
+		}
+
+		<span class="hljs-keyword">if</span> s.Echo {
+			modes := ssh.TerminalModes{
+				ssh.ECHO: <span class="hljs-number">1</span>, <span class="hljs-comment">// enable echoing</span>
+			}
+			<span class="hljs-keyword">if</span> err = session.RequestPty(<span class="hljs-string">"vt100"</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2000</span>, modes); err != <span class="hljs-literal">nil</span> {
+				<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, <span class="hljs-literal">nil</span>, <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"request pty failed, %s"</span>, err)
+			}
+		}
+
+		w, err = session.StdinPipe()
+		<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+			session.Close()
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, <span class="hljs-literal">nil</span>, <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"create stdin pipe failed, %s"</span>, err)
+		}
+
+		<span class="hljs-keyword">if</span> err = session.Shell(); err != <span class="hljs-literal">nil</span> {
+			session.Close()
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, <span class="hljs-literal">nil</span>, <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"create shell failed, %s"</span>, err)
+		}
+
+		<span class="hljs-keyword">return</span> r, w, session, <span class="hljs-literal">nil</span>
+	}
+}
+</div></code></pre>
+<p>不同函数抛出的错误文本可能是相同的，所以需要加上上下文，用来区分。</p>
+<h4 id="rust">rust</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Result</span></span>&lt;T, E&gt; {
+    <span class="hljs-literal">Ok</span>(T),
+    <span class="hljs-literal">Err</span>(E),
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> x: <span class="hljs-built_in">Result</span>&lt;<span class="hljs-built_in">i32</span>, &amp;<span class="hljs-built_in">str</span>&gt; = <span class="hljs-literal">Ok</span>(-<span class="hljs-number">3</span>);
+<span class="hljs-built_in">assert_eq!</span>(x.is_err(), <span class="hljs-literal">false</span>);
+
+<span class="hljs-keyword">let</span> x: <span class="hljs-built_in">Result</span>&lt;<span class="hljs-built_in">i32</span>, &amp;<span class="hljs-built_in">str</span>&gt; = <span class="hljs-literal">Err</span>(<span class="hljs-string">"Some error message"</span>);
+<span class="hljs-built_in">assert_eq!</span>(x.is_err(), <span class="hljs-literal">true</span>);
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> version = parse_version(&amp;[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]);
+<span class="hljs-keyword">match</span> version {
+    <span class="hljs-literal">Ok</span>(v) =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"working with version: {:?}"</span>, v),
+    <span class="hljs-literal">Err</span>(e) =&gt; <span class="hljs-built_in">println!</span>(<span class="hljs-string">"error parsing header: {:?}"</span>, e),
+}
+
+<span class="hljs-keyword">let</span> v = version.unwrap()
+
+<span class="hljs-keyword">if</span> (version.is_err()) {
+
+}
+
+<span class="hljs-keyword">if</span> (version.is_ok()) {
+
+}
+</div></code></pre>
 <h2 id="%E9%94%99%E8%AF%AF%E6%A1%88%E4%BE%8B">错误案例</h2>
 <h4 id="%E7%94%A8%E5%BC%82%E5%B8%B8%E4%BB%A3%E6%9B%BF%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6">用异常代替流程控制</h4>
 <pre class="hljs"><code><div>Object a = <span class="hljs-keyword">null</span>;
@@ -452,8 +506,7 @@ doSomething(a)
 <pre class="hljs"><code><div>Boolean exist = repository.existById(id);
 
 <span class="hljs-keyword">if</span> (exist) {
-  Object a = repository.findById(id).;
-  doSomething(a);
+  doSomething();
 }<span class="hljs-keyword">else</span> {
   doSomething();
 }
@@ -469,10 +522,86 @@ doSomething(a)
     }
 }
 </div></code></pre>
+<p>这里存在的问题是未抛出错误，也存在事物的问题（不过在体验上影响倒不大）。如果这里抛了错，那前端会收到错误，前端认为执行失败，可以不用刷新页面，导致客户看到的和实际不一致，
+然后继续选中已经被删除的部分，可能会马上遇到错误，如果客户不刷新页面，那这个功能就没法儿使用了，从这个角度讲，上述代码的处理是对的。但是，上述代码，在客户删除&quot;成功&quot;之后，
+前端刷新页面，有部分之前选中的数据仍然存在，会给客户造成的困扰，也会影响后端定位问题的效率。</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">try</span> {
   repository.deleteCredentialWithIds(List&lt;String&gt; ids)
 }<span class="hljs-keyword">catch</span>(Exception e) {
   <span class="hljs-keyword">throw</span> e
+}
+</div></code></pre>
+<h4 id="%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF%E6%B2%A1%E6%9C%89%E4%B8%8A%E4%B8%8B%E6%96%87">错误信息没有上下文</h4>
+<p><code>FF02::3/255.255.255.255 is not ip</code></p>
+<p>大概能猜到是解析的问题，但是是哪个设备配置的问题？如果有多个设备有这个地址怎么办？</p>
+<blockquote>
+<p>功能 -&gt; 设备 -&gt; 对象类型 -&gt; FF02::3/255.255.255.255 is not ip</p>
+</blockquote>
+<pre class="hljs"><code><div><span class="hljs-comment">// Go</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">A</span><span class="hljs-params">()</span> <span class="hljs-title">error</span></span> {
+  <span class="hljs-keyword">return</span> error(<span class="hljs-string">"xxx is not ip"</span>)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">B</span><span class="hljs-params">()</span> <span class="hljs-title">error</span></span> {
+  <span class="hljs-keyword">if</span> err := A(); err != <span class="hljs-literal">nil</span> {
+    <span class="hljs-keyword">return</span> errors(<span class="hljs-string">"call A error:"</span>, err)
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">C</span><span class="hljs-params">()</span> <span class="hljs-title">error</span></span> {
+  <span class="hljs-keyword">if</span> err := B(); err != <span class="hljs-literal">nil</span> {
+    <span class="hljs-keyword">return</span> errors(<span class="hljs-string">"search policy in device"</span>, device.name, <span class="hljs-string">"error:"</span>, err)
+  }
+}
+
+<span class="hljs-comment">// serach policy in device hawei202 error: call A error: xxx is not ip</span>
+
+</div></code></pre>
+<blockquote>
+<p>报错明确也能方便我们输出错误定位/处理的文档</p>
+</blockquote>
+<h4 id="null-%E8%BF%94%E5%9B%9E%E5%80%BC">null 返回值</h4>
+<pre class="hljs"><code><div>    <span class="hljs-function"><span class="hljs-keyword">private</span> Speed <span class="hljs-title">getSpeed</span><span class="hljs-params">(Integer speedInt)</span> </span>{
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> != speedInt) {
+            <span class="hljs-keyword">switch</span> (speedInt) {
+                <span class="hljs-keyword">case</span> <span class="hljs-number">10</span>: <span class="hljs-keyword">return</span> Speed.SPEED_10Mb;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">100</span>: <span class="hljs-keyword">return</span> Speed.SPEED_100Mb;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">1000</span>: <span class="hljs-keyword">return</span> Speed.SPEED_1000Mb;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">10000</span>: <span class="hljs-keyword">return</span> Speed.SPEED_10000Mb;
+                <span class="hljs-keyword">default</span>:
+                    <span class="hljs-comment">// nothing to do</span>
+            }
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    }
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> Optional&lt;Speed&lt;&gt; speed(Integer speed) {
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> == speed) {
+    <span class="hljs-keyword">return</span> Optional.empty()
+  }
+  <span class="hljs-keyword">switch</span> (speed) {
+     <span class="hljs-keyword">case</span> <span class="hljs-number">10</span>: <span class="hljs-keyword">return</span> Speed.SPEED_10Mb;
+     <span class="hljs-keyword">case</span> <span class="hljs-number">100</span>: <span class="hljs-keyword">return</span> Speed.SPEED_100Mb;
+     <span class="hljs-keyword">case</span> <span class="hljs-number">1000</span>: <span class="hljs-keyword">return</span> Speed.SPEED_1000Mb;
+     <span class="hljs-keyword">case</span> <span class="hljs-number">10000</span>: <span class="hljs-keyword">return</span> Speed.SPEED_10000Mb;
+     <span class="hljs-keyword">default</span>:
+      <span class="hljs-keyword">return</span> Speed.SPEED_UNKNOWN
+ }
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> Speed <span class="hljs-title">speed</span><span class="hljs-params">(Integer speed)</span> </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> == speed) {
+      <span class="hljs-keyword">return</span> Speed.SPEED_UNKNOWN
+  }
+  <span class="hljs-keyword">switch</span> (speed) {
+     <span class="hljs-keyword">case</span> <span class="hljs-number">10</span>: <span class="hljs-keyword">return</span> Speed.SPEED_10Mb;
+     <span class="hljs-keyword">case</span> <span class="hljs-number">100</span>: <span class="hljs-keyword">return</span> Speed.SPEED_100Mb;
+     <span class="hljs-keyword">case</span> <span class="hljs-number">1000</span>: <span class="hljs-keyword">return</span> Speed.SPEED_1000Mb;
+     <span class="hljs-keyword">case</span> <span class="hljs-number">10000</span>: <span class="hljs-keyword">return</span> Speed.SPEED_10000Mb;
+     <span class="hljs-keyword">default</span>:
+      <span class="hljs-keyword">return</span> Speed.SPEED_UNKNOWN
+ }
 }
 </div></code></pre>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
