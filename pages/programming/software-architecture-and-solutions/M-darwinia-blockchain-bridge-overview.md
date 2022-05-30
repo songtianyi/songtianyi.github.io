@@ -1,8 +1,6 @@
-# 区块链跨链概览
+# Darwinia Network 跨链方案
 
 作者: songtianyi
-
-## Darwinia Network 跨链方案
 
 ### shadow service
 
