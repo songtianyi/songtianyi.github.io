@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-notes-on-network-firewalls-dissertation.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0">防火墙论文阅读笔记</h1>
+<h3 id="1-firewall-policy-diagram">1. Firewall Policy Diagram</h3>
+<p><a href="https://kuscholarworks.ku.edu/bitstream/handle/1808/11462/Clark_ku_0099D_12729_DATA_1.pdf;sequence=1">《Firewall Policy Diagram: Novel Data Structures and Algorithms for Modeling, Analysis, and Comprehension of Network Firewalls》</a></p>
+<h5 id="%E9%98%B2%E7%81%AB%E5%A2%99%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5">防火墙使用情况</h5>
+<ul>
+<li>In a study finished in 2009, it was determined that the growth in complexity has out paced the growth in the organization’s ability to synthesize and comprehend the changes [Chapple et al., 2009]. The average number of rules has substantially increased from 150 in 2001 to 793, with the largest rule set found comprised of 17,000 rules [Chapple et al., 2009]. The study did not discuss the number of firewalls deployed, but in the unlikely case that firewall deployment growth stopped and the number of firewalls at an average organization stayed at 200 [Wool, 2004], then approximately 160,000 rules (200×793) would be under active management. In addition, the study also discovered that the average
+rule turnover (change) rate for an organization is 9.9% of the rules per month [Chapple et al.,
+2009]. This means that the average firewall administration team has to accurately manage
+about 160,000 rules where 16,000 of those rules are changing on a monthly basis.</li>
+</ul>
+<h5 id="packet-filter-parameters">Packet filter parameters</h5>
+<ul>
+<li>IP source or destination address</li>
+<li>Protocol type: TCP, UDP, ICMP, etc.</li>
+<li>TCP or UDP source and destination port</li>
+<li>ICMP message type</li>
+<li>Different rules for ingress or egress routing • Different rules for different router interfaces</li>
+</ul>
+<h3 id="2-algorithms-for-analysing-firewall-and-router-access-lists">2. Algorithms for Analysing Firewall and Router Access Lists</h3>
+<p><a href="https://www.researchgate.net/publication/2300371/download">《Algorithms for Analysing Firewall and Router Access Lists》</a></p>
+<h5 id="converting-rule-sets-into-boolean-expressions">Converting rule sets into boolean expressions</h5>
+<pre class="hljs"><code><div>access-list 101 permit tcp 20.9.17.8  255.255.255.255 121.11.127.20 255.255.255.255 range 23 27
+</div></code></pre>
+<ol>
+<li>
+<p>Representing numbers as bit-vectors, examples:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/20.9.17.8-bool-expression.png" alt="image"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/128.0.0.0:8-bool-expression.png" alt="image"></p>
+</li>
+</ol>
+<h3 id="3-a-firewall-application-using-binary-decision-diagram">3. A Firewall Application Using Binary Decision Diagram</h3>
+<p><a href="http://dpi-proceedings.com/index.php/dtcse/article/viewFile/8909/8478">《A Firewall Application Using Binary Decision Diagram》</a></p>
+<ul>
+<li>BDD is used to do the redundancy removal of firewalls
+<ul>
+<li>CUDD package provides a lot of basic procedure for manipulating BDDs</li>
+</ul>
+</li>
+</ul>
+<h5 id="redundancy-removal-using-bdd">Redundancy Removal Using BDD</h5>
+<ul>
+<li>
+<p>convert every firewall rule into one or multiple binary format rules，and record the mapping information. One firewall rule maps to one or multiple binary format rules.</p>
+<p>32,32,16,16,8,1 = 105bit</p>
+</li>
+<li>
+<p>convert every binary into BDD</p>
+</li>
+<li>
+<p>upward and downward redundancy removal, in these steps, we detect all redundant binary format rules</p>
+</li>
+<li>
+<p>get original redundancy with the mapping information</p>
+</li>
+</ul>
+<h3 id="4-complete-redundancy-detection-in-firewalls">4. Complete Redundancy Detection in Firewalls</h3>
+<p><a href="https://web.cse.msu.edu/~alexliu/publications/Redundancy/redundancy.pdf">《Complete Redundancy Detection in Firewalls》</a></p>
+<p>​</p>
+<h3 id="5-the-geometric-efficient-matching-algorithm-for-firewalls-extended-abstract">5. THE GEOMETRIC EFFICIENT MATCHING ALGORITHM FOR FIREWALLS EXTENDED ABSTRACT</h3>
+<p><a href="https://www.eng.tau.ac.il/~yash/ieeei04-gem.pdf">《THE GEOMETRIC EFFICIENT MATCHING ALGORITHM FOR FIREWALLS EXTENDED ABSTRACT》</a></p>
+<p>Every rule consists of set of ranges [l<sub>i</sub> , r<sub>i</sub> ] for i = 1, . . . , <em>d</em> (<em>d</em> is the number of fields to match), where each range corresponds to the i-th field in a packet header. The field values are in 0 ≤ l<sub>i</sub>,r<sub>i</sub>≤ U<sub>i</sub>,where U<sub>i</sub> = 2^32 − 1 for IP addresses, U<sub>i</sub> = 65535 for portnumbers, and U<sub>i</sub> = 255 for ICMP message type or code.</p>
+<ul>
+<li>We use ‘∗’ to denote wildcard: An ‘∗’ in field i meansany value in [0, U<sub>i</sub>].</li>
+<li>We are ignoring the action part of the rule (e.g., pass or drop), since we are only interested in the matching algorithm.</li>
+</ul>
+<h3 id="6-efficient-techniques-for-fast-packet-classification">6. Efficient Techniques for Fast Packet Classification</h3>
+<p><a href="https://pdfs.semanticscholar.org/6e41/003adff1179f3bea0765743877a699b7f49e.pdf">《Efficient Techniques for Fast Packet Classification》</a></p>
+<h3 id="7-network-firewall-policy-tries">7. Network Firewall Policy Tries</h3>
+<p><a href="https://pdfs.semanticscholar.org/bca2/0ba743daf0b9a786fe3d5faa90d53a9a7344.pdf">《Network Firewall Policy Tries》</a></p>
+<h3 id="8-comparison-of-algorithms-for-detecting-firewall-policy-anomalies">8. COMPARISON OF ALGORITHMS FOR DETECTING FIREWALL POLICY ANOMALIES</h3>
+<p><a href="http://www.iraj.in/journal/journal_file/journal_pdf/3-218-145413332618-22.pdf">《COMPARISON OF ALGORITHMS FOR DETECTING FIREWALL POLICY ANOMALIES》</a></p>
+<h3 id="9-study-of-efficient-firewall-packet-filtering-and-matching-algorithms">9. Study of Efficient Firewall Packet Filtering and Matching Algorithms</h3>
+<p><a href="https://www.ijraset.com/fileserve.php?FID=1384">《Study of Efficient Firewall Packet Filtering and Matching Algorithms》</a></p>
+<h3 id="10-rule-order-optimization-for-packet-filtering-firewall">10. Rule Order Optimization For Packet Filtering Firewall</h3>
+<p><a href="https://www.ijser.org/researchpaper/Rule-order-optimization-for-packet-filtering-firewall.pdf">《Rule Order Optimization For Packet Filtering Firewall》</a></p>
+<h3 id="11-detection-and-resolution-of-anomalies-in-firewall-policy-rules">11. Detection and Resolution of Anomalies in Firewall Policy Rules</h3>
+<p>https://personal.utdallas.edu/~bxt043000/Publications/Conference-Papers/DAS/C70_Detection_and_Resolution_of_Anomalies_in_Firewall_Policy_Rules.pdf</p>
+<p>主要贡献是策略关系的分类</p>
+<h3 id="12-detecting-and-resolving-firewall-policy-anomalies">12. Detecting and Resolving Firewall Policy Anomalies</h3>
+<p>https://people.cs.clemson.edu/~hongxih/papers/TDSC2012-3.pdf</p>
+<h3 id="13-methods-for-firewall-policy-detection-and-prevention">13. Methods for Firewall Policy Detection and Prevention</h3>
+<p>http://ijsetr.org/wp-content/uploads/2014/07/IJSETR-VOL-3-ISSUE-7-1934-1939.pdf</p>
+<h3 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%E2%80%8B%E2%80%8B%E2%80%8B">参考资料​​​</h3>
+<p>​</p>
+
+</body>
+</html>
