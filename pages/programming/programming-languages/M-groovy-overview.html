@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-groovy-overview.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="groovy-%E6%A6%82%E8%A7%88">Groovy 概览</h1>
+<p>作者: songtianyi create@2020-11-24</p>
+<h2 id="%E5%89%8D%E8%A8%80">前言</h2>
+<p>和 Go 的火热相比，Groovy 显得名不见经传。但 Groovy 目前在 tiobe 的排名比 Go 是要高的。Groovy 的成功案例有 Gradle, Grails, Spock testing 等等。我们在用静态语言做数据处理的时候是非常痛苦的，而且在客户环境测试的时候，我们需要经过反复的修改，发布，上传，更新等操作，对客户体验影响很大。Groovy 作为脚本语言，既能提供灵活性，又能复用 Java 的代码遗产，是一个不错的选项。</p>
+<h2 id="groovy-%E6%98%AF%E4%BB%80%E4%B9%88">Groovy 是什么</h2>
+<ul>
+<li>运行在 jvm 上，设计之初就考虑从 Java 过渡到 Groovy 的平滑性，能够 load jar 包，执行 java 函数，你甚至可以同时使用 java 语法和 Groovy 语法来编程；可以编译成 java 字节码，集成进 java 程序里运行；既对 java 友好，又具有比 java 更丰富的语法特性</li>
+<li>提供闭包，元编程能力，还有强大的 DSL</li>
+<li>Gradual typing, 既支持静态类型(static typing)，也支持动态类型(dynamic typing)</li>
+<li>Groovy 的类型都属于 <code>java.lang.Object</code> 的子类型</li>
+<li>多范式，IP, SP, PP, OOP, FP, MP</li>
+</ul>
+<h2 id="%E5%AE%89%E8%A3%85">安装</h2>
+<p><a href="http://www.groovy-lang.org/download.html">下载并安装</a> groovy</p>
+<h2 id="%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F">类型系统</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Lang</th>
+<th style="text-align:center">Typed</th>
+<th style="text-align:center">Static and dynamic  checks</th>
+<th style="text-align:center">Strongly checked</th>
+<th style="text-align:center">Weakly or strongly  typed</th>
+<th style="text-align:center">Dynamically or statically typed</th>
+<th style="text-align:center">Type theories</th>
+<th>Paradigms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Groovy</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">optional</td>
+<td style="text-align:center">☑️</td>
+<td style="text-align:center">weakly</td>
+<td style="text-align:center">optional</td>
+<td style="text-align:center">generic, overloading, subtype</td>
+<td>IP, SP, PP, OOP, FP, MP</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>optional typing(Gradual typing): optional typing 是指类型系统的检查既可在编译时，也可以在运行时，Groovy 将选择权留给使用者。</li>
+<li>weakly typed: 类型是可变的</li>
+</ul>
+<pre class="hljs"><code><div>
+groovy:000&gt; a = '1'
+===&gt; 1
+groovy:000&gt; a.class
+===&gt; class java.lang.String
+groovy:000&gt; a = 1
+===&gt; 1
+groovy:000&gt; a.class
+===&gt; class java.lang.Integer
+groovy:000&gt;
+</div></code></pre>
+<ul>
+<li>type inference: 支持类型推断</li>
+</ul>
+<pre class="hljs"><code><div>
+groovy:000&gt; 1.class
+===&gt; class java.lang.Integer
+groovy:000&gt;
+</div></code></pre>
+<h2 id="%E8%AF%AD%E6%B3%95%E8%A7%84%E8%8C%83">语法规范</h2>
+<p>虽然大部分 Groovy 代码和 Java 一致，但是 Groovy 语法并不是 Java 语法的超集(superset)。
+比如，Java 不支持下面的 <code>for</code> 表达式:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">for</span>(init1,init2;test;inc1,inc2) 
+</div></code></pre>
+<p>Groovy 里的 <code>==</code> 是判断相等性(equality)，而不像 java 是判断同一性(identity)， <code>==</code> 在 Groovy 里被解释为 java 里的 <code>equals</code></p>
+<p>除了这些细微的差别，大部分的 java 语法都是可以被 Groovy 兼容的。Groovy 相对 Java 新增的语法包括:</p>
+<ul>
+<li>
+<p>通过新的表达式和运算符访问 java 对象</p>
+</li>
+<li>
+<p>更丰富的对象创建方式</p>
+</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">def</span> http = [
+ <span class="hljs-number">100</span> : <span class="hljs-string">'CONTINUE'</span>,
+ <span class="hljs-number">200</span> : <span class="hljs-string">'OK'</span>,
+ <span class="hljs-number">400</span> : <span class="hljs-string">'BAD REQUEST'</span>
+] 
+
+<span class="hljs-keyword">def</span> zh = [
+    你的名字: <span class="hljs-string">"songtianyi"</span>,
+    你的年龄: <span class="hljs-number">18</span>
+]
+</div></code></pre>
+<ul>
+<li>提供了高级的流控制语法</li>
+<li>新的数据类型，及附带的运算符和表达式</li>
+<li>支持通过 <code>\</code> 符号分割代码</li>
+<li>支持将 <code>&quot;&quot;</code>里的内容解释成表达式</li>
+<li><code>null</code> 在条件表达式里会被当作 <code>false</code> 来对待, 而在 java 里则会出现异常。</li>
+</ul>
+<pre class="hljs"><code><div>
+groovy:000&gt;
+groovy:000&gt; a=&quot;1+1&quot;
+===&gt; 1+1
+groovy:000&gt; evaluate(a)
+===&gt; 2
+groovy:000&gt;
+</div></code></pre>
+<p>除了新增的语法，Groovy 相对 Java 做了大量的语法优化，使我们写起来更美观和简洁。</p>
+<ul>
+<li>当没有冲突的时候可以省略包的前缀，可以省略一些括号, 分号等</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment">// java</span>
+java.net.URLEncoder.encode(<span class="hljs-string">"a b"</span>);
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// Groovy</span>
+URLEncoder.encode <span class="hljs-string">'a b'</span> 
+</div></code></pre>
+<p>虽然 Groovy 提供了更多的灵活写法，但是我们需要斟酌使用，为自己的代码可读性负责。</p>
+<ul>
+<li>包自动导入，无需指定包名。虽然 java 会自动导入 <code>java.lang.*</code>, 当然仅此而已。</li>
+<li>不需要显式的类型转换</li>
+<li>和 rust 一样，return 是可选的。</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">def</span> sum(a, b) {
+    a + b
+    <span class="hljs-comment">// return a + b</span>
+}
+</div></code></pre>
+<ul>
+<li>不需要显式地 throw 捕捉到的 exception</li>
+</ul>
+<h3 id="types">Types</h3>
+<h4 id="range">range</h4>
+<p>range 使用 <code>left..right</code> 形式表达。range 是一个对象，可以调用该对象的方法, 可以作为 <code>witch case</code></p>
+<pre class="hljs"><code><div>print <span class="hljs-number">0.</span><span class="hljs-number">.1</span>
+print <span class="hljs-number">0.</span>.&lt;<span class="hljs-number">2</span> <span class="hljs-comment">// 不包含 2</span>
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-keyword">def</span> result = <span class="hljs-string">''</span> 
+(<span class="hljs-number">5.</span><span class="hljs-number">.9</span>).each { element -&gt; result += element } 
+<span class="hljs-keyword">assert</span> result == <span class="hljs-string">'56789'</span>
+
+<span class="hljs-keyword">assert</span> <span class="hljs-number">5</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0.</span><span class="hljs-number">.10</span>
+
+<span class="hljs-keyword">assert</span> (<span class="hljs-number">0.</span><span class="hljs-number">.10</span>).isCase(<span class="hljs-number">5</span>) 
+
+<span class="hljs-keyword">def</span> age = <span class="hljs-number">36</span>
+<span class="hljs-keyword">switch</span>(age){
+ <span class="hljs-keyword">case</span> <span class="hljs-number">16.</span><span class="hljs-number">.20</span> : insuranceRate = <span class="hljs-number">0.05</span> ; <span class="hljs-keyword">break</span>
+ <span class="hljs-keyword">case</span> <span class="hljs-number">21.</span><span class="hljs-number">.50</span> : insuranceRate = <span class="hljs-number">0.06</span> ; <span class="hljs-keyword">break</span>
+ <span class="hljs-keyword">case</span> <span class="hljs-number">51.</span><span class="hljs-number">.65</span> : insuranceRate = <span class="hljs-number">0.07</span> ; <span class="hljs-keyword">break</span>
+<span class="hljs-symbol"> default:</span> <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException()
+}
+<span class="hljs-keyword">assert</span> insuranceRate == <span class="hljs-number">0.06</span> 
+
+<span class="hljs-keyword">def</span> ages = [<span class="hljs-number">20</span>, <span class="hljs-number">36</span>, <span class="hljs-number">42</span>, <span class="hljs-number">56</span>]
+<span class="hljs-keyword">def</span> midage = <span class="hljs-number">21.</span><span class="hljs-number">.50</span>
+<span class="hljs-keyword">assert</span> ages.grep(midage) == [<span class="hljs-number">36</span>, <span class="hljs-number">42</span>]
+</div></code></pre>
+<h4 id="lists">lists</h4>
+<p>相比 java，Groovy list 的初始化方式要简单的多。 <code>[item, item, item] </code></p>
+<pre class="hljs"><code><div>
+[] <span class="hljs-comment">// 初始化一个空 list</span>
+[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+</div></code></pre>
+<p>可以和 range 结合使用:</p>
+<pre class="hljs"><code><div>[<span class="hljs-number">0.</span><span class="hljs-number">.10</span>].each{x -&gt; print x}
+</div></code></pre>
+<p>可以像 Golang 一样取子集:</p>
+<pre class="hljs"><code><div>[<span class="hljs-string">'a'</span>,<span class="hljs-string">'b'</span>,<span class="hljs-string">'c'</span>,<span class="hljs-string">'d'</span>,<span class="hljs-string">'e'</span>,<span class="hljs-string">'f'</span>][<span class="hljs-number">0.</span><span class="hljs-number">.2</span>] <span class="hljs-comment">// output  [a, b, c]</span>
+</div></code></pre>
+<p>从这个例子还可以看出，Groovy 的语法是相当灵活的，可以根据直觉去编码，一般都不会出错。</p>
+<p>可以同时从 list 里取多个值:</p>
+<pre class="hljs"><code><div>[<span class="hljs-string">'a'</span>,<span class="hljs-string">'b'</span>,<span class="hljs-string">'c'</span>,<span class="hljs-string">'d'</span>,<span class="hljs-string">'e'</span>,<span class="hljs-string">'f'</span>][<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>] <span class="hljs-comment">// output [a, c, e]</span>
+</div></code></pre>
+<p>相应地，你可以修改 list 的子集，可以同时修改多个值:</p>
+<pre class="hljs"><code><div><span class="hljs-symbol"> groovy:</span><span class="hljs-number">000</span>&gt; x = [<span class="hljs-string">'a'</span>,<span class="hljs-string">'b'</span>,<span class="hljs-string">'c'</span>,<span class="hljs-string">'d'</span>,<span class="hljs-string">'e'</span>,<span class="hljs-string">'f'</span>]
+===&gt; [a, b, c, d, e, f]
+<span class="hljs-string">groovy:</span><span class="hljs-number">000</span>&gt; x[<span class="hljs-number">0.</span><span class="hljs-number">.2</span>] = [<span class="hljs-string">'h'</span>,<span class="hljs-string">'i'</span>,<span class="hljs-string">'j'</span>]
+===&gt; [h, i, j]
+<span class="hljs-string">groovy:</span><span class="hljs-number">000</span>&gt; x
+===&gt; [h, i, j, d, e, f]
+<span class="hljs-string">groovy:</span><span class="hljs-number">000</span>&gt; print x
+[h, i, j, d, e, f]===&gt; <span class="hljs-literal">null</span>
+<span class="hljs-string">groovy:</span><span class="hljs-number">000</span>&gt; x[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>] = [<span class="hljs-string">'q'</span>,<span class="hljs-string">'p'</span>,<span class="hljs-string">'s'</span>]
+===&gt; [q, p, s]
+<span class="hljs-string">groovy:</span><span class="hljs-number">000</span>&gt; print x
+[q, p, j, d, e, s]===&gt; <span class="hljs-literal">null</span>
+</div></code></pre>
+<p>可以很方便地插入一个列表:</p>
+<pre class="hljs"><code><div><span class="hljs-string">groovy:</span><span class="hljs-number">000</span>&gt; x=[<span class="hljs-string">'q'</span>, <span class="hljs-string">'p'</span>, <span class="hljs-string">'j'</span>, <span class="hljs-string">'d'</span>, <span class="hljs-string">'e'</span>, <span class="hljs-string">'s'</span>]
+===&gt; [q, p, j, d, e, s]
+<span class="hljs-string">groovy:</span><span class="hljs-number">000</span>&gt; x[<span class="hljs-number">0.</span><span class="hljs-number">.0</span>] = [<span class="hljs-string">'1'</span>,<span class="hljs-string">'3'</span>,<span class="hljs-string">'2'</span>]
+===&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>]
+<span class="hljs-string">groovy:</span><span class="hljs-number">000</span>&gt; print x
+[<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, p, j, d, e, s]===&gt; <span class="hljs-literal">null</span>
+</div></code></pre>
+<p>甚至，list 还可以支持运算符:</p>
+<pre class="hljs"><code><div>[<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'c'</span>] - [<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>] <span class="hljs-comment">// output [c]</span>
+
+[<span class="hljs-string">'a'</span>] + [<span class="hljs-string">'b'</span>] <span class="hljs-comment">// output [a, b]</span>
+
+[<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>] * <span class="hljs-number">2</span> <span class="hljs-comment">// output [a, b, a, b]</span>
+
+[<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>]  &lt;&lt; <span class="hljs-string">'c'</span> <span class="hljs-comment">// output [a, b, c], 相当于 append</span>
+</div></code></pre>
+<h2 id="dsl">DSL</h2>
+<p>得益于 Groovy 灵活的语法，你可以很轻松地创建自己的 DSL(Domain specific language)</p>
+<pre class="hljs"><code><div>block source(<span class="hljs-string">"192.168.1.0/24"</span>) from <span class="hljs-string">'2020/12/01 08:00'</span> to <span class="hljs-string">'2020/12/01: 09:00'</span>
+commit source(<span class="hljs-string">"192.168.1.0/24"</span>) destination(<span class="hljs-string">"a.b.c.d"</span>) to firewall(<span class="hljs-string">"asa"</span>)
+select policy src(<span class="hljs-string">"192.168.1.0/24"</span>)
+select policy has src(<span class="hljs-string">"192.168.1.0/24"</span>)
+select address name(<span class="hljs-string">"xx"</span>)
+select address match
+
+## Java 和 Groovy 的亲和性
+
+### Java 调用 Groovy
+
+编写一个 Groovy 类 `MyGroovyClass` , 然后编译成 `MyGroovyClass<span class="hljs-class">.<span class="hljs-keyword">class</span>` , 将其放进 <span class="hljs-title">classpath</span> , 然后可以在 <span class="hljs-title">java</span> 中使用该类
+
+``` <span class="hljs-title">java</span>
+<span class="hljs-title">new</span> <span class="hljs-title">MyGroovyClass</span>(); // <span class="hljs-title">create</span> <span class="hljs-title">from</span> <span class="hljs-title">Java</span> 
+</span></div></code></pre>
+
+</body>
+</html>
