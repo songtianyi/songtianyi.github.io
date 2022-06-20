@@ -66,9 +66,9 @@ macro_rules! println {
 很难看懂对不对？
 `macro_rules!` 相当于 `#define` , 用来标记这是一段宏定义， `println` 是宏的名称，括号里的内容是 `println` 这个宏具体的定义。
 
-`()` 在我们忘记写函数的返回语句的时候会看到的提示:
+`()` 是在我们忘记写函数的返回语句的时候会看到的提示，如:
 
-``` 
+```
 
  --> println.rs:3:5
   |
@@ -86,7 +86,7 @@ macro_rules! println {
 () => ($crate::print!("\n"))
 ```
 
-我们使用 `println!` 宏的时候不写参数，就会匹配到这条语句，这条语句只会打印换行。
+我们使用 `println!` 宏的时候不传入参，就会匹配到这条语句，这条语句只会打印换行。
 所以 `=>` 之前的 `()` 内的内容就是匹配模式，称为 `Matcher` , `=>` 之后的内容就是匹配到入参之后，待展开的逻辑，称为 `Transcriber` , 编译器利用入参和 `Transcriber` 来生成展开后的 Rust 代码。
 
 <img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/matcher-transcriber.png" alt="matcher-transcriber" style="width:800px; height:500px"/>
@@ -222,7 +222,7 @@ fn main() {
 >
 > |
 >
-> 17 |     println!("{:?}", Student::new()); 
+> 17 |     println!("{:?}", Student::new());
 >
 > |                      ^^^^^^^^^^^^^^ `Student` cannot be formatted using `{:?}`
 
