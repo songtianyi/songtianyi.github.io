@@ -370,10 +370,10 @@ code {
 <p><a href="https://kuscholarworks.ku.edu/bitstream/handle/1808/11462/Clark_ku_0099D_12729_DATA_1.pdf;sequence=1">《Firewall Policy Diagram: Novel Data Structures and Algorithms for Modeling, Analysis, and Comprehension of Network Firewalls》</a></p>
 <h5 id="%E9%98%B2%E7%81%AB%E5%A2%99%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5">防火墙使用情况</h5>
 <ul>
-<li>In a study finished in 2009, it was determined that the growth in complexity has out paced the growth in the organization’s ability to synthesize and comprehend the changes [Chapple et al., 2009]. The average number of rules has substantially increased from 150 in 2001 to 793, with the largest rule set found comprised of 17,000 rules [Chapple et al., 2009]. The study did not discuss the number of firewalls deployed, but in the unlikely case that firewall deployment growth stopped and the number of firewalls at an average organization stayed at 200 [Wool, 2004], then approximately 160,000 rules (200×793) would be under active management. In addition, the study also discovered that the average
+<li>In a study finished in 2009, it was determined that the growth in complexity has out paced the growth in the organization’s ability to synthesize and comprehend the changes [Chapple et al., 2009]. The average number of rules has substantially increased from 150 in 2001 to 793, with the largest rule set found comprised of 17, 000 rules [Chapple et al., 2009]. The study did not discuss the number of firewalls deployed, but in the unlikely case that firewall deployment growth stopped and the number of firewalls at an average organization stayed at 200 [Wool, 2004], then approximately 160, 000 rules (200×793) would be under active management. In addition, the study also discovered that the average
 rule turnover (change) rate for an organization is 9.9% of the rules per month [Chapple et al.,
 2009]. This means that the average firewall administration team has to accurately manage
-about 160,000 rules where 16,000 of those rules are changing on a monthly basis.</li>
+about 160, 000 rules where 16, 000 of those rules are changing on a monthly basis.</li>
 </ul>
 <h5 id="packet-filter-parameters">Packet filter parameters</h5>
 <ul>
@@ -384,17 +384,15 @@ about 160,000 rules where 16,000 of those rules are changing on a monthly basis.
 <li>Different rules for ingress or egress routing • Different rules for different router interfaces</li>
 </ul>
 <h3 id="2-algorithms-for-analysing-firewall-and-router-access-lists">2. Algorithms for Analysing Firewall and Router Access Lists</h3>
-<p><a href="https://www.researchgate.net/publication/2300371/download">《Algorithms for Analysing Firewall and Router Access Lists》</a></p>
+<p>《Algorithms for Analysing Firewall and Router Access Lists》</p>
 <h5 id="converting-rule-sets-into-boolean-expressions">Converting rule sets into boolean expressions</h5>
 <pre class="hljs"><code><div>access-list 101 permit tcp 20.9.17.8  255.255.255.255 121.11.127.20 255.255.255.255 range 23 27
 </div></code></pre>
 <ol>
-<li>
-<p>Representing numbers as bit-vectors, examples:</p>
+<li>Representing numbers as bit-vectors, examples:</li>
+</ol>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/20.9.17.8-bool-expression.png" alt="image"></p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/128.0.0.0:8-bool-expression.png" alt="image"></p>
-</li>
-</ol>
 <h3 id="3-a-firewall-application-using-binary-decision-diagram">3. A Firewall Application Using Binary Decision Diagram</h3>
 <p><a href="http://dpi-proceedings.com/index.php/dtcse/article/viewFile/8909/8478">《A Firewall Application Using Binary Decision Diagram》</a></p>
 <ul>
@@ -408,7 +406,7 @@ about 160,000 rules where 16,000 of those rules are changing on a monthly basis.
 <ul>
 <li>
 <p>convert every firewall rule into one or multiple binary format rules，and record the mapping information. One firewall rule maps to one or multiple binary format rules.</p>
-<p>32,32,16,16,8,1 = 105bit</p>
+<p>32, 32, 16, 16, 8, 1 = 105bit</p>
 </li>
 <li>
 <p>convert every binary into BDD</p>
@@ -425,7 +423,7 @@ about 160,000 rules where 16,000 of those rules are changing on a monthly basis.
 <p>​</p>
 <h3 id="5-the-geometric-efficient-matching-algorithm-for-firewalls-extended-abstract">5. THE GEOMETRIC EFFICIENT MATCHING ALGORITHM FOR FIREWALLS EXTENDED ABSTRACT</h3>
 <p><a href="https://www.eng.tau.ac.il/~yash/ieeei04-gem.pdf">《THE GEOMETRIC EFFICIENT MATCHING ALGORITHM FOR FIREWALLS EXTENDED ABSTRACT》</a></p>
-<p>Every rule consists of set of ranges [l<sub>i</sub> , r<sub>i</sub> ] for i = 1, . . . , <em>d</em> (<em>d</em> is the number of fields to match), where each range corresponds to the i-th field in a packet header. The field values are in 0 ≤ l<sub>i</sub>,r<sub>i</sub>≤ U<sub>i</sub>,where U<sub>i</sub> = 2^32 − 1 for IP addresses, U<sub>i</sub> = 65535 for portnumbers, and U<sub>i</sub> = 255 for ICMP message type or code.</p>
+<p>Every rule consists of set of ranges [l<sub>i</sub> , r<sub>i</sub> ] for i = 1, ... , <em>d</em> (<em>d</em> is the number of fields to match), where each range corresponds to the i-th field in a packet header. The field values are in 0 ≤ l<sub>i</sub>, r<sub>i</sub>≤ U<sub>i</sub>, where U<sub>i</sub> = 2^32 − 1 for IP addresses, U<sub>i</sub> = 65535 for portnumbers, and U<sub>i</sub> = 255 for ICMP message type or code.</p>
 <ul>
 <li>We use ‘∗’ to denote wildcard: An ‘∗’ in field i meansany value in [0, U<sub>i</sub>].</li>
 <li>We are ignoring the action part of the rule (e.g., pass or drop), since we are only interested in the matching algorithm.</li>

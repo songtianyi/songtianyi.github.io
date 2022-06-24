@@ -2,7 +2,7 @@
 
 <header style="padding-bottom:50px">
 <ul>
-	<li style="float:left;padding-right:20px"><a href="../../index.html">Home</a></li>
+	<li style="float:left;padding-right:20px"><a href="/index.html">Home</a></li>
 </ul>
 </header>
 
@@ -36,7 +36,7 @@
 	<img  src="">
 	<p>图 </p>
 </div>
-	
+
 <sup>sup>
 
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
@@ -95,7 +95,7 @@
 
         elif [ "${file##*.}" = "cpp" ];then
             echo for .cpp file
-    fi  
+    fi
 </pre>
 </div>
 	<blockquote><p>for循环和索引</p></blockquote>
@@ -192,7 +192,7 @@ date '+%s'
 <pre>
 array=(UVMBJ UVMJH)
 for i in ${array[*]}
-do  
+do
     eval echo \${$i}
 done
 </pre>
@@ -213,10 +213,10 @@ cat t.txt | paste -s -d\| -
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 <pre>
     awk '{
-        for (i = 1; i <= NF; i++) 
-            if (match($i,/obj=[0-9]/)) 
+        for (i = 1; i <= NF; i++)
+            if (match($i,/obj=[0-9]/))
                 printf("%s\n",$i);
-            else 
+            else
                 printf("%s ",$i)
     }' value.txt
 </pre>
@@ -247,7 +247,7 @@ awk 'NR==3 {print $1}' value.txt
           END{
               printf("va0=%d;va1=%d", awk_value1, awk_value2);
           }
-          ' $file 
+          ' $file
      )
      sum=`echo "$va0+$va1"|bc`
 </pre>
@@ -257,7 +257,7 @@ awk 'NR==3 {print $1}' value.txt
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 <pre>
 RemoveUnderscore(){
-    local name=$1; shift 1                                                                                                                            
+    local name=$1; shift 1
     echo $name | awk -F _ '{
         for(i=1;i<=NF;i++){
             printf("%s%s",toupper(substr($i,0,1)),substr($i,2,length($i)-1));
@@ -279,11 +279,11 @@ RemoveUnderscore(){
 	<blockquote><p>交换匹配的两行的内容</p></blockquote>
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 <pre>
-    $ cat value.txt 
+    $ cat value.txt
     LINE1
     LINE2
     $ sed -i '/LINE1/{h;d};/LINE2/{G}' value.txt
-    $ cat value.txt 
+    $ cat value.txt
     LINE2
     LINE1
 </pre>
@@ -321,12 +321,12 @@ sed 's/$/ hello/g' value.txt
 	<blockquote><p>按顺序合并所有行</p></blockquote>
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 <pre>
-    $ cat value.txt 
+    $ cat value.txt
     LINE1
     LINE2
     LINE3
     $ sed -i ':a;N;s/\n//;ba;' value.txt
-    $ cat value.txt 
+    $ cat value.txt
     LINE1LINE2LINE3
 </pre>
 </div>
@@ -341,10 +341,10 @@ sed 's/<id>[0-9]*<\/id>/<id>0000<\/id>/'
 	<blockquote><p>删除匹配行的下一行</p></blockquote>
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 <pre>
-$ cat value.txt 
+$ cat value.txt
 LINE1
 LINE2
-$ sed '/LINE1/{n;d}' value.txt 
+$ sed '/LINE1/{n;d}' value.txt
 LINE1
 
 </pre>
