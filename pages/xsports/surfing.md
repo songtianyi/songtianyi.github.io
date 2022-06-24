@@ -64,7 +64,6 @@
 * [How to Catch an Unbroken Wave](https://www.youtube.com/watch?v=k_Vd9SYg4wI)
 * [Top 9 Surf Rules you need to know](https://www.youtube.com/watch?v=XCaiQYVEut4)
 * [Full Volcom Pipe Pro 2018 final heat](https://www.youtube.com/watch?v=vNB-mpVBsM8)
-* [How to Paddle on a Surfboard | Simple Techniques for Beginners & Intermediates](https://www.youtube.com/watch?v=3M7Ko0ZxIh0)
 * [4 Simple Ocean Observations to Improve Your Surfing](https://www.youtube.com/watch?v=SFySjst-TlA)
 * [Top 3 Tricks to Get through Waves on a longboard Surfboard](https://www.youtube.com/watch?v=j_I83dlNUWg)
 * [Surf Completely : How To Duck Dive](https://www.youtube.com/watch?v=AMDvj9EwtKI)
