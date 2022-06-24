@@ -40,11 +40,11 @@ pieces=$(wc_files 'pages/pieces/kindle-touch.html pages/pieces/native-english.ht
 echo "Pieces: $pieces"
 
 # programming
-programming=$(wc_files 'pages/programming/*/*.md pages/programming/data-structure-and-algorithms/rsa.html pages/programming/software-frameworks/ionic-dev.html pages/programming/software-frameworks/spring-boot-and-websocket.html pages/programming/uncategorized/questions-and-answers.html pages/programming/software-development-and-quality-assurance/elk-practice.html pages/programming/programming-languages/about-shell.html pages/programming/programming-languages/html5-intro.html pages/programming/programming-languages/tencent-parser.html')
+programming=$(wc_files 'pages/programming/*/*.md pages/programming/software-frameworks/ionic-dev.html pages/programming/software-frameworks/spring-boot-and-websocket.html pages/programming/uncategorized/questions-and-answers.html pages/programming/software-development-and-quality-assurance/elk-practice.html pages/programming/programming-languages/about-shell.html pages/programming/programming-languages/html5-intro.html pages/programming/programming-languages/tencent-parser.html')
 echo "Programming: $programming"
 
 # blockchain
-blockchain=$(wc_files 'pages/blockchain/*.md')
+blockchain=$(wc_files 'pages/blockchain/*.md' pages/blockchain/rsa.html)
 echo "Blockchain: $blockchain"
 
 # VDI
