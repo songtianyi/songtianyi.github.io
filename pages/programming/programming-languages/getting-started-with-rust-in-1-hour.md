@@ -32,15 +32,15 @@
 
 linux 下可以直接执行这个命令来下载安装脚本并执行它。
 
-``` shell
+```shell
 curl https://sh.rustup.rs -sSf | sh
 ```
 
-由于墙的原因，失败的概率会很高，在[这个页面](https://forge.rust-lang.org/infra/other-installation-methods.html#standalone)可以找到对应个系统的离线安装包，比如[mac 的]([.pkg](https://static.rust-lang.org/dist/rust-beta-x86_64-apple-darwin.pkg))
+由于墙的原因，失败的概率会很高，在[这个页面](https://forge.rust-lang.org/infra/other-installation-methods.html#standalone)可以找到对应个系统的离线安装包。
 
 验证安装结果:
 
-``` shell
+```shell
 rustc -V
 ```
 
@@ -59,10 +59,9 @@ rustc -V
 * *strongly checked*: 安全性是 Rust 的第一大亮点，也是它的设计初衷。C/C++程序猿应该深有体会，内存泄漏和指针异常崩溃时常让我们的努力功亏一篑，Rust 在类型系统上下了很大功夫，尽量在编译阶段就能检测出这类错误，同时，编译时检查的加强也会降低运行时检查的性能开销。编译时检查需要依靠类型系统来提供信息，那么 Rust 的类型系统做了哪些事来达到这样的安全性呢？
 
   + 变量
-
     变量定义在 Rust 里称作变量绑定，变量默认是不可修改的,。
 
-``` rust
+```rust
     fn main() {
     	let x = 5;
     	x = 6
@@ -71,7 +70,7 @@ rustc -V
 
     上述代码编译不会通过
 
-``` shell
+```shell
     error[E0384]: cannot assign twice to immutable variable `x`
      --> let.rs:3:3
       |
@@ -83,19 +82,18 @@ rustc -V
 
     你们可能注意到了，x 的定义没有指明类型，是的，和许多现代编程语言一样，Rust 提供了类型推断。另外 Rust 是不允许使用未经初始化的变量的，虽然有类型推断但没有默认值，强迫我们使用更规范的方式去书写程序，因为默认值依赖于程序猿的经验以及运行平台，会有相应的编码风险。
 
-``` rust
+```rust
     let mut x = 5; // 类型推断, 用 mut 来标记 使变量可修改
     x = 10;
     let mut y: i32 // 显式地指明类型为 int32
     ```
 
   + ownership/borrowing
-
     c/c++给程序猿提供了操作内存的自由度，但是内存管理对于缺乏经验的人来说比较困难，而且人总是会犯错的，GC 的引入解决了这个问题，但是也带来了新的问题，即性能开销。Rust 作为系统编程语言，安全和性能都是它所追求的，那么它是如何解决的呢？Rust 引入了生命周期和租借的概念，并作出如下限制:
 
     1. 所有的资源只能有一个所有者（owner）
 
-``` rust
+```rust
        fn main() {
            // create string resource and assign it to a, a is the resource owner
            let a = String::new();
@@ -108,7 +106,7 @@ rustc -V
 
        我们可以把所有权再还回去，修改后的代码如下
 
-``` rust
+```rust
        fn main() {
            let mut a = String::new();
            let _b = a; // 浅拷贝
@@ -119,7 +117,7 @@ rustc -V
 
     2. 其它人可以租借这个资源。
 
-``` rust
+```rust
        fn main() {
            let a = String::from("foo");
            let b = &a;
@@ -129,7 +127,7 @@ rustc -V
 
        租借其实就是引用。租借的形式有可变和不可变两种，最多只能有一个可变租借; 可以有多个不可变租借；当有可变租借时，不能有其他租借。
 
-``` rust
+```rust
        fn main() {
            let a = String::from("foo");
            let b = &a;
@@ -140,7 +138,7 @@ rustc -V
 
     3. 但当这个资源被借走时，所有者不允许修改或释放该资源。
 
-``` rust
+```rust
        fn main() {
            let mut a = String::from("foo");
            let b = &a;
@@ -151,7 +149,7 @@ rustc -V
 
        上面的代码中，a 被借给了 b，虽然 b 是不可修改的，但是 a 作为资源的所有者仍然不能修改该资源。那么被借出的资源能否够被修改呢？答案是能。虽然所有者不能修改，但是可以授予他人修改的权限，前提当然是资源本身是允许被修改的。
 
-``` rust
+```rust
        fn main() {
            let mut a = String::from("foo");
            let n = String::from("bar");
@@ -168,10 +166,9 @@ rustc -V
        在上述代码中，我们先定义了可修改的 a 和 n，然后把 a 以可变的形式借给了 b，之后修改 b，在打印 a 之前，b 被销毁，归还了可变引用，因此 a 能够再次借出(打印)。
 
   + lifetime
-
     在上面的代码中，b 由于超出作用域而被自动销毁，使得我们能够再次正常使用 a(读写或者销毁)。但是语言的作用域并不总能达到这种效果，如果租借不能被归还(引用被销毁)，会导致变量无法正常使用。编译器需要一种机制能够让它知道引用是否被销毁，来完成它的检查，编程语言需要一种机制来确保引用的生命周期是要小于所有者的。这种机制即是 lifetime，一种显式地指定作用域的方法。再举一个例子来说明它的必要性:
 
-``` rust
+```rust
     fn foo(x: &str, y: &str) -> &str {
         if x.len() > y.len() {
             x
@@ -197,19 +194,19 @@ rustc -V
 
     lifetime 的指定方式:
 
-``` rust
+```rust
     'a
     ```
 
     Rust 称之为 lifetime annotation。单引号是必须的，a 可以用其他字母/单词代替，但通常用 a, b, c。那么可以通过指定 lifetime 来修改上述代码使其通过。
 
-``` rust
+```rust
     fn foo<'a, 'b: 'a>(x: &'a str, y: &'b str) -> &'a str
     ```
 
 `'b: 'a` 的意思是限定了入参 y 的生命周期 `'b` 必须比入参 x 的生命周期 `'a` 要长，可以认为这是一个调用函数时的约束条件。完整代码如下:
 
-``` rust
+```rust
     fn foo<'a, 'b: 'a>(x: &'a str, y: &'b str) -> &'a str {
         if x.len() > y.len() {
             x
@@ -242,7 +239,7 @@ rustc -V
 
 和 c++/Java 一样，Rust 的泛型风格基本类似
 
-``` rust
+```rust
 // generic function
 fn foo<T>(_x: &[T]) {}
 
@@ -254,7 +251,7 @@ fn main() {
 
 除此之外还有泛型结构体等，这里不再一一列举，需要在实战中摸索。
 
-``` rust
+```rust
 struct SGen<T>(T);
 fn main() {
     SGen(2);
@@ -264,7 +261,7 @@ fn main() {
 
 值得一提的是，我们可以限定 `T` 的类型范围:
 
-``` rust
+```rust
 trait Graph {
     fn area(&self) -> f64;
 }
@@ -274,13 +271,13 @@ fn foo<T : Graph>(_x: &[T]) {}
 
 还有另外一种表达能力更强的写法， `where` 语句:
 
-``` rust
+```rust
 fn foo<T>(_x: &[T]) where T : Graph {}
 ```
 
 当我们限定的不是 T，而是使用 T 的方式时 `where` 会很有用:
 
-``` 
+```
 use std::fmt::Debug;
 
 trait PrintInOption {
@@ -311,7 +308,7 @@ fn main() {
 
 即 subtyping。Rust 和 golang 一样并没有继承这一说，也没有 class，但 struct 是可以定义函数的，也能指定可见性。struct 和 trait 结合使用能够达到通常 OOP 中继承和多态的效果。
 
-``` rust
+```rust
 trait Graph {
     fn area(&self) -> f64;
 }
@@ -371,7 +368,7 @@ fn main() {
 
 在 Rust 里操作符其实是语法糖，a + b 等价于 a. Add(b), 能够用操作符操作的类型都实现了 `std::ops::Add` 这个 trait，那我们为某个类型实现 Add trait，即重载了它的加法操作符。
 
-``` rust
+```rust
 use std::ops::Add;
 
 #[derive(Debug)]
@@ -449,7 +446,7 @@ Rust 没有函数重载。
 
 never 类型是 Rust 里的特殊类型，在早期的版本里甚至称不上是类型，因为它不占用任何空间，不能像普通类型一样初始化。你可以认为它是一个不存在的类型，可以用来占位，下面的代码中，Result 枚举中的第二个类型是 never，当我们不需要返回错误时，可以用它来占位。
 
-``` rust
+```rust
 fn from_str(s: &str) -> Result<String, !> {
     Ok(String::from(s))
 }
@@ -457,25 +454,25 @@ fn from_str(s: &str) -> Result<String, !> {
 
 2016 年，Rust 将 `!` 升级成了一个标准的类型，意味着你可以用它来绑定变量。它的主要用途不变，但目前还在 `experimental` 的阶段。
 
-``` rust
+```rust
 let x: ! = panic!()
 ```
 
 ###### unit struct
 
-``` rust
+```rust
 struct u {}
 ```
 
 ###### tuple struct
 
-``` rust
+```rust
 struct t {i32, char}
 ```
 
 ###### recursive type
 
-``` rust
+```rust
 enum List<T> {
     Nil,
     Cons(T, Box<List<T>>)
@@ -488,7 +485,7 @@ let a: List<i32> = List::Cons(7, Box::new(List::Cons(13, Box::new(List::Nil))));
 
 给 struct 定义成员函数的方式和 golang 类似, 但使用 `impl` 关键字来标记, self 用来代替所实现的结构体。
 
-``` rust
+```rust
 struct Cicle {
     x: f64,
     y: f64,
@@ -516,7 +513,7 @@ fn main() {
 
 ###### 元组索引
 
-``` rust
+```rust
 fn main() {
     let b = 32;
     let tuple = ("a", 3, b);
@@ -526,7 +523,7 @@ fn main() {
 
 ###### 函数
 
-``` rust
+```rust
 fn main() {
     let x = foo;
     println!("{}", x());
@@ -538,7 +535,7 @@ fn foo() -> i32 {
 
 和 Groovy 一样，Rust 支持隐式 return 语句，而且推荐这么做，当你这么做的时候末尾不要接分号，否则它会被当成一个表达式而不是 return 语句，对于这类书写错误，rustc 编译器会提示你怎么修正。
 
-``` rust
+```rust
 fn foo() -> i32 {
     110; // compile error
 }
@@ -546,7 +543,7 @@ fn foo() -> i32 {
 
 ###### 类型别名
 
-``` rust
+```rust
 fn main() {
     type Alias = (i32, char); // 为元组定义一个别名
     let _t : Alias = (10, 'a');
@@ -557,7 +554,7 @@ fn main() {
 
 闭包的入参参数写在 `||` 内，之后是函数逻辑。注意，下面的代码如果不加 `||` ， 花括号内的值会被当作表达式先执行，然后将执行的返回值作为入参。
 
-``` rust
+```rust
 fn f(_g: F) {
     _g();
 }
@@ -574,7 +571,7 @@ fn main() {
 
 Rust 的枚举用法较多，和 java 一样可以带构造器。
 
-``` rust
+```rust
 enum Animal {
     Dog,
     Cat,
@@ -584,7 +581,7 @@ let mut a: Animal = Animal::Dog;
 a = Animal::Cat;
 ```
 
-``` rust
+```rust
 enum Animal {
     Dog(String, f64),
     Cat { name: String, weight: f64 },
@@ -598,7 +595,7 @@ a = Animal::Cat { name: "Spotty".to_string(), weight: 2.7 };
 
 rust 一开始是没有 union 类型的，因为 rust 的 enum 即是 tagged union，属于比较安全的 union 实现方式。后来加入了 untagged union, 在访问它的字段时要加 `unsafe`
 
-``` rust
+```rust
 #[repr(C)]
 union MyUnion {
     f1: u32,
@@ -618,7 +615,7 @@ fn main() {
 
 Rust 的 trait 类似于 golang 中的 interface，它告诉编译器一个类型必须提供哪些函数。你可以为任意类型实现某个 trait。
 
-``` rust
+```rust
 trait HasArea {
     fn area(&self) -> f64;
 }
@@ -633,7 +630,7 @@ trait HasArea {
 
 **if**语句和 golang 一样没有括号。
 
-``` rust
+```rust
 let x = 5;
 
 if x == 5 {
@@ -647,7 +644,7 @@ if x == 5 {
 
 但是语法糖会多一些。
 
-``` rust
+```rust
 let x = Some(3);
 let a = if let Some(1) = x {
     1
@@ -691,7 +688,7 @@ let 语句，用来绑定变量。
 
 Rust 使用 `::` 的方式来表达引用路径，和 C++类似。
 
-``` rust
+```rust
  let y = String::from("bar");
 ```
 
@@ -699,13 +696,13 @@ Rust 使用 `::` 的方式来表达引用路径，和 C++类似。
 
 错误传播表达式，和 Result\<T, E>相结合用来解决异常处理的问题，格式为表达式接问号:
 
-``` rust
+```rust
 Expression ?
 ```
 
 当表达式为正常值时继续运行，当表达式为 Err 时立即返回。
 
-``` rust
+```rust
 fn main() {
     fn try_to_parse() -> Result<i32, std::num::ParseIntError> {
         let x: i32 = "123".parse()?; // x = 123
@@ -723,7 +720,7 @@ fn main() {
 
 类型转换表达式，用 `as` 来表示:
 
-``` rust
+```rust
 let size: f64 = len(values) as f64;
 ```
 
@@ -731,13 +728,13 @@ let size: f64 = len(values) as f64;
 
 数组表达式，仅列举 Rust 中特别的数组初始化方式:
 
-``` rust
+```rust
 let a = [0; 128];
 ```
 
 这里提一下，我们知道，数组是可以通过下标来访问的:
 
-``` rust
+```rust
 a[0]
 ```
 
@@ -747,13 +744,13 @@ a[0]
 
 即闭包。Rust 的闭包写法稍微有些奇特，可能是因为 `->` 被用来标记函数回参了吧。
 
-``` rust
+```rust
 let plus_one = |x: i32| x + 1;
 ```
 
 管道符内的是入参，其后的内容是一个表达式，注意， `{}` 也是一个表达式。
 
-``` rust
+```rust
 fn main() {
     let _f = |x: i32, y: i32| -> i32 {x + y};
     println!("{}", _f(1, 2));
@@ -762,7 +759,7 @@ fn main() {
 
 也可以不指定返回类型，让编译器自行推断。Rust 的闭包 `||{}` 也是语法糖，底层仍然是通过 trait 来实现的。对于闭包的使用，较复杂的是如何返回一个闭包，具体代码如下:
 
-``` rust
+```rust
 fn factory(n: i32) -> Box<Fn(i32) -> i32> {
     Box::new(move |x| x + n)
 }
@@ -782,7 +779,7 @@ fn main() {
 
 For 语句, 像脚本语言的写法。
 
-``` rust
+```rust
 for x in 1..100 {
     if x > 12 {
         break;
@@ -804,7 +801,7 @@ for x in 1..100 {
 | *RangeInclusiveExpr*   | start `..=` end | [std::ops:: RangeInclusive](https://doc.rust-lang.org/std/ops/struct.RangeInclusive.html) | start ≤ x ≤ end |
 | *RangeToInclusiveExpr* | `..=` end      | [std::ops:: RangeToInclusive](https://doc.rust-lang.org/std/ops/struct.RangeToInclusive.html) | x ≤ end         |
 
-``` rust
+```rust
 1..2;   // std::ops::Range
 3..;    // std::ops::RangeFrom
 ..4;    // std::ops::RangeTo
@@ -817,7 +814,7 @@ for x in 1..100 {
 
 match 表达式也是 Rust 的主要特色之一。除了可以当作常规的 switch 语句使用之外
 
-``` rust
+```rust
 let x = 1;
 
 match x {
@@ -832,7 +829,7 @@ match x {
 
 还可以匹配更复杂的类型实例
 
-``` rust
+```rust
 match message {
     Message::Quit => println!("Quit"),
     Message::WriteString(write) => println!("{}", &write),
@@ -850,7 +847,7 @@ match message {
 
 rust 的模块(包)引入语法和其他语言不太一样，我们先看下怎么定义一个模块。
 
-``` rust
+```rust
 pub mod math {
     pub fn f() -> f64 {
         1.1
@@ -860,7 +857,7 @@ pub mod math {
 
 将上面的内容写入 math_mod.rs 中，然后在另外一个文件引入:
 
-``` rust
+```rust
 mod math_mod;
 fn main() {
     println!("{}", math_mod::math::f());
@@ -869,7 +866,7 @@ fn main() {
 
 引入时，也可以显式地指定路径:
 
-``` rust
+```rust
 #[path = "math_mod.rs"]
 mod m;
 fn main() {
@@ -879,7 +876,7 @@ fn main() {
 
 可以使用 `use` 关键字来简化包的使用
 
-``` rust
+```rust
 #[path = "math_mod.rs"]
 mod m;
 use m::math;
@@ -891,7 +888,7 @@ fn main() {
 
 也可以为 mod 或者 mod 里的 item 定义别名
 
-``` rust
+```rust
 #[path = "math_mod.rs"]
 mod m;
 use m::{math::f as mf};
@@ -917,7 +914,7 @@ Rust 并不是纯函数式语言，语言的设计者们并不教条，执着在
 
 面向对象是一个很好的概念，但并不是所有情况下都是最优的选择，语言的设计者们权衡之后，都放弃了纯面向对象的方式，比如 Go。Rust 并不是一门面向对象语言，也没有类或者继承的概念，但确实可以像面向对象语言那样编程，因此也认为它具备面向对象编程这个范式。面向对象的三大特征是封装／继承／多态。封装不用说，struct 是可以定义成员函数的，多态特性我们在 subtyping 中也讲到过，那么继承呢？Rust 的继承写法也是通过 trait 来完成的，通过组合 trait 来建模对象之间的共性。
 
-``` rust
+```rust
 trait One { fn one(&self); }
 trait Two: One { fn two(&self); }
 
@@ -937,7 +934,7 @@ impl Com for Foo {
 
 元编程一种程序修改自身的行为。学过 C 语言的应该知道它的宏概念，宏也属于元编程的范畴，预处理器会将宏代码替换成新的代码。C/C++的宏实现是基于文本替换的，属于不安全的宏。举一个例子:
 
-``` c
+```c
 #define INCI(i) do { int a=0; ++i; } while(0)
 int main(void)
 {
@@ -951,7 +948,7 @@ int main(void)
 
 C 的预处理器进行宏替换后的代码为:
 
-``` c
+```c
 int main(void)
 {
     int a = 4, b = 8;
@@ -964,7 +961,7 @@ int main(void)
 
 我们预期的结果应该是 a 被加 1 等于 5，b 被加 1 等 9，但是输出为:
 
-``` 
+```
 a is now 4, b is now 9
 ```
 
@@ -972,7 +969,7 @@ a is now 4, b is now 9
 
 而 Rust 的宏实现要强大复杂的多，Rust 的宏系统借助了语法树及它的模式匹配。
 
-``` rust
+```rust
 macro_rules! foo {
     (x => $e:expr) => (println!("mode X: {}", $e));
     (y => $e:expr) => (println!("mode Y: {}", $e));

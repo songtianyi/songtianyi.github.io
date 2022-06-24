@@ -261,5 +261,3 @@ private Speed speed(Integer speed) {
 ```
 
 ## 参考资料
-
-[The Exists Query in Spring Data](https://www.baeldung.com/spring-data-exists-query)

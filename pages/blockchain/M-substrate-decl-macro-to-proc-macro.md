@@ -11,7 +11,7 @@ Substrate pallet 的编写方式从 declarative macro 变成了 procedural macro
 
 少了这几个 `declarative` macro
 
-``` rust
+```rust
 decl_storage! {}
 decl_error! {}
 decl_module! {}
@@ -20,7 +20,7 @@ decl_event! {}
 
 这些内容被包裹到了, 名为 pallet 的 `attribute-like` macro 里，
 
-``` rust
+```rust
 #[frame_support::pallet]
 pub mod pallet {
     //
@@ -29,7 +29,7 @@ pub mod pallet {
 
 pallet `attribute-like` macro 的实现在 `frame/support/procedural/src/lib.rs` 文件里。
 
-``` rust
+```rust
 /// Macro to define a pallet. Docs are at `frame_support::pallet`.
 #[proc_macro_attribute]
 pub fn pallet(attr: TokenStream, item: TokenStream) -> TokenStream {
@@ -39,7 +39,7 @@ pub fn pallet(attr: TokenStream, item: TokenStream) -> TokenStream {
 
 调用的 pallet 函数在 `frame/support/procedural/src/mod.rs` 文件里
 
-``` rust
+```rust
 pub fn pallet(
 	attr: proc_macro::TokenStream,
 	item: proc_macro::TokenStream
@@ -61,7 +61,7 @@ pub fn pallet(
 
 此函数会判断使用 pallet 宏的时候有没有属性，然后调用 expand 函数
 
-``` rust
+```rust
 /// Expand definition, in particular:
 /// * add some bounds and variants to type defined,
 /// * create some new types,
@@ -104,7 +104,7 @@ pub fn expand(mut def: Def) -> proc_macro2::TokenStream {
 
 主要的代码生成逻辑在各个 module 的 expand_xxx 函数里，逻辑分的比较开。相较于 `declarative` macro(如下)
 
-``` rust
+```rust
 #[macro_export]
 macro_rules! decl_error {
 	(
@@ -130,7 +130,7 @@ macro_rules! decl_error {
 
 在开始具体的升级之前，先简单看下基于 `procedural` macro 的实现细节。
 
-``` rust
+```rust
 // syn::custom_keyword declarative macro 会将该这些词作为像 rust 关键字一样解析
 mod keyword {
 	syn::custom_keyword!(Block);
@@ -147,7 +147,7 @@ mod keyword {
 }
 ```
 
-``` rust
+```rust
 // 这是一个 function-like macro
 #[proc_macro]
 pub fn construct_runtime(input: TokenStream) -> TokenStream {
@@ -155,7 +155,7 @@ pub fn construct_runtime(input: TokenStream) -> TokenStream {
 }
 ```
 
-``` rust
+```rust
 // storage 看起来比较特殊，单独定义了一个 function-like macro
 #[proc_macro]
 pub fn decl_storage(input: TokenStream) -> TokenStream {
@@ -169,7 +169,7 @@ expand_error 函数为 pub enum Error<T> 迭代生成了 `Debug` trait, `as_u8` 
 
 再比如 event
 
-``` rust
+```rust
 	event_item.attrs.push(syn::parse_quote!(
 		#[derive(
 			#frame_support::CloneNoBound,
@@ -187,7 +187,7 @@ expand_event 为我们自动添加了很多 `derive` 宏
 
 其实在整个过程里，pallet 函数里的这句比较关键
 
-``` rust
+```rust
 let item = syn::parse_macro_input!(item as syn::ItemMod);
 ```
 
@@ -207,7 +207,7 @@ let item = syn::parse_macro_input!(item as syn::ItemMod);
 
 * 不要使用 inner attribute
 
-``` rust
+```rust
 #[pallet]
 pub mod pallet {
 
@@ -220,7 +220,7 @@ pub mod pallet {
 
 #### pallet
 
-``` rust
+```rust
 pub use pallet::*;
 
 #[frame_support::pallet]
@@ -235,7 +235,7 @@ pub mod pallet {
 
 之前在 pallet module 外面定义的类型可以保留
 
-``` rust
+```rust
 mod types {
 	// --- darwinia ---
 	use crate::*;
@@ -256,7 +256,7 @@ mod types {
 
 `decl_module!` 的内容移入 `pallet` 并放在 `#[pallet::config]` 下面
 
-``` rust
+```rust
 	#[pallet::config]
 	pub trait Config: frame_system::Config {
 		#[pallet::constant]
@@ -276,13 +276,13 @@ mod types {
 
 module 被迁移成了两部分
 
-``` rust
+```rust
 #[pallet::hooks]
 impl<T: Config> Hooks for Pallet<T> {
 }
 ```
 
-``` rust
+```rust
 #[pallet::call]
 impl<T: Config> Pallet<T> {
 }
@@ -291,7 +291,7 @@ impl<T: Config> Pallet<T> {
 这两部分都是必要的，空的也要写上去。
 其中，以前定义的函数放在 call 下面, 以 substrate node-template 为例:
 
-``` rust
+```rust
 	#[pallet::hooks]
 	impl<T: Config> Hooks<BlockNumberFor<T>> for Pallet<T> {}
 
@@ -327,7 +327,7 @@ hook 里可以实现一些函数 `on_initialize/on_finalize/on_runtime_upgrade/o
 
 #### 迁移 Event
 
-``` rust
+```rust
 
 	#[pallet::event]
 	pub enum Event<T: Config> {
@@ -336,7 +336,7 @@ hook 里可以实现一些函数 `on_initialize/on_finalize/on_runtime_upgrade/o
 	}
 ```
 
-``` rust
+```rust
 	#[pallet::event]
 	#[pallet::metadata(T::AccountId = "AccountId")]
 	#[pallet::generate_deposit(pub(super) fn deposit_event)]
@@ -349,7 +349,7 @@ hook 里可以实现一些函数 `on_initialize/on_finalize/on_runtime_upgrade/o
 
 #### 迁移 error
 
-``` rust
+```rust
 	// Errors inform users that something went wrong.
 	#[pallet::error]
 	pub enum Error<T> {
@@ -362,7 +362,7 @@ hook 里可以实现一些函数 `on_initialize/on_finalize/on_runtime_upgrade/o
 
 #### 迁移 GenesisiConfig
 
-``` rust
+```rust
 	#[pallet::genesis_config]
 	/// 这里可以根据需要加 T 或者不加 T, mock.rs 里要对应
 	pub struct GenesisConfig<T> {
@@ -398,7 +398,7 @@ hook 里可以实现一些函数 `on_initialize/on_finalize/on_runtime_upgrade/o
 
 #### 迁移 storage
 
-``` rust
+```rust
 	#[pallet::pallet]
 	/// 注意 storage prefix 发生了变化，以前这里是用 as 来改指定的前缀，现在应该没有办法指定了
 	/// 所以在 runtime 里引入的时候要改下 pallet 的名称来保持 storage prefix 的一致
@@ -421,6 +421,6 @@ hook 里可以实现一些函数 `on_initialize/on_finalize/on_runtime_upgrade/o
 
 ## 参考资料
 
-* [Attribute Macro frame_support::pallet](https://substrate.dev/rustdocs/v3.0.0/frame_support/attr.pallet.html)
+* [Attribute Macro frame_support::pallet](https://paritytech.github.io/substrate/master/frame_support/attr.pallet.html)
 * [attr.pallet-upgrade-guidelines](https://crates.parity.io/frame_support/attr.pallet.html#upgrade-guidelines)
 * [node-template-pallets](https://github.com/paritytech/substrate/blob/master/bin/node-template/pallets/template/src/lib.rs)

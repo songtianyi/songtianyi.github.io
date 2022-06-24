@@ -75,7 +75,7 @@
 
 	<h2 id="prepare">1 预备知识</h2>
 	<p>
-	在着手阅读代码之前，应该先对gtk的机制有些了解，这里的<a href="http://blog.programet.org/2010/08/gtk-0.html">教程</a>不错，参照教程和<a href="https://developer.gnome.org/gtk3/stable/index.html">API文档</a>动手写两个GTK小程序就差不多了，剩下的GTK函数可以等遇到的时候再详细了解。如果你使用VIM来阅读源码，或许你还需要了解下怎么使用<a href="http://cscope.sourceforge.net/cscope_vim_tutorial.html">cscope</a>这些辅助工具。
+	在着手阅读代码之前，应该先对gtk的机制有些了解，参照教程和<a href="https://developer.gnome.org/gtk3/stable/index.html">API文档</a>动手写两个GTK小程序就差不多了，剩下的GTK函数可以等遇到的时候再详细了解。如果你使用VIM来阅读源码，或许你还需要了解下怎么使用<a href="http://cscope.sourceforge.net/cscope_vim_tutorial.html">cscope</a>这些辅助工具。
 	</p>
 
 
@@ -84,7 +84,7 @@
 	通常阅读程序都是从main函数开始，下面的命令能帮你找到main函数所在的位置。spice-gtk的main函数在spice-gtk/gtk/spicy.c文件里，直接看下面加的注释吧。
 	</p>
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
-<pre>grep -n main -r . 
+<pre>grep -n main -r .
 </pre>
 </div>
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;margin-top:20px">
@@ -307,13 +307,13 @@ static GOptionEntry center_entries[] = {
 	<pre>
 	/*--help-spice*/
 //	g_option_context_add_group(context, spice_get_option_group());
-	
+
 	/*Application options*/
 //	g_option_context_set_main_group(context, spice_cmdline_get_option_group());
 
 	g_print("%s\n",cmd_entries[0].description);
 //	g_option_context_add_main_entries(context, cmd_entries, NULL);
-	
+
 	//添加自己的选项
 	g_option_context_add_main_entries(context,center_entries,NULL);
 
@@ -329,11 +329,11 @@ static GOptionEntry center_entries[] = {
 
 	<h2 id="doc">3 文档</h2>
 	<p>
-	开源代码的注释一般比较规范，可以使用doxygen根据源码注释生成文档，便于查看。总结了一个用于生成spice-gtk文档的doxygen配置文件，你也可以参考doxygen的<a href="http://www.stack.nl/~dimitri/doxygen/manual/config.html">配置文件规则</a>来做一些修改。我是在用doxygen -s -g default 生成的默认配置文件的基础上改的，可以先自己生成一个默认配置文件，然后参照下面的diff结果来做相应地修改。
+	开源代码的注释一般比较规范，可以使用doxygen根据源码注释生成文档，便于查看。总结了一个用于生成spice-gtk文档的doxygen配置文件，你也可以参考doxygen的配置文件规则来做一些修改。我是在用doxygen -s -g default 生成的默认配置文件的基础上改的，可以先自己生成一个默认配置文件，然后参照下面的diff结果来做相应地修改。
 	</p>
 	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 <pre>
-[root@cloudstack trash]# diff mydoxy default 
+[root@cloudstack trash]# diff mydoxy default
 7c7
 < PROJECT_NAME           = "spice-gtk"
 ---
@@ -387,18 +387,18 @@ static GOptionEntry center_entries[] = {
 ---
 > RECURSIVE              = NO
 105,106c105,106
-< EXCLUDE_SYMLINKS       = YES 
+< EXCLUDE_SYMLINKS       = YES
 < EXCLUDE_PATTERNS       = *.py
 ---
 > EXCLUDE_SYMLINKS       = NO
 > EXCLUDE_PATTERNS       =
 112c112
-< INPUT_FILTER           = 
+< INPUT_FILTER           =
 ---
 > INPUT_FILTER           =
 114,115c114,115
-< FILTER_SOURCE_FILES    = NO 
-< FILTER_SOURCE_PATTERNS = 
+< FILTER_SOURCE_FILES    = NO
+< FILTER_SOURCE_PATTERNS =
 ---
 > FILTER_SOURCE_FILES    = NO
 > FILTER_SOURCE_PATTERNS =

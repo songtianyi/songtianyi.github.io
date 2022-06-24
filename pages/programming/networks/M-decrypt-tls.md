@@ -84,7 +84,7 @@ A 在收到此证书后，使用签发者的公钥（签发者的公钥是内置
 
 我们可以借助 openssl 命令打开一个证书看看，里面具体有哪些内容
 
-``` 
+```
 
 # 先生成自签名的证书
 openssl req -x509 -nodes -newkey rsa:2048 -keyout server.key -out server.crt -days 3650
@@ -136,7 +136,7 @@ openssl x509 -in server.crt -text
 
 至此，client 和 server 都可以根据 client random, server random 和 PreMaster secret 来生成加密密钥
 
-``` 
+```
 
 key = GenerateKey(client_random, server_random, pre_master_secret)
 ```
@@ -145,7 +145,7 @@ key = GenerateKey(client_random, server_random, pre_master_secret)
 
 综上，tls 握手的流程总结如下：
 
-![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-handshake-process.png)
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-handshake-process.png" width="50%">
 
 ### 解码
 
@@ -161,7 +161,7 @@ key = GenerateKey(client_random, server_random, pre_master_secret)
 
 client 和 server 作为通信的双方，也是能够知道加密密钥的，所以很多语言包，为了 debug tls，会提供输出 PreMaster-Secret 的接口，比如 Go 语言提供了 KeyLogWriter:
 
-``` go
+```go
 // write per-session secrets
 w, err := os.OpenFile("sslkeylog", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
 if err != nil {
@@ -186,6 +186,6 @@ config = tls.Config{
 ### 参考资料
 
 * [1] wireshark TLS 〔DB/OL〕[https://wiki.wireshark.org/TLS](https://wiki.wireshark.org/TLS)
-* [2] RSA 加密算法的探究与实现 〔DB/OL〕[http://songtianyi.info/pages/secure/001-secure.html](http://songtianyi.info/pages/secure/001-secure.html)
+* [2] [RSA 加密算法的探究与实现 〔DB/OL〕](../../blockchain/rsa.html)
 * [3] What Is an X.509 Certificate? 〔DB/OL〕[https://www.ssl.com/faqs/what-is-an-x-509-certificate/](https://www.ssl.com/faqs/what-is-an-x-509-certificate/)
 * [4] tls-example 〔DB/OL〕[https://github.com/songtianyi/tls-example](https://github.com/songtianyi/tls-example)

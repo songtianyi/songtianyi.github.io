@@ -4,7 +4,7 @@
 
 ### 前言
 
-在[1 小时入门 Rust](getting-started-with-rust-in-1-hour.md)的文中，有一处说到，Rust 没有 GC，但有人对此有异议，所以单独写一篇文章来说明。在写文章的时候，做了些搜索，国外也有人持同样的观点 <sup>[5]</sup>。
+在[1 小时入门 Rust](getting-started-with-rust-in-1-hour.html)的文中，有一处说到，Rust 没有 GC，但有人对此有异议，所以单独写一篇文章来说明。在写文章的时候，做了些搜索，国外也有人持同样的观点 <sup>[5]</sup>。
 
 ### 什么是 GC
 
@@ -14,17 +14,17 @@ GC，全称 Garbage Collection，指的是内存自动化管理这种行为 <sup
 
 先抛出结论，Rust 是没有 GC 的，不管是中文博客还是国外的 stackoverflow<sup>[3]</sup>基本都是这么认为的，而且在 Rust 的官方文档的 FAQ 里已经作了说明 <sup>[2]</sup>。引用如下:
 
-> ### [Is Rust garbage collected?](https://www.rust-lang.org/en-US/faq.html#is-rust-garbage-collected)
+> Is Rust garbage collected?
+> No. One of Rust’s key innovations is guaranteeing memory safety (no segfaults) without requiring garbage collection.
 >
-> No. One of Rust’s key innovations is guaranteeing memory safety (no segfaults) *without* requiring garbage collection.
+> By avoiding GC, Rust can offer numerous benefits: predictable cleanup of resources, lower overhead for memory management, and essentially no runtime system. All of these traits make Rust lean and easy to embed into arbitrary contexts, and make it much easier to integrate Rust code with languages that have a GC.
 >
-> By avoiding GC, Rust can offer numerous benefits: predictable cleanup of resources, lower overhead for memory management, and essentially no runtime system. All of these traits make Rust lean and easy to embed into arbitrary contexts, and make it much easier to [integrate Rust code with languages that have a GC](http://calculist.org/blog/2015/12/23/neon-node-rust/).
+> Rust avoids the need for GC through its system of ownership and borrowing, but that same system helps with a host of other problems, including resource management in general and concurrency.
 >
-> Rust avoids the need for GC through its system of ownership and borrowing, but that same system helps with a host of other problems, including [resource management in general](http://blog.skylight.io/rust-means-never-having-to-close-a-socket/) and [concurrency](http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html).
+> For when single ownership does not suffice, Rust programs rely on the standard reference-counting smart pointer type, Rc, and its thread-safe counterpart, Arc, instead of GC.
 >
-> For when single ownership does not suffice, Rust programs rely on the standard reference-counting smart pointer type, [ `Rc` ](https://doc.rust-lang.org/std/rc/struct.Rc.html), and its thread-safe counterpart, [ `Arc` ](https://doc.rust-lang.org/std/sync/struct.Arc.html), instead of GC.
+> We are however investigating optional garbage collection as a future extension. The goal is to enable smooth integration with garbage-collected runtimes, such as those offered by the Spidermonkey and V8 JavaScript engines. Finally, some people have investigated implementing pure Rust garbage collectors without compiler support.
 >
-> We are however investigating *optional* garbage collection as a future extension. The goal is to enable smooth integration with garbage-collected runtimes, such as those offered by the [Spidermonkey](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey) and [V8](https://developers.google.com/v8/?hl=en) JavaScript engines. Finally, some people have investigated implementing [pure Rust garbage collectors](https://manishearth.github.io/blog/2015/09/01/designing-a-gc-in-rust/) without compiler support.
 
 ### 论点
 
@@ -45,7 +45,6 @@ GC，全称 Garbage Collection，指的是内存自动化管理这种行为 <sup
 ### 参考资料
 
 1. [Garbage Collection](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science))
-2. [is-rust-garbage-collected](https://www.rust-lang.org/en-US/faq.html#is-rust-garbage-collected)
+2. [is-rust-garbage-collected](https://prev.rust-lang.org/en-US/faq.html#is-rust-garbage-collected)
 3. [what-does-rust-have-instead-of-a-garbage-collector](https://stackoverflow.com/questions/32677420/what-does-rust-have-instead-of-a-garbage-collector)
 4. [Reference counting](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)#Reference_counting)
-5. [Rust or Swift for system programming?](https://news.ycombinator.com/item?id=12032638)

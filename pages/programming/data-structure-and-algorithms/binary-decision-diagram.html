@@ -372,12 +372,12 @@ code {
 <h3 id="%E4%BA%8C%E5%8F%89%E5%86%B3%E7%AD%96%E6%A0%91">二叉决策树</h3>
 <p>在学习 BDD 之前，我们先回顾一下二叉决策树(BDT)的内容，我想它们之间一定有一些共性。二叉决策树的主要应用是分类，通过度量一系列的属性，将输入分成两类甚至多类。用一个通俗的择偶过程来举例一个简单的二叉决策树的构造:</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/binary-decision-tree.jpeg" alt="image"></p>
-<p>在上图中，我们通过年龄，性格和身材将择偶对象简单分成了两类，接受和拒绝。年龄，性格和身材我们都将其看成是离散的整形值，然后划分成两个集合，比如把年龄分成[23,28], [1,22] ∪ [29,+∞)，决策结果分别对应于接受和拒绝，决策的过程由决策函数来完成, 比如对于年龄的决策:</p>
+<p>在上图中，我们通过年龄，性格和身材将择偶对象简单分成了两类，接受和拒绝。年龄，性格和身材我们都将其看成是离散的整形值，然后划分成两个集合，比如把年龄分成[23, 28], [1, 22] ∪ [29, +∞)，决策结果分别对应于接受和拒绝，决策的过程由决策函数来完成, 比如对于年龄的决策:</p>
 <pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">f</span><span class="hljs-params">(age <span class="hljs-keyword">int</span>)</span> <span class="hljs-title">bool</span></span> {
     <span class="hljs-keyword">return</span> age &gt;= <span class="hljs-number">23</span> &amp;&amp; age &lt;= <span class="hljs-number">28</span>
 }
 </div></code></pre>
-<p>以此类推，遍历整棵树完成所有决策过程。看到这里大家应该会有这样的疑问: 为什么先判断的是年龄，而不是性格或者身材呢? 这个决策顺序的确是很有讲究的，顺序不同，整个决策过程所需的计算次数也不同，从经验上讲，年龄的判断是最简单的，假设输入的择偶对象是随机抽样出来的，按照现在的人口年龄比例，属于[23,28]集合的对象远比属于[1,22] ∪ [29,+∞)集合的少，这样通过年龄可以过滤掉大部分对象。但实际的案例并不会像这个例子这么简单，单凭经验是无法构造出一个复杂度较低的决策树的。</p>
+<p>以此类推，遍历整棵树完成所有决策过程。看到这里大家应该会有这样的疑问: 为什么先判断的是年龄，而不是性格或者身材呢? 这个决策顺序的确是很有讲究的，顺序不同，整个决策过程所需的计算次数也不同，从经验上讲，年龄的判断是最简单的，假设输入的择偶对象是随机抽样出来的，按照现在的人口年龄比例，属于[23, 28]集合的对象远比属于[1, 22] ∪ [29, +∞)集合的少，这样通过年龄可以过滤掉大部分对象。但实际的案例并不会像这个例子这么简单，单凭经验是无法构造出一个复杂度较低的决策树的。</p>
 <h5 id="id3-%E7%AE%97%E6%B3%95">ID3 算法</h5>
 <p>即第三代迭代二叉树算法，是一种二叉树构造算法，用于解决如何构造最优二叉决策树的问题。这里不详细讲它，简单来说，它会计算出各个属性的增益率，先根据增益率最大的属性做决策，可以理解为它是一种剪枝算法。</p>
 <h5 id="c45-%E7%AE%97%E6%B3%95">C4.5 算法</h5>
@@ -385,50 +385,48 @@ code {
 <h3 id="%E4%BA%8C%E5%85%83%E5%86%B3%E7%AD%96%E5%9B%BE">二元决策图</h3>
 <p>BDD 是用来表达布尔函数的数据结构，它的初始形态也是二叉决策树，从上一小节的二叉决策树的示例图和决策过程不难看出来它的运算方式是:</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/age-character-shape-function.png" alt="image"></p>
-<p>x 为择偶对象，x = {age, character, shape},  我们将其换成一般性的布尔函数, 表示为:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/f(xyz)=xyz.png" alt="image"></p>
+<p>x 为择偶对象，x = {age, character, shape}, 我们将其换成一般性的布尔函数, 表示为:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/f-bracket-xyz-brackets=xyz.png" alt="image"></p>
 <p>那么对于布尔函数(电路中的与-或门):</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/ab+cd.png" alt="image"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/ab-plus-cd.png" alt="image"></p>
 <p>它的二叉决策树构造为:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/ab+cd-bdt.png" alt="image"></p>
-<p>虚线表示<strong>变量被赋值为 0</strong>，其连接的末端节点称为 low child，实线表示<strong>变量被赋值为 1</strong>，其连接的末端节点称为 high child. 叶子节点(0|1)称为 terminal node, 非 terminal node 称为 decision node. 可以看到，terminal node 的数量为 2<sup>4</sup>, 随着变量数的上升，BDT 的结果空间会指数级增加，它的局限性就体现出来了。结果空间很大，但结果集只有[0,1], 说明存在优化的空间，这里直接给出优化的规则:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/ab-plus-cd-bdt.png" alt="image"></p>
+<p>虚线表示<strong>变量被赋值为 0</strong>，其连接的末端节点称为 low child，实线表示<strong>变量被赋值为 1</strong>，其连接的末端节点称为 high child. 叶子节点(0|1)称为 terminal node, 非 terminal node 称为 decision node. 可以看到，terminal node 的数量为 2<sup>4</sup>, 随着变量数的上升，BDT 的结果空间会指数级增加，它的局限性就体现出来了。结果空间很大，但结果集只有[0, 1], 说明存在优化的空间，这里直接给出优化的规则:</p>
 <ul>
-<li>
-<p>Rule1: 去掉重复的 terminal node，得到下面优化后的图:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/duplicate-terminal-removed.png" alt="image"></p>
-</li>
-<li>
-<p>Rule2: 当以节点 n 和以节点 m 作为 root 的子图，是同构的，可以消去一个，例如下图中被黑框标出来的以 low child c 为 root 的子图和以 high child c 为 root 的子图同构，以此类推得到 Figure4:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/duplicate-nono-terminals-removed.png" alt="image"></p>
-</li>
-<li>
-<p>Rule3: 如果节点 n 的所有出边指向同一个节点 m，说明不论它的结果是什么，对最终结果是没有影响的，可以消去它，将 n 的所有入边指向 m 即可，以此推类，消去所有这类节点得到下图:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/remove-all-redundant-test-single.png" alt="image"></p>
-</li>
+<li>Rule1: 去掉重复的 terminal node，得到下面优化后的图:</li>
 </ul>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/duplicate-terminal-removed.png" alt="image"></p>
+<ul>
+<li>Rule2: 当以节点 n 和以节点 m 作为 root 的子图，是同构的，可以消去一个，例如下图中被黑框标出来的以 low child c 为 root 的子图和以 high child c 为 root 的子图同构，以此类推得到 Figure4:</li>
+</ul>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/duplicate-nono-terminals-removed.png" alt="image"></p>
+<ul>
+<li>Rule3: 如果节点 n 的所有出边指向同一个节点 m，说明不论它的结果是什么，对最终结果是没有影响的，可以消去它，将 n 的所有入边指向 m 即可，以此推类，消去所有这类节点得到下图:</li>
+</ul>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/remove-all-redundant-test-single.png" alt="image"></p>
 <p>经过这三个无损(不影响结果)的消除规则优化的 BDD 称为 RBDD(Reduced Binary Decision Diagram), 它是一个有向无环图(DAG). 我们以图的形式讲述了从布尔函数到 BDT 再到 BDD 的过程，但是代码却不能这么写，前边提到了 BDT 会占用较大的空间，通用的做法是利用香农展开(也叫香农分解)来构造布尔函数的 RBDD.</p>
 <h5 id="%E9%A6%99%E5%86%9C%E5%88%86%E8%A7%A3">香农分解</h5>
 <p>香农展开（英语：Shannon's expansion），或称香农分解（<strong>Shannon decomposition</strong>）是对布尔函数的一种变换方式。它可以将任意布尔函数表达为其中任何一个变量乘以一个子函数，加上这个变量的反变量乘以另一个子函数。<sup>3</sup>例如对于布尔函数:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/yz+xyzneg+xnegynegz.png" alt="image"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/yz-plus-xyzneg-plus-xnegynegz.png" alt="image"></p>
 <p>我们选取 x 变量及其反变量作为被乘数, 那么最终的结果可以先记为:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/xempty+xnegempty.png" alt="image"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/xempty-plus-xnegempty.png" alt="image"></p>
 <p>根据分解前的内容我们能够推算出部分括号里的内容:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/xyzneg+xnegynegz.png" alt="image"></p>
-<p>但少了一项 <code>yz</code>, 在布尔代数中有:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/x+xneg=1.png" alt="image"></p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/xyzneg-plus-xnegynegz.png" alt="image"></p>
+<p>但少了一项 <code>yz</code> , 在布尔代数中有:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/x-plus-xneg=1.png" alt="image"></p>
 <p>所以最终的分解的结果为:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/xyzneg+yz+xnegynegz+yz.png" alt="image"></p>
-<p>更一般地，对于布尔函数<code>f</code>, 选取变量 x 及其反变量作为被乘数，它的香农分解结果为:</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/xdotf1x+xnegdotf0x.png" alt="image"></p>
-<p>其中，<code>f(1/x)</code>表示，将<code>f</code>中的 x 用 1 代替，<code>f(0/x)</code>表示，将<code>f</code>中的 x 用 0 代替。按照这种方法，对于之前的决策图的布尔函数的例子，一个完整的香农分解和还原过程如下:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/xyzneg-plus-yz-plus-xnegynegz-plus-yz.png" alt="image"></p>
+<p>更一般地，对于布尔函数 <code>f</code> , 选取变量 x 及其反变量作为被乘数，它的香农分解结果为:</p>
+<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/xdotf1x-plus-xnegdotf0x.png" alt="image"></p>
+<p>其中， <code>f(1/x)</code> 表示，将 <code>f</code> 中的 x 用 1 代替， <code>f(0/x)</code> 表示，将 <code>f</code> 中的 x 用 0 代替。按照这种方法，对于之前的决策图的布尔函数的例子，一个完整的香农分解和还原过程如下:</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/decomp-then-comp.png" alt="image"></p>
 <h5 id="rbdd-using-shannon-expansion">RBDD using Shannon expansion</h5>
 <p>那么我们如何基于香农分解来构造 RBDD 呢？依次选取 a, b 作为被乘数，可以得到:</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/root-and-second-bdd.png" alt="image"></p>
-<p>可以看出，当 a 被赋值为 0，b 无论被赋值为 0 还是 1，其结果都是<code>cd</code>, 因此当 a 被赋值为 0 的时候，b 节点可以消除, 依次类推得到完整的 RBDD 图:</p>
+<p>可以看出，当 a 被赋值为 0，b 无论被赋值为 0 还是 1，其结果都是 <code>cd</code> , 因此当 a 被赋值为 0 的时候，b 节点可以消除, 依次类推得到完整的 RBDD 图:</p>
 <p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/bdd-with-boo-funcs.png" alt="image"></p>
 <h5 id="robdd">ROBDD</h5>
-<p>即 Reduced ordered binary decision diagram. 我们在用香农分解构造 RBDD 的时候，变量的选取顺序是 a,b,c,d, 我们知道，在构造二叉决策树的时候，变量的顺序对于整个过程的复杂度影响很大，同样的，不同的变量顺序也会构造出不同的 RBDD 图，节点数也会有差异，那么就存在一个最佳变量顺序，依照最佳顺序可以构建出最小的 RBDD 图。但是，找到这个最佳顺序是一个 NP 难(NP-hard)问题。</p>
+<p>即 Reduced ordered binary decision diagram. 我们在用香农分解构造 RBDD 的时候，变量的选取顺序是 a, b, c, d, 我们知道，在构造二叉决策树的时候，变量的顺序对于整个过程的复杂度影响很大，同样的，不同的变量顺序也会构造出不同的 RBDD 图，节点数也会有差异，那么就存在一个最佳变量顺序，依照最佳顺序可以构建出最小的 RBDD 图。但是，找到这个最佳顺序是一个 NP 难(NP-hard)问题。</p>
 <h3 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h3>
 <ol>
 <li><a href="http://www.cs.utexas.edu/~isil/cs389L/bdd.pdf">BDD</a></li>

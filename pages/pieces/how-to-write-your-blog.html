@@ -5,7 +5,7 @@
 </ul>
 </header>
 
-<style> 
+<style>
 body{ background-color:#e0eaee; }
 	div{
 		font-size:11pt;
@@ -16,13 +16,13 @@ body{ background-color:#e0eaee; }
 
 <div>
 
-	
+
 	<h2 style="text-align:center;">如何写出好看的博文</h2>
 	<h5 style="text-align:right;">update@2013-07-30</h5>
 
 
 
-	
+
 	<p>
 	程序员大部分都有写博文的习惯，所用的博客系统也各不相同，有用门户网站的（比如网易博客），有用csdn的，也有很多自己搭wordpress的。门户网站的博客渐渐往轻博客方向发展，编辑器的功能也弱化了，一张图加上几段文字就搞定，但是科技博客有图表文字，代码，公式等，排版相对复杂一些。我也是偶尔写写博客，最近这两天整理了下这方面的东西，分享给大家。
 	</p>
@@ -30,7 +30,7 @@ body{ background-color:#e0eaee; }
 
 
 	<p><br></p>
-	
+
 	<div style="width:300px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
 		<ol>
 			<li><a style="text-decoration:none" rel="nofollow" href="#word">使用word工具</a></li>
@@ -56,13 +56,10 @@ body{ background-color:#e0eaee; }
 	<p>
 	编辑器都提供了粘贴word文档的功能，但是word的排版相对复杂一些，直接粘贴过去格式必定会有些变化，可能表格串了，标题的格式丢了，只剩下个基本的文字框架。所以我觉得经常排版的人是不会使用word的。
 	</p>
-	
+
 
 
 	<h2 id="editor">2 使用博客编辑器</h2>
-	<p>
-	现在博客繁多，但是它们的编辑器往往缺胳膊少腿，让你哭笑不得，比如网易博客和新浪博客的编辑器没有上标和下标（虽然可以自己用html添加），wordpress默认的编辑器功能也很少，目前我见过的最好的编辑器是<a rel="nofollow" href="http://ckeditor.com/demo">CKEditor</a>，但是CKEditor竟然没有居中，总之没遇到过特别好用的编辑器，虽然有markdown来代替，但是对markdown的支持并不广泛，只有比较开放且流行的产品才支持markdown，比如github，wordpress等。有个比较笨的方法是各个编辑器组合着用，把生成的html代码组合起来就差不多了，编辑器没有的样式可以用一些辅助工具来生成，比如<a rel="nofollow" href="http://fayaa.com/">发芽网</a>的代码高亮，linux下的高亮工具<a rel="nofollow" href="http://www.gnu.org/software/src-highlite/">source-highlight</a>，highlight或者自己手动去添加样式。
-	</p>
 	<p>
 	如果编辑器或者工具生成的html代码比较乱，可以用<a rel="nofollow" href="http://www.freeformatter.com/html-formatter.html">html格式化工具</a>格式化一下，这样看起来比较清晰，也许你还需要一个<a rel="nofollow" href="http://htmledit.squarefree.com/">html编辑器</a>以实时显示你的修改。
 	</p>
@@ -81,7 +78,7 @@ body{ background-color:#e0eaee; }
 	公式怎么办？可以参照<a rel="nofollow" href="http://www.qiujingyu.com/insert-math-formula-into-web-page.html#more-847">这里</a>的方式，但是门户网站的博客系统不支持javas<wbr>cript，如果你用的是wordpress或者只需要pdf格式（wkhtmltopdf支持javas<wbr>cript，注意用--javas<wbr>cript-delay选项来调整js的加载时间）可以用他的方法。除了使用js，目前没有更好的方法用html显示公式，图片是个替代方案，<a rel="nofollow" href="http://frog.isima.fr/bruno/share/tex2png/">Tex2PNG</a>可以将Latex数学公式转换成图片，可以用<a href="http://zh.numberempire.com/texequationeditor/equationeditor.php">latex公式编辑器</a>来生成latex代码，很方便。
 	</p>
 
-	
+
 
 
 	<h2 id="example">4 HTML模板示例</h2>

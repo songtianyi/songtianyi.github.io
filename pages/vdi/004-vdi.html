@@ -1,4 +1,4 @@
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />          
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <header style="padding-bottom:50">
 <ul>
 <li style="padding-right:20px;float:left;"><a href="../../index.html">Home</a></li>
@@ -22,7 +22,7 @@ display:inline;
 </style>
 
 <div style="text-align: center;"><span style="line-height: 25px;"><b><font size="4">虚拟桌面协议</font></b></span></div>
-<h5 style="text-align:right">update@2013-06-29</h5> 
+<h5 style="text-align:right">update@2013-06-29</h5>
 <p>
 在虚拟桌面架构（VDI）中，协议是非常关键的一环，其定义了将服务器虚拟出的客户机系统从服务器传输到各类终端的规则，涉及到安全，图像处理，数据压缩，网络传输协议等多个方面，直接决定着虚拟桌面的终端体验。本文介绍了目前主流的开源与商业的虚拟桌面协议，包括Redhat主导的开源SPICE协议，RDP协议，RFB协议，思杰的ICA/HDX协议，VMWare的PCoIP协议等，并分享了一些自己的实践经验。
 </p>
@@ -78,7 +78,7 @@ display:inline;
                      <li><span style="line-height: 22px; text-align: -webkit-auto;">和低端(low end)的虚拟桌面协议（如RFB）不同，</span><span style="line-height: 22px;">SPICE协议虚拟出一个图形处理设备QXL，专门用于处理客户机的图形命令（graphic commands）。</span></li>
                      <li><span style="line-height: 22px;">SPICE用不同的信道来传输键盘，鼠标，视频图像和音频等，便于针对性地优化。</span></li>
                      <li><span style="line-height: 22px;">SPICE首先尝试将渲染的工作交给客户端（瘦终端），利用客户端硬件资源来加速，之后会将渲染工作交给主机来处理，这时可以用软件或者GPU来处理。</span></li>
-                     <li><span style="line-height: 22px;">SPICE客户端支持linux，windows和</span><a target="_blank" rel="nofollow" href="http://spice-space.org/page/OSX_Client">Mac</a></li>
+                     <li><span style="line-height: 22px;">SPICE客户端支持linux，windows和 Mac</span></li>
                   </ul>
                </div>
                <div>
@@ -246,7 +246,7 @@ display:inline;
                <div>&nbsp;&nbsp;<a target="_blank" rel="nofollow" href="http://en.wikipedia.org/wiki/X_Window_System">X windows system</a>&nbsp;最初设计的时候就是client server的架构方式，因此也能远程访问主机的桌面。</div>
                <div><br></div>
                <div id="other3"><b>6.3 ALP</b></div>
-               <div>&nbsp; Sun公司在1999年就推出了一款瘦终端产品Sun Ray，其采用的协议为Sun公司开发的ALP（Appliance Link Protocol），VMware view也支持该协议，不过最近Oracle宣布终止Sun Ray的开发。</div><div><br></div><div id="other4"><b>6.4 EOP</b></div><div>&nbsp; EOP(<span style="font-family: Calibri, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 19px; text-align: -webkit-auto;">Experience Optimization Protocol</span>)协议是Quest Software的VDI协议，用在其自家的VDI产品vWorkspace（<a target="_blank" rel="nofollow" href="http://www.brianmadden.com/blogs/brianmadden/archive/2007/11/12/quest-software-buys-provision-networks-finally-a-real-challenger-to-citrix-in-the-app-delivery-space.aspx">收购了Provision-Networks</a>）中，Quest没有自己的hypervisor，所以vWorkspace支持Citrix VMware 微软等的hypervisor。Quest Software已经被DELL收购。</div><div><br></div><div id="other5"><b>6.5 CHP</b></div><div style="text-align: left;">&nbsp; 最后隆重地向大家介绍，宇宙无敌最强协议，直接把ICA RDP PCoIP虐出xiang的国产CHP，不说了 上图。</div><div style="text-align: left;"><br></div><div style="text-align: center;"><img title="虚拟桌面协议 - songtianyi - songtianyi" alt="虚拟桌面协议 - songtianyi - songtianyi" style="margin:0 10px 0 0;" src="../../images/004-vdi-03.png"></div><div style="text-align: center;"><span style="font-family: Arial, Helvetica, simsun, u5b8bu4f53; line-height: 25px;">图2 CHP vs ICA</span><sup style="line-height: 21px; font-family: Arial, Helvetica, simsun, u5b8bu4f53;">[8]</sup></div>&nbsp;<div><br></div>
+               <div>&nbsp; Sun公司在1999年就推出了一款瘦终端产品Sun Ray，其采用的协议为Sun公司开发的ALP（Appliance Link Protocol），VMware view也支持该协议，不过最近Oracle宣布终止Sun Ray的开发。</div><div><br></div><div id="other4"><b>6.4 EOP</b></div><div>&nbsp; EOP(<span style="font-family: Calibri, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 19px; text-align: -webkit-auto;">Experience Optimization Protocol</span>)协议是Quest Software的VDI协议，用在其自家的VDI产品vWorkspace（收购了Provision-Networks）中，Quest没有自己的hypervisor，所以vWorkspace支持Citrix VMware 微软等的hypervisor。Quest Software已经被DELL收购。</div><div><br></div><div id="other5"><b>6.5 CHP</b></div><div style="text-align: left;">&nbsp; 最后隆重地向大家介绍，宇宙无敌最强协议，直接把ICA RDP PCoIP虐出xiang的国产CHP，不说了 上图。</div><div style="text-align: left;"><br></div><div style="text-align: center;"><img title="虚拟桌面协议 - songtianyi - songtianyi" alt="虚拟桌面协议 - songtianyi - songtianyi" style="margin:0 10px 0 0;" src="../../images/004-vdi-03.png"></div><div style="text-align: center;"><span style="font-family: Arial, Helvetica, simsun, u5b8bu4f53; line-height: 25px;">图2 CHP vs ICA</span><sup style="line-height: 21px; font-family: Arial, Helvetica, simsun, u5b8bu4f53;">[8]</sup></div>&nbsp;<div><br></div>
                <div><br></div>
                <div><br></div>
                <div><br></div>
@@ -269,9 +269,6 @@ display:inline;
             <div>[2] Copy and Paste&nbsp;<span style="line-height: 22px;">[OL].&nbsp;</span><a rel="nofollow" href="http://www.linux-kvm.org/page/SPICE">http://www.linux-kvm.org/page/SPICE</a></div>
             <div>[3]&nbsp;Enabling support for usb redirection&nbsp;<span style="line-height: 22px;">[OL].&nbsp;</span><a rel="nofollow" href="http://hansdegoede.livejournal.com/11686.html">http://hansdegoede.livejournal.com/11686.html</a></div>
             <div>[4] OpenSSL Doc&nbsp;<span style="line-height: 22px;">[OL].&nbsp;</span><a target="_blank" rel="nofollow" href="http://www.openssl.org/docs/apps/openssl.html">http://www.openssl.org/docs/apps/openssl.html</a></div>
-            <div>[5] CA的定义和作用&nbsp;<span style="line-height: 22px;">[OL].&nbsp;</span><a target="_blank" rel="nofollow" href="http://www.qqread.com/sys-soft/p197781.html">http://www.qqread.com/sys-soft/p197781.html</a></div>
-            <div>[6] SSL Connection [OL].&nbsp;<a target="_blank" rel="nofollow" href="http://spice-space.org/page/SSLConnection">http://spice-space.org/page/SSLConnection</a></div>
-            <div>[7] 陈军. 云计算之初探 — — 桌面云[J]. 《冶金自动化》，2012.</div><div>[8] CHP [OL].&nbsp;<a rel="nofollow" href="http://www.3tcloud.com/article.php?id=123">http://www.3tcloud.com/article.php?id=123</a></div>
             <div><br></div>
             <div><br></div>
          </div>

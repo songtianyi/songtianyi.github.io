@@ -4,13 +4,13 @@
 
 ### 前言
 
-Go，毫无疑问已经成为主流服务端开发语言之一，但它的类型特性却少的可怜，仅支持[structural subtyping](mds/techinques/how-to-choose-your-programming-language.md)。在 TIOBE 排名前二十的语言中，不管是上古语言 Java, 还是 2010 年之后出现的新语言 Rust/Julia 等，都支持至少三种类型特性，对此社区抱怨很多，另外还有它的错误处理方式，以及在 Go1.11 版本才解决的依赖管理等问题。在最近的 GopherCon2018 上，官方放出了解决这些问题的草案(draft)，这些内容还没有成为正式的提案(proposal), 只是先发出来供大家讨论，最终会形成正式提案并被逐步引入到后续的版本中。此次放出的草案，集中讨论了三个问题，泛型/错误处理/错误值。
+Go，毫无疑问已经成为主流服务端开发语言之一，但它的类型特性却少的可怜，仅支持[structural subtyping](M-how-to-choose-your-programming-language.html)。在 TIOBE 排名前二十的语言中，不管是上古语言 Java, 还是 2010 年之后出现的新语言 Rust/Julia 等，都支持至少三种类型特性，对此社区抱怨很多，另外还有它的错误处理方式，以及在 Go1.11 版本才解决的依赖管理等问题。在最近的 GopherCon2018 上，官方放出了解决这些问题的草案(draft)，这些内容还没有成为正式的提案(proposal), 只是先发出来供大家讨论，最终会形成正式提案并被逐步引入到后续的版本中。此次放出的草案，集中讨论了三个问题，泛型/错误处理/错误值。
 
 ### 泛型
 
 泛型是复用逻辑的一个有效手段，在 2016 和 2017 年的 Go 语言调查中，泛型都列在最迫切的需求之首，在 Go1.0 release 之后 Go team 就已经开始探索如何引入泛型，但同时要保持 Go 的简洁性(开发者喜爱 Go 的主要原因之一)，之前的几种实现方式都存在严重的问题，被废弃掉了，所以进展并不算快，导致部分人误解为 Go team 并不打算引入泛型。现在，最新的草案经过半年的讨论和优化已经确认可行(could work)，我们期待已久的泛型几乎是板上钉钉的事情了，那么 Go 的泛型大概长什么样？
 
-在没有泛型的情况下，通过`interface{}`是可以解决部分问题的，比如[`ring`](https://golang.org/src/container/ring/ring.go)的实现，但这种方法只适合用在数据容器里, 且需要做类型转换。当我们需要实现一个通用函数时，就做不到了，例如实现一个函数，其返回传入的 map 的 key:
+在没有泛型的情况下，通过 `interface{}` 是可以解决部分问题的，比如[ `ring` ](https://golang.org/src/container/ring/ring.go)的实现，但这种方法只适合用在数据容器里, 且需要做类型转换。当我们需要实现一个通用函数时，就做不到了，例如实现一个函数，其返回传入的 map 的 key:
 
 ```go
 package main
@@ -63,7 +63,7 @@ fn print_g<T: Graph>(g : T) {
 }
 ```
 
-Rust 在声明 T 的时候，限定了入参的类型，即入参 *g* 必须是实现了 Graph 的类型。和[Rust](mds/techniques/getting-started-with-rust-in-1-hour.md)的 nominal subtyping 不同，Go 属于 structural subtyping，没有显式的类型关系声明，因此不能使用此种方式。Go 在草案中引入了`contract`来解决这个问题，语法类似于函数, 写法更复杂，但拥有和 Rust trait 相媲美的表达能力:
+Rust 在声明 T 的时候，限定了入参的类型，即入参 *g* 必须是实现了 Graph 的类型。和[Rust](getting-started-with-rust-in-1-hour.html)的 nominal subtyping 不同，Go 属于 structural subtyping，没有显式的类型关系声明，因此不能使用此种方式。Go 在草案中引入了 `contract` 来解决这个问题，语法类似于函数, 写法更复杂，但拥有和 Rust trait 相媲美的表达能力:
 
 ```go
 // comparable contract
@@ -80,7 +80,7 @@ contract stringer(x T) {
 }
 ```
 
-上述代码分别约束了 T 必须是可比较的(comparable)，必须是能做加法运算(addable)的。使用方式很简单, 定义函数的时候加上`contract`即可:
+上述代码分别约束了 T 必须是可比较的(comparable)，必须是能做加法运算(addable)的。使用方式很简单, 定义函数的时候加上 `contract` 即可:
 
 ```go
 func Sum(type T Addable(T))(x []T) T {
@@ -137,7 +137,7 @@ func Keys(type K Equal, V)(m map[K]V) []K {
 }
 ```
 
-关于实现方面的内容，这里不再讨论，留给高手吧。官方开通了反馈渠道，可以去[提意见](https://github.com/golang/go/wiki/Go2GenericsFeedback)，对于我来说，唯一不满意的地方是显式的`type`关键字, 可能是为了方便和后边的函数参数相区分吧。
+关于实现方面的内容，这里不再讨论，留给高手吧。官方开通了反馈渠道，可以去[提意见](https://github.com/golang/go/wiki/Go2GenericsFeedback)，对于我来说，唯一不满意的地方是显式的 `type` 关键字, 可能是为了方便和后边的函数参数相区分吧。
 
 ### 错误处理
 
@@ -174,7 +174,7 @@ func CopyFile(src, dst string) error {
 
 上述代码中，错误处理的代码占了总代码量的近 50%！
 
-Go 的`assignment-and-if-statement `错误处理语句是罪魁祸首，草案引入了`check`表达式来代替它:
+Go 的 `assignment-and-if-statement ` 错误处理语句是罪魁祸首，草案引入了 `check` 表达式来代替它:
 
 ```go
 r := check os.Open(src)
@@ -186,7 +186,7 @@ r := check os.Open(src)
 return fmt.Errorf("copy %s %s: %v", src, dst, err)
 ```
 
-它是可以被统一处理的, 于是 Go 在引入`check`的同时引入了`handle`语句，官方称之为 handler:
+它是可以被统一处理的, 于是 Go 在引入 `check` 的同时引入了 `handle` 语句，官方称之为 handler:
 
 ```go
 handle err {
@@ -217,7 +217,7 @@ func CopyFile(src, dst string) error {
 }
 ```
 
-check 失败后，error 先被最里层的(inner most)handler 处理，接着被上一个(按照语法顺序)handler 处理，直到某个 handler 执行了`return`语句。
+check 失败后，error 先被最里层的(inner most)handler 处理，接着被上一个(按照语法顺序)handler 处理，直到某个 handler 执行了 `return` 语句。
 
 Go team 对该草案的期望是能够减少错误处理的代码量, 且兼容之前的错误处理方式, 要求不算高，这个设计也算能接受吧。
 
@@ -225,7 +225,7 @@ Go team 对该草案的期望是能够减少错误处理的代码量, 且兼容�
 
 ### 错误值
 
-Go 的错误值目前存在两个问题。一，错误链(栈)没有被很好地表达；二，缺少更丰富的错误输出方式。在该草案之前，已经有不少第三方的 package 实现了这些功能，现在要进行标准化。目前，对于多调用层级的错误，我们使用 fmt.Errorf 或者自定义的 Error 来包裹它:
+Go 的错误值目前存在两个问题。一，错误链(栈)没有被很好地表达；二，缺少更丰富的错误输出方式。在该草案之前，已经有不少第三方的 package 实现了这些功能，现在要进行标准化。目前，对于多调用层级的错误，我们使用 fmt. Errorf 或者自定义的 Error 来包裹它:
 
 ```go
 package main
@@ -284,7 +284,7 @@ if err == io.EOF { ... }
 if pe, ok := err.(*os.PathError); ok { ... pe.Path ... }
 ```
 
-它是一个 RpcError 还是 io.EOF? 无从知晓。一大串的错误信息，人类可以很好地理解，但对于程序代码来说就很困难。
+它是一个 RpcError 还是 io. EOF? 无从知晓。一大串的错误信息，人类可以很好地理解，但对于程序代码来说就很困难。
 
 ##### error inspection
 
@@ -302,7 +302,7 @@ type Wrapper interface {
 }
 ```
 
-每个层级的 error 都实现这个 wrapper，这样在 main 函数里，我们可以通过 err.Unwrap() 来获取下一个层级的 error。另外，草案引入了两个函数来简化这个过程:
+每个层级的 error 都实现这个 wrapper，这样在 main 函数里，我们可以通过 err. Unwrap() 来获取下一个层级的 error。另外，草案引入了两个函数来简化这个过程:
 
 ```go
 // Is reports whether err or any of the errors in its chain is equal to target.
@@ -340,6 +340,6 @@ func (e *WriteError) Format(p errors.Printer) (next error) {
 func (e *WriteError) Error() string { return fmt.Sprint(e) }
 ```
 
-在你使用`fmt.Println("%+v", err)`打印错误信息时，它会调用 Format 函数。
+在你使用 `fmt.Println("%+v", err)` 打印错误信息时，它会调用 Format 函数。
 
 [反馈渠道](https://github.com/golang/go/wiki/Go2ErrorValuesFeedback)

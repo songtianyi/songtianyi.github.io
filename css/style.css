@@ -20,41 +20,6 @@ img {
     background-color: transparent;
     background-repeat: no-repeat;
 }
-.svg.music-svg {
-    background-image: url("../images/music.svg");
-    width: 25px;
-    height: 26px;
-}
-.svg.douban-svg {
-    background-image: url("../images/douban.svg");
-    width: 22px;
-    height: 21px;
-}
-.svg.github-svg {
-    background-image: url("../images/github.svg");
-    width: 26px;
-    height: 25px;
-}
-.svg.telegram-svg {
-    background-image: url("../images/Telegram.svg");
-    width: 22px;
-    height: 18px;
-}
-.svg.wechat-svg {
-    background-image: url("../images/Wechat.svg");
-    width: 27px;
-    height: 22px;
-}
-.svg.patent-svg {
-    background-image: url("../images/patent.svg");
-    width: 24px;
-    height: 31px;
-}
-.svg.email-svg {
-    background-image: url("../images/Email.svg");
-    width: 24px;
-    height: 18px;
-}
 #header .head {
     max-width: 1100px;
     padding: 0 10px;

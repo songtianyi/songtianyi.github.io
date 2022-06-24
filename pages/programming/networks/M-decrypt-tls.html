@@ -481,7 +481,7 @@ key = GenerateKey(client_random, server_random, pre_master_secret)
 </div></code></pre>
 <p>之后发送的数据会使用这个 key 来加密，key 是我们解密 TLS 数据包的关键。</p>
 <p>综上，tls 握手的流程总结如下：</p>
-<p><img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-handshake-process.png" alt="image"></p>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/tls-handshake-process.png" width="50%">
 <h3 id="%E8%A7%A3%E7%A0%81">解码</h3>
 <p>在我们使用 wireshark 抓包的时候，纵观整个流程，只有 PreMaster-Secret 是加密的，其他的握手数据是明文，所以，PreMaster-Secret 是解码的关键。为此，wireshark 给我们提供了两种方案。</p>
 <h5 id="%E9%80%9A%E8%BF%87-rsa-%E7%A7%81%E9%92%A5">通过 RSA 私钥</h5>
@@ -507,7 +507,7 @@ config = tls.Config{
 <h3 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h3>
 <ul>
 <li>[1] wireshark TLS 〔DB/OL〕<a href="https://wiki.wireshark.org/TLS">https://wiki.wireshark.org/TLS</a></li>
-<li>[2] RSA 加密算法的探究与实现 〔DB/OL〕<a href="http://songtianyi.info/pages/secure/001-secure.html">http://songtianyi.info/pages/secure/001-secure.html</a></li>
+<li>[2] <a href="../../blockchain/rsa.html">RSA 加密算法的探究与实现 〔DB/OL〕</a></li>
 <li>[3] What Is an X.509 Certificate? 〔DB/OL〕<a href="https://www.ssl.com/faqs/what-is-an-x-509-certificate/">https://www.ssl.com/faqs/what-is-an-x-509-certificate/</a></li>
 <li>[4] tls-example 〔DB/OL〕<a href="https://github.com/songtianyi/tls-example">https://github.com/songtianyi/tls-example</a></li>
 </ul>

@@ -35,7 +35,7 @@
 	<img  src="">
 	<p>图 </p>
 </div>
-	
+
 <sup>sup>
 
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
@@ -123,7 +123,7 @@
 <p>cordova platform add ios</p>
 <p>ionic emulate ios</p>
 </div>
-	
+
 <p>3.2 执行ionic emulate android,编译时总报错，根据报错信息,报错的小箭头一直指着我的项目名，这时意识到可能是我的项目名前带有数字的原因，于是新建了一个项目，用全英文的项目名，问题解决</p>
 <p>3.3 我添加了个登陆页面，怎么让app启动的时候直接到登陆页面呢？修改/path/to/your/project/www/js/app.js 中的 $urlRouterProvider.otherwise('login'); 这行,修改成登陆的state即可</p>
 <p>3.4 执行ionic emulate ios 是看不到代码里console.info等打出的log的，要想看log可以执行 ionic run ios -l -c -s </p>
@@ -145,7 +145,7 @@
 <p>3.7 因为需要将用户的登录信息保存起来,找到了window.localStorage这个东西，但是取值的时候总取不出来,最终发现了一个trick,用toJson和fromJson互转一下就可以了</p>
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 <pre>
-window.localStorage.clear();                                                          
+window.localStorage.clear();
 window.localStorage.global = angular.toJson({hehe: 'testme'});
 var t = angular.fromJson(window.localStorage.global);
 console.info(t,t.hehe);
@@ -153,11 +153,13 @@ console.info(t,t.hehe);
 </div>
 <p>3.8 js数组怎么在开头插入数据？新建一个数组,然后用concat拼接就行了</p>
 
-	
+
 
 
 	<h2 id="reference"> 参考资料</h2>
+	<!--
 	<div>[1]<a href="http://codepen.io/">codeopen.io</a> [OL]</div>
+	-->
 
 </div>
 

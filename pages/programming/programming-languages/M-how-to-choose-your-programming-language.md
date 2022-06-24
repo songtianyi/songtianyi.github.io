@@ -15,7 +15,7 @@
 
 ### 类型系统
 
-什么是类型？在软件执行的过程中，变量可以为很多值，**定义变量的边界的描述即类型**。变量可以被赋予类型(即变量有边界)的语言称为类型语言(**typed language**)，无类型语言(**untyped language**)没有类型，或者说只有一个全局类型，能够存储所有的值。 类型语言我们见得多了，无类型的呢？lambda 演算(pure  λ-calculus)是无类型的，汇编和 LISP 也是无类型的.  
+什么是类型？在软件执行的过程中，变量可以为很多值，**定义变量的边界的描述即类型**。变量可以被赋予类型(即变量有边界)的语言称为类型语言(**typed language**)，无类型语言(**untyped language**)没有类型，或者说只有一个全局类型，能够存储所有的值。 类型语言我们见得多了，无类型的呢？lambda 演算(pure  λ-calculus)是无类型的，汇编和 LISP 也是无类型的.
 
 变量类型的指定可以是显式的
 
@@ -42,7 +42,7 @@ fac n = n * fac (n - 1)
 
 ##### 类型检查
 
-类型系统是类型语言的首要组成部分。类型系统的职责之一是跟踪变量的类型，判断代码是否满足类型约束，这种行为称为类型检查(**typechecking**), 类型检查是保证程序稳定运行的手段，同时又分为运行时检查(runtime checks)和静态检查(static checks), 运行时检查也叫动态检查(**dynamic checking**). 
+类型系统是类型语言的首要组成部分。类型系统的职责之一是跟踪变量的类型，判断代码是否满足类型约束，这种行为称为类型检查(**typechecking**), 类型检查是保证程序稳定运行的手段，同时又分为运行时检查(runtime checks)和静态检查(static checks), 运行时检查也叫动态检查(**dynamic checking**).
 
 类型系统做了静态检查，还有必要做动态检查嘛？有，比如数组的边界检查，就必须在运行时做。运行时的类型检查会导致程序运行终止(fail-stop)，那为什么还要检查呢？让它运行到无法继续执行为止不就好了？类型检查虽然会出错，但是阻止了更恶劣的错误(untrapped errors)的发生，比如保证 gc 等机制能够正常运转，让程序能够更平滑地退出。动态检查的缺点是会导致 fail-stop，也会消耗资源，影响性能，所以通常我们认为拥有静态检查的类型系统的语言会更稳定高效。但是静态检查就足够安全了吗？不一定，因为某些语言在静态检查时没有检查一些危险操作，比如*C*语言中指针的运算和转换，这类语言称为**weakly checked**, 反之, 程序在编译期间能够尽可能发现所有的类型错误, 称为**strongly checked**.
 
@@ -53,9 +53,10 @@ fac n = n * fac (n - 1)
 可以进行隐式类型转换的语言属于*weakly checked*, 如 c++
 
 ```c++
-int a = 3;
-double b = 4.5;
+int a = 3; 
+double b = 4.5; 
 a + b; // a 将会被自动转换为 double 类型，转换的结果和 b 进行加法操作
+
 ```
 
 ###### Pointers
@@ -82,7 +83,7 @@ a + b; // a 将会被自动转换为 double 类型，转换的结果和 b 进行
 
 ##### 强类型和弱类型
 
-在语言的抉择上，`静态检查`，`动态检查`和`检查范围`这几个角度影响的是程序的稳定性和执行效率，那么开发效率呢？此时要引入另外一个维度，`强类型`和`弱类型`，强类型是指一旦被指定类型，不可变，弱类型则可变，可变也分为隐式和显式两种。
+在语言的抉择上， `静态检查` ， `动态检查` 和 `检查范围` 这几个角度影响的是程序的稳定性和执行效率，那么开发效率呢？此时要引入另外一个维度， `强类型` 和 `弱类型` ，强类型是指一旦被指定类型，不可变，弱类型则可变，可变也分为隐式和显式两种。
 
 ```javascript
 // js 弱类型，隐式可变
@@ -109,9 +110,9 @@ z = x + y
 
 polymorphism 翻译为多态性，但不单单指面向对象里的多态，而是指类型系统里的多态性质。编译时多态，是在编译时就能推导出类型或调用关系，宏也是一种编译时多态。运行时多态的实现依赖于虚函数机制(virtual function), 是在运行时确定调用关系。多态性质的引入可以提高代码的复用率。
 
-1. *Ad hoc polymorphism*: 一个函数会根据有限的类型组合而拥有不同的实现，函数重载(function overloading)和操作符重载(operator overloading)依赖于此. 从 polymorphism 性质实现的角度讲，属于编译时多态(static polymorphism).
+01. *Ad hoc polymorphism*: 一个函数会根据有限的类型组合而拥有不同的实现，函数重载(function overloading)和操作符重载(operator overloading)依赖于此. 从 polymorphism 性质实现的角度讲，属于编译时多态(static polymorphism).
 
-   ```java
+```java
    // java
    public int Add(int a, int b) {
        return a + b;
@@ -121,10 +122,10 @@ polymorphism 翻译为多态性，但不单单指面向对象里的多态，而�
    }
    ```
 
-2. *Parametric polymorphism*: 声明的类型未被指定为某一类型，而在实现时可以指定为任意类型，即通常我们所说的泛型，在 C++里称为模板(template). 从 polymorphism 性质实现的角度讲，属于编译时多态(static polymorphism).
+02. *Parametric polymorphism*: 声明的类型未被指定为某一类型，而在实现时可以指定为任意类型，即通常我们所说的泛型，在 C++里称为模板(template). 从 polymorphism 性质实现的角度讲，属于编译时多态(static polymorphism).
 
-   ```java
-   // java    
+```java
+   // java
    ...
 
    public class ObjectsServiceFactory<T> {
@@ -150,33 +151,42 @@ polymorphism 翻译为多态性，但不单单指面向对象里的多态，而�
    i.save(100)
    ```
 
-3. *Subtype polymorphism*: 也叫 subtyping(子类型多态)或者 inclusion polymorphism(包含多态)。如果 S 是 T 的子类型，记作`S <: T`, 意味着在任何需要使用 T 类型的环境中，都可以安全地使用 S 类型的对象。但要区分的是，这里说的子类型并不是面向对象继承概念里的子类，子类型和父类型(super type)描述的是类型之间的关系，而继承反应的是一类对象可以从另一类对象创造出来，是语言特性的实现，主要目的是重用代码。之所以混淆是因为在 C++等语言中，通常将两者结合起来以实现 OOP。子类型也称为接口(interface)继承，对象继承则称作实现继承，在 Java 中，这两者在语法上是有明显的区分的(interface 和 class)。从多态性质实现的角度讲，subtyping 属于运行时多态(dynamic polymorphism). 
+03. *Subtype polymorphism*: 也叫 subtyping(子类型多态)或者 inclusion polymorphism(包含多态)。如果 S 是 T 的子类型，记作`S <: T`, 意味着在任何需要使用 T 类型的环境中，都可以安全地使用 S 类型的对象。但要区分的是，这里说的子类型并不是面向对象继承概念里的子类，子类型和父类型(super type)描述的是类型之间的关系，而继承反应的是一类对象可以从另一类对象创造出来，是语言特性的实现，主要目的是重用代码。之所以混淆是因为在 C++等语言中，通常将两者结合起来以实现 OOP。子类型也称为接口(interface)继承，对象继承则称作实现继承，在 Java 中，这两者在语法上是有明显的区分的(interface 和 class)。从多态性质实现的角度讲，subtyping 属于运行时多态(dynamic polymorphism).
 
    ```c++
    // c++
    #include<iostream>
-   using namespace std;
+   using namespace std; 
 
    class Animal {
    public :
+
        virtual void shout() = 0;
+
    	virtual ~Animal(){}
-   };
+   }; 
 
    class Dog :public Animal {
    public:
+
        virtual void shout(){ cout << "dog"<<endl; }
-   };
+
+   }; 
    class Cat :public Animal {
    public:
+
        virtual void shout(){ cout << "cat"<<endl; }
-   };
+
+   }; 
    class Bird : public Animal {
    public:
+
        virtual void shout(){ cout << "bird"<<endl; }
-   };
+
+   }; 
 
    int main() {
+
        Animal * animal1 = new Dog;
        Animal * animal2 = new Cat;
        Animal * animal3 = new Bird;
@@ -189,8 +199,10 @@ polymorphism 翻译为多态性，但不单单指面向对象里的多态，而�
        delete(animal2);
        delete(animal3);
        return 0;
+
    }
-   ```
+
+```
    关于 subtyping 还有更细致的划分，从类型系统的技术实现角度分为*nominal subtyping*和*structural subtyping*, 在阐述这两个概念之前，我们先理解类型系统是如何区分两个不同类型的。
 
    一种方式是通过类型名称来区分，即，当且仅当两个类型的命名相同时，它们属于同一类型。例如:
@@ -205,7 +217,7 @@ polymorphism 翻译为多态性，但不单单指面向对象里的多态，而�
 
    与*nominal type system*相对的是*structural type system(property-based type system)*, 从字面的意思我们大概能猜出，类型的区分是通过类型的定义即类型的结构来区分的:
 
-   ```typescript
+```typescript
    // pseudo
    class Foo {
      method(input: string): number { ... }
@@ -220,9 +232,9 @@ polymorphism 翻译为多态性，但不单单指面向对象里的多态，而�
 
    接着，我们来看这两种类型区分方式和 subtyping 的关系。
 
-   * *Nominal subtyping*: 参照*nominal typing*的规则，只有当类型 S 被显式地声明为 T 的子类型，才认为`S <: T`，使用这种规则的 subtyping 属于*nominal subtyping*。比如 Julia:
+   * *Nominal subtyping*: 参照*nominal typing*的规则，只有当类型 S 被显式地声明为 T 的子类型，才认为 `S <: T` ，使用这种规则的 subtyping 属于*nominal subtyping*。比如 Julia:
 
-     ```rust
+```rust
      abstract type Graph <: Any end
 
      struct Circle <: Graph
@@ -250,18 +262,18 @@ polymorphism 翻译为多态性，但不单单指面向对象里的多态，而�
      println(area(Rec(1.0, 1.0, 2, 2)))
      ```
 
-     上述代码通过`<:`显式地声明了这种关系，`Circle <: Graph` 。C++, Java 也是*nominal subtyping*
+     上述代码通过 `<:` 显式地声明了这种关系， `Circle <: Graph` 。C++, Java 也是*nominal subtyping*
 
    * *Structural subtyping*: 参照*structural typing*的规则，类型之间的子/父关系是通过类型的结构来区分的，使用这种规则的 subtyping 属于*structural subtyping*。Golang 的 interface 属于此类，interface 里声明的函数(feature)在它的子类型中都能找到对应的实现，至于匹配的规则，依赖于类型系统的具体实现。*structural subtyping*相对*nominal subtyping*要更加灵活。
 
-     ```go
+```go
      // golang
      package main
 
      import "fmt"
 
      type A interface {
-     	Shout() 
+     	Shout()
      }
 
      type Girl struct {}
@@ -283,15 +295,15 @@ polymorphism 翻译为多态性，但不单单指面向对象里的多态，而�
      }
      ```
 
-     上面的 Go 代码中，Girl 和 Boy 都没有被显式地声明为 A 的子类型，但它们都实现了`Shout()`, 从结构上对比，他们都属于 A 的子类型。
+     上面的 Go 代码中，Girl 和 Boy 都没有被显式地声明为 A 的子类型，但它们都实现了 `Shout()` , 从结构上对比，他们都属于 A 的子类型。
 
-4. *Row polymorphism*: 也叫 duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定彼此之间的关系，比如 subtyping 中的父类/子类关系，而 duck typing 是通过函数，如果它们实现了相同的函数，就认为它们是同一类。
+04. *Row polymorphism*: 也叫 duck typing，针对结构体类型，从功能(purpose)的角度对类型归类。通常，对象是根据它们的类型来确定彼此之间的关系，比如 subtyping 中的父类/子类关系，而 duck typing 是通过函数，如果它们实现了相同的函数，就认为它们是同一类。
 
    > If it walks like a duck and it quacks like a duck, then it must be a duck.
 
    如果它走路像鸭子(实现了 walk()函数)，也会像鸭子一样发出嘎嘎声(实现了 gaga())函数，那它就是一只鸭子(属于同一类型)。
 
-   ```python
+```python
    # python
    class Duck:
        def fly(self):
@@ -323,7 +335,7 @@ polymorphism 翻译为多态性，但不单单指面向对象里的多态，而�
 
    Golang interface 勉强算作编译时的 duck typing，因为传统定义的 duck typing 发生在运行时，且没有显式的**interface**声明，上面的 python 示例就是典型的 duck typing。区分的原则是，duck typing 不以类型来确定关系，而是通过函数来确定，和 subtyping 是截然不同的。
 
-5. *Polytypism*: 函数式编程语言里的泛型特性。以 Haskell 为例，其函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在 Haskell 语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度。<sup>[2]</sup>
+05. *Polytypism*: 函数式编程语言里的泛型特性。以 Haskell 为例，其函数的定义比较具体化，单一化，缺乏可扩展性和高度复用性，在 Haskell 语言上可以引入一种泛型机制解决上述问题，这种泛型机制主要体现在泛型函数的定义上，泛型函数的定义不同于以往的函数定义方法，当泛型函数遇到某种未定义的类型参数时，它依靠泛型算法分析参数类型的结构，进行相关转换，可以自动生成函数定义，这种方法可以提高程序的复用程度。<sup>[2]</sup>
 
 ##### Dependent types
 
@@ -400,13 +412,13 @@ jim.log();
 
 ```c
 //c
-union a_bc {  
-    int i;  
-    char mm;  
+union a_bc {
+    int i;
+    char mm;
 };
 ```
 
-*TypeScript*里的联合类型用竖线`|`来分隔每个类型，所以 `value : number | string | boolean`表示一个值可以是 `number`，或`string`，或 `boolean`。
+*TypeScript*里的联合类型用竖线 `|` 来分隔每个类型，所以 `value : number | string | boolean` 表示一个值可以是 `number` ，或 `string` ，或 `boolean` 。
 
 ```typescript
 /**
@@ -434,7 +446,7 @@ let ok = padLeft("Hello world", 0) // compile ok
 
 ###### Upper Bounded Wildcards
 
-通过声明通配的上限(父类)来匹配，如果你的函数入参可能是 List\<Integer>, List\<double>或者 List\<number> ，你可以使用`?`声明
+通过声明通配的上限(父类)来匹配，如果你的函数入参可能是 List\<Integer>, List\<double>或者 List\<number> ，你可以使用 `?` 声明
 
 ```java
 public static void add(List<? extends Number> list)
@@ -446,33 +458,33 @@ Number 的所有子类都可以作为入参, 例如:
 //Java program to demonstrate Upper Bounded Wildcards
 import java.util.Arrays;
 import java.util.List;
- 
+
 class WildcardDemo
 {
     public static void main(String[] args)
     {
-         
+
         //Upper Bounded Integer List
         List<Integer> list1= Arrays.asList(4,5,6,7);
-         
+
         //printing the sum of elements in list
         System.out.println("Total sum is:"+sum(list1));
- 
+
         //Double list
         List<Double> list2=Arrays.asList(4.1,5.1,6.1);
-         
+
         //printing the sum of elements in list
         System.out.print("Total sum is:"+sum(list2));
     }
- 
-    private static double sum(List<? extends Number> list) 
+
+    private static double sum(List<? extends Number> list)
     {
         double sum=0.0;
         for (Number i: list)
         {
             sum+=i.doubleValue();
         }
- 
+
         return sum;
     }
 }
@@ -505,24 +517,24 @@ List<? super Integer>
 //Java program to demonstrate Lower Bounded Wildcards
 import java.util.Arrays;
 import java.util.List;
- 
+
 class WildcardDemo
 {
     public static void main(String[] args)
     {
         //Lower Bounded Integer List
         List<Integer> list1= Arrays.asList(4,5,6,7);
-         
+
         //Integer list object is being passed
         printOnlyIntegerClassorSuperClass(list1);
- 
+
         //Number list
         List<Number> list2= Arrays.asList(4,5,6,7);
-         
+
         //Integer list object is being passed
         printOnlyIntegerClassorSuperClass(list2);
     }
- 
+
     public static void printOnlyIntegerClassorSuperClass(List<? super Integer> list)
     {
         System.out.println(list);
@@ -546,11 +558,11 @@ class WildcardDemo
 > able to pinpoint the difference), but maybe a careful read of the Wild
 > FJ paper would shed some light on it.
 
-可见，java 类型通配符的设计思想来源于存在类型，但有些不同。scala 引入存在类型是为了兼容 java 和 jvm，所以会比`?`更强大。那么既然区别不大，理解了类型通配即理解了存在类型。这是一个曲线救国的方式。
+可见，java 类型通配符的设计思想来源于存在类型，但有些不同。scala 引入存在类型是为了兼容 java 和 jvm，所以会比 `?` 更强大。那么既然区别不大，理解了类型通配即理解了存在类型。这是一个曲线救国的方式。
 
 接下来，我们从数学定义的角度来理解。
 
-*existential type*里的 existential 来源于存在量词`∃`,  `∃`在谓词逻辑中的解释:
+*existential type*里的 existential 来源于存在量词 `∃` , `∃` 在谓词逻辑中的解释:
 
 ```haskell
 ∃ x: P(x) 表示存在至少一个 x 使得 P(x) 为真。
@@ -564,7 +576,7 @@ T = ∃ X { X a; int f(X); }
 
 类型 X 是存在类型, 即存在一个类型 X，满足此表达式，在编程语言里我们称之为**可实现**。存在类型适合用来定义接口，不论是模块之间还是语言之间。
 
-这里要提下泛型(即前面讲到的*Parametric polymorphism*, 也叫*Universal type*), 以避免混淆。*Universal type*中的 universal 来源于全称量词`∀`, `∀`在谓词逻辑中的解释:
+这里要提下泛型(即前面讲到的*Parametric polymorphism*, 也叫*Universal type*), 以避免混淆。*Universal type*中的 universal 来源于全称量词 `∀` , `∀` 在谓词逻辑中的解释:
 
 ```haskell
 ∀ x: P(x) 表示 P(x) 对于所有 x 为真。
@@ -602,13 +614,13 @@ exponent  = ( "e" | "E" ) [ "+" | "-" ] decimals .
 
 | 基础类型                                     | 解释                                       |
 | ---------------------------------------- | ---------------------------------------- |
-| int, short, int8, uint8, byte, int16, uint16, int32, rune, uint32, int64, uint64, long | 整数, 包含不同进制的整数, 包含不同表示范围的整数, 包含有符号和无符号。`ex`. int a = 100; int b =  0xff; uint8 c = 34; PS. Rust 的 i8, u8 等写法不赘述. |
+| int, short, int8, uint8, byte, int16, uint16, int32, rune, uint32, int64, uint64, long | 整数, 包含不同进制的整数, 包含不同表示范围的整数, 包含有符号和无符号。 `ex` . int a = 100; int b =  0xff; uint8 c = 34; PS. Rust 的 i8, u8 等写法不赘述. |
 | float, float32, float64, double, long double | 浮点数, 包含不同的计数方式, 不同的范围。ex. float a = 5.6; float64 f = .12345E+5 |
-| bool, boolean                            | 布尔型, true or false. `ex`.  bool b = false |
-| char,  signed char,  unsigned char,  char16_t,  char32_t,  wchar_t, string, symbol | 字符/字符串，string 在某些语言里是复合类型. ex. char a = 'c'; string b = "wango"; symbol 是 ruby 里不可修改的字符串类型 |
-| complex64, complex128                    | 复数，部分语言有. `ex`. var x complex128 = complex(1, 2) |
-| pointer, reference                       | 指针/引用. `ex`. int *p = 0x22ae4f; var p *int; *p= 1; q := &p |
-| error                                    | 错误信息，少部分语言有，比如 golang. `ex`: var e error  |
+| bool, boolean                            | 布尔型, true or false. `ex` .  bool b = false |
+| char, signed char, unsigned char, char16_t, char32_t, wchar_t, string, symbol | 字符/字符串，string 在某些语言里是复合类型. ex. char a = 'c'; string b = "wango"; symbol 是 ruby 里不可修改的字符串类型 |
+| complex64, complex128                    | 复数，部分语言有. `ex` . var x complex128 = complex(1, 2) |
+| pointer, reference                       | 指针/引用. `ex` . int *p = 0x22ae4f; var p *int; *p= 1; q := &p |
+| error                                    | 错误信息，少部分语言有，比如 golang. `ex` : var e error  |
 | null, nil, undefined, void               | 空值, 在不同的语言里要做区分, 这里仅作归类                  |
 |                                          |                                          |
 
@@ -618,18 +630,18 @@ exponent  = ( "e" | "E" ) [ "+" | "-" ] decimals .
 
 | 复合类型                       | 解释                                       |
 | -------------------------- | ---------------------------------------- |
-| array, slice, list, vector | 数组, `ex`. int *a = new array[3]          |
-| struct, class              | 结构体/类. `ex`. struct{a:b, c:d}            |
-| map                        | key-value, 包含不同的实现方式. `ex`. map[string]int |
-| interface                  | 接口. `ex`. interface a { f()}             |
-| channel                    | 信道. `ex`. var a chan int                 |
+| array, slice, list, vector | 数组, `ex` . int *a = new array[3]          |
+| struct, class              | 结构体/类. `ex` . struct{a:b, c:d}            |
+| map                        | key-value, 包含不同的实现方式. `ex` . map[string]int |
+| interface                  | 接口. `ex` . interface a { f()}             |
+| channel                    | 信道. `ex` . var a chan int                 |
 | function                   | 函数                                       |
 | enum                       | 枚举, 在某些语言里是基础类型, 比如 TypeScript, 某些不是, 比如 Java |
 | union                      | 联合, let a : string \| number = 10; a = '10' |
 | table                      | hash, 在某些语言里是基础类型，比如 Lua，在某些语言里是复合类型, 比如 Java |
-| set                        | 集合. `ex`. const s = new Set([1, 2, 3, 4, 5]); |
+| set                        | 集合. `ex` . const s = new Set([1, 2, 3, 4, 5]); |
 | Object                     | 对象                                       |
-| tuple                      | 元组,  let x: [string, number]; x 是个元组，包含不同类型的元素, scala, typescript 都有这种元组类型 |
+| tuple                      | 元组, let x: [string, number]; x 是个元组，包含不同类型的元素, scala, typescript 都有这种元组类型 |
 |                            |                                          |
 
 ##### Statements
@@ -649,10 +661,12 @@ EmptyStatement:
 
 标签语句, 通常作为**goto**, **break**, **continue** 的目标，例如 c/c++里的**goto**语句，一个单词加上冒号即是*labeled statement*。下面代码中的标签语句*LOOP:*即是**goto**的目标。
 
-````c
+`
+
+```c
 /*c*/
 #include <stdio.h>
- 
+
 int main () {
 
    /* local variable definition */
@@ -660,18 +674,18 @@ int main () {
 
    /* do loop execution */
    LOOP:do {
-   
+
       if( a == 15) {
          /* skip the iteration */
          a = a + 1;
          goto LOOP;
       }
-		
+
       printf("value of a: %d\n", a);
       a++;
 
    }while( a < 20 );
- 
+
    return
 ````
 
@@ -687,7 +701,7 @@ Label       = identifier .
 ```go
  // golang
  guestList := []string{"bill", "jill", "joan"}
- arrived := []string{"sally", "jill", "joan"} 
+ arrived := []string{"sally", "jill", "joan"}
 
  CheckList:
     for _, guest := range guestList {
@@ -708,7 +722,7 @@ Label       = identifier .
 
 ###### If statement
 
-我们常说的**if**条件语句，也叫**If-then-else**,  如果条件满足则执行此逻辑, 否则执行它的**else**(如果存在)逻辑.
+我们常说的**if**条件语句，也叫**If-then-else**, 如果条件满足则执行此逻辑, 否则执行它的**else**(如果存在)逻辑.
 
 ```go
 // golang
@@ -733,7 +747,7 @@ assert( size <= LIMIT );
 **switch**条件语句，判断表达式的值，满足不同的条件执行时执行不同的逻辑, 当所有条件都不满足时，执行默认逻辑(如果存在).
 
 ```javascript
-switch(expression) {
+switch (expression) {
     case n:
         code block
         break;
@@ -826,7 +840,11 @@ for i := 0; i < 10; i++ {
 
 ```javascript
 // JavaScript
-var person = {fname:"John", lname:"Doe", age:25}; 
+var person = {
+    fname: "John",
+    lname: "Doe",
+    age: 25
+};
 
 var text = "";
 var x;
@@ -839,20 +857,20 @@ for (x in person) {
 
 ###### For-of statement
 
-**for**语句变种,  类似于**for-in**, 用来迭代可迭代的(iterable)数据类型, 比如数组和字符串
+**for**语句变种, 类似于**for-in**, 用来迭代可迭代的(iterable)数据类型, 比如数组和字符串
 
 ```javascript
 // JavaScript
-function* foo(){
-  yield 1;
-  yield 2;
+function* foo() {
+    yield 1;
+    yield 2;
 }
 
 for (let v of foo()) {
-  console.log(v);
-  // expected output: 1
+    console.log(v);
+    // expected output: 1
 
-  break; // closes iterator, triggers return
+    break; // closes iterator, triggers return
 }
 ```
 
@@ -860,7 +878,7 @@ for (let v of foo()) {
 
 **For-in** vs **For-of**
 
-|                   | `for..in`             | `for..of`            |
+|                   | `for..in` | `for..of` |
 | ----------------- | --------------------- | -------------------- |
 | Applies to        | Enumerable Properties | Iterable Collections |
 | Use with Objects? | Yes                   | No                   |
@@ -878,7 +896,7 @@ for (let v of foo()) {
  for _, num := range nums {
      sum += num
  }
- 
+
  kvs := map[string]string{"a": "apple", "b": "banana"}
  for k, v := range kvs {
      fmt.Printf("%s -> %s\n", k, v)
@@ -892,7 +910,7 @@ for (let v of foo()) {
 ```c
 // c
 #include <stdio.h>
-int main () 
+int main ()
 {
    /* 局部变量定义 */
    int a = 10;
@@ -1005,17 +1023,16 @@ RowLoop:
 ```javascript
 // JavasScript
 function getRectArea(width, height) {
-  if (isNaN(width) || isNaN(height)) {
-    throw "Parameter is not a number!";
-  }
+    if (isNaN(width) || isNaN(height)) {
+        throw "Parameter is not a number!";
+    }
 }
 
 try {
-  getRectArea(3, 'A');
-}
-catch(e) {
-  console.log(e);
-  // expected output: "Parameter is not a number!"
+    getRectArea(3, 'A');
+} catch (e) {
+    console.log(e);
+    // expected output: "Parameter is not a number!"
 }
 ```
 
@@ -1026,7 +1043,7 @@ catch(e) {
 ```c
 // c
 #include <stdio.h>
- 
+
 int main ()
 {
    /* 局部变量定义 */
@@ -1043,9 +1060,9 @@ int main ()
       }
       printf("a 的值： %d\n", a);
       a++;
-     
+
    }while( a < 20 );
- 
+
    return 0;
 }
 ```
@@ -1062,14 +1079,14 @@ int main ()
 | ---- | ---------------------------------------- |
 | +    | 加号, a := 1 + 4                           |
 | -    | 减号, b := 1 - 4                           |
-| ++   | 累加 1, int b = 0; int a = b++;             |
-| --   | 累减 1, ini b = 0; int a = b—;              |
-| ~    | 按位取反,  ~ 0111（十进制 7）  = 1000（十进制 8）        |
+| ++   | 累加 1, int b = 0; int a = b++; |
+| --   | 累减 1, ini b = 0; int a = b—; |
+| ~    | 按位取反, ~ 0111（十进制 7）  = 1000（十进制 8）        |
 | !    | 非, !isEmpty(o)                           |
 | ^    | 异或, 2 ^ 3                                |
-| &    | 按位与,   0101  & 0011  = 0001              |
+| &    | 按位与, 0101  & 0011  = 0001              |
 | <-   | 赋值, a <- 1, 在 golang 中用于操作 channel          |
-| \|   | 按位或,    0101（十进制 5）      \| 0011（十进制 3）       = 0111（十进制 7） |
+| \|   | 按位或, 0101（十进制 5）      \| 0011（十进制 3）       = 0111（十进制 7） |
 
 ###### Binary operators
 
@@ -1084,7 +1101,7 @@ int main ()
 | &^   |                      |
 |      |                      |
 | ==   | 等于, 1 == 2           |
-| !=   | 不等于,  1 != 2         |
+| !=   | 不等于, 1 != 2         |
 |      |                      |
 | <    | 小与                   |
 | <=   | 小于等于                 |
@@ -1163,7 +1180,7 @@ a[x]
 
 ###### Block scope
 
-通常编程语言都会使用花括号`{}`来将代码包裹成块(block), 在 block 内声明的实体，仅在 block 内有效。
+通常编程语言都会使用花括号 `{}` 来将代码包裹成块(block), 在 block 内声明的实体，仅在 block 内有效。
 
 ```go
 // golang
@@ -1192,7 +1209,7 @@ def square(n):
   return n * n
 
 def sum_of_squares(n):
-  total = 0 
+  total = 0
   i = 0
   while i <= n:
     total += square(i)
@@ -1260,7 +1277,7 @@ NameError: name 'os' is not defined
 ```javascript
 // node
 var circle = require('./circle.js');
-console.log( 'The area of a circle of radius 4 is ' + circle.area(4));
+console.log('The area of a circle of radius 4 is ' + circle.area(4));
 ```
 
 ```go
@@ -1284,11 +1301,10 @@ console.log(foo);
 
 int foo(char* name) {
    //do stuff
-   return 0;
+   return 0; 
 }
+
 ```
-
-
 
 ### 编程范式
 
@@ -1302,9 +1318,12 @@ int foo(char* name) {
 即指令式编程。程序由一系列指令和流程控制语句组成，运行过程中指令不断改变程序的状态，由此达到最终的编码意图。**IP**范式会显式地指定代码的执行流程，以及运算逻辑。汇编是典型的使用**IP**范式的编程语言。
 
 ```
+
     result = []
     i = 0
+
 start:
+
     numPeople = length(people)
     if i >= numPeople goto finished
     p = people[i]
@@ -1312,11 +1331,16 @@ start:
     if nameLength <= 5 goto nextOne
     upperName = toUpper(p.name)
     addToList(result, upperName)
+
 nextOne:
+
     i = i + 1
     goto start
+
 finished:
+
     return sort(result)
+
 ```
 
 ##### SP(Structured Programming)
@@ -1324,14 +1348,18 @@ finished:
 即结构化编程，在**IP**的基础上，我们可以将用**goto**来控制流程的代码，以**for**语句，**while**语句等此类结构化的代码块(block structure)组织起来，使得代码的可读性更高，那么此种编码方式即为结构化范式。**SP**是现代语言都支持的一种基础范式。
 
 ```
-result = [];
+
+result = []; 
 for i = 0; i < length(people); i++ {
+
     p = people[i];
     if length(p.name)) > 5 {
         addToList(result, toUpper(p.name));
     }
+
 }
-return sort(result);
+return sort(result); 
+
 ```
 
 ##### PP(Procedure Programming)
@@ -1352,7 +1380,7 @@ return sort(result);
 
 即，描述性范式。和**IP**相反，此类语言只描述最终的编码意图，不描述达到意图的过程。举个例子，如何用程序来回答你是怎么回家的？
 
-* *IP*: 
+* *IP*:
 
   > Go out of the north exit of the parking lot and take a left. Get on I-15 south until you get to the Bangerter Highway exit. Take a right off the exit like you’re going to Ikea. Go straight and take a right at the first light. Continue through the next light then take your next left. My house is #298.
 
@@ -1389,7 +1417,7 @@ function double (arr) {
 
 > First do this, then do that.
 
-**FP**则不会描述数组是如何迭代的，也不会显式地修改变量, 仅仅描述了我们想要什么，我们想要将元素乘以 2，`item * 2`就是核心逻辑，不需要开发者关心它是怎么迭代和修改变量的。
+**FP**则不会描述数组是如何迭代的，也不会显式地修改变量, 仅仅描述了我们想要什么，我们想要将元素乘以 2， `item * 2` 就是核心逻辑，不需要开发者关心它是怎么迭代和修改变量的。
 
 ```typescript
 function double (arr) {
@@ -1429,29 +1457,29 @@ User.find_by_email('songtianyi630@163.com')
 |    Lang     |   Typed   |   Static and dynamic  checks   |   Strongly checked   |   Weakly or strongly  typed   |   Dynamically or statically typed   |            Type theories            | Paradigms                    |
 | :---------: | :-------: | :----------------------------: | :------------------: | :---------------------------: | :---------------------------------: | :---------------------------------: | ---------------------------- |
 |  Assembly   |     ❌     |               ❌                |          ❌           |               -               |                  -                  |                  -                  | IP                           |
-|    Java     |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP           |
-|      C      |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |                  -                  | IP,SP,PP                     |
-|     C++     |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP(template) |
-|   Python    |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |     duck, subtype, overloading      | IP,PP,OOP,FP,MP              |
-|     C#      |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, subtype, overloading    | IP,SP,PP,OOP,FP,MP           |
-|     PHP     |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             |            duck, subtype            | IP,PP,OOP,FP,MP              |
-| JavaScript  |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             |                duck                 | IP,PP,OOP,FP,MP              |
-|    Ruby     |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |                duck                 | IP,OOP,FP,MP                 |
-|      R      |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             |    generic, overloading, subtype    | IP,PP,OOP,FP,MP              |
-|     Go      |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |               subtype               | IP,PP,MP                     |
-| Objective-C |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |       duck, generic, subtype        | IP,OOP,MP                    |
-|    Perl     |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             | generic, duck, subtype, overloading | IP,PP,OOP,FP,MP              |
-|    Swift    |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              | duck, generic, subtype, overloading | IP,PP,OOP,FP,MP              |
-|    Scala    |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              | duck, generic, subtype, overloading | IP,OOP,FP,MP                 |
+|    Java     |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, subtype, overloading    | IP, SP, PP, OOP, FP, MP           |
+|      C      |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |                  -                  | IP, SP, PP                     |
+|     C++     |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |    generic, subtype, overloading    | IP, SP, PP, OOP, FP, MP(template) |
+|   Python    |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |     duck, subtype, overloading      | IP, PP, OOP, FP, MP              |
+|     C#      |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, subtype, overloading    | IP, SP, PP, OOP, FP, MP           |
+|     PHP     |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             |            duck, subtype            | IP, PP, OOP, FP, MP              |
+| JavaScript  |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             |                duck                 | IP, PP, OOP, FP, MP              |
+|    Ruby     |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |                duck                 | IP, OOP, FP, MP                 |
+|      R      |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             |    generic, overloading, subtype    | IP, PP, OOP, FP, MP              |
+|     Go      |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |               subtype               | IP, PP, MP                     |
+| Objective-C |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |       duck, generic, subtype        | IP, OOP, MP                    |
+|    Perl     |    ☑️     |               ❌                |          ❌           |            weakly             |             dynamically             | generic, duck, subtype, overloading | IP, PP, OOP, FP, MP              |
+|    Swift    |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              | duck, generic, subtype, overloading | IP, PP, OOP, FP, MP              |
+|    Scala    |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              | duck, generic, subtype, overloading | IP, OOP, FP, MP                 |
 |    Lisp     |     ❌     |               ❌                |          ☑️          |               -               |                  -                  |                  -                  | FP                           |
-|   Prolog    |    ☑️     |               ☑️               |          ❌           |            weakly             |             statically              |                  -                  | DP,LP                        |
+|   Prolog    |    ☑️     |               ☑️               |          ❌           |            weakly             |             statically              |                  -                  | DP, LP                        |
 |   Erlang    |    ☑️     |               ❌                |          ☑️          |           strongly            |             dynamically             |             overloading             | FP                           |
-|     Lua     |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |            duck, generic            | IP,PP,OOP,FP,MP              |
+|     Lua     |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |            duck, generic            | IP, PP, OOP, FP, MP              |
 |   Haskell   |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |     generic, duck, overloading      | FP                           |
-|   Kotlin    |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |    generic, subtype, overloading    | IP,OOP,FP,MP                 |
-| TypeScript  |    ☑️     |               ☑️               |          ❌           |            weakly             |             statically              |     generic, duck, overloading      | IP,SP,PP,OOP,FP,MP           |
-|    Rust     |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, overloading, subtype    | IP,SP,PP,OOP,FP,MP           |
-|    Julia    |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |    generic, overloading, subtype    | IP,SP,PP,OOP,FP,MP           |
+|   Kotlin    |    ☑️     |               ☑️               |          ❌           |           strongly            |             statically              |    generic, subtype, overloading    | IP, OOP, FP, MP                 |
+| TypeScript  |    ☑️     |               ☑️               |          ❌           |            weakly             |             statically              |     generic, duck, overloading      | IP, SP, PP, OOP, FP, MP           |
+|    Rust     |    ☑️     |               ☑️               |          ☑️          |           strongly            |             statically              |    generic, overloading, subtype    | IP, SP, PP, OOP, FP, MP           |
+|    Julia    |    ☑️     |               ❌                |          ☑️          |            weakly             |             dynamically             |    generic, overloading, subtype    | IP, SP, PP, OOP, FP, MP           |
 |  **Lang**   | **Typed** | **Static and dynamic  checks** | **Strongly checked** | **Weakly or strongly  typed** | **Dynamically or statically typed** |          **Type theories**          | **Paradigms**                |
 
 整理完这个对比表才发现一些有意思的事情:
@@ -1459,21 +1487,19 @@ User.find_by_email('songtianyi630@163.com')
 * 原来大部分语言都有**OOP**, *js*也是.
 * *Go*的优势并不在自己的类型系统和语法特性上, 它的设计充分体现了*less is more*的设计哲学, 上手十分简单, 工程实践效果很好。
 
-附:树形对比图
+附: 树形对比图
 http://on-img.com/chart_image/5b20fa53e4b06350d462d78b.png
-
-
 
 ### 参考文献
 
-1. [《Type Systems》, Luca Cardelli](http://www.cs.colorado.edu/~bec/courses/csci5535/reading/cardelli-typesystems.pdf)
-2. [《函数式语言泛型特性的研究与实现》, LI Yang, YU Shangchao, WANG Peng](http://cea.ceaj.org/CN/article/downloadArticleFile.do?attachType=PDF&id=29391)
-3. [《Types and Programming Languages》, Benjamin C. Pierce](https://www.asc.ohio-state.edu/pollard.4/type/books/pierce-tpl.pdf)
-4. [《依赖类型》, wikipedia](https://zh.wikipedia.org/wiki/%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B)
-5. [《what is dependent type?》, StackOverflow](https://stackoverflow.com/questions/9338709/what-is-dependent-typing)
-6. [《Antlr Docs》, github](https://github.com/antlr/antlr4/blob/master/doc/lexicon.md)
-7. [《Expression (computer science)》, wikipedia](https://en.wikipedia.org/wiki/Expression_(computer_science))
-8. [《List of programming languages by type》, wikipedia](https://en.wikipedia.org/wiki/List_of_programming_languages_by_type#Metaprogramming_languages)
-9. [《Comparison of programming languages》, wikipedia](https://en.wikipedia.org/wiki/Comparison_of_programming_languages)
+01. 《Type Systems》, Luca Cardelli
+02. [《函数式语言泛型特性的研究与实现》, LI Yang, YU Shangchao, WANG Peng](http://cea.ceaj.org/CN/article/downloadArticleFile.do?attachType=PDF&id=29391)
+03. [《Types and Programming Languages》, Benjamin C. Pierce](https://theswissbay.ch/pdf/Gentoomen%20Library/Maths/Comp%20Sci%20Math/Benjamin_C._Pierce-Types_and_Programming_Languages-The_MIT_Press%282002%29.pdf)
+04. [《依赖类型》, wikipedia](https://zh.wikipedia.org/wiki/%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B)
+05. [《what is dependent type?》, StackOverflow](https://stackoverflow.com/questions/9338709/what-is-dependent-typing)
+06. [《Antlr Docs》, github](https://github.com/antlr/antlr4/blob/master/doc/lexicon.md)
+07. [《Expression (computer science)》, wikipedia](https://en.wikipedia.org/wiki/Expression_(computer_science))
+08. [《List of programming languages by type》, wikipedia](https://en.wikipedia.org/wiki/List_of_programming_languages_by_type#Metaprogramming_languages)
+09. [《Comparison of programming languages》, wikipedia](https://en.wikipedia.org/wiki/Comparison_of_programming_languages)
 10. [《Comparison of multi-paradigm programming language》, wikipedia](https://en.wikipedia.org/wiki/Comparison_of_multi-paradigm_programming_languages)
 11. [Rob Pike tweet](https://twitter.com/rob_pike/status/546973312543227904)

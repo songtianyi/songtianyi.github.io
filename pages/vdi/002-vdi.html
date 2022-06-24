@@ -35,7 +35,7 @@
 	<img  src="">
 	<p>图 </p>
 </div>
-	
+
 <sup>sup>
 
 <div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
@@ -56,7 +56,7 @@
 
 	<!--第一段，介绍文章的内容-->
 	<p>
-	<a href="http://zh.wikipedia.org/wiki/QEMU">QEMU</a>是一个开源的虚拟化软件，能够用<a href="www.linux-kvm.org">KVM</a>来加速，是比较不错的虚拟化方案，在这里简单地记录下安装过程。
+	<a href="http://zh.wikipedia.org/wiki/QEMU">QEMU</a>是一个开源的虚拟化软件，能够用<a href="https://www.linux-kvm.org">KVM</a>来加速，是比较不错的虚拟化方案，在这里简单地记录下安装过程。
 	</p>
 
 
@@ -101,7 +101,7 @@ $yum install tunctl
 $modprobe tun</pre>
 	</div>
 
-	
+
 
 
 	<h2 id="create">2 创建操作系统镜像</h2>
@@ -185,7 +185,7 @@ echo "test local network.........."
 #test network
 ping -c 3 www.baidu.com
 </pre>
-	</div>	
+	</div>
 
 
 
@@ -230,7 +230,7 @@ qemu-system-x86_64 -enable-kvm -localtime -usb\
     -net tap,ifname=$tapdevice,vhost=on,vhostforce=on,vnet_hdr=on,script=no,downscript=no\
     -usbdevice tablet \
 	-sdl \
-    -vnc :$vncPort 
+    -vnc :$vncPort
 
 
 #pull out tap device form bridge

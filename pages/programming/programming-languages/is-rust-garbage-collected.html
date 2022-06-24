@@ -368,18 +368,18 @@ code {
 <h1 id="%E5%85%B3%E4%BA%8E-rust-gc-%E7%9A%84%E4%BA%89%E8%AE%AE">关于 Rust GC 的争议</h1>
 <p>作者: <a href="http://songtianyi.info">songtianyi</a></p>
 <h3 id="%E5%89%8D%E8%A8%80">前言</h3>
-<p>在<a href="getting-started-with-rust-in-1-hour.md">1 小时入门 Rust</a>的文中，有一处说到，Rust 没有 GC，但有人对此有异议，所以单独写一篇文章来说明。在写文章的时候，做了些搜索，国外也有人持同样的观点 <sup>[5]</sup>。</p>
+<p>在<a href="getting-started-with-rust-in-1-hour.html">1 小时入门 Rust</a>的文中，有一处说到，Rust 没有 GC，但有人对此有异议，所以单独写一篇文章来说明。在写文章的时候，做了些搜索，国外也有人持同样的观点 <sup>[5]</sup>。</p>
 <h3 id="%E4%BB%80%E4%B9%88%E6%98%AF-gc">什么是 GC</h3>
 <p>GC，全称 Garbage Collection，指的是内存自动化管理这种行为 <sup>[1]</sup>。GC, 也是 Garbage Collector 的缩写，是完成 Garbage Collection 这种行为的代码逻辑。</p>
 <h3 id="%E7%BB%93%E8%AE%BA">结论</h3>
 <p>先抛出结论，Rust 是没有 GC 的，不管是中文博客还是国外的 stackoverflow<sup>[3]</sup>基本都是这么认为的，而且在 Rust 的官方文档的 FAQ 里已经作了说明 <sup>[2]</sup>。引用如下:</p>
 <blockquote>
-<h3 id="is-rust-garbage-collected"><a href="https://www.rust-lang.org/en-US/faq.html#is-rust-garbage-collected">Is Rust garbage collected?</a></h3>
-<p>No. One of Rust’s key innovations is guaranteeing memory safety (no segfaults) <em>without</em> requiring garbage collection.</p>
-<p>By avoiding GC, Rust can offer numerous benefits: predictable cleanup of resources, lower overhead for memory management, and essentially no runtime system. All of these traits make Rust lean and easy to embed into arbitrary contexts, and make it much easier to <a href="http://calculist.org/blog/2015/12/23/neon-node-rust/">integrate Rust code with languages that have a GC</a>.</p>
-<p>Rust avoids the need for GC through its system of ownership and borrowing, but that same system helps with a host of other problems, including <a href="http://blog.skylight.io/rust-means-never-having-to-close-a-socket/">resource management in general</a> and <a href="http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html">concurrency</a>.</p>
-<p>For when single ownership does not suffice, Rust programs rely on the standard reference-counting smart pointer type, <a href="https://doc.rust-lang.org/std/rc/struct.Rc.html"> <code>Rc</code> </a>, and its thread-safe counterpart, <a href="https://doc.rust-lang.org/std/sync/struct.Arc.html"> <code>Arc</code> </a>, instead of GC.</p>
-<p>We are however investigating <em>optional</em> garbage collection as a future extension. The goal is to enable smooth integration with garbage-collected runtimes, such as those offered by the <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey">Spidermonkey</a> and <a href="https://developers.google.com/v8/?hl=en">V8</a> JavaScript engines. Finally, some people have investigated implementing <a href="https://manishearth.github.io/blog/2015/09/01/designing-a-gc-in-rust/">pure Rust garbage collectors</a> without compiler support.</p>
+<p>Is Rust garbage collected?
+No. One of Rust’s key innovations is guaranteeing memory safety (no segfaults) without requiring garbage collection.</p>
+<p>By avoiding GC, Rust can offer numerous benefits: predictable cleanup of resources, lower overhead for memory management, and essentially no runtime system. All of these traits make Rust lean and easy to embed into arbitrary contexts, and make it much easier to integrate Rust code with languages that have a GC.</p>
+<p>Rust avoids the need for GC through its system of ownership and borrowing, but that same system helps with a host of other problems, including resource management in general and concurrency.</p>
+<p>For when single ownership does not suffice, Rust programs rely on the standard reference-counting smart pointer type, Rc, and its thread-safe counterpart, Arc, instead of GC.</p>
+<p>We are however investigating optional garbage collection as a future extension. The goal is to enable smooth integration with garbage-collected runtimes, such as those offered by the Spidermonkey and V8 JavaScript engines. Finally, some people have investigated implementing pure Rust garbage collectors without compiler support.</p>
 </blockquote>
 <h3 id="%E8%AE%BA%E7%82%B9">论点</h3>
 <p>有异议的人应该是这么认为的:</p>
@@ -396,10 +396,9 @@ code {
 <h3 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h3>
 <ol>
 <li><a href="https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)">Garbage Collection</a></li>
-<li><a href="https://www.rust-lang.org/en-US/faq.html#is-rust-garbage-collected">is-rust-garbage-collected</a></li>
+<li><a href="https://prev.rust-lang.org/en-US/faq.html#is-rust-garbage-collected">is-rust-garbage-collected</a></li>
 <li><a href="https://stackoverflow.com/questions/32677420/what-does-rust-have-instead-of-a-garbage-collector">what-does-rust-have-instead-of-a-garbage-collector</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)#Reference_counting">Reference counting</a></li>
-<li><a href="https://news.ycombinator.com/item?id=12032638">Rust or Swift for system programming?</a></li>
 </ol>
 
 </body>

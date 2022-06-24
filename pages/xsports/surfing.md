@@ -69,11 +69,7 @@
 * [Top 3 Tricks to Get through Waves on a longboard Surfboard](https://www.youtube.com/watch?v=j_I83dlNUWg)
 * [Surf Completely : How To Duck Dive](https://www.youtube.com/watch?v=AMDvj9EwtKI)
 * [How to Duck Dive a Longboard pt. II](https://www.youtube.com/watch?v=1UBVcWzRdAE)
-* [Surfing Lessons: How to Turtle Roll](https://www.youtube.com/watch?v=KLwYjrKhFBs)
-* [Advanced Surfing Pop Up - The Angled Take-Off](https://www.youtube.com/watch?v=-uYm7uyXKec)
-* [Understanding Waves Size & Surf Reports - Surfing Tutorials](https://www.youtube.com/watch?v=Yl14Dggru0o)
 * [Surfing the 100ft swell at Nazare | 60 Minutes Australia](https://www.youtube.com/watch?v=JkMWoHjnaRw)
-* [Close2Lombok - A surf travel guide about Lombok, Indonesia](https://www.youtube.com/watch?v=kWVG25F8yi0)
 
 ### 海浪
 

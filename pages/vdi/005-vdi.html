@@ -28,21 +28,21 @@
 
 <div>
 
-	
+
 	<h2 style="text-align:center;">GTK初探</h2>
 	<h5 style="text-align:right;">update@2013-07-31</h5>
 
 
 
-	
+
 	<p>
-	最近需要用gtk做点东西，所以就开始学习GTK了，以前学过一点QT，也用QT在windows下做过一个<a rel="nofollow" href="https://github.com/songtianyi/MotionPlayer">骨骼动画播放程序</a>，所以入门还算轻松。和QT比起来GTK更底层，相当与QT的back-end，详细的对比见<a rel="nofollow" href="http://www.wikivs.com/wiki/GTK_vs_Qt">这里</a>。
+	最近需要用gtk做点东西，所以就开始学习GTK了，以前学过一点QT，也用QT在windows下做过一个<a rel="nofollow" href="https://github.com/songtianyi/MotionPlayer">骨骼动画播放程序</a>，所以入门还算轻松。和QT比起来GTK更底层，相当与QT的back-end.
 	</p>
 
 
 
 	<p><br></p>
-	
+
 	<div style="width:300px; BORDER-RIGHT: #6f3198 1px dashed; BORDER-TOP: #6f3198 1px dashed; BORDER-LEFT: #6f3198 1px dashed; BORDER-BOTTOM: #6f3198 1px dashed;">
 		<ol>
 			<li><a style="text-decoration:none" rel="nofollow" href="#install">安装GTK开发包</a></li>
@@ -66,8 +66,8 @@
 	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
 <pre>/*************************************************************************
 	&gt; File Name: gtk-test.cpp
-	&gt; Author: songtianyi 
-	&gt; Mail: songtianyi@163.com 
+	&gt; Author: songtianyi
+	&gt; Mail: songtianyi@163.com
 	&gt; Created Time: Tue 30 Jul 2013 03:17:19 PM CST
  ************************************************************************/
 
@@ -77,7 +77,7 @@ static void print_hello ()
 	  g_print ("Hello World\n");
 }
 
-static gboolean on_delete_event () 
+static gboolean on_delete_event ()
 {
 	g_print("delete event occurred\n");
 	return FALSE;
@@ -106,7 +106,7 @@ int main(int argc,char *argv[])
 	做些想做的工作。在这里称on_delete_event为delete_event的回调函数。
 	相当于QT的信号和槽（signal-slot）机制*/
 
-    	g_signal_connect (window, "delete-event", G_CALLBACK (on_delete_event), NULL);               
+    	g_signal_connect (window, "delete-event", G_CALLBACK (on_delete_event), NULL);
 
 
 	/*和上一个函数类似，将gtk_main_quit函数作为destroy信号的回调函数。当调用
@@ -116,10 +116,10 @@ int main(int argc,char *argv[])
 	g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 
 
-	/*设置windows边框大小*/	
+	/*设置windows边框大小*/
 	gtk_container_set_border_width(GTK_CONTAINER(window),10);
 
-	
+
 	/*新建一个按钮，按钮上显示的内容为"print hello world"*/
 	GtkWidget *button = gtk_button_new_with_label("print hello world");
 
@@ -134,7 +134,7 @@ int main(int argc,char *argv[])
 	gtk_widget_show(button);
 
 
-	/*显示窗口*/	
+	/*显示窗口*/
 	gtk_widget_show (window);
 
 
@@ -149,15 +149,15 @@ int main(int argc,char *argv[])
 </pre>
 	</div>
 
-	
+
 	<p>
 	控件和消息机制，GUI程序最基本的两个要素都有了。编辑好源程序之后，用下面的命令来编译和运行，或者参照<a rel="nofollow" href="https://developer.gnome.org/gtk3/stable/gtk-compiling.html">Compiling GTK+ Applications</a>。
 	</p>
 	<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">
-		<pre> $gcc `pkg-config --cflags --libs gtk+-3.0` gtk-test.cpp 
+		<pre> $gcc `pkg-config --cflags --libs gtk+-3.0` gtk-test.cpp
  $./a.out </pre>
 	</div>
-	
+
 	<p><br></p>
 	<div style="text-align:center;">
 	<img title="2013年07月31日 - songtianyi - songtianyi" alt="2013年07月31日 - songtianyi - songtianyi" src="../../images/005-vdi-01.png">

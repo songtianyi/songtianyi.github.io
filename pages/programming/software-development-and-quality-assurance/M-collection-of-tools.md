@@ -10,13 +10,17 @@
 
 * *[codecogs](https://www.codecogs.com/latex/eqneditor.php?lang=zh-cn)*: 在线数学公式编辑器，符号很全，可以下载为多种格式的。
 
-  ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/codecosg-demo.jpg)
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/codecosg-demo.jpg)
 
 * *[mathcha](https://www.mathcha.io/editor)*: 在线数学编辑器，虽然公式的编辑没有*codecogs*强大，但是要画图以及在图里展示公式就需要它了。
 
-  ![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/mathcha-demo.jpg)
+![image](https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/mathcha-demo.jpg)
 
 ##### Regex
 
 * *[regex101](https://regex101.com/)* 可视化效果很好，而且提供了很多常用 regex，还提供了代码生成，一把梭，但不支持 java
 * *[java regex](http://myregexp.com/)* 好用
+
+##### dead link checker
+
+* [dead link checker](https://www.deadlinkchecker.com/) 可以检测网站中的 dead link 并提供报告，非常实用！
