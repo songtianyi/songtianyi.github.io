@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "10560996",
+      "name": "Coffee, cup",
+      "font_class": "Coffeecup",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
       "icon_id": "18967152",
       "name": "email",
       "font_class": "email",
