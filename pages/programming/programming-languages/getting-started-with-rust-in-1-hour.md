@@ -58,8 +58,10 @@ rustc -V
 
 * *strongly checked*: 安全性是 Rust 的第一大亮点，也是它的设计初衷。C/C++程序猿应该深有体会，内存泄漏和指针异常崩溃时常让我们的努力功亏一篑，Rust 在类型系统上下了很大功夫，尽量在编译阶段就能检测出这类错误，同时，编译时检查的加强也会降低运行时检查的性能开销。编译时检查需要依靠类型系统来提供信息，那么 Rust 的类型系统做了哪些事来达到这样的安全性呢？
 
-  + 变量
-    变量定义在 Rust 里称作变量绑定，变量默认是不可修改的,。
+  + 变量 <br/>
+    变量定义在 Rust 里称作变量绑定，变量默认是不可修改的。
+
+    
 
 ```rust
     fn main() {
@@ -69,6 +71,8 @@ rustc -V
     ```
 
     上述代码编译不会通过
+
+    
 
 ```shell
     error[E0384]: cannot assign twice to immutable variable `x`
@@ -82,127 +86,145 @@ rustc -V
 
     你们可能注意到了，x 的定义没有指明类型，是的，和许多现代编程语言一样，Rust 提供了类型推断。另外 Rust 是不允许使用未经初始化的变量的，虽然有类型推断但没有默认值，强迫我们使用更规范的方式去书写程序，因为默认值依赖于程序猿的经验以及运行平台，会有相应的编码风险。
 
+    
+
 ```rust
-    let mut x = 5; // 类型推断, 用 mut 来标记 使变量可修改
-    x = 10;
-    let mut y: i32 // 显式地指明类型为 int32
+        let mut x = 5; // 类型推断, 用 mut 来标记 使变量可修改
+        x = 10;
+        let mut y: i32 // 显式地指明类型为 int32
     ```
 
-  + ownership/borrowing
+  + ownership/borrowing <br/>
     c/c++给程序猿提供了操作内存的自由度，但是内存管理对于缺乏经验的人来说比较困难，而且人总是会犯错的，GC 的引入解决了这个问题，但是也带来了新的问题，即性能开销。Rust 作为系统编程语言，安全和性能都是它所追求的，那么它是如何解决的呢？Rust 引入了生命周期和租借的概念，并作出如下限制:
 
     1. 所有的资源只能有一个所有者（owner）
 
-```rust
-       fn main() {
-           // create string resource and assign it to a, a is the resource owner
-           let a = String::new();
-           // transfer the resource from a to _b, _b is the owner now
-           let _b = a;
-           // a cannot access the resource any more
-           println!("{}", a); // compile error
-       }
-       ```
-
-       我们可以把所有权再还回去，修改后的代码如下
+       
 
 ```rust
-       fn main() {
-           let mut a = String::new();
-           let _b = a; // 浅拷贝
-           a = _b;
-           println!("{}", a); // compile ok
-       }
+              fn main() {
+                  // create string resource and assign it to a, a is the resource owner
+                  let a = String::new();
+                  // transfer the resource from a to _b, _b is the owner now
+                  let _b = a;
+                  // a cannot access the resource any more
+                  println!("{}", a); // compile error
+              }
        ```
+
+        我们可以把所有权再还回去，修改后的代码如下
+
+        
+
+```rust
+               fn main() {
+                   let mut a = String::new();
+                   let _b = a; // 浅拷贝
+                   a = _b;
+                   println!("{}", a); // compile ok
+               }
+        ```
 
     2. 其它人可以租借这个资源。
 
+       
+
 ```rust
-       fn main() {
-           let a = String::from("foo");
-           let b = &a;
-           println!("a {}, b {}", a, b);
-       }
+              fn main() {
+                  let a = String::from("foo");
+                  let b = &a;
+                  println!("a {}, b {}", a, b);
+              }
        ```
 
        租借其实就是引用。租借的形式有可变和不可变两种，最多只能有一个可变租借; 可以有多个不可变租借；当有可变租借时，不能有其他租借。
 
+       
+
 ```rust
-       fn main() {
-           let a = String::from("foo");
-           let b = &a;
-           let c = &a;
-           println!("a {}, b {}, c {}", a, b, c);
-       }
+              fn main() {
+                  let a = String::from("foo");
+                  let b = &a;
+                  let c = &a;
+                  println!("a {}, b {}, c {}", a, b, c);
+              }
        ```
 
     3. 但当这个资源被借走时，所有者不允许修改或释放该资源。
 
+       
+
 ```rust
-       fn main() {
-           let mut a = String::from("foo");
-           let b = &a;
-           println!("a {}, b {}", a, b);
-           a = String::from("bar"); // compile error
-       }
+              fn main() {
+                  let mut a = String::from("foo");
+                  let b = &a;
+                  println!("a {}, b {}", a, b);
+                  a = String::from("bar"); // compile error
+              }
        ```
 
        上面的代码中，a 被借给了 b，虽然 b 是不可修改的，但是 a 作为资源的所有者仍然不能修改该资源。那么被借出的资源能否够被修改呢？答案是能。虽然所有者不能修改，但是可以授予他人修改的权限，前提当然是资源本身是允许被修改的。
 
+       
+
 ```rust
-       fn main() {
-           let mut a = String::from("foo");
-           let n = String::from("bar");
-           {
-               let b = &mut a;
-               *b = n;
-               println!("b {}", b);
-           }
-           println!("a {}", a);
-       }
+              fn main() {
+                  let mut a = String::from("foo");
+                  let n = String::from("bar");
+                  {
+                      let b = &mut a;
+                      *b = n;
+                      println!("b {}", b);
+                  }
+                  println!("a {}", a);
+              }
 
        ```
 
        在上述代码中，我们先定义了可修改的 a 和 n，然后把 a 以可变的形式借给了 b，之后修改 b，在打印 a 之前，b 被销毁，归还了可变引用，因此 a 能够再次借出(打印)。
 
-  + lifetime
+  + lifetime <br/>
     在上面的代码中，b 由于超出作用域而被自动销毁，使得我们能够再次正常使用 a(读写或者销毁)。但是语言的作用域并不总能达到这种效果，如果租借不能被归还(引用被销毁)，会导致变量无法正常使用。编译器需要一种机制能够让它知道引用是否被销毁，来完成它的检查，编程语言需要一种机制来确保引用的生命周期是要小于所有者的。这种机制即是 lifetime，一种显式地指定作用域的方法。再举一个例子来说明它的必要性:
 
-```rust
-    fn foo(x: &str, y: &str) -> &str {
-        if x.len() > y.len() {
-            x
-        } else {
-            y
-        }
-    }
+    
 
-    fn main() {
-        let x = String::from("foo");
-        let z;
-        {
-            let y = String::from("bar");
-            // 租借 x 和 y，有可能返回 x 的引用，有可能返回 y 的引用
-            z = foo(&x, &y);
+```rust
+        fn foo(x: &str, y: &str) -> &str {
+            if x.len() > y.len() {
+                x
+            } else {
+                y
+            }
         }
-        // 如果返回的是 y 的引用，由于 y 已经被销毁，访问 z 属于非法访问
-        println!("z = {}", z);
-    }
-    ```
+
+        fn main() {
+            let x = String::from("foo");
+            let z;
+            {
+                let y = String::from("bar");
+                // 租借 x 和 y，有可能返回 x 的引用，有可能返回 y 的引用
+                z = foo(&x, &y);
+            }
+            // 如果返回的是 y 的引用，由于 y 已经被销毁，访问 z 属于非法访问
+            println!("z = {}", z);
+        }
+     ```
 
     这段代码编译会不通过，因为编译器检查出了这种风险。
 
     lifetime 的指定方式:
 
+    
+
 ```rust
-    'a
+        'a
     ```
 
     Rust 称之为 lifetime annotation。单引号是必须的，a 可以用其他字母/单词代替，但通常用 a, b, c。那么可以通过指定 lifetime 来修改上述代码使其通过。
 
 ```rust
     fn foo<'a, 'b: 'a>(x: &'a str, y: &'b str) -> &'a str
-    ```
+```
 
 `'b: 'a` 的意思是限定了入参 y 的生命周期 `'b` 必须比入参 x 的生命周期 `'a` 要长，可以认为这是一个调用函数时的约束条件。完整代码如下:
 
@@ -225,7 +247,7 @@ rustc -V
         }
     }
 
-    ```
+```
 
 * *strongly typed*: 类型在确定之后不可变
 
@@ -277,7 +299,7 @@ fn foo<T>(_x: &[T]) where T : Graph {}
 
 当我们限定的不是 T，而是使用 T 的方式时 `where` 会很有用:
 
-```
+```rust
 use std::fmt::Debug;
 
 trait PrintInOption {

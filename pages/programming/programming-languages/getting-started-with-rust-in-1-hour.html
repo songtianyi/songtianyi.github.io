@@ -442,44 +442,36 @@ code {
 <li>
 <p><em>strongly checked</em>: 安全性是 Rust 的第一大亮点，也是它的设计初衷。C/C++程序猿应该深有体会，内存泄漏和指针异常崩溃时常让我们的努力功亏一篑，Rust 在类型系统上下了很大功夫，尽量在编译阶段就能检测出这类错误，同时，编译时检查的加强也会降低运行时检查的性能开销。编译时检查需要依靠类型系统来提供信息，那么 Rust 的类型系统做了哪些事来达到这样的安全性呢？</p>
 <ul>
-<li>变量
-变量定义在 Rust 里称作变量绑定，变量默认是不可修改的,。</li>
-</ul>
-</li>
-</ul>
-<pre class="hljs"><code><div>    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
-    	<span class="hljs-keyword">let</span> x = <span class="hljs-number">5</span>;
-    	x = <span class="hljs-number">6</span>
-    }
-    ```
-
-    上述代码编译不会通过
-
-```shell
-    error[E0384]: cannot assign twice to immutable variable `x`
-     --&gt; <span class="hljs-keyword">let</span>.rs:<span class="hljs-number">3</span>:<span class="hljs-number">3</span>
-      |
-    <span class="hljs-number">2</span> |         <span class="hljs-keyword">let</span> x = <span class="hljs-number">5</span>;
-      |             - first assignment to `x`
-    <span class="hljs-number">3</span> |         x = <span class="hljs-number">6</span>
-      |         ^^^^^ cannot assign twice to immutable variable
-    ```
-
-    你们可能注意到了，x 的定义没有指明类型，是的，和许多现代编程语言一样，Rust 提供了类型推断。另外 Rust 是不允许使用未经初始化的变量的，虽然有类型推断但没有默认值，强迫我们使用更规范的方式去书写程序，因为默认值依赖于程序猿的经验以及运行平台，会有相应的编码风险。
-
-```rust
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = <span class="hljs-number">5</span>; <span class="hljs-comment">// 类型推断, 用 mut 来标记 使变量可修改</span>
+<li>
+<p>变量 <br/>
+变量定义在 Rust 里称作变量绑定，变量默认是不可修改的。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+	<span class="hljs-keyword">let</span> x = <span class="hljs-number">5</span>;
+	x = <span class="hljs-number">6</span>
+}
+</div></code></pre>
+<p>上述代码编译不会通过</p>
+<pre class="hljs"><code><div>error[E0384]: cannot assign twice to immutable variable `x`
+<span class="hljs-meta"> --&gt;</span><span class="bash"> let.rs:3:3</span>
+  |
+2 |         let x = 5;
+  |             - first assignment to `x`
+3 |         x = 6
+  |         ^^^^^ cannot assign twice to immutable variable
+</div></code></pre>
+<p>你们可能注意到了，x 的定义没有指明类型，是的，和许多现代编程语言一样，Rust 提供了类型推断。另外 Rust 是不允许使用未经初始化的变量的，虽然有类型推断但没有默认值，强迫我们使用更规范的方式去书写程序，因为默认值依赖于程序猿的经验以及运行平台，会有相应的编码风险。</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = <span class="hljs-number">5</span>; <span class="hljs-comment">// 类型推断, 用 mut 来标记 使变量可修改</span>
     x = <span class="hljs-number">10</span>;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> y: <span class="hljs-built_in">i32</span> <span class="hljs-comment">// 显式地指明类型为 int32</span>
-    ```
-
-  + ownership/borrowing
-    c/c++给程序猿提供了操作内存的自由度，但是内存管理对于缺乏经验的人来说比较困难，而且人总是会犯错的，GC 的引入解决了这个问题，但是也带来了新的问题，即性能开销。Rust 作为系统编程语言，安全和性能都是它所追求的，那么它是如何解决的呢？Rust 引入了生命周期和租借的概念，并作出如下限制:
-
-    <span class="hljs-number">1</span>. 所有的资源只能有一个所有者（owner）
-
-```rust
-       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+</div></code></pre>
+</li>
+<li>
+<p>ownership/borrowing <br/>
+c/c++给程序猿提供了操作内存的自由度，但是内存管理对于缺乏经验的人来说比较困难，而且人总是会犯错的，GC 的引入解决了这个问题，但是也带来了新的问题，即性能开销。Rust 作为系统编程语言，安全和性能都是它所追求的，那么它是如何解决的呢？Rust 引入了生命周期和租借的概念，并作出如下限制:</p>
+<ol>
+<li>
+<p>所有的资源只能有一个所有者（owner）</p>
+<pre class="hljs"><code><div>       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
            <span class="hljs-comment">// create string resource and assign it to a, a is the resource owner</span>
            <span class="hljs-keyword">let</span> a = <span class="hljs-built_in">String</span>::new();
            <span class="hljs-comment">// transfer the resource from a to _b, _b is the owner now</span>
@@ -487,55 +479,44 @@ code {
            <span class="hljs-comment">// a cannot access the resource any more</span>
            <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, a); <span class="hljs-comment">// compile error</span>
        }
-       ```
-
-       我们可以把所有权再还回去，修改后的代码如下
-
-```rust
-       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+</div></code></pre>
+<p>我们可以把所有权再还回去，修改后的代码如下</p>
+<pre class="hljs"><code><div>       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
            <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a = <span class="hljs-built_in">String</span>::new();
            <span class="hljs-keyword">let</span> _b = a; <span class="hljs-comment">// 浅拷贝</span>
            a = _b;
            <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, a); <span class="hljs-comment">// compile ok</span>
        }
-       ```
-
-    <span class="hljs-number">2</span>. 其它人可以租借这个资源。
-
-```rust
-       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+</div></code></pre>
+</li>
+<li>
+<p>其它人可以租借这个资源。</p>
+<pre class="hljs"><code><div>       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
            <span class="hljs-keyword">let</span> a = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>);
            <span class="hljs-keyword">let</span> b = &amp;a;
            <span class="hljs-built_in">println!</span>(<span class="hljs-string">"a {}, b {}"</span>, a, b);
        }
-       ```
-
-       租借其实就是引用。租借的形式有可变和不可变两种，最多只能有一个可变租借; 可以有多个不可变租借；当有可变租借时，不能有其他租借。
-
-```rust
-       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+</div></code></pre>
+<p>租借其实就是引用。租借的形式有可变和不可变两种，最多只能有一个可变租借; 可以有多个不可变租借；当有可变租借时，不能有其他租借。</p>
+<pre class="hljs"><code><div>       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
            <span class="hljs-keyword">let</span> a = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>);
            <span class="hljs-keyword">let</span> b = &amp;a;
            <span class="hljs-keyword">let</span> c = &amp;a;
            <span class="hljs-built_in">println!</span>(<span class="hljs-string">"a {}, b {}, c {}"</span>, a, b, c);
        }
-       ```
-
-    <span class="hljs-number">3</span>. 但当这个资源被借走时，所有者不允许修改或释放该资源。
-
-```rust
-       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+</div></code></pre>
+</li>
+<li>
+<p>但当这个资源被借走时，所有者不允许修改或释放该资源。</p>
+<pre class="hljs"><code><div>       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
            <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>);
            <span class="hljs-keyword">let</span> b = &amp;a;
            <span class="hljs-built_in">println!</span>(<span class="hljs-string">"a {}, b {}"</span>, a, b);
            a = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"bar"</span>); <span class="hljs-comment">// compile error</span>
        }
-       ```
-
-       上面的代码中，a 被借给了 b，虽然 b 是不可修改的，但是 a 作为资源的所有者仍然不能修改该资源。那么被借出的资源能否够被修改呢？答案是能。虽然所有者不能修改，但是可以授予他人修改的权限，前提当然是资源本身是允许被修改的。
-
-```rust
-       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+</div></code></pre>
+<p>上面的代码中，a 被借给了 b，虽然 b 是不可修改的，但是 a 作为资源的所有者仍然不能修改该资源。那么被借出的资源能否够被修改呢？答案是能。虽然所有者不能修改，但是可以授予他人修改的权限，前提当然是资源本身是允许被修改的。</p>
+<pre class="hljs"><code><div>       <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
            <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"foo"</span>);
            <span class="hljs-keyword">let</span> n = <span class="hljs-built_in">String</span>::from(<span class="hljs-string">"bar"</span>);
            {
@@ -546,15 +527,15 @@ code {
            <span class="hljs-built_in">println!</span>(<span class="hljs-string">"a {}"</span>, a);
        }
 
-       ```
-
-       在上述代码中，我们先定义了可修改的 a 和 n，然后把 a 以可变的形式借给了 b，之后修改 b，在打印 a 之前，b 被销毁，归还了可变引用，因此 a 能够再次借出(打印)。
-
-  + lifetime
-    在上面的代码中，b 由于超出作用域而被自动销毁，使得我们能够再次正常使用 a(读写或者销毁)。但是语言的作用域并不总能达到这种效果，如果租借不能被归还(引用被销毁)，会导致变量无法正常使用。编译器需要一种机制能够让它知道引用是否被销毁，来完成它的检查，编程语言需要一种机制来确保引用的生命周期是要小于所有者的。这种机制即是 lifetime，一种显式地指定作用域的方法。再举一个例子来说明它的必要性:
-
-```rust
-    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>(x: &amp;<span class="hljs-built_in">str</span>, y: &amp;<span class="hljs-built_in">str</span>) -&gt; &amp;<span class="hljs-built_in">str</span> {
+</div></code></pre>
+<p>在上述代码中，我们先定义了可修改的 a 和 n，然后把 a 以可变的形式借给了 b，之后修改 b，在打印 a 之前，b 被销毁，归还了可变引用，因此 a 能够再次借出(打印)。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>lifetime <br/>
+在上面的代码中，b 由于超出作用域而被自动销毁，使得我们能够再次正常使用 a(读写或者销毁)。但是语言的作用域并不总能达到这种效果，如果租借不能被归还(引用被销毁)，会导致变量无法正常使用。编译器需要一种机制能够让它知道引用是否被销毁，来完成它的检查，编程语言需要一种机制来确保引用的生命周期是要小于所有者的。这种机制即是 lifetime，一种显式地指定作用域的方法。再举一个例子来说明它的必要性:</p>
+<pre class="hljs"><code><div>    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>(x: &amp;<span class="hljs-built_in">str</span>, y: &amp;<span class="hljs-built_in">str</span>) -&gt; &amp;<span class="hljs-built_in">str</span> {
         <span class="hljs-keyword">if</span> x.len() &gt; y.len() {
             x
         } <span class="hljs-keyword">else</span> {
@@ -573,26 +554,16 @@ code {
         <span class="hljs-comment">// 如果返回的是 y 的引用，由于 y 已经被销毁，访问 z 属于非法访问</span>
         <span class="hljs-built_in">println!</span>(<span class="hljs-string">"z = {}"</span>, z);
     }
-    ```
-
-    这段代码编译会不通过，因为编译器检查出了这种风险。
-
-    lifetime 的指定方式:
-
-```rust
-    <span class="hljs-symbol">'a</span>
-    ```
-
-    Rust 称之为 lifetime annotation。单引号是必须的，a 可以用其他字母/单词代替，但通常用 a, b, c。那么可以通过指定 lifetime 来修改上述代码使其通过。
-
-```rust
-    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;<span class="hljs-symbol">'a</span>, <span class="hljs-symbol">'b</span>: <span class="hljs-symbol">'a</span>&gt;(x: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span>, y: &amp;<span class="hljs-symbol">'b</span> <span class="hljs-built_in">str</span>) -&gt; &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span>
-    ```
-
-`<span class="hljs-symbol">'b</span>: <span class="hljs-symbol">'a</span>` 的意思是限定了入参 y 的生命周期 `<span class="hljs-symbol">'b</span>` 必须比入参 x 的生命周期 `<span class="hljs-symbol">'a</span>` 要长，可以认为这是一个调用函数时的约束条件。完整代码如下:
-
-```rust
-    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;<span class="hljs-symbol">'a</span>, <span class="hljs-symbol">'b</span>: <span class="hljs-symbol">'a</span>&gt;(x: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span>, y: &amp;<span class="hljs-symbol">'b</span> <span class="hljs-built_in">str</span>) -&gt; &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span> {
+</div></code></pre>
+<p>这段代码编译会不通过，因为编译器检查出了这种风险。</p>
+<p>lifetime 的指定方式:</p>
+<pre class="hljs"><code><div>    <span class="hljs-symbol">'a</span>
+</div></code></pre>
+<p>Rust 称之为 lifetime annotation。单引号是必须的，a 可以用其他字母/单词代替，但通常用 a, b, c。那么可以通过指定 lifetime 来修改上述代码使其通过。</p>
+<pre class="hljs"><code><div>    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;<span class="hljs-symbol">'a</span>, <span class="hljs-symbol">'b</span>: <span class="hljs-symbol">'a</span>&gt;(x: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span>, y: &amp;<span class="hljs-symbol">'b</span> <span class="hljs-built_in">str</span>) -&gt; &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span>
+</div></code></pre>
+<p><code>'b: 'a</code> 的意思是限定了入参 y 的生命周期 <code>'b</code> 必须比入参 x 的生命周期 <code>'a</code> 要长，可以认为这是一个调用函数时的约束条件。完整代码如下:</p>
+<pre class="hljs"><code><div>    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;<span class="hljs-symbol">'a</span>, <span class="hljs-symbol">'b</span>: <span class="hljs-symbol">'a</span>&gt;(x: &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span>, y: &amp;<span class="hljs-symbol">'b</span> <span class="hljs-built_in">str</span>) -&gt; &amp;<span class="hljs-symbol">'a</span> <span class="hljs-built_in">str</span> {
         <span class="hljs-keyword">if</span> x.len() &gt; y.len() {
             x
         } <span class="hljs-keyword">else</span> {
@@ -610,22 +581,22 @@ code {
         }
     }
 
-    ```
-
-* *strongly typed*: 类型在确定之后不可变
-
-* *statically typed*: 类型在编译时确定
-
-### 类型理论
-
- `<span class="hljs-number">10</span> 分钟`
-
-##### 泛型
-
-和 c++/Java 一样，Rust 的泛型风格基本类似
-
-```rust
-<span class="hljs-comment">// generic function</span>
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><em>strongly typed</em>: 类型在确定之后不可变</p>
+</li>
+<li>
+<p><em>statically typed</em>: 类型在编译时确定</p>
+</li>
+</ul>
+<h3 id="%E7%B1%BB%E5%9E%8B%E7%90%86%E8%AE%BA">类型理论</h3>
+<p><code>10 分钟</code></p>
+<h5 id="%E6%B3%9B%E5%9E%8B">泛型</h5>
+<p>和 c++/Java 一样，Rust 的泛型风格基本类似</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// generic function</span>
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;T&gt;(_x: &amp;[T]) {}
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
@@ -651,24 +622,24 @@ code {
 <pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span></span>&lt;T&gt;(_x: &amp;[T]) <span class="hljs-keyword">where</span> T : Graph {}
 </div></code></pre>
 <p>当我们限定的不是 T，而是使用 T 的方式时 <code>where</code> 会很有用:</p>
-<pre class="hljs"><code><div>use std::fmt::Debug;
+<pre class="hljs"><code><div><span class="hljs-keyword">use</span> std::fmt::<span class="hljs-built_in">Debug</span>;
 
-trait PrintInOption {
-    fn print_in_option(self);
+<span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">PrintInOption</span></span> {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">print_in_option</span></span>(<span class="hljs-keyword">self</span>);
 }
 
-// Because we would otherwise have to express this as `T: Debug` or
-// use another method of indirect approach, this requires a `where` clause:
-impl&lt;T&gt; PrintInOption for T where Option&lt;T&gt;: Debug {
-    // We want `Option&lt;T&gt;: Debug` as our bound because that is what's
-    // being printed. Doing otherwise would be using the wrong bound.
-    fn print_in_option(self) {
-        println!(&quot;{:?}&quot;, Some(self));
+<span class="hljs-comment">// Because we would otherwise have to express this as `T: Debug` or</span>
+<span class="hljs-comment">// use another method of indirect approach, this requires a `where` clause:</span>
+<span class="hljs-keyword">impl</span>&lt;T&gt; PrintInOption <span class="hljs-keyword">for</span> T <span class="hljs-keyword">where</span> <span class="hljs-built_in">Option</span>&lt;T&gt;: <span class="hljs-built_in">Debug</span> {
+    <span class="hljs-comment">// We want `Option&lt;T&gt;: Debug` as our bound because that is what's</span>
+    <span class="hljs-comment">// being printed. Doing otherwise would be using the wrong bound.</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">print_in_option</span></span>(<span class="hljs-keyword">self</span>) {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{:?}"</span>, <span class="hljs-literal">Some</span>(<span class="hljs-keyword">self</span>));
     }
 }
 
-fn main() {
-    let vec = vec![1, 2, 3];
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> vec = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
 
     vec.print_in_option();
 }
