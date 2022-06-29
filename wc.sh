@@ -41,11 +41,11 @@ life=$(wc_files 'pages/life/*-life.html pages/life/master-of-sex.html pages/life
 echo "Life: $life"
 
 # pieces
-pieces=$(wc_files 'pages/pieces/kindle-touch.html pages/pieces/native-english.html pages/pieces/how-to-write-your-blog.html pages/pieces/songtianyi.dump.html pages/pieces/*.md pages/pieces/blog-stats.html')
+pieces=$(wc_files 'pages/pieces/native-english.html pages/pieces/how-to-write-your-blog.html pages/pieces/songtianyi.dump.html pages/pieces/*.md pages/pieces/blog-stats.html')
 echo "Pieces: $pieces"
 
 # programming
-programming=$(wc_files 'pages/programming/*/*.md pages/programming/software-frameworks/ionic-dev.html pages/programming/software-frameworks/spring-boot-and-websocket.html pages/programming/uncategorized/questions-and-answers.html pages/programming/software-development-and-quality-assurance/elk-practice.html pages/programming/programming-languages/about-shell.html pages/programming/programming-languages/html5-intro.html pages/programming/programming-languages/tencent-parser.html')
+programming=$(wc_files 'pages/programming/*/*.md pages/programming/software-frameworks/ionic-dev.html pages/programming/software-frameworks/spring-boot-and-websocket.html pages/programming/uncategorized/questions-and-answers.html pages/programming/software-development-and-quality-assurance/elk-practice.html pages/programming/programming-languages/about-shell.html pages/programming/programming-languages/html5-intro.html pages/programming/programming-languages/tencent-parser.html pages/programming/programming-languages/getting-started-with-rust-in-1-hour.html')
 echo "Programming: $programming"
 
 # blockchain
