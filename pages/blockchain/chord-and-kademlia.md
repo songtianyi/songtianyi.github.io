@@ -78,7 +78,7 @@ n.closest_preceding_node(id)
 
 ## Kademlia
 
-Kademlia 的做法和 Chord 的区别主要是节点间的距离计算方式不同。Chord 你可以认为节点 x, y 的 距离计算方式为 𝑑(𝑥, 𝑦) = (𝑥 - 𝑦  mod 2<sup>m</m>, 而 Kademilia 的计算公式为 𝑑(𝑥, 𝑦)= height_of_tree - leading_zero_count(𝑥 ^ 𝑦). Chord 是将节点的 ID 映射到一个环上，而 Kademilia 是将节点的 ID 映射到一个二叉树上，如下图:
+Kademlia 的做法和 Chord 的区别主要是节点间的距离计算方式不同。Chord 你可以认为节点 x, y 的 距离计算方式为 𝑑(𝑥, 𝑦) = (𝑥 - 𝑦)  mod 2<sup>m</sup>, 而 Kademlia 的计算公式为 𝑑(𝑥, 𝑦)= height_of_tree - leading_zero_count(𝑥 ^ 𝑦). Chord 是将节点的 ID 映射到一个环上，而 Kademlia 是将节点的 ID 映射到一个二叉树上，如下图:
 
 <img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/kademlia-binary-bit-tree.jpeg" width="30%">
 
