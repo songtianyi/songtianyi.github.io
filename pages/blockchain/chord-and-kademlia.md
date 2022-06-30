@@ -1,4 +1,4 @@
-# Chord 和 Kademia 算法
+# Chord 和 Kademlia 算法
 
 作者: songtianyi create@2022-06-29
 
@@ -30,24 +30,88 @@
 
 在 [《算法优化之时空交换》](../programming/data-structure-and-algorithms/M-time-space-trade-off.html) 一文中有强调，算法优化的思路就是用空间和时间相互转换，找到一个平衡点。在上图中，我们多保存了一个节点的信息，查找效率可以认为提升了1倍，变为 ***O(N/2)***, 那么保存越多的节点信息，查找效率越高，但在本文开头，我们也强调了，不可能保存所有的信息(保存所有节点信息的查找复杂度为 ***O(1)***).
 
-Chord 算法的做法是，每个节点保存最多 m = ***Ceil(log<sub>2</sub>N)*** 个节点的信息，***N*** 为节点数。假设当前节点为 0, 它所保存的节点(称之为 *successor*)为 1, 2, 4, 8. 如下图所示:
+Chord 算法的做法是，每个节点保存最多 m = ***Ceil(log<sub>2</sub>N)*** 个节点的信息，***N*** 为节点数。假设当前节点为 0, 它所保存的节点为 1, 2, 4, 8. 如下图所示:
 
 <img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/node-zero-successors.jpg" width="30%">
 
-设当前节点为 ***n***, 其第 i (m >= i >= 1) successor 为 ***(n + 2<sup>i-1</sup>) mod 2<sup>m</sup>***
+保存节点信息的结构称为 ***finger table****
 
-以 N 为 16 为例，按照上述方法构造出来的图应该如下:
+> 节点 1 是 finger table 中顺时针方向的第 1 个值，被称为节点 0 的 *successor*, 节点 8 是 finger table 中逆时针方向的第 1 个值，被称为节点 0 的 *predecessor*, 这两个概念会在后面用到
+
+设当前节点为 ***n***, 其 finger table 中第 i (m >= i >= 1) 个值的计算方式为 ***(n + 2<sup>i-1</sup>) mod 2<sup>m</sup>***
+
+以 N 为 16 为例，按照上述方法构造出来的图应该如下，其中一个节点的连接情况用粗线标记出来了:
 
 <img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/Chord_network.png">
 
-其中的一个节点的连接情况用粗线标记出来了。
-保存 *successor* 的结构称为 *finger table*. Chord 算法的查找复杂度为 ***log<sub>2</sub>N)***
+Chord 算法的查找复杂度为 ***log<sub>2</sub>N)***.
 
-search(n, id)
- if id ∈
+查找的伪代码如下:
 
-##
+```c
+// ask node n to find the successor of id
+n.find_successor(id)
+    // Yes, that should be a closing square bracket to match the opening parenthesis.
+    // It is a half closed interval.
+    if id ∈ (n, successor] then
+        return successor
+    else
+        // forward the query around the circle
+        n0 := closest_preceding_node(id)
+        return n0.find_successor(id)
+
+// search the local table for the highest predecessor of id
+n.closest_preceding_node(id)
+    for i = m downto 1 do
+        if (finger[i] ∈ (n, id)) then
+            return finger[i]
+    return n
+```
+
+可以以 n = 0, id = 5 为例，代入跟踪一遍逻辑来体会。
+
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/n-zero-id-five.jpg" width="30%">
+
+| :warning: Note |
+|:---------------------------|
+| 节点的增删不在本文讨论范围内|
+
+## Kademlia
+
+Kademlia 的做法和 Chord 的区别主要是节点间的距离计算方式不同。Chord 你可以认为节点 x, y 的 距离计算方式为 𝑑(𝑥, 𝑦) = (𝑥 - 𝑦  mod 2<sup>m</m>, 而 Kademilia 的计算公式为 𝑑(𝑥, 𝑦)= height_of_tree - leading_zero_count(𝑥 ^ 𝑦). Chord 是将节点的 ID 映射到一个环上，而 Kademilia 是将节点的 ID 映射到一个二叉树上，如下图:
+
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/kademlia-binary-bit-tree.jpeg" width="30%">
+
+节点 0 和节点 1 的距离为 1，节点 0 和节点 7 的距离为 3
+
+| :warning: Note |
+|:---------------------------|
+| 0 ^ 7 = 7, 但距离并不是 7, 而是看最长公共前缀的最低高度，0 和 7 没有公共前缀，所以距离是 3. 有些中文博客没有搞清楚这个问题，直接将异或的结果代入计算了，所以看着有些迷糊|
+
+在 Kademlia 里，用于存储节点信息的结构称为 k-bucket, 和 Chord 中的 finger table 类似。k-bucket 的意思是，将节点按照不同的距离，分别存在不同的 bucket 里，最多有 H 个 bucket, H 为树的高度, 每个 bucket 是一个 list, 长度最大为 k, 且 list 是按照最近使用时间从小到大排序的(sorted by time last seen - least-recently seen node at the head, most recently seen at the tail).
+
+| :warning: Note |
+|:---------------------------|
+| k 的取值不是固定的，一般为 20, 根据实际场景调整, 感兴趣可以看下论文中的英文解释 |
+
+根据上图，我们以节点 0 为例，它的 bucket 有 3 个，分别用不同颜色标记了出来，如下图所示。
+
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/k-bucket-groups-update.jpg" width="30%">
+
+k-bucket 的存储结果如下图所示:
+
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/zero-node-k-bucket.jpg" width="30%">
+
+当我们向节点 0 询问节点 7 的信息时，先计算 d(0, 7) = 3, 得知，节点 7 离 bucket[3] 中的节点更近，于是去 bucket[3] 的节点中去找，如果找不到继续迭代即可，这样就可以跳过一部分查找，每次可以跳过一半的数据，这样效率在 log<sub>2</sub>N.
+
+## 结语
+
+不管是 Chord 还是 Kademlia, 其实现都要比本文所述的要复杂的多，完整的 P2P 网络的实现需要考虑的因素也会更多。本文主要是说明它们的算法思想
 
 ## 参考资料
 
 * [Chord (peer-to-peer)](https://en.wikipedia.org/wiki/Chord_(peer-to-peer))
+* [Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications](https://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf)
+* [https://www.quora.com/Which-are-the-major-differences-between-the-DHT-algorithms-Chord-and-Kademlia](https://www.quora.com/Which-are-the-major-differences-between-the-DHT-algorithms-Chord-and-Kademlia)
+* [Kademlia: A Peer-to-Peer Information System Based on the XOR Metric](https://pdos.csail.mit.edu/~petar/papers/maymounkov-kademlia-lncs.pdf)
+* [Peer-to-Peer (P2P) Networks](https://jenkov.com/tutorials/p2p/index.html)
