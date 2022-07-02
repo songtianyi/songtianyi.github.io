@@ -2,7 +2,7 @@
 
 ## 前言
 
-Substrate pallet 的编写方式从 declarative macro 变成了 procedural macro. substrate 整体的迁移进度可以参考[这里](https://github.com/paritytech/substrate/issues/7882). 本文属于现学现卖，简单介绍这个变化。在此之前，需要了解 `declarative` macro 和 `procedural` macro  是如何实现的，可以参考[这里](http://songtianyi.info/pages/programming/programming-languages/M-rust-macro.html)。
+Substrate pallet 的编写方式从 declarative macro 变成了 procedural macro. substrate 整体的迁移进度可以参考[这里](https://github.com/paritytech/substrate/issues/7882). 本文属于现学现卖，简单介绍这个变化。在此之前，需要了解 `declarative` macro 和 `procedural` macro  是如何实现的，可以参考[这里](http://songtianyi.info/pages/programming/languages/M-rust-macro.html)。
 
 ## 变化的内容
 

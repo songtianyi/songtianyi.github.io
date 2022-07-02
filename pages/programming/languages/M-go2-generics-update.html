@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M-go2-generics-update.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="go2-%E6%B3%9B%E5%9E%8B%E8%AE%BE%E8%AE%A1%E8%8D%89%E6%A1%88%E6%9B%B4%E6%96%B0">Go2 泛型设计草案更新</h1>
+<p>作者: <a href="http://songtianyi.info">songtianyi</a> create@2020/12/03</p>
+<h3 id="%E5%89%8D%E8%A8%80">前言</h3>
+<p>18 年的时候，go team 发布了 Go2 的几个新特性的草案，其中包括呼声较高的泛型，当时<a href="http://songtianyi.info/pages/programming/languages/go2-design-draft-introduction.html">写了一篇文章做了介绍</a>。最近 Go team 对泛型的设计草案进行了较大的改动，有必要更新下这个改动并分享出来。</p>
+<h3 id="contracts">contracts</h3>
+<p>在 18 年释出的草案中，是使用 <code>contract</code> 来约束泛型的类型参数(type parameters)的，最新的草案放弃了这种做法, 用已有的概念 <code>interface</code> 代替。
+在继续之前，先来熟悉 <code>type parameter</code> 这个概念:</p>
+<blockquote>
+<p>Generic code is code that is written using types that will be specified later. Each unspecified type is called a type parameter.
+When running the generic code, the type parameter will be set to a type argument.</p>
+</blockquote>
+<p>好，继续。回顾下 <code>contract</code> 形式的例子:</p>
+<pre class="hljs"><code><div>contract stringer(T) {
+	T String() <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Stringify</span><span class="hljs-params">(<span class="hljs-keyword">type</span> T stringer)</span><span class="hljs-params">(s []T)</span> <span class="hljs-params">(ret []<span class="hljs-keyword">string</span>)</span></span> {
+	<span class="hljs-keyword">for</span> _, v := <span class="hljs-keyword">range</span> s {
+		ret = <span class="hljs-built_in">append</span>(ret, v.String()) <span class="hljs-comment">// now valid</span>
+	}
+	<span class="hljs-keyword">return</span> ret
+}
+
+strSlice = []<span class="hljs-keyword">string</span>{}
+
+</div></code></pre>
+<p>上述代码约束了入参 s 的类型 T 必须是实现了 String 函数的类型</p>
+<h3 id="interface">interface</h3>
+<p>那么改用 interface 之后怎么做？</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Stringer is a type constraint that requires the type argument to have</span>
+<span class="hljs-comment">// a String method and permits the generic function to call String.</span>
+<span class="hljs-comment">// The String method should return a string representation of the value.</span>
+<span class="hljs-keyword">type</span> Stringer <span class="hljs-keyword">interface</span> {
+	String() <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-comment">// Stringify calls the String method on each element of s,</span>
+<span class="hljs-comment">// and returns the results.</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Stringify</span>[<span class="hljs-title">T</span> <span class="hljs-title">Stringer</span>]<span class="hljs-params">(s []T)</span> <span class="hljs-params">(ret []<span class="hljs-keyword">string</span>)</span></span> {
+	<span class="hljs-keyword">for</span> _, v := <span class="hljs-keyword">range</span> s {
+		ret = <span class="hljs-built_in">append</span>(ret, v.String())
+	}
+	<span class="hljs-keyword">return</span> ret
+}
+
+</div></code></pre>
+<p>上述代码，使用 <code>Stringer</code> interface 来约束入参 s 的类型 T 必须是实现了 <code>String() string</code> 函数的类型。
+除了使用自定义的 interface 来约束之外，Go 内置了 <code>any</code> 来指明入参是可以为任意类型的, 当我们不需要约束的时候可以使用 <code>any</code> 来维持写法的一致性, <code>any</code> 相当于 <code>interface{}</code> 。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Print prints the elements of any slice.</span>
+<span class="hljs-comment">// Print has a type parameter T and has a single (non-type)</span>
+<span class="hljs-comment">// parameter s which is a slice of that type parameter.</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Print</span>[<span class="hljs-title">T</span> <span class="hljs-title">any</span>]<span class="hljs-params">(s []T)</span></span> {
+    <span class="hljs-keyword">for</span> _, v := <span class="hljs-keyword">range</span> s {
+		fmt.Println(v)
+	}
+}
+</div></code></pre>
+<p>interface 我们经常会用到，是一个已经非常熟悉的概念，而且使用 interface 可以避免不必要的重复定义的情况。以上面的 <code>Stringer</code> 为例，如果使用 contract 来对 <code>Stringify</code> 函数的入参类型进行约束，我们需要定义:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 约束</span>
+contract stringer_c(T) {
+	T String() <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-comment">// Stringer 接口</span>
+<span class="hljs-keyword">type</span> Stringer <span class="hljs-keyword">interface</span> {
+	String() <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-comment">// 入参 s 被约束为实现了 String() string 函数的类型</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Stringify</span>[<span class="hljs-title">T</span> <span class="hljs-title">stringer_c</span>]<span class="hljs-params">(s []T)</span> <span class="hljs-params">(ret []<span class="hljs-keyword">string</span>)</span></span> {
+	<span class="hljs-keyword">for</span> _, v := <span class="hljs-keyword">range</span> s {
+		ret = <span class="hljs-built_in">append</span>(ret, v.String())
+	}
+	<span class="hljs-keyword">return</span> ret
+}
+
+<span class="hljs-comment">// 实现了 String() string 的结构体</span>
+<span class="hljs-keyword">type</span> IStringer <span class="hljs-keyword">struct</span> {
+	v <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-comment">// String() string 实现</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(i *IStringer)</span> <span class="hljs-title">String</span><span class="hljs-params">()</span> <span class="hljs-title">string</span></span> {
+	<span class="hljs-keyword">return</span> v
+}
+
+<span class="hljs-keyword">var</span> i_stringer IStringer
+Stringfy([]IStringer{i_stringer}) <span class="hljs-comment">// 合法入参</span>
+</div></code></pre>
+<p>从上面的代码可以看出， <code>stringer_c</code> contract 其实和 <code>Stringer</code> interface 是重复的。</p>
+<p>看到这里是不是觉得这个改动还是很棒的？相对 contract 来说，interface 更好理解，有时候也可以省掉重复的定义。</p>
+<p>但是，interface 只能定义函数，因此，我们只能使用 interface 来约束 T 必须实现的函数，而不能约束 T 所能支持的运算。</p>
+<p>使用 contract 来约束类型参数所支持的运算符的例子:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// comparable contract</span>
+contract ordered(t T) {
+  t &lt; t
+}
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Smallest</span>[<span class="hljs-title">T</span> <span class="hljs-title">ordered</span>]<span class="hljs-params">(s []T)</span> <span class="hljs-title">T</span></span> {
+	r := s[<span class="hljs-number">0</span>] <span class="hljs-comment">// panic if slice is empty</span>
+	<span class="hljs-keyword">for</span> _, v := <span class="hljs-keyword">range</span> s[<span class="hljs-number">1</span>:] {
+		<span class="hljs-keyword">if</span> v &lt; r { <span class="hljs-comment">// OK</span>
+			r = v
+		}
+	}
+	<span class="hljs-keyword">return</span> r
+}
+</div></code></pre>
+<p>很方便。但使用 interface 就没那么方便了:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">package</span> constraints
+
+<span class="hljs-comment">// Ordered is a type constraint that matches any ordered type.</span>
+<span class="hljs-comment">// An ordered type is one that supports the &lt;, &lt;=, &gt;, and &gt;= operators.</span>
+<span class="hljs-keyword">type</span> Ordered <span class="hljs-keyword">interface</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-keyword">int</span>, <span class="hljs-keyword">int8</span>, <span class="hljs-keyword">int16</span>, <span class="hljs-keyword">int32</span>, <span class="hljs-keyword">int64</span>,
+		<span class="hljs-keyword">uint</span>, <span class="hljs-keyword">uint8</span>, <span class="hljs-keyword">uint16</span>, <span class="hljs-keyword">uint32</span>, <span class="hljs-keyword">uint64</span>, <span class="hljs-keyword">uintptr</span>,
+		<span class="hljs-keyword">float32</span>, <span class="hljs-keyword">float64</span>,
+		<span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-comment">// Smallest returns the smallest element in a slice.</span>
+<span class="hljs-comment">// It panics if the slice is empty.</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Smallest</span>[<span class="hljs-title">T</span> <span class="hljs-title">constraints</span>.<span class="hljs-title">Ordered</span>]<span class="hljs-params">(s []T)</span> <span class="hljs-title">T</span></span> {
+	r := s[<span class="hljs-number">0</span>] <span class="hljs-comment">// panics if slice is empty</span>
+	<span class="hljs-keyword">for</span> _, v := <span class="hljs-keyword">range</span> s[<span class="hljs-number">1</span>:] {
+		<span class="hljs-keyword">if</span> v &lt; r {
+			r = v
+		}
+	}
+	<span class="hljs-keyword">return</span> r
+}
+</div></code></pre>
+<blockquote>
+<p>要写一大堆... 心里一阵 mmp... 先别慌!</p>
+</blockquote>
+<p><code>Ordered</code> interface 里列出来的类型是 <code>Ordered</code> 约束可以接受的类型参数。由此看来，针对运算符的约束写起来变的更复杂了，幸运的是，go 会内置常用的约束, <strong>不用我们自己来写</strong>.
+而且，约束是可以组合的:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// ComparableHasher is a type constraint that matches all</span>
+<span class="hljs-comment">// comparable types with a Hash method.</span>
+<span class="hljs-keyword">type</span> ComparableHasher <span class="hljs-keyword">interface</span> {
+	comparable
+	Hash() <span class="hljs-keyword">uintptr</span>
+}
+</div></code></pre>
+<p>上述代码是一个约束，它约束类型参数必须是可比较的，而且实现了 <code>Hash() uintptr</code> 函数。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// StringableSignedInteger is a type constraint that matches any</span>
+<span class="hljs-comment">// type that is both 1) defined as a signed integer type;</span>
+<span class="hljs-comment">// 2) has a String method.</span>
+<span class="hljs-keyword">type</span> StringableSignedInteger <span class="hljs-keyword">interface</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-keyword">int</span>, <span class="hljs-keyword">int8</span>, <span class="hljs-keyword">int16</span>, <span class="hljs-keyword">int32</span>, <span class="hljs-keyword">int64</span>
+	String() <span class="hljs-keyword">string</span>
+}
+</div></code></pre>
+<p>类似地，可以将可接受的类型列表(type list)和函数约束放在一起。</p>
+<p>讲到这里，关于泛型改动的核心内容已经讲完了，更复杂的用法可以查看文档 <a href="https://go.googlesource.com/proposal/+/refs/heads/master/design/go2draft-type-parameters.md">go2draft-type-parameters</a>.</p>
+<p>个人认为，这个改动是一个比较成功的改动，没有引入新的概念，通过内置一些约束，支持约束组合来方便开发者。</p>
+
+</body>
+</html>

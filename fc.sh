@@ -32,15 +32,11 @@ xsports=$(wc_files 'pages/xsports/vietnam*.html pages/xsports/*.md')
 echo "X-sports: $xsports"
 
 # life
-life=$(wc_files 'pages/life/*-life.html pages/life/master-of-sex.html pages/life/talk-to-me.html pages/life/*.md')
+life=$(wc_files 'pages/life/*-life.html pages/life/master-of-sex.html pages/life/talk-to-me.html pages/life/*.md pages/life/native-english.html pages/life/how-to-write-your-blog.html pages/life/songtianyi.dump.html pages/life/*.md pages/life/blog-stats.html')
 echo "Life: $life"
 
-# pieces
-pieces=$(wc_files 'pages/pieces/native-english.html pages/pieces/how-to-write-your-blog.html pages/pieces/songtianyi.dump.html pages/pieces/*.md pages/pieces/blog-stats.html')
-echo "Pieces: $pieces"
-
 # programming
-programming=$(wc_files 'pages/programming/*/*.md pages/programming/software-frameworks/ionic-dev.html pages/programming/software-frameworks/spring-boot-and-websocket.html pages/programming/uncategorized/questions-and-answers.html pages/programming/software-development-and-quality-assurance/elk-practice.html pages/programming/programming-languages/about-shell.html pages/programming/programming-languages/html5-intro.html pages/programming/programming-languages/tencent-parser.html pages/programming/programming-languages/getting-started-with-rust-in-1-hour.html')
+programming=$(wc_files 'pages/programming/*/*.md pages/programming/software-frameworks/ionic-dev.html pages/programming/software-frameworks/spring-boot-and-websocket.html pages/programming/uncategorized/questions-and-answers.html pages/programming/software-development-and-quality-assurance/elk-practice.html pages/programming/languages/about-shell.html pages/programming/languages/html5-intro.html pages/programming/languages/tencent-parser.html pages/programming/languages/getting-started-with-rust-in-1-hour.html')
 echo "Programming: $programming"
 
 # blockchain
@@ -61,5 +57,5 @@ mdk=$(wc_files 'mdks/*.mdk')
 # index
 index=$(wc_files 'index.html' 'zh.html')
 
-echo "Total: " `expr $acm + $career + $dc + $xsports + $life + $pieces + $programming + $blockchain + $vdi + $research + $mdk + $index + $drawio`
+echo "Total: " `expr $acm + $career + $dc + $xsports + $life + $programming + $blockchain + $vdi + $research + $mdk + $index + $drawio`
 

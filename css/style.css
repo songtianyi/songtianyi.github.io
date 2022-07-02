@@ -40,7 +40,7 @@ img {
     align-items: center;
 }
 .nav > ul > li {
-    margin: 0 0 0 50px;
+    margin: 0 0 0 40px;
     position: relative;
 }
 .nav > ul > li::after {
@@ -201,7 +201,7 @@ img {
 }
 .plant h2 {
     font-family: PingFangSC-Medium;
-    font-size: 25px;
+    font-size: 26px;
     color: #444444;
     letter-spacing: 0.67px;
     text-align: center;
@@ -209,19 +209,19 @@ img {
 }
 .plant h4 {
     font-family: PingFangSC-Regular;
-    font-size: 15px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.39px;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 .plant p {
     font-family: PingFangSC-Regular;
-    font-size: 15px;
+    font-size: 13px;
     color: #CCCCCC;
     letter-spacing: 0.39px;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 .plant:hover h2 {
     text-shadow: 0 0 8px rgba(0, 143, 255, 0.8);
@@ -234,11 +234,11 @@ img {
 }
 .plant-body ul li {
     width: 33.333%;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .plant-body ul li a {
     font-family: PingFangSC-Regular;
-    font-size: 15px;
+    font-size: 16px;
     color: #666666;
     letter-spacing: 0.39px;
     text-decoration: none;
@@ -246,14 +246,14 @@ img {
 .plant-body ul li a span {
     font-family: PingFangSC-Regular;
     font-size: 1px;
-    color: #003A00;
+    color:gray;
     letter-spacing: 0.39px;
-    line-height: 20px;
+    line-height: 9px;
 }
 .plant-body ul li a:hover {
     color: #008FFF;
 }
 .plant-body ul li a:hover span {
-    color: #008FFF;
+    color:coral;
 }
 /*# sourceMappingURL=style.css.map */
