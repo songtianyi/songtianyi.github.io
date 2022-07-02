@@ -45,7 +45,7 @@ programming=$(wc_files 'pages/programming/*/*.md pages/programming/software-fram
 echo "Programming: $programming"
 
 # blockchain
-blockchain=$(wc_files 'pages/blockchain/*.md' pages/blockchain/rsa.html)
+blockchain=$(wc_files 'pages/blockchain/*.md pages/blockchain/rsa.html')
 echo "Blockchain: $blockchain"
 
 # VDI
@@ -60,8 +60,7 @@ echo "Research: $research"
 mdk=$(wc_files 'mdks/*.mdk')
 
 # index
-index=$(wc_files 'index.html' 'zh.html')
-echo $index
+index=$(wc_files 'index.html zh.html')
 
 echo "Total: " `expr $acm + $career + $dc + $xsports + $life + $programming + $blockchain + $vdi + $research + $mdk + $index`
 

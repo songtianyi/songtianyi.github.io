@@ -40,7 +40,7 @@ programming=$(wc_files 'pages/programming/*/*.md pages/programming/software-fram
 echo "Programming: $programming"
 
 # blockchain
-blockchain=$(wc_files 'pages/blockchain/*.md' pages/blockchain/rsa.html)
+blockchain=$(wc_files 'pages/blockchain/*.md pages/blockchain/rsa.html')
 echo "Blockchain: $blockchain"
 
 # VDI
