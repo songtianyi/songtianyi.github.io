@@ -95,7 +95,7 @@ type Header struct {
 通过不断修改 Nonce 的值并计算区块的 hash 值来得一个合法的(比如小于某一阈值)区块的过程就是我们通常所说的挖矿。 ethereum 的 PoW 实现命名为 ethash, 和标准 PoW 的实现大致一样，区别是:
 
 * 区块验证增加了 MixDigest 字段
-* 使用改动过的 `Dagger-Hashimoto` 算法生成 hash 值。该算法分为 Dagger 和 Hashimoto 两部分，Dagger 用来生成数据集(DAG)，增大内存消耗，防止算力攻击，Hashimoto 使用区块 Header 的哈希和 Nonce 字段以及 DAG 数据集生成一个最终的 hash(digest). DAG 的生成和 epoch 相关, 它的大小没过一个 epoch 就会增加。
+* 使用改动过的 `Dagger-Hashimoto` 算法生成 hash 值。该算法分为 Dagger 和 Hashimoto 两部分，Dagger 用来生成数据集(DAG)，增大内存消耗，防止算力攻击，Hashimoto 使用区块 Header 的哈希和 Nonce 字段以及 DAG 数据集生成一个最终的 hash(digest). DAG 的生成和 epoch 相关, 它的大小每过一个 epoch 就会增加。
 
 #### huobi-eco-chain-to-darwinia
 
@@ -134,18 +134,18 @@ type Tally struct {
 }
 ```
 
-虽然 clique 相比 ethash, 区块结构并没有变化，但是字段的含义发生来变化:
+虽然 clique 相比 ethash, 区块结构并没有变化，但是字段的含义发生了变化:
 
 * extra: genesis block - 32字节的前缀(extraVanity) + 所有signer的地址 + 65字节的后缀(extraSeal), 保存signer的签名, 其他 block 的 Extra 字段只包括 extraVanity 和 extraSeal
 * Nonce: Nonce 字段存放投票信息: 添加(nonceAuthVote: 0xffffffffffffffff )或者移除(nonceDropVote: 0x0000000000000000)一个 signer
 * Coinbase: Coinbase 字段存放被投票的地址，比如，signerA 的一个投票: 加入signerB, 那么 Coinbase 存放 B 的地址
-* MixDigest: clique 没有使用这个值，初始化为 `common. Hash{}`, 校验的也是这个值
+* MixDigest: clique 没有使用这个值，初始化为 `common.Hash{}`, 校验的也是这个值
 
 而 heco chain 的共识(congress 目录)相对于 clique 字段的意义也有些变化:
 
 > signer 在 heco 里面改成了 validator
 
-* Coinbase: congress 会把 validator 的地址放进 Coinbase, 而 clique 在 Prepare 的时候 Coinbase 被赋值为了 `common. Address{}`
+* Coinbase: congress 会把 validator 的地址放进 Coinbase, 而 clique 在 Prepare 的时候 Coinbase 被赋值为了 `common.Address{}`
 
 | Fields   |      Ethash   |  Clique | HPoS(Congress) |
 |:-:|:-------------:|:------:|:---------:|

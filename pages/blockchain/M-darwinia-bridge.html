@@ -449,7 +449,7 @@ code {
 <p>通过不断修改 Nonce 的值并计算区块的 hash 值来得一个合法的(比如小于某一阈值)区块的过程就是我们通常所说的挖矿。 ethereum 的 PoW 实现命名为 ethash, 和标准 PoW 的实现大致一样，区别是:</p>
 <ul>
 <li>区块验证增加了 MixDigest 字段</li>
-<li>使用改动过的 <code>Dagger-Hashimoto</code> 算法生成 hash 值。该算法分为 Dagger 和 Hashimoto 两部分，Dagger 用来生成数据集(DAG)，增大内存消耗，防止算力攻击，Hashimoto 使用区块 Header 的哈希和 Nonce 字段以及 DAG 数据集生成一个最终的 hash(digest). DAG 的生成和 epoch 相关, 它的大小没过一个 epoch 就会增加。</li>
+<li>使用改动过的 <code>Dagger-Hashimoto</code> 算法生成 hash 值。该算法分为 Dagger 和 Hashimoto 两部分，Dagger 用来生成数据集(DAG)，增大内存消耗，防止算力攻击，Hashimoto 使用区块 Header 的哈希和 Nonce 字段以及 DAG 数据集生成一个最终的 hash(digest). DAG 的生成和 epoch 相关, 它的大小每过一个 epoch 就会增加。</li>
 </ul>
 <h4 id="huobi-eco-chain-to-darwinia">huobi-eco-chain-to-darwinia</h4>
 <p>heco 链使用的是 PoA(Proof of Authority) + PoS(Proof of Stake) 的共识机制，而 heco 的代码是从 ethereum copy 过来的，所以 heco 链的共识是在 ethereum clique 的基础上改的。PoS 的逻辑是通过合约实现的，然后以 ABI 的形式调用。</p>
@@ -480,19 +480,19 @@ curl -s -H 'content-type:application/json' -X POST --data '{"jsonrpc":"2.0","met
   Votes     <span class="hljs-keyword">int</span>  <span class="hljs-comment">// 目前为止累计的票数</span>
 }
 </div></code></pre>
-<p>虽然 clique 相比 ethash, 区块结构并没有变化，但是字段的含义发生来变化:</p>
+<p>虽然 clique 相比 ethash, 区块结构并没有变化，但是字段的含义发生了变化:</p>
 <ul>
 <li>extra: genesis block - 32字节的前缀(extraVanity) + 所有signer的地址 + 65字节的后缀(extraSeal), 保存signer的签名, 其他 block 的 Extra 字段只包括 extraVanity 和 extraSeal</li>
 <li>Nonce: Nonce 字段存放投票信息: 添加(nonceAuthVote: 0xffffffffffffffff )或者移除(nonceDropVote: 0x0000000000000000)一个 signer</li>
 <li>Coinbase: Coinbase 字段存放被投票的地址，比如，signerA 的一个投票: 加入signerB, 那么 Coinbase 存放 B 的地址</li>
-<li>MixDigest: clique 没有使用这个值，初始化为 <code>common. Hash{}</code>, 校验的也是这个值</li>
+<li>MixDigest: clique 没有使用这个值，初始化为 <code>common.Hash{}</code>, 校验的也是这个值</li>
 </ul>
 <p>而 heco chain 的共识(congress 目录)相对于 clique 字段的意义也有些变化:</p>
 <blockquote>
 <p>signer 在 heco 里面改成了 validator</p>
 </blockquote>
 <ul>
-<li>Coinbase: congress 会把 validator 的地址放进 Coinbase, 而 clique 在 Prepare 的时候 Coinbase 被赋值为了 <code>common. Address{}</code></li>
+<li>Coinbase: congress 会把 validator 的地址放进 Coinbase, 而 clique 在 Prepare 的时候 Coinbase 被赋值为了 <code>common.Address{}</code></li>
 </ul>
 <table>
 <thead>
