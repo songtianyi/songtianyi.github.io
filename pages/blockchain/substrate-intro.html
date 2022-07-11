@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>substrate-intro.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="substrate-introduction">Substrate Introduction</h1>
+<p>作者: songtianyi create@2022-07-09, WIP</p>
+<h2 id="%E4%BB%80%E4%B9%88%E6%98%AF-substrate">什么是 Substrate</h2>
+<p>Substrate 是 Ethereum 创始人之一 <a href="https://en.wikipedia.org/wiki/Gavin_Wood">Gravin Wood</a> 另起炉灶开发的一个基于 Rust 的区块链开发框架。基于 Substrate 框架，普通开发者能够快速开发出以太坊级别(技术方面)的区块链。比较知名的是 Parity 的 Polkadot. 在 Polkadot 出现之前，区块链有两种玩法，一种是基于 Ethereum EVM 去做合约上的创新，一种是把 Ethereum 复制过来，改改代码做共识或者其它方面的技术创新，甚至去构建自己的生态。而 Polkadot 的出现让链与链之间的互操作变得更加方便，你可以在 Polkadot 上玩合约，像 Ethereum 生态一样；也可以自己基于 Substrate 去快速开发出自己的新链，引入自己的共识，甚至虚拟机; 可以自己单玩，也可以以 parachain 的形式接入到 Polkadot 的大生态里面。从技术的角度讲，Polkadot 比 Ethereum 更加先进，但生态方面，Polkadot 还不足以挑战 Ethereum，目前仍然是强者恒强的局面。</p>
+<p>Substrate 有着自己的显著特征:</p>
+<ul>
+<li>模块化设计，二次开发极为方便</li>
+<li>通过 <a href="https://wiki.polkadot.network/docs/learn-crosschain">XCM</a> 和 <a href="https://wiki.polkadot.network/docs/learn-bridges">bridges</a> 显著增加了链与链之间的互操作性。</li>
+<li>升级更加方便，不太容易出现分叉</li>
+<li>可以独立运行，也可以接入 relay chain，比如 Polkadot 或者 Kusama</li>
+</ul>
+<h2 id="%E6%9E%B6%E6%9E%84">架构</h2>
+<p>很容易想到，Substrate 作为链的开发框架，至少得有两部分，公共部分和自定义逻辑部分。公共部分用来解决网络、通信、存储、共识、监控等基本问题，自定义逻辑部分用来方便开发者编写和发布自己的应用逻辑。</p>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/sub-arch-1.avif" width="30%">
+<p>用术语来讲的话，这两部分分别是 Outer node 和 WebAssembly Runtime. Outer node 除了图中所列的几个核心功能外，还有:</p>
+<ul>
+<li>Execution environments: 负责将请求分发给不同的执行环境，Substate 支持 Runtime 以两种方式执行，WebAssembly 和 native Rust</li>
+</ul>
+<p>Substrate 框架的代码结构分为三个主要层次:</p>
+<ul>
+<li>Substrate Core: 对应 Outer Node 部分</li>
+<li>Substrate FRAME: Framework for Runtime Aggregation of Modularized Entities, 主要是方便开发者开发自己的 Runtime, 它们称为 <a href="https://docs.substrate.io/reference/glossary/#pallet">pallet</a></li>
+<li>Substrate Node</li>
+</ul>
+ <img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/technical-freedom.avif" width="30%">
+<h2 id="runtime">Runtime</h2>
+<p>Runtime 包含了所有的业务逻辑，包括校验和执行 transaction, 和 Outer node 交互等等。Runtime 可以编译成 WebAssembly, 它能够带来以下好处:</p>
+<ul>
+<li>Support for forkless upgrades.</li>
+<li>Multi-platform compatibility.</li>
+<li>Runtime validity checking.</li>
+<li>Validation proofs for relay chain consensus mechanisms.</li>
+</ul>
+<p>和其它的 blockchain 一样，基于 Substrate 的 blocchain 也是一个分布式的账本，或者说是一个分布式数据库，Runtime 相当于是 state transition function, 负责改变和存储状态。</p>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/state-transition-function.avif" width="30%">
+<p>在 Substrate 中, Outer node 是通过 Runtime 提供的 API 来获取一些信息的。 <code>sp_api</code> crate 提供了一个 <code>interface</code> 让大家可以借助 <a href="https://paritytech.github.io/substrate/master/sp_api/macro.impl_runtime_apis.html"> <code>impl_runtime_apis</code> </a> macro 实现自己的 API.</p>
+<p>大部分基于 Substate 的链都实现了下面几个 API(interface):</p>
+<ul>
+<li><em>BlockBuilder</em> for the functionality required to build a block.</li>
+<li><em>TaggedTransactionQueue</em> for validating transactions.</li>
+<li><em>OffchainWorkerApi</em> for enabling offchain operations.</li>
+<li><em>AuraApi</em> for block authoring and validation using a round-robin method of consensus.</li>
+<li><em>SessionKeys</em> for generating and decoding session keys.</li>
+<li><em>GrandpaApi</em> for block finalization into the runtime.</li>
+<li><em>AccountNonceApi</em> for querying transaction indices.</li>
+<li><em>TransactionPaymentApi</em> for querying information about transactions.</li>
+<li><em>Benchmark</em> for estimating and measuring execution time required to complete transactions.</li>
+</ul>
+<p>除了这些， <code>Core</code> 和 <code>Metadata</code> interface 是必须要实现的。</p>
+<p>我们可以自行编码实现自己的 Runtime, 也可以借助 FRAME. FRAME 提供了很多实用的 pallet. 我们从这些内置的 pallet 中挑选一些出来就可以构造出特定场景使用的区块链。</p>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/compose-runtime.avif" width="30%">
+<p>FRAME 还提供了一些基础库和 pallet, 我们开发的时候都会用到:</p>
+<ul>
+<li>FRAME system crate: <code>frame_system</code> provides low-level types, storage, and functions for the runtime.</li>
+<li>FRAME support crate: <code>frame_support</code> is a collection of Rust macros, types, traits, and modules that simplify the development of Substrate pallets.</li>
+<li>FRAME executive pallet: <code>frame_executive</code> orchestrates the execution of incoming function calls to the respective pallets in the runtime.</li>
+</ul>
+<h2 id="node-template">node-template</h2>
+<p>node-template 是 Parity 官方提供的基于 Substrate 的一个可用的区块链样例。 根据<a href="https://docs.substrate.io/quick-start/">指引</a> 可以编译启动 template 节点。在启动之前你需要详细看下 node-template 的<a href="https://docs.substrate.io/reference/command-line-tools/node-template/">子命令及启动选项</a>。
+这里主要强调下节点的几种运行模式</p>
+<h4 id="archive-nodes">archive nodes</h4>
+<p><code>archive node</code> 会保存所有的 block, 方便 block explorer 等场景的使用，启动方式如下:</p>
+<pre class="hljs"><code><div>./target/release/node-template --pruning archive
+</div></code></pre>
+<h4 id="full-nodes">full nodes</h4>
+<p>full node 是经过精简的，它只保存固定数量的区块数据以及创世区块(genesis block), 默认是保存 256 个区块。通过 validator 选项可以启动一个默认保存 256 个区块的 node:</p>
+<pre class="hljs"><code><div>./target/release/node-template --validator
+</div></code></pre>
+<p>也可以指定保存的区块的数量:</p>
+<pre class="hljs"><code><div>./target/release/node-template --validator --pruning 10
+</div></code></pre>
+<h4 id="light-client-nodes">light client nodes</h4>
+<p>通过 <code>--light</code> 选项，你可以让节点以 light client 的模式运行。light client node 主要的作用是向外暴露接口，方便用户读取 block headers, 提交 transaction 等，不负责出块。你可以理解为它是 read-only 的，不会修改区块链的状态, 因此 light client node 只需要保存当前的状态。</p>
+<pre class="hljs"><code><div>./target/release/node-template --light
+</div></code></pre>
+<h2 id="node-template-codebase">node-template codebase</h2>
+<p>打开 node-template 的源码，可以看到源码中有三个主要目录</p>
+<ul>
+<li>node - cli, 自定义 rpc 接口等</li>
+<li>pallet - 自定义 runtime 逻辑，以 pallet 的形式封装，并在 runtime 目录被引入。代码中提供了一个 pallet 样例。</li>
+<li>runtime - 用于构造出最终的链上逻辑, 可以看到在 runtime 中是如何引入自定义的 pallet 的</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment">/// Import the template pallet.</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">use</span> pallet_template;
+
+<span class="hljs-comment">/// ...</span>
+
+<span class="hljs-comment">/// Configure the pallet-template in pallets/template.</span>
+<span class="hljs-keyword">impl</span> pallet_template::Config <span class="hljs-keyword">for</span> Runtime {
+	<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Event</span></span> = Event;
+}
+
+<span class="hljs-comment">// Create the runtime by composing the FRAME pallets that were previously configured.</span>
+construct_runtime!(
+	<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Runtime</span></span> <span class="hljs-keyword">where</span>
+		Block = Block,
+		NodeBlock = opaque::Block,
+		UncheckedExtrinsic = UncheckedExtrinsic
+	{
+		System: frame_system,
+		RandomnessCollectiveFlip: pallet_randomness_collective_flip,
+		Timestamp: pallet_timestamp,
+		Aura: pallet_aura,
+		Grandpa: pallet_grandpa,
+		Balances: pallet_balances,
+		TransactionPayment: pallet_transaction_payment,
+		Sudo: pallet_sudo,
+		<span class="hljs-comment">// Include the custom logic from the pallet-template in the runtime.</span>
+		TemplateModule: pallet_template,
+	}
+);
+</div></code></pre>
+<h2 id="pallets">pallets</h2>
+<p>在动手开发自己的 pallet 之前，我们需要了解并熟悉 substrate 提供的已有的 pallet.</p>
+<h4 id="system-pallets">System pallets</h4>
+<p>前面提到过，这里也不单独再做介绍，System pallets 更多的是在我们的开发过程中起一个辅助的作用。</p>
+<h4 id="functional-pallets">Functional pallets</h4>
+<p>比较通用的功能型的 pallet, 开箱即用，还有人帮你维护。</p>
+<h6 id="palletassets"><a href="https://paritytech.github.io/substrate/master/pallet_assets/index.html">pallet_assets</a></h6>
+<p>用来管理代币, 包括挖矿，转账，冻结，销毁等一系列操作。</p>
+<h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
+<ul>
+<li><a href="https://wiki.polkadot.network/">Polkadot Wiki</a></li>
+</ul>
+
+</body>
+</html>
