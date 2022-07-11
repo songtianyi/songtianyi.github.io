@@ -8,7 +8,7 @@
 
 宏的概念我们在刚学计算的时候就接触过，C 语言里的 `#define xxx` 就是宏。
 
-``` c
+```c
 #define LENGTH_OF_ARRAY 5 // this is a define macro
 
 int main() {
@@ -25,7 +25,7 @@ int main() {
 
 但是老师或者书本里应该会告诉我们，尽量不要使用宏。复杂的宏定义会降低代码的可读性，而且容易写出意想不到的 bug，举个例子：
 
-``` c
+```c
 #define TEN 5 + 5
 
 int main() {
@@ -38,7 +38,7 @@ int main() {
 只有能驾驭好它的程序员才能随心使用它。
 C 语言的宏不仅是简单的字符串替换，它还支持参数:
 
-``` c
+```c
 #define ADD(X, Y) (X + Y)
 
 int add(int a, int b) {
@@ -54,7 +54,7 @@ int add(int a, int b) {
 
 Rust 宏相对 C 来说要复杂很多，自然也强大很多。我们最先接触到的宏应该是 `println!` . 它的定义是这样的:
 
-``` rust
+```rust
 macro_rules! println {
     () => ($crate::print!("\n"));
     ($($arg:tt)*) => ({
@@ -82,7 +82,7 @@ macro_rules! println {
 我们可以把 `()` 简单看做是 empty。
 那么下面这段代码就比较容易理解了
 
-``` rust
+```rust
 () => ($crate::print!("\n"))
 ```
 
@@ -110,7 +110,7 @@ name 相当于变量名，用 `$` 符号标记，designator 可以理解为是�
 
 以 `map!` 宏为例来看下 HashMap 的初始化方式， 如下:
 
-``` rust
+```rust
 use std::collections::HashMap;
 macro_rules! map {
     ($($key:expr => $value:expr), *) => {
@@ -138,7 +138,7 @@ fn main() {
 
 下面是一个更复杂的实际案例，用来简化 Field 的取值方法的编写:
 
-``` rust
+```rust
 pub enum Field {
     tinyInt(i8),
     smallInt(i16),
@@ -195,7 +195,7 @@ impl Field {
 
 一种是我们经常见到的 `derive` 属性, 需要打印一个结构体而又不想自己实现的时候，可以在结构体上运用 `#[derive(Debug)]` 来帮我们实现 `Debug` Trait.
 
-``` rust
+```rust
 #[derive(Debug)]
 struct Student {
     name: String,
@@ -222,7 +222,7 @@ fn main() {
 >
 > |
 >
-> 17 |     println!("{:?}", Student::new());
+> 17 |     println!("{:?}", Student::new()); 
 >
 > |                      ^^^^^^^^^^^^^^ `Student` cannot be formatted using `{:?}`
 
@@ -243,14 +243,14 @@ fn main() {
 
 我们可以自己实现一个 `derive` 宏.
 
-``` shell
+```shell
 # 创建一个 status crate
 cargo new status  --lib
 ```
 
 在 `status/src/lib.rs` 里定义 `Status` trait, 其功能为打印结构体的状态。
 
-``` rust
+```rust
 pub trait Status {
     /// Return the status of `self`
     fn status(&self) -> String;
@@ -259,14 +259,14 @@ pub trait Status {
 
 接着实现 `Status` macro.
 
-``` shell
+```shell
 # 创建一个 status_derive crate
 cargo new status_derive  --lib
 ```
 
 > `declarative macro` 类似于字符串替换，只不过加了匹配规则和变量，让我们可以写更复杂的逻辑，而 `procedural macro` 提供了源码的 token 输入，即 `TokenStream` , 并提供了语法树工具，让我们有能力直接处理源码。
 
-``` rust
+```rust
 // status_derive/src/lib.rs
 use proc_macro2::TokenStream;
 use quote::{quote, quote_spanned};
@@ -281,25 +281,25 @@ pub fn derive_status(input: proc_macro::TokenStream) -> proc_macro::TokenStream 
 
 修改 `status/Cargo.toml` , 添加 status_derive crate 依赖.
 
-``` toml
+```toml
 [dependencies]
 status_derive = { path = "../status_derive" }
 ```
 
 创建一个测试程序
 
-``` shell
+```shell
 cargo new status_derive_test  --bin
 ```
 
 并添加依赖:
 
-``` toml
+```toml
 [dependencies]
 status = { path = "../status" }
 ```
 
-``` rust
+```rust
 // status_derive_test/src/lib.rs
 use status::Status;
 
@@ -328,7 +328,7 @@ fn main() {
 目前代码还未完成，编译会失败，我们从目标出发，将 `derive_status` 函数填充完整。
 我们的目标是生成一个函数， 如下:
 
-``` rust
+```rust
 impl Status for Student {
     fn status(&self) -> String {
         format!("{}'s status is {}", self.name, self.status)
@@ -338,7 +338,7 @@ impl Status for Student {
 
 先考虑的简单点，直接用 `quote!` 将字符串转成 `TokenStram` 返回
 
-``` rust
+```rust
 let c = quote!(
     impl Status for Student {
         fn status(&self) -> String {
@@ -351,7 +351,7 @@ proc_macro::TokenStream::from(c)
 
 这样是能成功的，但是不够通用，Student 被 hardcode 了，换个结构体名字就不适用了。这个时候要利用 `inupt` 参数:
 
-``` rust
+```rust
 // 将输入做些处理以便使用
 let input = parse_macro_input!(input as DeriveInput);
 // 将结构体的名称取出来, 在 quote! 中以变量的形式引用
@@ -375,7 +375,7 @@ proc_macro::TokenStream::from(c)
 和 `derive` macro 是类似的，可以理解为是将 `derive` 换成了更一般的名字， `derive` macro 是 `attribute-like macro` 的一种特例。
 `derive` macro 只能用于 `struct` 和 `enum` , 而 `attribute-like macro` 可以运用在其它的对象上，比如函数。如果你用过 rust 的 web 框架，可能会见到下面的代码片段:
 
-``` rust
+```rust
 #[route(GET, "/")]
 fn index() {
 }
@@ -383,7 +383,7 @@ fn index() {
 
 `route` 宏的实现和 `derive` 有些区别:
 
-``` rust
+```rust
 #[proc_macro_attribute]
 pub fn route(attr: TokenStream, item: TokenStream) -> TokenStream {
 }
@@ -392,7 +392,7 @@ pub fn route(attr: TokenStream, item: TokenStream) -> TokenStream {
 * 使用的 `attribute` 是 `proc_macro_attribute`
 * 它接受两个参数，`attr` 是 `GET, "/"` 这部分，`item` 存的是对应的函数，即:
 
-``` rust
+```rust
 fn index() {}
 ```
 
@@ -402,13 +402,13 @@ fn index() {}
 
 顾名思义， `Function-like` macro 在使用上比较像函数，或者说像 `declarative` macro, 但相对函数和 `macro_rules!` 来说， `Function-like` macro 更加灵活，参数可以不固定。比较典型的例子是 `sql!` .
 
-``` rust
+```rust
 let sql = sql!(SELECT * FROM posts WHERE id=1);
 ```
 
 它的实现方式和前两种 `procedural` macro 是类似的:
 
-``` rust
+```rust
 #[proc_macro]
 pub fn sql(input: TokenStream) -> TokenStream {
 }
@@ -418,3 +418,4 @@ pub fn sql(input: TokenStream) -> TokenStream {
 
 * [Macros](https://doc.rust-lang.org/book/ch19-06-macros.html)
 * [HeapSize derive example](https://github.com/dtolnay/syn/tree/master/examples/heapsize)
+* [Macros, A Practical Introduction](https://danielkeep.github.io/tlborm/book/pim-README.html)
