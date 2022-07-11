@@ -4,7 +4,7 @@
 
 ### 前言
 
-在[1 小时入门 Rust](getting-started-with-rust-in-1-hour.html)的文中，有一处说到，Rust 没有 GC，但有人对此有异议，所以单独写一篇文章来说明。在写文章的时候，做了些搜索，国外也有人持同样的观点 <sup>[5]</sup>。
+在[1 小时入门 Rust](getting-started-with-rust-in-1-hour.html)的文中，有一处说到，Rust 没有 GC，但有人对此有异议，所以单独写一篇文章来说明。在写文章的时候，做了些搜索，国外也有人持同样的观点。
 
 ### 什么是 GC
 
