@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>api3-airnode-notes.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="api3-airnode-notes">API3 Airnode notes</h1>
+<p>作者: songtianyi create@2022-07-23</p>
+<p>这篇文章是我自己跑通 API3 整个流程所涉及到的 contract, wallet, provider 等信息，并非讲解。更详细的讲解请参考官方文档。</p>
+<h2 id="airnoderrp">AirnodeRrp</h2>
+<ul>
+<li><a href="https://github.com/api3dao/airnode/blob/v0.7/packages/airnode-protocol/contracts/rrp/requesters/RrpRequesterV0.sol">Source code</a></li>
+<li><a href="https://docs.api3.org/airnode/v0.7/reference/airnode-addresses.html">Deployed on-chain contracts</a></li>
+</ul>
+<blockquote>
+<p>Moombeam alpha testnet: 0xa0AD79D995DdeeB18a14eAef56A549A04e3Aa1Bd</p>
+<p>Eth Rinkeby: 0xa0AD79D995DdeeB18a14eAef56A549A04e3Aa1Bd</p>
+</blockquote>
+<h2 id="requester">Requester</h2>
+<p><a href="https://github.com/api3dao/airnode/tree/v0.7/packages/airnode-examples/contracts">Example requester contracs</a></p>
+<blockquote>
+<p>My Moonbeam alpha contract: 0x9F1445F83758D8Dc7C07F5a282aa2573cfd0a8f6</p>
+<p>My Eth Rinkeby contract: 0x7254228c9EAaDd76EcaD80CDa8339BDd4B01577f</p>
+</blockquote>
+<h2 id="airnode-address">Airnode address</h2>
+<pre class="hljs"><code><div>npx @api3/airnode-admin generate-mnemonic
+This mnemonic is created locally on your machine using &quot;ethers.Wallet.createRandom&quot; under the hood.
+Make sure to back it up securely, e.g., by writing it down on a piece of paper:
+taxi balance fine alert urban trip forum student question job hazard devote
+The Airnode address for this mnemonic is: 0x2156217a193B4bC6c3c24012611D124310663060
+The Airnode xpub for this mnemonic is: xpub6CBLYPPSoj1f5Lndxrqca5FcEpFi8nBPZQfvDc8gWPkprmUqqpBsJvdTzW9GzYqEXJtAR1nczHmpqefCPWLTBYFgss3Xh4vtUNYUapXVR2p
+</div></code></pre>
+<h4 id="derive-airnode-address">derive-airnode-address</h4>
+<pre class="hljs"><code><div>❯ npx @api3/airnode-admin derive-airnode-address \
+--airnode-mnemonic <span class="hljs-string">"taxi balance fine alert urban trip forum student question job hazard devote"</span>
+</div></code></pre>
+<h4 id="derive-airnode-xpub">derive-airnode-xpub</h4>
+<pre class="hljs"><code><div>npx @api3/airnode-admin derive-airnode-xpub --airnode-mnemonic <span class="hljs-string">"taxi balance fine alert urban trip forum student question job hazard devote"</span>
+</div></code></pre>
+<h2 id="sponsor-a-requester">Sponsor a requester</h2>
+<h4 id="moonbeam-alpha">Moonbeam alpha</h4>
+<pre class="hljs"><code><div>npx @api3/airnode-admin sponsor-requester \
+  --provider-url https://moonbeam-alpha.api.onfinality.io/public \
+  --sponsor-mnemonic <span class="hljs-string">"aisle genuine false door mouse sustain caught flock pyramid sister scan disease"</span> \
+  --requester-address 0x9F1445F83758D8Dc7C07F5a282aa2573cfd0a8f6
+</div></code></pre>
+<blockquote>
+<p>Requester address 0x9F1445F83758D8Dc7C07F5a282aa2573cfd0a8f6 is now sponsored by 0x944e24Ded49747c8278e3D3b4148da68e5B6672C</p>
+</blockquote>
+<h4 id="rinkeby">Rinkeby</h4>
+<pre class="hljs"><code><div>npx @api3/airnode-admin sponsor-requester \
+  --provider-url https://rinkeby.infura.io/v3/e5cbadfb7319409f981ee0231c256639 \
+  --sponsor-mnemonic <span class="hljs-string">"aisle genuine false door mouse sustain caught flock pyramid sister scan disease"</span> \
+  --requester-address 0x7254228c9EAaDd76EcaD80CDa8339BDd4B01577f
+</div></code></pre>
+<blockquote>
+<p>Requester address 0x7254228c9EAaDd76EcaD80CDa8339BDd4B01577f is now sponsored by 0x944e24Ded49747c8278e3D3b4148da68e5B6672C</p>
+</blockquote>
+<h2 id="run-airnode">Run airnode</h2>
+<h4 id="secretsenv">secrets.env</h4>
+<pre class="hljs"><code><div>CHAIN_PROVIDER_URL=&quot;https://moonbeam-alpha.api.onfinality.io/public&quot;
+AIRNODE_WALLET_MNEMONIC=&quot;taxi balance fine alert urban trip forum student question job hazard devote&quot;
+</div></code></pre>
+<h4 id="local-run">Local run</h4>
+<pre class="hljs"><code><div>docker run --detach \
+  --net host \
+  --volume <span class="hljs-string">"<span class="hljs-variable">$(pwd)</span>/config:/app/config"</span> \
+  --name quick-deploy-container-airnode \
+  api3/airnode-client:0.7.2
+</div></code></pre>
+<h2 id="make-a-request">Make a request</h2>
+<h4 id="derive-sponsor-wallet-address">derive-sponsor-wallet-address</h4>
+<pre class="hljs"><code><div>npx @api3/airnode-admin derive-sponsor-wallet-address \
+  --airnode-xpub xpub6CBLYPPSoj1f5Lndxrqca5FcEpFi8nBPZQfvDc8gWPkprmUqqpBsJvdTzW9GzYqEXJtAR1nczHmpqefCPWLTBYFgss3Xh4vtUNYUapXVR2p \
+  --airnode-address 0x2156217a193B4bC6c3c24012611D124310663060 \
+  --sponsor-address 0x944e24Ded49747c8278e3D3b4148da68e5B6672C
+</div></code></pre>
+<blockquote>
+<p>Sponsor wallet address: 0xdb2E1351c5De993629e703b51A730D7A6Ed24271</p>
+</blockquote>
+<h4 id="encoding-script">Encoding script</h4>
+<p><a href="https://docs.api3.org/airnode/v0.7/reference/packages/airnode-abi.html">airenode-abi</a></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { encode } <span class="hljs-keyword">from</span> <span class="hljs-string">'@api3/airnode-abi'</span>;
+
+<span class="hljs-comment">//const parameters = [</span>
+<span class="hljs-comment">//  { type: 'string32', name: 'coinIds', value: 'api3' },</span>
+<span class="hljs-comment">//  { type: 'string32', name: 'coinVs_currencies', value: 'usd' },</span>
+<span class="hljs-comment">//];</span>
+
+<span class="hljs-keyword">const</span> parameters = [
+  { <span class="hljs-keyword">type</span>: <span class="hljs-string">'int256'</span>, name: <span class="hljs-string">'price'</span>, value: <span class="hljs-string">'999'</span> }
+];
+<span class="hljs-keyword">const</span> encodedData = encode(parameters);
+
+<span class="hljs-built_in">console</span>.log(encodedData);
+</div></code></pre>
+<h4 id="fill-requester-makerequest">fill requester makeRequest</h4>
+<blockquote>
+<p>0x2156217a193B4bC6c3c24012611D124310663060</p>
+<p>0x6db9e3e3d073ad12b66d28dd85bcf49f58577270b1cc2d48a43c7025f5c27af6</p>
+<p>0x944e24Ded49747c8278e3D3b4148da68e5B6672C</p>
+<p>0xdb2E1351c5De993629e703b51A730D7A6Ed24271</p>
+<p>{abi encoding data}</p>
+</blockquote>
+<h6 id="example-request-data">Example request data</h6>
+<pre class="hljs"><code><div>{<span class="hljs-attr">"coinIds"</span>:<span class="hljs-string">"api3"</span>, <span class="hljs-attr">"coinVs_currencies"</span>:<span class="hljs-string">"usd"</span>}
+<span class="hljs-number">0x3173730000000000000000000000000000000000000000000000000000000000636f696e496473000000000000000000000000000000000000000000000000006170693300000000000000000000000000000000000000000000000000000000636f696e56735f63757272656e636965730000000000000000000000000000007573640000000000000000000000000000000000000000000000000000000000</span>
+</div></code></pre>
+<h2 id="incomingfulfillments">incomingFulfillments</h2>
+<h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
+<ul>
+<li><a href="https://docs.api3.org/airnode/v0.7/">Airnode offcial doc v0.7</a></li>
+</ul>
+
+</body>
+</html>

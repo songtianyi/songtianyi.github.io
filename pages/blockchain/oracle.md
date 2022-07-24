@@ -72,7 +72,7 @@ API3 开发了基于 Kleros 的链上保险服务，以此来弥补 dAPI user �
 
 #### Airnode Intro
 
-Airnode 的意义在于，它可以方便 api provider 去跑自己的 oracle 节点，只需要关心自己的 api 逻辑即可，也不需要关心如何运维这个节点。对于 dAPI 的使用者，即 contract 的开发者来说，也很方便。所以，Airnode 更像一个 SDK，理论上你也可以按照 API3 的 protocol 自己去实现。
+Airnode 的意义在于，它可以方便 api provider 去跑自己的 oracle 节点，只需要关心自己的 api 逻辑即可，也不需要关心如何运维这个节点。对于 dAPI 的使用者，即 contract 的开发者来说，也很方便。
 
 Airnode 最重要的事情是将 API user 的 contract 和 dAPI 的交互打通。
 
@@ -82,11 +82,9 @@ API3 在各个 blockchain 中部署了一个 proxy contract, 叫 AirnodeRrpV0.so
 
 <img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/developer-overview.a4d61dbe.png" width="30%">
 
-根据[指引](https://docs.api3.org/airnode/v0.7/grp-providers/tutorial/quick-deploy-container/) 可以快速启动一个基于 docker 的 Airnode
-
-
-
 ###### API Integration
+
+参考 [API3 Airnode notes](api3-airnode-notes.html)
 
 ## 参考资料
 

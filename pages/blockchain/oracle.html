@@ -414,9 +414,13 @@ API3 引入了 DAO, 所有持有 API3 token 的人都机会参与到 dAPI 的治
 <h4 id="dapi-insurance">dAPI Insurance</h4>
 <p>API3 开发了基于 Kleros 的链上保险服务，以此来弥补 dAPI user 因为 dAPI 的问题而导致的损失，API3 认为，即使他们不提供该项服务，dAPI user 也会基于自身利益的考虑去使用第三方的此类解决方案。dAPI user 会在订阅 dAPI 的时候收到一份特定的保险，API3 DAO 会评估风险及 user 的使用场景来确定数量。该数量也会随着 dAPI 的扩容而发生变化，因为扩容会增加风险。</p>
 <h4 id="airnode-intro">Airnode Intro</h4>
-<p>Airnode 的意义在于，它可以方便 api provider 去跑自己的 oracle 节点，只需要关心自己的 api 逻辑即可，也不需要关心如何运维这个节点。所以，Airnode 更像一个 SDK.</p>
+<p>Airnode 的意义在于，它可以方便 api provider 去跑自己的 oracle 节点，只需要关心自己的 api 逻辑即可，也不需要关心如何运维这个节点。对于 dAPI 的使用者，即 contract 的开发者来说，也很方便。</p>
 <p>Airnode 最重要的事情是将 API user 的 contract 和 dAPI 的交互打通。</p>
 <img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/two-parts-of-airnode.jpg" width="30%">
+<p>API3 在各个 blockchain 中部署了一个 proxy contract, 叫 AirnodeRrpV0.sol, 目前应该只支持基于 EVM 的合约。API user 或者说 requester 的合约需要访问链下 API 数据的时候，先 call <code>AirnodeRrpV0</code> 的 <code>makeFullRequest</code> , proxy contract 会把请求数据记录到 event logs, event logs 就是链上和链下交互的关键。Airnode 会去 event logs 拿请求数据，然后执行请求，然后调用 proxy contract <code>fulfill</code> 接口，把执行结果塞给 proxy contract, proxy contract 再回调 requester 的 contract 把请求结果返回去。</p>
+<img src="https://songtianyi-blog.oss-cn-shenzhen.aliyuncs.com/developer-overview.a4d61dbe.png" width="30%">
+<h6 id="api-integration">API Integration</h6>
+<p>参考 <a href="api3-airnode-notes.html">API3 Airnode notes</a></p>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
 <ul>
 <li><a href="https://drive.google.com/file/d/1GzkLKc6DYxImgeDhoKLA4wHGlE0eGGgo/view">API3: Decentralized APIs for Web 3.0</a></li>
