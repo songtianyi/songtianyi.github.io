@@ -155,6 +155,98 @@ construct_runtime!(
 
 用来管理代币, 包括挖矿，转账，冻结，销毁等一系列操作。
 
+###### [pallet_balances](https://paritytech.github.io/substrate/master/pallet_balances/index.html)
+
+负责管理账户和余额。这里要讲几个术语
+
+* **Existential Deposit**: 这是账户存在所要求的最低余额，如果低于这个值，会被销户，相关的链上信息会被清理掉。
+* **Total Issuance**: 总共的代币数量, 挖出的-销毁的
+* **Reserved Balance**: 直译的意思是*预留余额*，后面再来确定对不对。预留余额并不能被自由转账，但可以被罚没，如果账户被罚没的数量超过 free banlance, 那么会动用 Reserved Balance.
+* **Free Balance**: 账户里能够被账户所有者自由使用的金额。
+* **Imbalance**: 用来管理借贷等金融属性的资金
+* **Lock**: 被锁定的资金，直到达到指定条件，比如指定的块高，才会被解锁。
+
+###### [pallet_contracts](https://paritytech.github.io/substrate/master/pallet_contracts/index.html)
+
+负责创建和执行基于 WebAssembly 的智能合约。
+值得注意的一点，合约中如果出现失败，并不会向上一直传播。比如 contact A call contract B 的时候出现错误，contract A 可以决定如何处理，可以只回退 call B 时发生的状态变化，也可以回退所有。
+
+###### [pallet_transaction_payment](https://paritytech.github.io/substrate/master/pallet_transaction_payment/index.html)
+
+pallet_transaction_payment 负责处理交易费用。这里提一下交易费用的构成:
+
+```bash
+inclusion_fee = base_fee + length_fee + [targeted_fee_adjustment * weight_fee];
+final_fee = inclusion_fee + tip;
+```
+
+* base fee: This is the minimum amount a user pays for a transaction. It is declared as a base weight in the runtime and converted to a fee using WeightToFee.
+* weight fee: A fee proportional to amount of weight a transaction consumes.
+* length fee: A fee proportional to the encoded length of the transaction.
+* tip: An optional tip. Tip increases the priority of the transaction, giving it a higher chance to be included by the transaction queue.
+* targeted_fee_adjustment: This is a multiplier that can tune the final fee based on the congestion of the network.
+
+final_fee 为最终需要支付的交易费用。
+
+###### [pallet_aura](https://paritytech.github.io/substrate/master/pallet_aura/index.html) [pallet_babe](https://paritytech.github.io/substrate/master/pallet_babe/index.html)
+
+pallet_aura 和 pallet_babe 都是共识算法，会用单独的文章介绍
+
+###### [pallet_grandpa](https://paritytech.github.io/substrate/master/pallet_grandpa/index.html)
+
+pallet_grandpa 主要是用来确认块(finality)的，并不是用来做共识的
+
+###### [pallet_sudo](https://paritytech.github.io/substrate/master/pallet_sudo/index.html)
+
+pallet_sudo 是一个单一功能的 pallet, 并不和其它 pallet 相互配合。它负责暴露一些特权接口，只有特权账户才能调用，方便做链上维护。
+
+###### [pallet_example_basic](https://paritytech.github.io/substrate/master/pallet_example_basic/index.html)
+
+一个 pallet 开发模板, 展示相关概念，API, 数据结构，文档等。
+
+#### Parachain pallets
+
+我们前面提到，基于 Substrate 开发的 blockchain 是可以作为 parachain 接入到 relaychain 里的，因此会有一些预制的 pallet 来完整这些工作。
+这些 pallet 都是在 relaychain 中实现。
+
+> 我们在了解完平行链相关的概念之后再来补充这部分的内容
+
+## Frame macros
+
+如果你看了 pallet 的 example basic 或者 node-template 中的 template 代码，你会发现 Substrate 还是比较难懂的，虽然它把需要些逻辑的地方都预留好了。但你要弄明白为什么还是比较吃力的。一方面是因为 Rust 的学习曲线本身会比较陡峭，另一方面，这里面大量使用了宏，你也知道，宏这个东西本身就是写着舒服，看着蛋疼的玩意儿，你要有能力在脑袋里展开它才会比较好懂。可以先看下我关于 [Rust Macro](../programming/languages/M-rust-macro.html) 的一篇文章。另外，可以使用 [ `cargo expand` ](https://github.com/paritytech/cumulus/blob/master/pallets/aura-ext/src/lib.rs) 来展开 macro.
+
+FRAME v2 对 pallet 中使用的 macro 进行了[升级](../blockchain/M-substrate-decl-macro-to-proc-macro.html)，从 `declarative macros` 替换到了 `attribute-like macros` . 这个升级就是为了让大家能看懂 macro 的实现，否则写什么都是稀里糊涂的 copy&paste， 如果官方写了什么 bug, 你也很难去看。
+
+我们挑一段 `quote!` 里的样例来看看
+
+```rust
+let tokens = quote! {
+    struct SerializeWith #generics #where_clause {
+        value: &'a #field_ty,
+        phantom: core::marker::PhantomData<#item_ty>,
+    }
+
+    impl #generics serde::Serialize for SerializeWith #generics #where_clause {
+        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where
+            S: serde::Serializer,
+        {
+            #path(self.value, serializer)
+        }
+    }
+
+    SerializeWith {
+        value: #value,
+        phantom: core::marker::PhantomData::<#item_ty>,
+    }
+};
+```
+
+也挺容易读懂的，和我们最终的编码结果相差不大，只是用变量代替了最终值。
+
+在开发 pallet 的过程中经常需要用到的 macro 可以查看[这里](https://docs.substrate.io/reference/frame-macros/#substrate-runtime-macros)。这些 Substrate runtime macros 需要都看一遍。
+
 ## 参考资料
 
 * [Polkadot Wiki](https://wiki.polkadot.network/)
+* [polkadot consensus](https://medium.com/polkadot-network/polkadot-consensus-part-1-introduction-3e3cd6237243)

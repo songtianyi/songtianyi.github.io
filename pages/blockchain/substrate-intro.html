@@ -485,9 +485,53 @@ construct_runtime!(
 <p>比较通用的功能型的 pallet, 开箱即用，还有人帮你维护。</p>
 <h6 id="palletassets"><a href="https://paritytech.github.io/substrate/master/pallet_assets/index.html">pallet_assets</a></h6>
 <p>用来管理代币, 包括挖矿，转账，冻结，销毁等一系列操作。</p>
+<h6 id="palletbalances"><a href="https://paritytech.github.io/substrate/master/pallet_balances/index.html">pallet_balances</a></h6>
+<p>负责管理账户和余额。这里要讲几个术语</p>
+<ul>
+<li><strong>Existential Deposit</strong>: 这是账户存在所要求的最低余额，如果低于这个值，会被销户，相关的链上信息会被清理掉。</li>
+<li><strong>Total Issuance</strong>: 总共的代币数量, 挖出的-销毁的</li>
+<li><strong>Reserved Balance</strong>: 直译的意思是<em>预留余额</em>，后面再来确定对不对。预留余额并不能被自由转账，但可以被罚没，如果账户被罚没的数量超过 free banlance, 那么会动用 Reserved Balance.</li>
+<li><strong>Free Balance</strong>: 账户里能够被账户所有者自由使用的金额。</li>
+<li><strong>Imbalance</strong>: 用来管理借贷等金融属性的资金</li>
+<li><strong>Lock</strong>: 被锁定的资金，直到达到指定条件，比如指定的块高，才会被解锁。</li>
+</ul>
+<h6 id="palletcontracts"><a href="https://paritytech.github.io/substrate/master/pallet_contracts/index.html">pallet_contracts</a></h6>
+<p>负责创建和执行基于 WebAssembly 的智能合约。
+值得注意的一点，合约中如果出现失败，并不会向上一直传播。比如 contact A call contract B 的时候出现错误，contract A 可以决定如何处理，可以只回退 call B 时发生的状态变化，也可以回退所有。</p>
+<h6 id="pallettransactionpayment"><a href="https://paritytech.github.io/substrate/master/pallet_transaction_payment/index.html">pallet_transaction_payment</a></h6>
+<p>pallet_transaction_payment 负责处理交易费用。这里提一下交易费用的构成:</p>
+<pre class="hljs"><code><div>inclusion_fee = base_fee + length_fee + [targeted_fee_adjustment * weight_fee];
+final_fee = inclusion_fee + tip;
+</div></code></pre>
+<ul>
+<li>base fee: This is the minimum amount a user pays for a transaction. It is declared as a base weight in the runtime and converted to a fee using WeightToFee.</li>
+<li>weight fee: A fee proportional to amount of weight a transaction consumes.</li>
+<li>length fee: A fee proportional to the encoded length of the transaction.</li>
+<li>tip: An optional tip. Tip increases the priority of the transaction, giving it a higher chance to be included by the transaction queue.</li>
+<li>targeted_fee_adjustment: This is a multiplier that can tune the final fee based on the congestion of the network.</li>
+</ul>
+<p>final_fee 为最终需要支付的交易费用。</p>
+<h6 id="palletaura-palletbabe"><a href="https://paritytech.github.io/substrate/master/pallet_aura/index.html">pallet_aura</a> <a href="https://paritytech.github.io/substrate/master/pallet_babe/index.html">pallet_babe</a></h6>
+<p>pallet_aura 和 pallet_babe 都是共识算法，会用单独的文章介绍</p>
+<h6 id="palletgrandpa"><a href="https://paritytech.github.io/substrate/master/pallet_grandpa/index.html">pallet_grandpa</a></h6>
+<p>pallet_grandpa 主要是用来确认块(finality)的，并不是用来做共识的</p>
+<h6 id="palletsudo"><a href="https://paritytech.github.io/substrate/master/pallet_sudo/index.html">pallet_sudo</a></h6>
+<p>pallet_sudo 是一个单一功能的 pallet, 并不和其它 pallet 相互配合。它负责暴露一些特权接口，只有特权账户才能调用，方便做链上维护。</p>
+<h6 id="palletexamplebasic"><a href="https://paritytech.github.io/substrate/master/pallet_example_basic/index.html">pallet_example_basic</a></h6>
+<p>一个 pallet 开发模板, 展示相关概念，API, 数据结构，文档等。</p>
+<h4 id="parachain-pallets">Parachain pallets</h4>
+<p>我们前面提到，基于 Substrate 开发的 blockchain 是可以作为 parachain 接入到 relaychain 里的，因此会有一些预制的 pallet 来完整这些工作。
+这些 pallet 都是在 relaychain 中实现。</p>
+<blockquote>
+<p>我们在了解完平行链相关的概念之后再来补充这部分的内容</p>
+</blockquote>
+<h2 id="frame-macros">Frame macros</h2>
+<p>如果你看了 pallet 的 example basic 或者 node-template 中的 template 代码，你会发现 Substrate 还是比较难懂的，虽然它把需要些逻辑的地方都预留好了。但你要弄明白为什么还是比较吃力的。一方面是因为 Rust 的学习曲线本身会比较陡峭，另一方面，这里面大量使用了宏，你也知道，宏这个东西本身就是写着舒服，看着蛋疼的玩意儿，你要有能力在脑袋里展开它才会比较好懂。可以先看下我关于 <a href="../programming/languages/M-rust-macro.html">Rust Macro</a> 的一篇文章。另外，可以使用 <a href="https://github.com/paritytech/cumulus/blob/master/pallets/aura-ext/src/lib.rs"> <code>cargo expand</code> </a> 来展开 macro.</p>
+<p>FRAME v2 对 pallet 中使用的 macro 进行了<a href="../blockchain/M-substrate-decl-macro-to-proc-macro.html">升级</a>，从 <code>declarative macros</code> 替换到了 <code>attribute-like macros</code></p>
 <h2 id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</h2>
 <ul>
 <li><a href="https://wiki.polkadot.network/">Polkadot Wiki</a></li>
+<li><a href="https://medium.com/polkadot-network/polkadot-consensus-part-1-introduction-3e3cd6237243">polkadot consensus</a></li>
 </ul>
 
 </body>
