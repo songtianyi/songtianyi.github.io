@@ -55,7 +55,7 @@ echo "Research: $research"
 mdk=$(wc_files 'mdks/*.mdk')
 
 # index
-index=$(wc_files 'index.html' 'zh.html')
+index=$(wc_files 'index.html zh-Hans.html')
 
 echo "Total: " `expr $acm + $career + $dc + $xsports + $life + $programming + $blockchain + $vdi + $research + $mdk + $index + $drawio`
 
