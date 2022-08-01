@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>chainlink.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="chainlink">Chainlink</h1>
+<h2 id="chainlink-vs-api3">Chainlink vs API3</h2>
+<p>Chainlink 和 API3 在技术方案上并没有本质上的区别，但在实现的细节上有区别</p>
+<ul>
+<li>API3 的 接口定义是放进 airnode 的，而 chainlink 是直接放进 contract 里的，</li>
+<li>API3 和 chainlink 都有套一层 contract 壳 去做请求和回调，分别是 AirnodeRrpV0 和 ChainlinkClient</li>
+<li>Chainlink 的使用文档比 API3 要清晰，数据的使用方很容易上手。</li>
+<li>Chainlink 没有 airnode 的概念，但对于价格数据，有分布式的节点通过 ocr + aggregator 来完成</li>
+<li>Chainlink 的生态看起来比 API3 更好一些，即，Chainlink 目前走在 API3 前面</li>
+<li>Chainlink 的 API 请求是全部放在 contract 还是有单独的运行逻辑还不确定。</li>
+</ul>
+<h2 id="data-feeds">Data feeds</h2>
+<p>Chainlink 已经集成好了一些第三方数据，供链上合约调用，主要是价格方面的数据。使用方式也很简单，在自己的 contract 里调用 chianlink 的 <code>Aggregator</code> contract 即可。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// SPDX-License-Identifier: MIT</span>
+pragma solidity ^ <span class="hljs-number">0.8</span> <span class="hljs-number">.7</span>;
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol"</span>;
+
+contract PriceConsumerV3 {
+
+    AggregatorV3Interface internal priceFeed;
+
+    <span class="hljs-comment">/**
+     * Network: Rinkeby
+     * Aggregator: ETH/USD
+     * Address: 0x8A753747A1Fa494EC906cE90E9f37563A8AF630e
+     */</span>
+    <span class="hljs-keyword">constructor</span>() {
+        priceFeed = AggregatorV3Interface(<span class="hljs-number">0x8A753747A1Fa494EC906cE90E9f37563A8AF630e</span>);
+    }
+
+    <span class="hljs-comment">/**
+     * Returns the latest price
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getLatestPrice</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">returns</span>(<span class="hljs-params">int</span>) </span>{
+        (
+            <span class="hljs-comment">/*uint80 roundID*/</span>
+            ,
+            int price,
+            <span class="hljs-comment">/*uint startedAt*/</span>
+            ,
+            <span class="hljs-comment">/*uint timeStamp*/</span>
+            ,
+            <span class="hljs-comment">/*uint80 answeredInRound*/</span>
+        ) = priceFeed.latestRoundData();
+        <span class="hljs-keyword">return</span> price;
+    }
+}
+</div></code></pre>
+<p>那 data feed 的数据从哪里来的呢？链下的去中心化 oracle 节点会用 OCR(off-chain reporting) 技术来 aggregate 数据</p>
+<h4 id="ocr">OCR</h4>
+<p>chainlink 用的 ocr 比较简单。选一个 leader 节点去接收其它节点上报的价格数据，组装数据, 发给其它节点去验证，没问题的话，leader 节点就组装最终的 report 发给其他节点。随机选一个节点，将 report 上报给 aggregator. <code>aggregator</code> 校验数据，没问题就取所有数据的 <code>median</code> value</p>
+<h2 id="vrf">VRF</h2>
+<h2 id="using-any-api">Using Any API</h2>
+<pre class="hljs"><code><div>//SPDX-License-Identifier: MIT
+pragma solidity ^ <span class="hljs-number">0.8</span> <span class="hljs-number">.7</span>;
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">'@chainlink/contracts/src/v0.8/ChainlinkClient.sol'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">'@chainlink/contracts/src/v0.8/ConfirmedOwner.sol'</span>;
+
+/**
+ * Request testnet LINK <span class="hljs-keyword">and</span> ETH here: https://faucets.chain.link/
+ * Find information on LINK Token Contracts <span class="hljs-keyword">and</span> get the latest ETH <span class="hljs-keyword">and</span> LINK faucets here: https://docs.chain.link/docs/link-token-contracts/
+ */
+
+/**
+ * THIS IS AN EXAMPLE CONTRACT THAT USES HARDCODED VALUES FOR CLARITY.
+ * THIS IS AN EXAMPLE CONTRACT THAT USES UN-AUDITED CODE.
+ * DO NOT USE THIS CODE IN PRODUCTION.
+ */
+
+contract MultiWordConsumer <span class="hljs-keyword">is</span> ChainlinkClient, ConfirmedOwner {
+    using Chainlink
+    <span class="hljs-keyword">for</span> Chainlink.Request;
+
+    bytes32 private jobId;
+    uint256 private fee;
+
+    // multiple params returned <span class="hljs-keyword">in</span> a single oracle response
+    uint256 public btc;
+    uint256 public usd;
+    uint256 public eur;
+
+    event RequestMultipleFulfilled(bytes32 indexed requestId, uint256 btc, uint256 usd, uint256 eur);
+
+    /**
+     * @notice Initialize the link token <span class="hljs-keyword">and</span> target oracle
+     * @dev The oracle address must be an Operator contract <span class="hljs-keyword">for</span> multiword response
+     *
+     *
+     * Rinkeby Testnet details:
+     * Link Token: <span class="hljs-number">0x01BE23585060835E02B77ef475b0Cc51aA1e0709</span>
+     * Oracle: <span class="hljs-number">0xf3FBB7f3391F62C8fe53f89B41dFC8159EE9653f</span> (Chainlink DevRel)
+     * jobId: <span class="hljs-number">53</span>f9755920cd451a8fe46f5087468395
+     *
+     */
+    constructor() ConfirmedOwner(msg.sender) {
+        setChainlinkToken(<span class="hljs-number">0x01BE23585060835E02B77ef475b0Cc51aA1e0709</span>);
+        setChainlinkOracle(<span class="hljs-number">0xf3FBB7f3391F62C8fe53f89B41dFC8159EE9653f</span>);
+        jobId = <span class="hljs-string">'53f9755920cd451a8fe46f5087468395'</span>;
+        fee = (<span class="hljs-number">1</span> * LINK_DIVISIBILITY) / <span class="hljs-number">10</span>; // <span class="hljs-number">0</span>,<span class="hljs-number">1</span> * <span class="hljs-number">10</span>**<span class="hljs-number">18</span> (Varies by network <span class="hljs-keyword">and</span> job)
+    }
+
+    /**
+     * @notice Request mutiple parameters <span class="hljs-keyword">from</span> the oracle <span class="hljs-keyword">in</span> a single transaction
+     */
+    function requestMultipleParameters() public {
+        Chainlink.Request memory req = buildChainlinkRequest(
+            jobId,
+            address(this),
+            this.fulfillMultipleParameters.selector
+        );
+        req.add(<span class="hljs-string">'urlBTC'</span>, <span class="hljs-string">'https://min-api.cryptocompare.com/data/price?fsym=ETH&amp;tsyms=BTC'</span>);
+        req.add(<span class="hljs-string">'pathBTC'</span>, <span class="hljs-string">'BTC'</span>);
+        req.add(<span class="hljs-string">'urlUSD'</span>, <span class="hljs-string">'https://min-api.cryptocompare.com/data/price?fsym=ETH&amp;tsyms=USD'</span>);
+        req.add(<span class="hljs-string">'pathUSD'</span>, <span class="hljs-string">'USD'</span>);
+        req.add(<span class="hljs-string">'urlEUR'</span>, <span class="hljs-string">'https://min-api.cryptocompare.com/data/price?fsym=ETH&amp;tsyms=EUR'</span>);
+        req.add(<span class="hljs-string">'pathEUR'</span>, <span class="hljs-string">'EUR'</span>);
+        sendChainlinkRequest(req, fee); // MWR API.
+    }
+
+    /**
+     * @notice Fulfillment function <span class="hljs-keyword">for</span> multiple parameters <span class="hljs-keyword">in</span> a single request
+     * @dev This <span class="hljs-keyword">is</span> called by the oracle. recordChainlinkFulfillment must be used.
+     */
+    function fulfillMultipleParameters(
+        bytes32 requestId,
+        uint256 btcResponse,
+        uint256 usdResponse,
+        uint256 eurResponse
+    ) public recordChainlinkFulfillment(requestId) {
+        emit RequestMultipleFulfilled(requestId, btcResponse, usdResponse, eurResponse);
+        btc = btcResponse;
+        usd = usdResponse;
+        eur = eurResponse;
+    }
+
+    /**
+     * Allow withdraw of Link tokens <span class="hljs-keyword">from</span> the contract
+     */
+    function withdrawLink() public onlyOwner {
+        LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());
+        require(link.transfer(msg.sender, link.balanceOf(address(this))), <span class="hljs-string">'Unable to transfer'</span>);
+    }
+}
+</div></code></pre>
+<p>和 API3 的明显区别是，API3 将请求的内容放进了 airnode，而 chainlink 是放进合约里的，相比之下，chainlink 的做法要更为灵活。</p>
+<h4 id="existing-job-request">Existing Job Request</h4>
+<p>existing job 是一些预定好请求内容的 job (注意代码中的 jobId), 可以直接用，contract 负责接收数据即可。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// SPDX-License-Identifier: MIT</span>
+pragma solidity ^ <span class="hljs-number">0.8</span> <span class="hljs-number">.7</span>;
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">'@chainlink/contracts/src/v0.8/ChainlinkClient.sol'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">'@chainlink/contracts/src/v0.8/ConfirmedOwner.sol'</span>;
+
+<span class="hljs-comment">/**
+ * Request testnet LINK and ETH here: https://faucets.chain.link/
+ * Find information on LINK Token Contracts and get the latest ETH and LINK faucets here: https://docs.chain.link/docs/link-token-contracts/
+ */</span>
+
+<span class="hljs-comment">/**
+ * THIS IS AN EXAMPLE CONTRACT THAT USES HARDCODED VALUES FOR CLARITY.
+ * THIS IS AN EXAMPLE CONTRACT THAT USES UN-AUDITED CODE.
+ * DO NOT USE THIS CODE IN PRODUCTION.
+ */</span>
+
+contract GetGasPrice is ChainlinkClient, ConfirmedOwner {
+    using Chainlink
+    <span class="hljs-keyword">for</span> Chainlink.Request;
+
+    uint256 public gasPriceFast;
+    uint256 public gasPriceAverage;
+    uint256 public gasPriceSafe;
+
+    bytes32 private jobId;
+    uint256 private fee;
+
+    event RequestGasPrice(
+        bytes32 indexed requestId,
+        uint256 gasPriceFast,
+        uint256 gasPriceAverage,
+        uint256 gasPriceSafe
+    );
+
+    <span class="hljs-comment">/**
+     * @notice Initialize the link token and target oracle
+     *
+     * Rinkeby Testnet details:
+     * Link Token: 0x01BE23585060835E02B77ef475b0Cc51aA1e0709
+     * Oracle: 0xf3FBB7f3391F62C8fe53f89B41dFC8159EE9653f (Chainlink DevRel)
+     * jobId: 7223acbd01654282865b678924126013
+     *
+     */</span>
+    <span class="hljs-keyword">constructor</span>() ConfirmedOwner(msg.sender) {
+        setChainlinkToken(<span class="hljs-number">0x01BE23585060835E02B77ef475b0Cc51aA1e0709</span>);
+        setChainlinkOracle(<span class="hljs-number">0xf3FBB7f3391F62C8fe53f89B41dFC8159EE9653f</span>);
+        jobId = <span class="hljs-string">'7223acbd01654282865b678924126013'</span>;
+        fee = (<span class="hljs-number">1</span> * LINK_DIVISIBILITY) / <span class="hljs-number">10</span>; <span class="hljs-comment">// 0,1 * 10**18 (Varies by network and job)</span>
+    }
+
+    <span class="hljs-comment">/**
+     * Create a Chainlink request the gas price from Etherscan
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">requestGasPrice</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">returns</span>(<span class="hljs-params">bytes32 requestId</span>) </span>{
+        Chainlink.Request memory req = buildChainlinkRequest(jobId, address(<span class="hljs-keyword">this</span>), <span class="hljs-keyword">this</span>.fulfill.selector);
+        <span class="hljs-comment">// No need extra parameters for this job. Send the request</span>
+        <span class="hljs-keyword">return</span> sendChainlinkRequest(req, fee);
+    }
+
+    <span class="hljs-comment">/**
+     * Receive the responses in the form of uint256
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fulfill</span>(<span class="hljs-params">
+        bytes32 _requestId,
+        uint256 _gasPriceFast,
+        uint256 _gasPriceAverage,
+        uint256 _gasPriceSafe
+    </span>) <span class="hljs-title">public</span> <span class="hljs-title">recordChainlinkFulfillment</span>(<span class="hljs-params">_requestId</span>) </span>{
+        emit RequestGasPrice(_requestId, _gasPriceFast, _gasPriceAverage, _gasPriceSafe);
+        gasPriceFast = _gasPriceFast;
+        gasPriceAverage = _gasPriceAverage;
+        gasPriceSafe = _gasPriceSafe;
+    }
+
+    <span class="hljs-comment">/**
+     * Allow withdraw of Link tokens from the contract
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">withdrawLink</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">onlyOwner</span> </span>{
+        LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());
+        <span class="hljs-built_in">require</span>(link.transfer(msg.sender, link.balanceOf(address(<span class="hljs-keyword">this</span>))), <span class="hljs-string">'Unable to transfer'</span>);
+    }
+}
+</div></code></pre>
+<h2 id="introduction-to-chainlink-keepers">Introduction to Chainlink Keepers</h2>
+
+</body>
+</html>
