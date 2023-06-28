@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Menstrual Cycle Chart</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    </head>
+    <body>
+        <canvas id="menstrualChart"></canvas>
+        <script>
+            // 获取图表的上下文
+            const ctx = document.getElementById('menstrualChart').getContext('2d');
+
+            // 定义周期数据
+            const cycleData = [
+  { label: '', start: '20230430', end: '20230506' },
+  { label: '', start: '20230612', end: '20230620' },
+];
+
+// 计算周期数据
+const labels = [];
+const menstrualDaysData = [];
+const nonMenstrualDaysData = [];
+const totalDaysData = [];
+
+for (let i = 0; i < cycleData.length; i++) {
+
+  const cycle = cycleData[i];
+  if (cycle.label === '') {
+        labels.push(cycle.start);
+    } else {
+        labels.push(cycle.label);
+    }
+  const startDate = parseDate(cycle.start);
+  if (cycle.end === '') {
+        cycle.end = cycle.start;
+    }
+  const endDate = parseDate(cycle.end);
+
+  // 解析日期字符串为日期对象
+  function parseDate(dateString) {
+    const year = dateString.substr(0, 4);
+    const month = dateString.substr(4, 2) - 1; // 月份需要减1，因为月份在Date对象中是从0开始的
+    const day = dateString.substr(6, 2);
+    return new Date(year, month, day);
+  }
+
+  // 计算月经期天数
+  const menstrualDays = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+  menstrualDaysData.push(menstrualDays);
+
+  // 计算非月经期天数
+  let nonMenstrualDays;
+  if (i === cycleData.length - 1) {
+    nonMenstrualDays = 0; // 最后一个周期没有下一个周期，非月经期天数为0
+  } else {
+    const nextCycle = cycleData[i + 1];
+    const nextStartDate = parseDate(nextCycle.start);
+    nonMenstrualDays = (nextStartDate - endDate) / (1000 * 60 * 60 * 24) - 1;
+  }
+  nonMenstrualDaysData.push(nonMenstrualDays);
+
+  // 计算总周期天数
+  const totalDays = menstrualDays + nonMenstrualDays;
+  totalDaysData.push(totalDays);
+}
+
+console.log('Menstrual Days:', menstrualDaysData);
+console.log('Non-Menstrual Days:', nonMenstrualDaysData);
+console.log('Total Cycle Days:', totalDaysData);
+
+            // 创建图表的配置对象
+            const chartConfig = {
+              type: 'scatter',
+              data: {
+                labels: labels,
+                datasets: [
+                  {
+                    type: 'bar',
+                    label: 'Menstrual Period',
+                    data: menstrualDaysData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    stack: 'stack'
+                  },
+                  {
+                    type: 'bar',
+                    label: 'Non-Menstrual Period',
+                    data: nonMenstrualDaysData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    stack: 'stack'
+                  },
+                  {
+                    type: 'line',
+                    label: 'Total Cycle Days',
+                    data: totalDaysData,
+                    fill: false,
+                    borderColor: '#f28500',
+                  }
+                ]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    stacked: true
+                  }
+                }
+              }
+            };
+
+
+
+            const myChart = new Chart(ctx, chartConfig);
+
+        </script>
+    </body>
+</html>
