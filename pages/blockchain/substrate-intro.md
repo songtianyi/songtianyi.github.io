@@ -206,7 +206,7 @@ pallet_sudo 是一个单一功能的 pallet, 并不和其它 pallet 相互配合
 
 #### Parachain pallets
 
-我们前面提到，基于 Substrate 开发的 blockchain 是可以作为 parachain 接入到 relaychain 里的，因此会有一些预制的 pallet 来完整这些工作。
+我们前面提到，基于 Substrate 开发的 blockchain 是可以作为 parachain 接入到 relaychain 里的，因此会有一些预制的 pallet 来完成这些工作。
 这些 pallet 都是在 relaychain 中实现。
 
 > 我们在了解完平行链相关的概念之后再来补充这部分的内容
